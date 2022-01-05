@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
+		<title>Login</title>
+	</f:facet>
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<div align="center">
+		<p:panel style="width:500px">
+			<h:form>
+				<p:panel header="Acceso para usuarios:">
+					<div align="center">
+						<img src="Imagenes/user_login.ico" alt="alt" />
+					</div>
+					<div>
+						<p:panelGrid columns="2">
+							<h:outputText value="Usuario:" />
+							<p:inputText value="#{beanUsuarios.id_usuario}" required="true"
+								requiredMessage="Ingrese su usuario" placeholder="user-name" />
+							<h:outputText value="Clave:" />
+							<p:password value="#{beanUsuarios.password}" required="true"
+								requiredMessage="Ingrese su clave." placeholder="**********"
+								feedback="false" />
+						</p:panelGrid>
+					</div>
+				</p:panel>
+				<p:panel>
+					<div align="center">
+						<p:row>
+							<p:commandButton value="Iniciar Sesion"
+								icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
+								style="width: auto" action="#{beanUsuarios.actionLogin()}" />
+						</p:row>
+					</div>
+				</p:panel>
+			</h:form>
+
+			<h:form>
+				<p:panel header="Informacion Adicional:">
+
+					<p:panel>
+						<div align="center">
+							<p:row>
+								<p:staticMessage
+									summary="Si es un usuario nuevo, primero debe registrarse con el Administrador."
+									severity="info" />
+							</p:row>
+						</div>
+					</p:panel>
+
+				</p:panel>
+			</h:form>
+		</p:panel>
+	</div>
+</body>
+</html>
