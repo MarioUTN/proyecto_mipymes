@@ -51,6 +51,13 @@ public class ManagerUsuarios {
 		if (usuario != null && usuario.getUsPassword().equals(Encriptar.encriptar(password)) && usuario.getUsActivo()) {
 			resp = 0;
 		}
+		if (verUsuarioPassword(id_usuario, password)) {
+			resp = 1;
+		}
 		return resp;
+	}
+
+	public boolean verUsuarioPassword(String id_usuario, String password) {
+		return (id_usuario.equals("") && password.equals(""));
 	}
 }
