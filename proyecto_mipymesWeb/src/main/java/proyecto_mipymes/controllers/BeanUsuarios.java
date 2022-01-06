@@ -36,7 +36,7 @@ public class BeanUsuarios implements Serializable {
 
 	public String actionLogin() {
 		if (managerUsuarios.loginUsuarios(id_usuario, password) == 0) {
-			return "compras/vendedor/index_vendedor";
+			return "inventario/compras/index_compras";
 		} else {
 			JSFUtil.crearMensajeError("Error en las credenciales!");
 			return "";

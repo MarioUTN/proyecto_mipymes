@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<body> 
+	<h1>Ventas por anticipos</h1>
+	<p:growl>
+		<p:autoUpdate></p:autoUpdate>
+	</p:growl>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home"
+				outcome="/login?faces-redirect=true" >
+				<f:param name="i" value="0" />
+				</p:menuitem>
+			<p:menuitem value="Inicio" outcome="/inventario/compras/index_compras"
+				icon="pi pi-home">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+			<p:menuitem value="Ventas Normales" icon="pi pi-users"
+				outcome="/inventario/ventas/index_ventas" >
+				<f:param name="i" value="2" />
+				</p:menuitem>
+				
+			<p:menuitem value="Ventas por Anticipos" icon="pi pi-slack"
+				outcome="index_anticipos" >
+				<f:param name="i" value="3" />
+				</p:menuitem>
+			<f:facet name="options">
+				<p:menuButton value="masalazara@utn.edu.ec" icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						outcome="/login"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+		<p:staticMessage severity="info"
+			summary="Módulo de Compras a Proveedores"></p:staticMessage>
+	</h:form>
+</body> 
+</html>
