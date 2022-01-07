@@ -15,7 +15,7 @@
 <body>
 	
 	<div align="center">
-		<img src="Imagenes/icono_boutique.jpeg" height="300px" width="300px" />
+		<img src="Imagenes/icono_boutique.jpeg" height="300px" width="400px" />
 		<h1 style="color: red">Universidad Técnica del Norte</h1>
 	</div>
 	<h:form id="form">
@@ -27,30 +27,30 @@
 			<p:toolbar>
 				<p:toolbarGroup>
 					<div align="center">
-						<p:panelGrid columns="4" style="width: 1400px">
+						<p:panelGrid columns="4" style="width: 1280px">
 							<p:commandButton value="Iniciar Sesión como Administrador" icon="fa fa-user"
 								update=":form1:manage-product-content1"
 								oncomplete="PF('manageProductDialog1').show()"
-								styleClass="ui-button-success" style="width: 425px">
+								styleClass="ui-button-success" style="width: 340px">
 								<p:resetInput target=":form1:manage-product-content1" />
 							</p:commandButton>
 							
 							<p:commandButton value="Iniciar Sesión como Vendedor" icon="fa fa-user"
 								update=":form2:manage-product-content2"
 								oncomplete="PF('manageProductDialog2').show()"
-								styleClass="ui-button-success" style="width: 425px">
+								styleClass="ui-button-success" style="width: 340px">
 								<p:resetInput target=":form2:manage-product-content2" />
 							</p:commandButton>
 							
 							<p:commandButton value="Iniciar Sesión como Cliente" icon="fa fa-user"
 								update=":form3:manage-product-content3"
 								oncomplete="PF('manageProductDialog3').show()"
-								styleClass="ui-button-success" style="width: 425px">
+								styleClass="ui-button-success" style="width: 340px">
 								<p:resetInput target=":form3:manage-product-content3" />
 							</p:commandButton>
 							
 							<p:commandButton value="Ver Productos" icon="fa fa-shopping-cart"
-								styleClass="ui-button-success" style="width: 425px">
+								styleClass="ui-button-success" style="width: 340px">
 							</p:commandButton>
 
 						</p:panelGrid>

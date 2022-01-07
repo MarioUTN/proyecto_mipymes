@@ -58,15 +58,15 @@ public class Producto implements Serializable {
 	@JoinColumn(name="prod_proveedor", nullable=false)
 	private Empresa empresa;
 
-	//bi-directional many-to-one association to TipoProducto
-	@ManyToOne
-	@JoinColumn(name="prod_tipo_producto", nullable=false)
-	private TipoProducto tipoProducto;
-
 	//bi-directional many-to-one association to TallaProducto
 	@ManyToOne
 	@JoinColumn(name="prod_talla_producto", nullable=false)
 	private TallaProducto tallaProducto;
+
+	//bi-directional many-to-one association to TipoProducto
+	@ManyToOne
+	@JoinColumn(name="prod_tipo_producto", nullable=false)
+	private TipoProducto tipoProducto;
 
 	public Producto() {
 	}
@@ -195,20 +195,20 @@ public class Producto implements Serializable {
 		this.empresa = empresa;
 	}
 
-	public TipoProducto getTipoProducto() {
-		return this.tipoProducto;
-	}
-
-	public void setTipoProducto(TipoProducto tipoProducto) {
-		this.tipoProducto = tipoProducto;
-	}
-
 	public TallaProducto getTallaProducto() {
 		return this.tallaProducto;
 	}
 
 	public void setTallaProducto(TallaProducto tallaProducto) {
 		this.tallaProducto = tallaProducto;
+	}
+
+	public TipoProducto getTipoProducto() {
+		return this.tipoProducto;
+	}
+
+	public void setTipoProducto(TipoProducto tipoProducto) {
+		this.tipoProducto = tipoProducto;
 	}
 
 }
