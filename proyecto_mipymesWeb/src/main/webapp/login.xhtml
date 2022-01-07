@@ -13,41 +13,41 @@
 	</f:facet>
 </h:head>
 <body>
-	
+
 	<div align="center">
 		<img src="Imagenes/icono_boutique.jpeg" height="300px" width="400px" />
 		<h1 style="color: red">Universidad Técnica del Norte</h1>
 	</div>
 	<h:form id="form">
-	<p:growl id="ms">
-		<p:autoUpdate />
-	</p:growl>
+		<p:growl id="ms">
+			<p:autoUpdate />
+		</p:growl>
 		<div align="center">
 
 			<p:toolbar>
 				<p:toolbarGroup>
 					<div align="center">
 						<p:panelGrid columns="4" style="width: 1280px">
-							<p:commandButton value="Iniciar Sesión como Administrador" icon="fa fa-user"
-								update=":form1:manage-product-content1"
+							<p:commandButton value="Iniciar Sesión como Administrador"
+								icon="fa fa-user" update=":form1:manage-product-content1"
 								oncomplete="PF('manageProductDialog1').show()"
 								styleClass="ui-button-success" style="width: 340px">
 								<p:resetInput target=":form1:manage-product-content1" />
 							</p:commandButton>
-							<p:commandButton value="Iniciar Sesión como Vendedor" icon="fa fa-user"
-								update=":form2:manage-product-content2"
+							<p:commandButton value="Iniciar Sesión como Vendedor"
+								icon="fa fa-user" update=":form2:manage-product-content2"
 								oncomplete="PF('manageProductDialog2').show()"
 								styleClass="ui-button-success" style="width: 340px">
 								<p:resetInput target=":form2:manage-product-content2" />
 							</p:commandButton>
-							
-							<p:commandButton value="Iniciar Sesión como Cliente" icon="fa fa-user"
-								update=":form3:manage-product-content3"
+
+							<p:commandButton value="Iniciar Sesión como Cliente"
+								icon="fa fa-user" update=":form3:manage-product-content3"
 								oncomplete="PF('manageProductDialog3').show()"
 								styleClass="ui-button-success" style="width: 340px">
 								<p:resetInput target=":form3:manage-product-content3" />
 							</p:commandButton>
-							
+
 							<p:commandButton value="Ver Productos" icon="fa fa-shopping-cart"
 								styleClass="ui-button-success" style="width: 340px">
 							</p:commandButton>
@@ -58,64 +58,66 @@
 			</p:toolbar>
 		</div>
 	</h:form>
-	
+
 	<h:form id="form1">
 		<div align="center">
-			<p:dialog header="Iniciar Sesión como Administrador" showEffect="fade"
-				modal="true" widgetVar="manageProductDialog1" responsive="true">
+			<p:dialog header="Iniciar Sesión como Administrador"
+				showEffect="fade" modal="true" widgetVar="manageProductDialog1"
+				responsive="true">
 				<p:outputPanel id="manage-product-content1" class="ui-fluid">
 
 
-					
-						<p:panel header="Acceso para usuarios:">
-							<div align="center">
-								<img src="Imagenes/user_login.ico" alt="alt" />
-							</div>
-							<div>
+
+					<p:panel header="Acceso para usuarios:">
+						<div align="center">
+							<img src="Imagenes/user_login.ico" alt="alt" />
+						</div>
+						<div>
+							<p:panelGrid columns="2">
+								<h:outputText value="Usuario:" />
+								<p:inputText value="#{beanUsuarios.id_usuario}"
+									placeholder="user-name" />
+								<h:outputText value="Clave:" />
+								<p:password value="#{beanUsuarios.password}"
+									placeholder="**********" feedback="false" />
+							</p:panelGrid>
+						</div>
+					</p:panel>
+					<p:panel>
+						<div align="center">
+							<p:row>
+
 								<p:panelGrid columns="2">
-									<h:outputText value="Usuario:" />
-									<p:inputText value="#{beanUsuarios.id_usuario}" placeholder="user-name" />
-									<h:outputText value="Clave:" />
-									<p:password value="#{beanUsuarios.password}"  placeholder="**********"
-										feedback="false" />
+									<p:commandButton value="Iniciar Sesión"
+										icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
+										action="#{beanUsuarios.actionLogin()}"
+										process="manage-product-content1"
+										onclick="PF('manageProductDialog1').show()" />
+									<p:commandButton value="Cancelar" icon="pi pi-times"
+										onclick="PF('manageProductDialog1').hide()" update="form1"
+										styleClass="ui-button-danger"
+										action="#{beanUsuarios.actionListenerCancelarLogin()}" />
 								</p:panelGrid>
-							</div>
-						</p:panel>
-						<p:panel>
-							<div align="center">
-								<p:row>
 
-									<p:panelGrid columns="2">
-										<p:commandButton value="Iniciar Sesión"
-											icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
-											action="#{beanUsuarios.actionLogin()}"
-											update="manage-product-content1,:form1"
-											process="manage-product-content1 @this"
-											onclick="PF('manageProductDialog1').show()" />
-										<p:commandButton value="Cancelar" icon="pi pi-times"
-											onclick="PF('manageProductDialog1').hide()" update="form1"
-											styleClass="ui-button-danger" action="#{beanUsuarios.actionListenerCancelarLogin()}" />
-									</p:panelGrid>
+							</p:row>
+						</div>
+					</p:panel>
+					<p:panel header="Informacion Adicional:">
+						<div align="center">
+							<p:row>
+								<p:staticMessage
+									summary="Si es un usuario nuevo, primero debe registrarse con el Administrador."
+									severity="info" />
+							</p:row>
+						</div>
 
-								</p:row>
-							</div>
-						</p:panel>
-						<p:panel header="Informacion Adicional:">
-							<div align="center">
-								<p:row>
-									<p:staticMessage
-										summary="Si es un usuario nuevo, primero debe registrarse con el Administrador."
-										severity="info" />
-								</p:row>
-							</div>
-
-						</p:panel>
+					</p:panel>
 				</p:outputPanel>
 
 			</p:dialog>
 		</div>
 	</h:form>
-	
+
 	<h:form id="form2">
 		<div align="center">
 			<p:dialog header="Iniciar Sesión como Vendedor" showEffect="fade"
@@ -123,56 +125,57 @@
 				<p:outputPanel id="manage-product-content2" class="ui-fluid">
 
 
-					
-						<p:panel header="Acceso para usuarios:">
-							<div align="center">
-								<img src="Imagenes/user_login.ico" alt="alt" />
-							</div>
-							<div>
+
+					<p:panel header="Acceso para usuarios:">
+						<div align="center">
+							<img src="Imagenes/user_login.ico" alt="alt" />
+						</div>
+						<div>
+							<p:panelGrid columns="2">
+								<h:outputText value="Usuario:" />
+								<p:inputText value="#{beanUsuarios.id_usuario}"
+									placeholder="user-name" />
+								<h:outputText value="Clave:" />
+								<p:password value="#{beanUsuarios.password}"
+									placeholder="**********" feedback="false" />
+							</p:panelGrid>
+						</div>
+					</p:panel>
+					<p:panel>
+						<div align="center">
+							<p:row>
+
 								<p:panelGrid columns="2">
-									<h:outputText value="Usuario:" />
-									<p:inputText value="#{beanUsuarios.id_usuario}" placeholder="user-name" />
-									<h:outputText value="Clave:" />
-									<p:password value="#{beanUsuarios.password}"  placeholder="**********"
-										feedback="false" />
+									<p:commandButton value="Iniciar Sesión"
+										icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
+										action="#{beanUsuarios.actionLogin()}"
+										process="manage-product-content2 @this"
+										onclick="PF('manageProductDialog2').show()" />
+									<p:commandButton value="Cancelar" icon="pi pi-times"
+										onclick="PF('manageProductDialog2').hide()" update="form2"
+										styleClass="ui-button-danger"
+										action="#{beanUsuarios.actionListenerCancelarLogin()}" />
 								</p:panelGrid>
-							</div>
-						</p:panel>
-						<p:panel>
-							<div align="center">
-								<p:row>
 
-									<p:panelGrid columns="2">
-										<p:commandButton value="Iniciar Sesión"
-											icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
-											action="#{beanUsuarios.actionLogin()}"
-											update="manage-product-content2,:form2"
-											process="manage-product-content2 @this"
-											onclick="PF('manageProductDialog2').show()" />
-										<p:commandButton value="Cancelar" icon="pi pi-times"
-											onclick="PF('manageProductDialog2').hide()" update="form2"
-											styleClass="ui-button-danger" action="#{beanUsuarios.actionListenerCancelarLogin()}" />
-									</p:panelGrid>
+							</p:row>
+						</div>
+					</p:panel>
+					<p:panel header="Informacion Adicional:">
+						<div align="center">
+							<p:row>
+								<p:staticMessage
+									summary="Si es un usuario nuevo, primero debe registrarse con el Administrador."
+									severity="info" />
+							</p:row>
+						</div>
 
-								</p:row>
-							</div>
-						</p:panel>
-						<p:panel header="Informacion Adicional:">
-							<div align="center">
-								<p:row>
-									<p:staticMessage
-										summary="Si es un usuario nuevo, primero debe registrarse con el Administrador."
-										severity="info" />
-								</p:row>
-							</div>
-
-						</p:panel>
+					</p:panel>
 				</p:outputPanel>
 
 			</p:dialog>
 		</div>
 	</h:form>
-	
+
 	<h:form id="form3">
 		<div align="center">
 			<p:dialog header="Iniciar Sesión como Cliente" showEffect="fade"
@@ -180,50 +183,53 @@
 				<p:outputPanel id="manage-product-content3" class="ui-fluid">
 
 
-					
-						<p:panel header="Acceso para usuarios:">
-							<div align="center">
-								<img src="Imagenes/user_login.ico" alt="alt" />
-							</div>
-							<div>
+
+					<p:panel header="Acceso para usuarios:">
+						<div align="center">
+							<img src="Imagenes/user_login.ico" alt="alt" />
+						</div>
+						<div>
+							<p:panelGrid columns="2">
+								<h:outputText value="Usuario:" />
+								<p:inputText value="#{beanUsuarios.id_usuario}"
+									placeholder="user-name" required="true"
+									requiredMessage="Ingrese su usuario!" />
+								<h:outputText value="Clave:" />
+								<p:password value="#{beanUsuarios.password}"
+									placeholder="**********" feedback="false" required="true"
+									requiredMessage="Ingrese su clave!" />
+							</p:panelGrid>
+						</div>
+					</p:panel>
+					<p:panel>
+						<div align="center">
+							<p:row>
+
 								<p:panelGrid columns="2">
-									<h:outputText value="Usuario:" />
-									<p:inputText value="#{beanUsuarios.id_usuario}" placeholder="user-name" />
-									<h:outputText value="Clave:" />
-									<p:password value="#{beanUsuarios.password}"  placeholder="**********"
-										feedback="false" />
+									<p:commandButton value="Iniciar Sesión"
+										icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
+										action="#{beanUsuarios.actionLogin()}"
+										process="manage-product-content3 @this"
+										onclick="PF('manageProductDialog3').show()" />
+									<p:commandButton value="Cancelar" icon="pi pi-times"
+										onclick="PF('manageProductDialog3').hide()" update="form3"
+										styleClass="ui-button-danger"
+										action="#{beanUsuarios.actionListenerCancelarLogin()}" />
 								</p:panelGrid>
-							</div>
-						</p:panel>
-						<p:panel>
-							<div align="center">
-								<p:row>
 
-									<p:panelGrid columns="2">
-										<p:commandButton value="Iniciar Sesión"
-											icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
-											action="#{beanUsuarios.actionLogin()}"
-											update="manage-product-content3,:form3"
-											process="manage-product-content3 @this"
-											onclick="PF('manageProductDialog3').show()" />
-										<p:commandButton value="Cancelar" icon="pi pi-times"
-											onclick="PF('manageProductDialog3').hide()" update="form3"
-											styleClass="ui-button-danger" action="#{beanUsuarios.actionListenerCancelarLogin()}" />
-									</p:panelGrid>
+							</p:row>
+						</div>
+					</p:panel>
+					<p:panel header="Informacion Adicional:">
+						<div align="center">
+							<p:row>
+								<p:staticMessage
+									summary="Si es un usuario nuevo, primero debe registrarse con el Administrador."
+									severity="info" />
+							</p:row>
+						</div>
 
-								</p:row>
-							</div>
-						</p:panel>
-						<p:panel header="Informacion Adicional:">
-							<div align="center">
-								<p:row>
-									<p:staticMessage
-										summary="Si es un usuario nuevo, primero debe registrarse con el Administrador."
-										severity="info" />
-								</p:row>
-							</div>
-
-						</p:panel>
+					</p:panel>
 				</p:outputPanel>
 
 			</p:dialog>

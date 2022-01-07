@@ -1,4 +1,4 @@
-package proyecto_mipymes.controllers;
+package proyecto_mipymes.usuarios.controllers;
 
 import java.io.Serializable;
 import java.util.List;
@@ -36,8 +36,9 @@ public class BeanUsuarios implements Serializable {
 
 	public String actionLogin() {
 		if (managerUsuarios.loginUsuarios(id_usuario, password) == 0) {
-			return "inventario/compras/index_compras";
+			return "inventario/compras/agregar_proveedor";
 		}
+		
 		if (managerUsuarios.loginUsuarios(id_usuario, password) == 1) {
 			JSFUtil.crearMensajeError("Debe ingresar el usuario y su contrasena \nVuelva a intentar nuevamente!");
 		}

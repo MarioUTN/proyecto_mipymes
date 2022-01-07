@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
+		<title>Agregar Proveedor</title>
+	</f:facet>
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate></p:autoUpdate>
+	</p:growl>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home"
+				outcome="/login?faces-redirect=true">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+			<p:menuitem value="Inicio" outcome="index_compras" icon="pi pi-home">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+			<p:menuitem value="Ventas Normales" icon="pi pi-users"
+				outcome="/inventario/ventas/index_ventas">
+				<f:param name="i" value="2" />
+			</p:menuitem>
+
+			<p:menuitem value="Ventas por Anticipos" icon="pi pi-slack"
+				outcome="/inventario/ventas_anticipos/index_anticipos">
+				<f:param name="i" value="3" />
+			</p:menuitem>
+			<f:facet name="options">
+				<p:menuButton value="masalazara@utn.edu.ec" icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						outcome="/login"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+		<p:staticMessage severity="info"
+			summary="Módulo de Compras a Proveedores"></p:staticMessage>
+	</h:form>
+	<div align="center">
+		<p:steps activeIndex="0">
+			<p:menuitem value="Agregar Proveedor" />
+			<p:menuitem value="Agregar Productos para Compras" />
+			<p:menuitem value="Ver compras de Productos" />
+			<p:menuitem value="Enviar Pedido de Productos" />
+		</p:steps>
+	</div>
+	<h:form id="form1">
+		<div align="center">
+			<p:panel header="Agregar un Proveedor para el Pedido">
+				<p:panelGrid columns="2">
+					<h:outputText value="Elija un proveedor:" />
+					<p:selectOneMenu value="#{beanCompras.id_empresaSeleccionada}">
+						<f:selectItem itemLabel="Seleccione un curso..." itemValue="0"
+							noSelectionOption="true" />
+						<f:selectItems value="#{beanCompras.listaEmpresas}" var="c"
+							itemLabel="#{c.empNombreEmpresa}" itemValue="#{c.idEmpresa}"></f:selectItems>
+					</p:selectOneMenu>
+					<p:commandButton value="Seleccionar Proveedor"
+						actionListener="#{beanCompras.actionSeleccionarEmpresa()}"
+						icon="fa fa-check-square"></p:commandButton>
+					<p:commandButton value="Registrar Nuevo Proveedor"
+						icon="fa fa-plus" update=":form2:manage-product-content1"
+						oncomplete="PF('manageProductDialog1').show()"
+						styleClass="ui-button-success">
+						<p:resetInput target=":form2:manage-product-content1" />
+					</p:commandButton>
+				</p:panelGrid>
+			</p:panel>
+		</div>
+	</h:form>
+	<h:form id="form2">
+		<div align="center">
+			<p:dialog header="Iniciar Sesión como Administrador" showEffect="fade"
+				modal="true" widgetVar="manageProductDialog1" responsive="true">
+				<p:outputPanel id="manage-product-content1" class="ui-fluid">
+
+
+					
+						<p:panel header="Acceso para usuarios:">
+							<div align="center">
+								<img src="Imagenes/user_login.ico" alt="alt" />
+							</div>
+							<div>
+								<p:panelGrid columns="2">
+									<h:outputText value="Usuario:" />
+									<p:inputText value="#{beanUsuarios.id_usuario}" placeholder="user-name" />
+									<h:outputText value="Clave:" />
+									<p:password value="#{beanUsuarios.password}"  placeholder="**********"
+										feedback="false" />
+								</p:panelGrid>
+							</div>
+						</p:panel>
+						<p:panel>
+							<div align="center">
+								<p:row>
+
+									<p:panelGrid columns="2">
+										<p:commandButton value="Iniciar Sesión"
+											icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
+											action="#{beanUsuarios.actionLogin()}"
+											update="manage-product-content1,:form1"
+											process="manage-product-content1 @this"
+											onclick="PF('manageProductDialog1').show()" />
+										<p:commandButton value="Cancelar" icon="pi pi-times"
+											onclick="PF('manageProductDialog1').hide()" update="form1"
+											styleClass="ui-button-danger" action="#{beanUsuarios.actionListenerCancelarLogin()}" />
+									</p:panelGrid>
+
+								</p:row>
+							</div>
+						</p:panel>
+						<p:panel header="Informacion Adicional:">
+							<div align="center">
+								<p:row>
+									<p:staticMessage
+										summary="Si es un usuario nuevo, primero debe registrarse con el Administrador."
+										severity="info" />
+								</p:row>
+							</div>
+
+						</p:panel>
+				</p:outputPanel>
+
+			</p:dialog>
+		</div>
+	</h:form>
+</body>
+</html>
