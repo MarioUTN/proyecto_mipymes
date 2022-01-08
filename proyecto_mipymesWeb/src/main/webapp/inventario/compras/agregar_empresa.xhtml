@@ -54,8 +54,6 @@
 				</p:menuButton>
 			</f:facet>
 		</p:menubar>
-		<p:staticMessage severity="info"
-			summary="Módulo de Compras a Proveedores"></p:staticMessage>
 	</h:form>
 	<div align="center">
 		<p:steps activeIndex="0">
@@ -77,7 +75,7 @@
 							itemLabel="#{c.empNombreEmpresa}" itemValue="#{c.idEmpresa}"></f:selectItems>
 					</p:selectOneMenu>
 					<p:commandButton value="Seleccionar Proveedor"
-						actionListener="#{beanCompras.actionSeleccionarEmpresa()}"
+						action="#{beanCompras.actionSeleccionarEmpresa()}"
 						icon="fa fa-check-square"></p:commandButton>
 					<p:commandButton value="Registrar Nuevo Proveedor"
 						icon="fa fa-plus" update=":form2:manage-product-content2"

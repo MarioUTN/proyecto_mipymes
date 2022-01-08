@@ -30,6 +30,8 @@ public class BeanUsuarios implements Serializable {
 
 	@PostConstruct
 	public void Inicializar() {
+		id_usuario = "ADM-1003938477";
+		password = "adminmario";
 		listaUsuarios = managerUsuarios.findAllUsuarios();
 		listaVendedores = managerUsuarios.findAllVendedores();
 	}
@@ -38,20 +40,20 @@ public class BeanUsuarios implements Serializable {
 		if (managerUsuarios.loginUsuarios(id_usuario, password) == 0) {
 			return "inventario/compras/agregar_empresa";
 		}
-		
+
 		if (managerUsuarios.loginUsuarios(id_usuario, password) == 1) {
 			JSFUtil.crearMensajeError("Debe ingresar el usuario y su contrasena \nVuelva a intentar nuevamente!");
 		}
-		
+
 		if (managerUsuarios.loginUsuarios(id_usuario, password) == -1) {
 			JSFUtil.crearMensajeError("Error de las credenciales!");
 		}
-		
+
 		return "";
 	}
 
 	public void actionListenerCancelarLogin() {
-			JSFUtil.crearMensajeInfo("Proceso de login cancelada!");
+		JSFUtil.crearMensajeInfo("Proceso de login cancelada!");
 	}
 
 	public String getId_usuario() {

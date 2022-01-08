@@ -46,6 +46,16 @@ public class ManagerCompras {
 		return entityManager.createNamedQuery("Gerente.findAll", Gerente.class).getResultList();
 	}
 
+	public List<CompraProducto> findAllCompraProductos() {
+		return entityManager.createNamedQuery("CompraProducto.findAll", CompraProducto.class).getResultList();
+	}
+
+	public List<DetalleCompra> findAllDetallesCompras() {
+		return entityManager.createNamedQuery("DetalleCompra.findAll", DetalleCompra.class).getResultList();
+	}
+
+	
+	
 	public Producto findProductoByCodigo(String codigo) {
 		Query query = entityManager.createQuery("select p from Producto p where p.prodCodigo=:codigo", Producto.class);
 		query.setParameter("codigo", codigo);

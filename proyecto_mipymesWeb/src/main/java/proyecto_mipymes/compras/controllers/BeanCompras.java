@@ -40,6 +40,7 @@ public class BeanCompras implements Serializable {
 	private List<Empresa> listaEmpresas;
 	private List<DetalleCompra> listaDetalleCompras;
 	private List<Gerente> listaGerentes;
+	private List<CompraProducto> listaCompraProductos;
 	
 	public BeanCompras() {
 		// TODO Auto-generated constructor stub
@@ -51,6 +52,8 @@ public class BeanCompras implements Serializable {
 		listaProductos=managerCompras.findAllProductos();
 		listaEmpresas=managerCompras.findAllEmpresas();
 		listaGerentes=managerCompras.findAllGerente();
+		listaCompraProductos=managerCompras.findAllCompraProductos();
+		listaDetalleCompras=managerCompras.findAllDetallesCompras();
 	}
 
 	public void setListaGerentes(List<Gerente> listaGerentes) {
@@ -61,8 +64,9 @@ public class BeanCompras implements Serializable {
 		return listaGerentes;
 	}
 	
-	public void actionSeleccionarEmpresa() {
+	public String actionSeleccionarEmpresa() {
 		JSFUtil.crearMensajeInfo("Empresa seleccionada: "+id_empresaSeleccionada);
+		return "agregar_productos";
 	}
 	
 	public void setId_empresaSeleccionada(int id_empresaSeleccionada) {
@@ -201,6 +205,12 @@ public class BeanCompras implements Serializable {
 		this.listaDetalleCompras = listaDetalleCompras;
 	}
 	
+	public void setListaCompraProductos(List<CompraProducto> listaCompraProductos) {
+		this.listaCompraProductos = listaCompraProductos;
+	}
 	
+	public List<CompraProducto> getListaCompraProductos() {
+		return listaCompraProductos;
+	}
 
 }

@@ -9,7 +9,7 @@
 	<f:facet name="first">
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
-		<title>Ver Compras</title>
+		<title>Enviar Compras - Pedidos</title>
 	</f:facet>
 </h:head>
 <body>
@@ -44,7 +44,7 @@
 		</p:menubar>
 	</h:form>
 	<div align="center">
-		<p:steps activeIndex="2">
+		<p:steps activeIndex="3">
 			<p:menuitem value="Agregar Proveedor" />
 			<p:menuitem value="Agregar Productos para Compras" />
 			<p:menuitem value="Ver compras de Productos" />
@@ -61,7 +61,8 @@
 					<p:column headerText="Vendedor"
 						sortBy="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}"
 						filterBy="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}">
-						<h:outputText value="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}" />
+						<h:outputText
+							value="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}" />
 					</p:column>
 					<p:column headerText="Proveedor"
 						sortBy="#{compraProductos.cabeceraCompra.empresa.empNombreEmpresa}"
@@ -92,12 +93,8 @@
 						<h:outputText value="#{compraProductos.comprodTotal}" />
 					</p:column>
 					<p:column headerText="Opciones">
-						<p:commandButton value="Editar Pedido" icon="fa fa-edit"
-							styleClass="ui-button-success">
-						</p:commandButton>
-
-						<p:commandButton value="Eliminar Pedido" icon="fa fa-times"
-							styleClass="ui-button-danger">
+						<p:commandButton value="Enviar Pedido al proveedor"
+							icon="fa fa-edit" styleClass="ui-button-success">
 						</p:commandButton>
 
 					</p:column>
@@ -105,9 +102,9 @@
 			</p:panel>
 			<br />
 			<div align="center">
-				<p:commandButton value="Siguiente"
-					action="enviar_pedidos" styleClass="ui-button-success"
-					style="width: auto" icon="fa fa-arrow-circle-o-right" />
+				<p:commandButton value="Cancelar" action="enviar_pedidos"
+					styleClass="ui-button-danger" style="width: auto"
+					icon="fa fa-close" />
 			</div>
 		</div>
 	</h:form>
