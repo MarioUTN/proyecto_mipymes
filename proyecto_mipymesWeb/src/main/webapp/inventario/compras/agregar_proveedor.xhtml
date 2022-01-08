@@ -11,12 +11,24 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Agregar Proveedor</title>
 	</f:facet>
+	 <style>
+            /* reset on the showcase style*/
+            body .ui-panelgrid .ui-panelgrid-cell {
+                background-color: transparent;
+            }
+
+            /* example use of styles for your form */
+            .my-heading-row {
+                background-color: var(--surface-c);
+                font-weight: bold;
+            }
+        </style>
 </h:head>
 <body>
 	<p:growl>
 		<p:autoUpdate></p:autoUpdate>
 	</p:growl>
-	<h:form>
+	<h:form id="form0">
 		<p:menubar>
 			<p:menuitem value="Regresar" icon="pi pi-home"
 				outcome="/login?faces-redirect=true">
@@ -68,10 +80,10 @@
 						actionListener="#{beanCompras.actionSeleccionarEmpresa()}"
 						icon="fa fa-check-square"></p:commandButton>
 					<p:commandButton value="Registrar Nuevo Proveedor"
-						icon="fa fa-plus" update=":form2:manage-product-content1"
-						oncomplete="PF('manageProductDialog1').show()"
+						icon="fa fa-plus" update=":form2:manage-product-content2"
+						oncomplete="PF('manageProductDialog2').show()"
 						styleClass="ui-button-success">
-						<p:resetInput target=":form2:manage-product-content1" />
+						<p:resetInput target=":form2:manage-product-content2" />
 					</p:commandButton>
 				</p:panelGrid>
 			</p:panel>
@@ -79,55 +91,154 @@
 	</h:form>
 	<h:form id="form2">
 		<div align="center">
-			<p:dialog header="Iniciar Sesión como Administrador" showEffect="fade"
-				modal="true" widgetVar="manageProductDialog1" responsive="true">
-				<p:outputPanel id="manage-product-content1" class="ui-fluid">
+			<p:dialog header="Ingresar un Nuevo Proveedor" showEffect="fade"
+				modal="true" widgetVar="manageProductDialog2" responsive="true">
+				<p:outputPanel id="manage-product-content2" class="ui-fluid">
 
+					<div align="center">
+						<p:panel header="Registrar los datos personales">
 
-					
-						<p:panel header="Acceso para usuarios:">
-							<div align="center">
-								<img src="Imagenes/user_login.ico" alt="alt" />
-							</div>
-							<div>
-								<p:panelGrid columns="2">
-									<h:outputText value="Usuario:" />
-									<p:inputText value="#{beanUsuarios.id_usuario}" placeholder="user-name" />
-									<h:outputText value="Clave:" />
-									<p:password value="#{beanUsuarios.password}"  placeholder="**********"
-										feedback="false" />
-								</p:panelGrid>
-							</div>
-						</p:panel>
-						<p:panel>
-							<div align="center">
-								<p:row>
-
-									<p:panelGrid columns="2">
-										<p:commandButton value="Iniciar Sesión"
-											icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
-											action="#{beanUsuarios.actionLogin()}"
-											update="manage-product-content1,:form1"
-											process="manage-product-content1 @this"
-											onclick="PF('manageProductDialog1').show()" />
-										<p:commandButton value="Cancelar" icon="pi pi-times"
-											onclick="PF('manageProductDialog1').hide()" update="form1"
-											styleClass="ui-button-danger" action="#{beanUsuarios.actionListenerCancelarLogin()}" />
+							<p:fieldset legend="Ingresar Datos Personales para el usuario"
+								toggleable="true" collapsed="true">
+								<p:panel>
+									<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+										layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+										style="border:0px none; background-color:transparent;">
+										<p:row styleClass="my-heading-row">
+                                    Datos Personales
+                                </p:row>
 									</p:panelGrid>
+									<p:panelGrid columns="4"
+										columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+										layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+										style="border:0px none; background-color:transparent;">
 
-								</p:row>
-							</div>
-						</p:panel>
-						<p:panel header="Informacion Adicional:">
-							<div align="center">
-								<p:row>
-									<p:staticMessage
-										summary="Si es un usuario nuevo, primero debe registrarse con el Administrador."
-										severity="info" />
-								</p:row>
-							</div>
+										<p:outputLabel for="@next" value="RUC: " />
+										<p:inputText id="a" placeholder="RUC"
+											value="#{beanCompras.empresa.empRuc}" required="true"
+											requiredMessage="Ingrese el ruc de la empresa!">
+											<p:tooltip for="a" value="Ingrese el ruc de la empresa!"
+												position="bottom" />
+										</p:inputText>
 
+										<p:outputLabel for="@next" value="Nombre de la empresa:: " />
+										<p:inputText id="b" placeholder="Empresa S.A."
+											value="#{beanCompras.empresa.empNombreEmpresa}"
+											required="true"
+											requiredMessage="Ingrese el nombre de la empresa!">
+											<p:tooltip for="b" value="Ingrese su nombre de la empresa"
+												position="bottom" />
+										</p:inputText>
+
+										<p:outputLabel for="@next" value="Seleccionar el Gerente:" />
+										<p:selectOneMenu value="1">
+											<f:selectItem itemLabel="Seleccione un gerente..."
+												itemValue="0" noSelectionOption="true" />
+											<f:selectItems value="#{beanCompras.listaGerentes}" var="g"
+												itemLabel="#{g.usuario.persona.perNombres}"
+												itemValue="#{g.idGerente}"></f:selectItems>
+										</p:selectOneMenu>
+
+										<p:outputLabel for="@next" value="Matriz " />
+										<p:inputText id="d" placeholder="Matriz"
+											value="#{beanCompras.empresa.empMatriz}" required="true"
+											requiredMessage="Ingrese la matriz de la empresa!!">
+											<p:tooltip for="d" value="Ingrese la matriz de la empresa!"
+												position="bottom" />
+										</p:inputText>
+
+										<p:outputLabel for="@next" value="Sucursal de la empresa: " />
+										<p:inputText id="e" placeholder="Sucursal opcional"
+											value="#{beanCompras.empresa.empSucursal}">
+											<p:tooltip for="e" value="Ingrese la Sucursal"
+												position="bottom" />
+										</p:inputText>
+
+										<p:outputLabel for="@next" value="Pais: " />
+										<p:inputText id="e" placeholder="Ecuador"
+											value="#{beanCompras.empresa.empPais}" required="true"
+											requiredMessage="Ingrese el pais!">
+											<p:tooltip for="h" value="Ingrese el pais" position="bottom" />
+										</p:inputText>
+
+										<p:outputLabel for="@next" value="Provincia: " />
+										<p:inputText id="f" placeholder="Imbabura"
+											value="#{beanCompras.empresa.empProvincia}" required="true"
+											requiredMessage="Ingrese la provincia!">
+											<p:tooltip for="f" value="Ingrese la provincia"
+												position="bottom" />
+										</p:inputText>
+
+										<p:outputLabel for="@next" value="Ciudad: " />
+										<p:inputText id="g" placeholder="Ibarra"
+											value="#{beanCompras.empresa.empCiudad}" required="true"
+											requiredMessage="Ingrese la ciudad!">
+											<p:tooltip for="g" value="Ingrese la cliudad"
+												position="bottom" />
+										</p:inputText>
+
+										<p:outputLabel for="@next" value="Telefono: " />
+										<p:inputText id="h" placeholder="0989061898"
+											value="#{beanCompras.empresa.empTelefono}" required="true"
+											requiredMessage="Ingrese el telefono!">
+											<p:tooltip for="h" value="Ingrese su numero de telefono"
+												position="bottom" />
+										</p:inputText>
+
+										<p:outputLabel for="@next" value="Email" />
+										<p:inputText id="e" placeholder="mariosalazar@gmail.com"
+											value="#{beanCompras.empresa.empEmail}" required="true"
+											requiredMessage="Ingrese el email!">
+											<p:tooltip for="e" value="Ingrese un email" position="bottom" />
+										</p:inputText>
+
+									</p:panelGrid>
+								</p:panel>
+								<div align="center">
+									<p:panel>
+										<div align="center">
+											<p:row>
+												<p:commandButton value="Guardar Datos Personales"
+													styleClass="p-mr-2" style="width: auto" />
+											</p:row>
+										</div>
+									</p:panel>
+								</div>
+							</p:fieldset>
 						</p:panel>
+					</div>
+
+
+
+					<p:panel>
+						<div align="center">
+							<p:row>
+
+								<p:panelGrid columns="2">
+									<p:commandButton value="Iniciar Sesión"
+										icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
+										update="manage-product-content2,:form2"
+										process="manage-product-content2 @this"
+										onclick="PF('manageProductDialog2').show()" />
+									<p:commandButton value="Cancelar" icon="pi pi-times"
+										onclick="PF('manageProductDialog2').hide()" update="form2"
+										styleClass="ui-button-danger"
+										action="#{beanUsuarios.actionListenerCancelarLogin()}" />
+								</p:panelGrid>
+
+							</p:row>
+						</div>
+					</p:panel>
+					<p:panel header="Informacion Adicional:">
+						<div align="center">
+							<p:row>
+								<p:staticMessage
+									summary="Si es un usuario nuevo, primero debe registrarse con el Administrador."
+									severity="info" />
+							</p:row>
+						</div>
+
+					</p:panel>
 				</p:outputPanel>
 
 			</p:dialog>

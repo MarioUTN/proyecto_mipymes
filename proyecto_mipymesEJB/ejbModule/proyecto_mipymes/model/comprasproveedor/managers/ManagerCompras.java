@@ -51,6 +51,12 @@ public class ManagerCompras {
 		query.setParameter("codigo", codigo);
 		return (Producto) query.getSingleResult();
 	}
+	
+	public Empresa findEmpresaByRuc(String ruc) {
+		Query query = entityManager.createQuery("select p from Producto p where p.prodCodigo=:codigo", Producto.class);
+		query.setParameter("codigo", ruc);
+		return (Empresa) query.getSingleResult();
+	}
 
 	public Producto crearNuevoProducto(Producto producto) {
 		if (entityManager.find(Producto.class, producto.getIdProducto()) == null
@@ -123,6 +129,13 @@ public class ManagerCompras {
 		return compraProducto;
 	}
 
+	public Empresa agregarProveedor(Empresa empresaNueva) {
+		if(entityManager.find(Empresa.class, empresaNueva.getIdEmpresa())==null) {
+			entityManager.persist(empresaNueva);
+		}
+		return empresaNueva;
+	}
+	
 	public boolean registrarCompraProductos(CompraProducto compraProducto) {
 		boolean resp;
 		if (compraProducto == null || compraProducto.getDetalleCompras().size() == 0

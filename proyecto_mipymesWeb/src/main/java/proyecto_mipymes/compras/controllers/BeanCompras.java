@@ -39,6 +39,7 @@ public class BeanCompras implements Serializable {
 	private List<Producto> listaProductos;
 	private List<Empresa> listaEmpresas;
 	private List<DetalleCompra> listaDetalleCompras;
+	private List<Gerente> listaGerentes;
 	
 	public BeanCompras() {
 		// TODO Auto-generated constructor stub
@@ -46,10 +47,20 @@ public class BeanCompras implements Serializable {
 	
 	@PostConstruct
 	public void Inicializar() {
+		empresa=new Empresa();
 		listaProductos=managerCompras.findAllProductos();
 		listaEmpresas=managerCompras.findAllEmpresas();
+		listaGerentes=managerCompras.findAllGerente();
 	}
 
+	public void setListaGerentes(List<Gerente> listaGerentes) {
+		this.listaGerentes = listaGerentes;
+	}
+	
+	public List<Gerente> getListaGerentes() {
+		return listaGerentes;
+	}
+	
 	public void actionSeleccionarEmpresa() {
 		JSFUtil.crearMensajeInfo("Empresa seleccionada: "+id_empresaSeleccionada);
 	}
