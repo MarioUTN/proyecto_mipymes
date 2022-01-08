@@ -36,7 +36,7 @@ public class BeanUsuarios implements Serializable {
 
 	public String actionLogin() {
 		if (managerUsuarios.loginUsuarios(id_usuario, password) == 0) {
-			return "inventario/compras/agregar_proveedor";
+			return "inventario/compras/agregar_empresa";
 		}
 		
 		if (managerUsuarios.loginUsuarios(id_usuario, password) == 1) {

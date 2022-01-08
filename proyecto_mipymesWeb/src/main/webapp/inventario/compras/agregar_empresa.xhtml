@@ -96,9 +96,8 @@
 				<p:outputPanel id="manage-product-content2" class="ui-fluid">
 
 					<div align="center">
-						<p:panel header="Registrar los datos personales">
 
-							<p:fieldset legend="Ingresar Datos Personales para el usuario"
+							<p:fieldset legend="Ingresar Datos de la Empresa - Proveedor"
 								toggleable="true" collapsed="true">
 								<p:panel>
 									<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
@@ -140,17 +139,17 @@
 										</p:selectOneMenu>
 
 										<p:outputLabel for="@next" value="Matriz " />
-										<p:inputText id="d" placeholder="Matriz"
+										<p:inputText id="c" placeholder="Matriz"
 											value="#{beanCompras.empresa.empMatriz}" required="true"
 											requiredMessage="Ingrese la matriz de la empresa!!">
-											<p:tooltip for="d" value="Ingrese la matriz de la empresa!"
+											<p:tooltip for="c" value="Ingrese la matriz de la empresa!"
 												position="bottom" />
 										</p:inputText>
 
 										<p:outputLabel for="@next" value="Sucursal de la empresa: " />
-										<p:inputText id="e" placeholder="Sucursal opcional"
+										<p:inputText id="d" placeholder="Sucursal opcional"
 											value="#{beanCompras.empresa.empSucursal}">
-											<p:tooltip for="e" value="Ingrese la Sucursal"
+											<p:tooltip for="d" value="Ingrese la Sucursal"
 												position="bottom" />
 										</p:inputText>
 
@@ -158,7 +157,7 @@
 										<p:inputText id="e" placeholder="Ecuador"
 											value="#{beanCompras.empresa.empPais}" required="true"
 											requiredMessage="Ingrese el pais!">
-											<p:tooltip for="h" value="Ingrese el pais" position="bottom" />
+											<p:tooltip for="e" value="Ingrese el pais" position="bottom" />
 										</p:inputText>
 
 										<p:outputLabel for="@next" value="Provincia: " />
@@ -186,10 +185,10 @@
 										</p:inputText>
 
 										<p:outputLabel for="@next" value="Email" />
-										<p:inputText id="e" placeholder="mariosalazar@gmail.com"
+										<p:inputText id="i" placeholder="mariosalazar@gmail.com"
 											value="#{beanCompras.empresa.empEmail}" required="true"
 											requiredMessage="Ingrese el email!">
-											<p:tooltip for="e" value="Ingrese un email" position="bottom" />
+											<p:tooltip for="i" value="Ingrese un email" position="bottom" />
 										</p:inputText>
 
 									</p:panelGrid>
@@ -199,46 +198,13 @@
 										<div align="center">
 											<p:row>
 												<p:commandButton value="Guardar Datos Personales"
-													styleClass="p-mr-2" style="width: auto" />
+													styleClass="ui-button-success" style="width: auto" icon="fa fa-save"/>
 											</p:row>
 										</div>
 									</p:panel>
 								</div>
 							</p:fieldset>
-						</p:panel>
 					</div>
-
-
-
-					<p:panel>
-						<div align="center">
-							<p:row>
-
-								<p:panelGrid columns="2">
-									<p:commandButton value="Iniciar Sesión"
-										icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
-										update="manage-product-content2,:form2"
-										process="manage-product-content2 @this"
-										onclick="PF('manageProductDialog2').show()" />
-									<p:commandButton value="Cancelar" icon="pi pi-times"
-										onclick="PF('manageProductDialog2').hide()" update="form2"
-										styleClass="ui-button-danger"
-										action="#{beanUsuarios.actionListenerCancelarLogin()}" />
-								</p:panelGrid>
-
-							</p:row>
-						</div>
-					</p:panel>
-					<p:panel header="Informacion Adicional:">
-						<div align="center">
-							<p:row>
-								<p:staticMessage
-									summary="Si es un usuario nuevo, primero debe registrarse con el Administrador."
-									severity="info" />
-							</p:row>
-						</div>
-
-					</p:panel>
 				</p:outputPanel>
 
 			</p:dialog>
