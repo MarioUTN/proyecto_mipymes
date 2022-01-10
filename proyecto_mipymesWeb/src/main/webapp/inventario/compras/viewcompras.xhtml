@@ -56,8 +56,7 @@
 		<div align="center">
 			<p:panel header="Lista de Pedidos Generados">
 				<p:dataTable value="#{beanCompras.listaCompraProductos}"
-					var="compraProductos" paginator="true" reflow="true" rows="5"
-					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+					var="compraProductos" paginator="true" reflow="true" rows="5">
 					<p:column headerText="Vendedor"
 						sortBy="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}"
 						filterBy="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}">

@@ -141,9 +141,7 @@ body .ui-panelgrid .ui-panelgrid-cell {
 			<p:dialog header="Ingresar un Nuevo Producto" showEffect="fade"
 				modal="true" widgetVar="manageProductDialog3" responsive="true">
 				<p:outputPanel id="manage-product-content3" class="ui-fluid">
-					<p:dataTable value="#{beanCompras.listaProductos}" var="producto"
-						paginator="true" reflow="true" rows="5"
-						paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+					<p:dataTable value="#{beanCompras.listaProductos}" var="producto">
 						<p:column headerText="Nombre Producto"
 							sortBy="#{producto.prodNombre}" filterBy="#{producto.prodNombre}">
 							<h:outputText value="#{producto.prodNombre}" />
@@ -207,8 +205,7 @@ body .ui-panelgrid .ui-panelgrid-cell {
 		<div align="center">
 			<p:panel header="Productos Agregados">
 				<p:dataTable value="#{beanCompras.listaDetalleCompras}"
-					var="detalleCompras" paginator="true" reflow="true" rows="5"
-					paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+					var="detalleCompras" paginator="true" rows="5">
 					<p:column headerText="Codigo de Producto"
 						sortBy="#{detalleCompras.detcompCodigoProducto}"
 						filterBy="#{detalleCompras.detcompCodigoProducto}">
