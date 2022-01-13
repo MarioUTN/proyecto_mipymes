@@ -1,18 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
 
 <h:head>
 	<f:facet name="first">
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
-		<title>Agregar Cliente Anticipos</title>
+		<title>Clientes</title>
 	</f:facet>
-</h:head>
-<body>
+</h:head> 
+<body> 
 	<h:form id="form0">
 		<p:menubar>
 			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
@@ -61,7 +61,7 @@
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
-
+ 
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="fa fa-user">
@@ -73,8 +73,32 @@
 		</p:menubar>
 		<div align="center">
 			<p:staticMessage severity="info"
-				summary="Agregar clientes para venta por anticipo"></p:staticMessage>
+				summary="Menu de vista de clientes"></p:staticMessage>
 		</div>
 	</h:form>
-</body>
+	
+	<h:form id="form1">
+		<div align="center">
+			<p:panelGrid columns="1">
+				<p:commandButton value="Agregar Un Nuevo Cliente"
+					icon="fa fa-user-plus" styleClass="ui-button-success"
+					style="width: 340px" action="agregar_cliente">
+				</p:commandButton>
+<!-- 
+				<p:commandButton value="Realizar un Ingreso de Productos"
+					icon="fa fa-cart-plus" styleClass="ui-button-success"
+					style="width: 340px" action="agregar_empresa">
+				</p:commandButton>
+
+				<p:commandButton value="Ver Productos cn menor existencia"
+					icon="fa fa-cart-plus" styleClass="ui-button-success"
+					style="width: 340px" action="agregar_empresa">
+				</p:commandButton>
+				 -->
+			</p:panelGrid>
+		</div>
+	</h:form>
+	
+	
+</body> 
 </html>

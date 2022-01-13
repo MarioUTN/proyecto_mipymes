@@ -15,8 +15,9 @@
 <body>
 
 	<div align="center">
-		<img src="Imagenes/icono_boutique.jpeg" height="300px" width="400px" />
 		<h1 style="color: red">Universidad Técnica del Norte</h1>
+		<img src="Imagenes/icono_boutique.jpeg" height="300px" width="400px" />
+
 	</div>
 	<h:form id="form">
 		<p:growl id="ms">
@@ -90,7 +91,7 @@
 								<p:panelGrid columns="2">
 									<p:commandButton value="Iniciar Sesión"
 										icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
-										action="#{beanUsuarios.actionLogin()}"
+										action="#{beanUsuarios.actionLoginGerente()}"
 										process="manage-product-content1"
 										onclick="PF('manageProductDialog1').show()" />
 									<p:commandButton value="Cancelar" icon="pi pi-times"
@@ -148,7 +149,7 @@
 								<p:panelGrid columns="2">
 									<p:commandButton value="Iniciar Sesión"
 										icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
-										action="#{beanUsuarios.actionLogin()}"
+										action="#{beanUsuarios.actionLoginVendedor()}"
 										process="manage-product-content2 @this"
 										onclick="PF('manageProductDialog2').show()" />
 									<p:commandButton value="Cancelar" icon="pi pi-times"
@@ -208,7 +209,7 @@
 								<p:panelGrid columns="2">
 									<p:commandButton value="Iniciar Sesión"
 										icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
-										action="#{beanUsuarios.actionLogin()}"
+										action="#{beanUsuarios.actionLoginCliente()}"
 										process="manage-product-content3 @this"
 										onclick="PF('manageProductDialog3').show()" />
 									<p:commandButton value="Cancelar" icon="pi pi-times"

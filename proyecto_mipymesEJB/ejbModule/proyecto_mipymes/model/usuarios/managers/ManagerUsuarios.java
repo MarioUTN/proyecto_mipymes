@@ -45,14 +45,35 @@ public class ManagerUsuarios {
 		return (Usuario) query.getSingleResult();
 	}
 
+	public Gerente findGerenteByUsuario(String ger_usuario) {
+		Query query = entityManager.createQuery("select g from Gerente g where g.usuario.idUsuario=:ger_usuario",
+				Gerente.class);
+		query.setParameter("ger_usuario", ger_usuario);
+		return (Gerente) query.getSingleResult();
+	}
+
+	public Cliente findClienteByUsuario(String cli_usuario) {
+		Query query = entityManager.createQuery("select c from Cliente c where c.usuario.idUsuario=:cli_usuario",
+				Cliente.class);
+		query.setParameter("cli_usuario", cli_usuario);
+		return (Cliente) query.getSingleResult();
+	}
+
+	public Vendedor findVendedorByUsuario(String ven_usuario) {
+		Query query = entityManager.createQuery("select v from Vendedor v where v.usuario.idUsuario=:ven_usuario",
+				Vendedor.class);
+		query.setParameter("ven_usuario", ven_usuario);
+		return (Vendedor) query.getSingleResult();
+	}
+
 	public int loginUsuarios(String id_usuario, String password) {
 		int resp = -1;
 		Usuario usuario = entityManager.find(Usuario.class, id_usuario);
 		if (usuario != null && usuario.getUsPassword().equals(Encriptar.encriptar(password)) && usuario.getUsActivo()) {
-			resp = 0;
+			resp = usuario.getTipoUsuario().getIdTipoUsuario();
 		}
 		if (verUsuarioPassword(id_usuario, password)) {
-			resp = 1;
+			resp = 0;
 		}
 		return resp;
 	}

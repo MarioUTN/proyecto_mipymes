@@ -9,18 +9,20 @@
 	<f:facet name="first">
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
-		<title>Agregar Cliente Anticipos</title>
+		<title>Administrador</title>
 	</f:facet>
 </h:head>
 <body>
-	<h:form id="form0">
+	<p:growl>
+		<p:autoUpdate></p:autoUpdate>
+	</p:growl>
+	<h:form>
 		<p:menubar>
 			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
 			</p:menuitem>
-			<p:menuitem value="Inicio"
-				outcome="/seguridades/administrador/menu_administrador"
+			<p:menuitem value="Inicio" outcome="menu_administrador"
 				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
@@ -64,7 +66,7 @@
 
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
-					icon="fa fa-user">
+					icon="pi pi-user">
 					<p:menuitem value="Perfil" icon="fa fa-cog"></p:menuitem>
 					<p:menuitem value="Cerrar sesión" icon="fa fa-sign-out"
 						outcome="/login"></p:menuitem>
@@ -73,7 +75,7 @@
 		</p:menubar>
 		<div align="center">
 			<p:staticMessage severity="info"
-				summary="Agregar clientes para venta por anticipo"></p:staticMessage>
+				summary="Menu Principal Administrador"></p:staticMessage>
 		</div>
 	</h:form>
 </body>

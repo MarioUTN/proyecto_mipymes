@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
+		<title>Productos</title>
+	</f:facet>
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form id="form">
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
+				outcome="/login?faces-redirect=true">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+			<p:menuitem value="Inicio"
+				outcome="/seguridades/administrador/menu_administrador"
+				icon="fa fa-home">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+			<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+				outcome="/inventario/ventas/index_ventas">
+				<f:param name="i" value="2" />
+			</p:menuitem>
+
+			<p:menuitem value="Ventas por Anticipos" icon="fa fa-cart-arrow-down"
+				outcome="/inventario/ventas_anticipos/index_anticipos">
+				<f:param name="i" value="3" />
+			</p:menuitem>
+
+			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
+				outcome="/inventario/compras/index_compras">
+				<f:param name="i" value="4" />
+			</p:menuitem>
+
+			<p:menuitem value="Clientes" icon="fa fa-users"
+				outcome="/talentohumano/clientes/menu_clientes">
+				<f:param name="i" value="5" />
+			</p:menuitem>
+
+			<p:menuitem value="Vendedores" icon="fa fa-group"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/talentohumano/vendedores/menu_vendedores">
+				<f:param name="i" value="6" />
+			</p:menuitem>
+
+			<p:menuitem value="Facturas" icon="fa fa-file-text"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/inventario/facturas/menu_facturas">
+				<f:param name="i" value="7" />
+			</p:menuitem>
+
+			<p:menuitem value="Productos" icon="fa fa-cubes"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/inventario/productos/menu_productos">
+				<f:param name="i" value="8" />
+			</p:menuitem>
+
+
+			<f:facet name="options">
+				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
+					icon="fa fa-user">
+					<p:menuitem value="Perfil" icon="fa fa-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="fa fa-sign-out"
+						outcome="/login"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+		<div align="center">
+			<p:staticMessage severity="info" summary="Menu de Productos"></p:staticMessage>
+		</div>
+	</h:form>
+
+	<h:form id="form0">
+		<div align="center">
+			<p:panelGrid columns="4" style="width: 1280px">
+				<p:commandButton value="Ingresar Nuevos Productos"
+					icon="fa fa-cart-plus" update=":form1:manage-product-content1"
+					oncomplete="PF('manageProductDialog1').show()"
+					styleClass="ui-button-success" style="width: 340px">
+					<p:resetInput target=":form1:manage-product-content1" />
+				</p:commandButton>
+				<p:commandButton value="Ver Productos Por Talla"
+					icon="fa fa-cart-plus" update=":form2:manage-product-content2"
+					oncomplete="PF('manageProductDialog2').show()"
+					styleClass="ui-button-success" style="width: 340px">
+					<p:resetInput target=":form2:manage-product-content2" />
+				</p:commandButton>
+
+				<p:commandButton value="Ver Productos por Tipo de Producto"
+					icon="fa fa-cart-plus" update=":form3:manage-product-content3"
+					oncomplete="PF('manageProductDialog3').show()"
+					styleClass="ui-button-success" style="width: 340px">
+					<p:resetInput target=":form3:manage-product-content3" />
+				</p:commandButton>
+				
+				<p:commandButton value="Ver Todos los Productos"
+					icon="fa fa-cart-plus" action="#{beanProductos.actionVerTodosLosProductos()}" 
+					styleClass="ui-button-success" style="width: 340px">
+				</p:commandButton>
+
+			</p:panelGrid>
+		</div>
+	</h:form>
+
+
+
+	<h:form id="form1">
+		<div align="center">
+			<p:dialog header="Ingresar un Nuevo Producto" showEffect="fade"
+				modal="true" widgetVar="manageProductDialog1" responsive="true">
+				<p:outputPanel id="manage-product-content1" class="ui-fluid">
+
+					<div align="center">
+							<p:panel>
+								<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
+									layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+									style="border:0px none; background-color:transparent;">
+									<p:row styleClass="my-heading-row">
+                                    Datos y Descripcion del Producto
+                                </p:row>
+								</p:panelGrid>
+								<p:panelGrid columns="4"
+									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+									layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+									style="border:0px none; background-color:transparent;">
+
+									<p:outputLabel for="@next" value="CODIGO: " />
+									<p:inputText id="a" placeholder="CODIGO"
+										value="#{beanCompras.empresa.empRuc}" required="true"
+										requiredMessage="Ingrese el codigo del producto!">
+										<p:tooltip for="a" value="Ingrese el codigo del producto!"
+											position="bottom" />
+									</p:inputText>
+
+									<p:outputLabel for="@next" value="Nombre de producto: " />
+									<p:inputText id="b" placeholder="Nombre de Producto"
+										value="#{beanCompras.empresa.empNombreEmpresa}"
+										required="true"
+										requiredMessage="Ingrese el nombre de producto!">
+										<p:tooltip for="b" value="Ingrese su nombre de la empresa"
+											position="bottom" />
+									</p:inputText>
+
+									<p:outputLabel for="@next" value="Seleccionar la talla:" />
+									<p:selectOneMenu value="1">
+										<f:selectItem itemLabel="Seleccione la talla..."
+											itemValue="0" noSelectionOption="true" />
+										<f:selectItems value="#{beanProductos.listaTallaProductos}" var="talla"
+											itemLabel="#{talla.tallaNombre}"
+											itemValue="#{talla.idTallaProducto}"></f:selectItems>
+									</p:selectOneMenu>
+
+									<p:outputLabel for="@next" value="Descripcion: " />
+									<p:inputTextarea id="c" placeholder="Descripcion del producto"
+										value="#{beanCompras.empresa.empMatriz}" required="true"
+										requiredMessage="Ingrese la descripcion del producto!!">
+										<p:tooltip for="c" value="Ingrese la descripcion del producto!"
+											position="bottom" />
+									</p:inputTextarea>
+
+									<p:outputLabel for="@next" value="Cantidad: " />
+									<p:spinner id="d" placeholder="Cantidad de productos" min="0" max="50"
+										value="#{beanCompras.empresa.empSucursal}">
+										<p:tooltip for="d" value="Ingrese la cantidad de productosl"
+											position="bottom" />
+									</p:spinner>
+
+									<p:outputLabel for="@next" value="Precio Proveedor: " />
+									<p:spinner id="e" placeholder="12.25"
+										value="#{beanCompras.empresa.empPais}" required="true"
+										requiredMessage="Ingrese el precio de proveedor!">
+										<p:tooltip for="e" value="Ingrese el precio de proveedor" position="bottom" />
+									</p:spinner>
+
+									<p:outputLabel for="@next" value="IVA: " />
+									<p:spinner id="f" placeholder="12"
+										value="#{beanCompras.empresa.empProvincia}" required="true"
+										requiredMessage="Seleccione el valor del Iva!">
+										<p:tooltip for="f" value="Seleccione el valor del Iva!"
+											position="bottom" />
+									</p:spinner>
+
+									<p:outputLabel for="@next" value="Precio Venta Publico: " />
+									<p:spinner id="g" placeholder="15.25"
+										value="#{beanCompras.empresa.empCiudad}" required="true"
+										requiredMessage="Ingrese el precio de venta al publico!">
+										<p:tooltip for="g" value="Ingrese el precio de venta al publico"
+											position="bottom" />
+									</p:spinner>
+
+									<p:outputLabel for="@next" value="Tipo de Producto: " />
+									<p:selectOneMenu value="1">
+										<f:selectItem itemLabel="Seleccione el tipo ..."
+											itemValue="0" noSelectionOption="true" />
+										<f:selectItems value="#{beanProductos.listaTipoProductos}" var="tipo"
+											itemLabel="#{tipo.tpNombre}"
+											itemValue="#{tipo.idTipoProducto}"></f:selectItems>
+									</p:selectOneMenu>
+									
+									<p:outputLabel for="@next" value="Proveedor de Producto: " />
+									<p:selectOneMenu value="#{beanProductos.id_proveedor}" style="width: 250px">
+										<f:selectItem itemLabel="Seleccione el proveedor ..."
+											itemValue="0" noSelectionOption="true" />
+										<f:selectItems value="#{beanProductos.listaEmpresas}" var="empresa"
+											itemLabel="#{empresa.empNombreEmpresa}"
+											itemValue="#{empresa.idEmpresa}"></f:selectItems>
+									</p:selectOneMenu>
+									
+									
+
+								</p:panelGrid>
+							</p:panel>
+							<div align="center">
+								<p:panel>
+									<div align="center">
+										<p:row>
+											<p:commandButton value="Guardar Producto"
+												styleClass="ui-button-success" style="width: auto"
+												icon="fa fa-save" />
+										</p:row>
+									</div>
+								</p:panel>
+							</div>
+					</div>
+				</p:outputPanel>
+
+			</p:dialog>
+		</div>
+	</h:form>
+
+
+	<h:form id="form2">
+		<div align="center">
+			<p:dialog header="Seleccionar la Talla de Productos"
+				showEffect="fade" modal="true" widgetVar="manageProductDialog2"
+				responsive="true">
+				<p:outputPanel id="manage-product-content2" class="ui-fluid">
+					<p:panelGrid columns="2">
+						<h:outputText value="Talla de Producto:" />
+						<p:selectOneMenu value="#{beanProductos.id_talla_producto}">
+							<f:selectItem itemLabel="Seleccione una talla ..." itemValue="0"
+								noSelectionOption="true" />
+							<f:selectItems value="#{beanProductos.listaTallaProductos}"
+								var="talla" itemLabel="#{talla.tallaNombre}"
+								itemValue="#{talla.idTallaProducto}"></f:selectItems>
+						</p:selectOneMenu>
+					</p:panelGrid>
+					<br />
+					<div align="center">
+						<p:commandButton value="Listar Productos"
+							styleClass="ui-button-success" style="width: auto"
+							actionListener="#{beanProductos.actionListenerMostrarProductosByTalla()}"
+							oncomplete="PF('manageProductDialog2').hide()" icon="fa fa-table"
+							update="form4" />
+					</div>
+				</p:outputPanel>
+
+			</p:dialog>
+		</div>
+	</h:form>
+
+	<h:form id="form3">
+		<div align="center">
+			<p:dialog header="Seleccionar la Tipo de Productos" showEffect="fade"
+				modal="true" widgetVar="manageProductDialog3" responsive="true">
+				<p:outputPanel id="manage-product-content3" class="ui-fluid">
+					<p:panelGrid columns="2">
+						<h:outputText value="Talla de Producto:" />
+						<p:selectOneMenu value="#{beanProductos.id_tipo_producto}">
+							<f:selectItem itemLabel="Seleccione una talla ..." itemValue="0"
+								noSelectionOption="true" />
+							<f:selectItems value="#{beanProductos.listaTipoProductos}"
+								var="tipo" itemLabel="#{tipo.tpNombre}"
+								itemValue="#{tipo.idTipoProducto}"></f:selectItems>
+						</p:selectOneMenu>
+					</p:panelGrid>
+					<br />
+					<div align="center">
+						<p:commandButton value="Listar Productos"
+							styleClass="ui-button-success" style="width: auto"
+							actionListener="#{beanProductos.actionListenerMostrarProductosByTipo()}"
+							oncomplete="PF('manageProductDialog3').hide()" icon="fa fa-table"
+							update="form4" />
+					</div>
+				</p:outputPanel>
+
+			</p:dialog>
+		</div>
+	</h:form>
+
+	<h:form id="form4">
+		<div align="center">
+			<p:panel header="">
+				<p:dataTable value="#{beanProductos.listaProductos}"
+					var="productos" paginator="true" reflow="true" rows="5">
+					<p:column headerText="COD" sortBy="#{productos.prodCodigo}"
+						filterBy="#{productos.prodCodigo}">
+						<h:outputText value="#{productos.prodCodigo}" />
+					</p:column>
+					<p:column headerText="CANT" sortBy="#{productos.prodCantidad}"
+						filterBy="#{productos.prodCantidad}">
+						<h:outputText value="#{productos.prodCantidad}" />
+					</p:column>
+
+					<p:column headerText="NOMBRE" sortBy="#{productos.prodNombre}"
+						filterBy="#{productos.prodNombre}">
+						<h:outputText value="#{productos.prodNombre}" />
+					</p:column>
+					<p:column headerText="DESCR" sortBy="#{productos.prodDescripcion}"
+						filterBy="#{productos.prodDescripcion}">
+						<h:outputText value="#{productos.prodDescripcion}" />
+					</p:column>
+
+					<p:column headerText="PROVEEDOR"
+						sortBy="#{productos.empresa.empNombreEmpresa}"
+						filterBy="#{productos.empresa.empNombreEmpresa}">
+						<h:outputText value="#{productos.empresa.empNombreEmpresa}" />
+					</p:column>
+					<p:column headerText="PRECIO" sortBy="#{productos.prodPvpublico}"
+						filterBy="#{productos.prodPvpublico}">
+						<h:outputText value="#{productos.prodPvpublico}" />
+					</p:column>
+
+					<p:column headerText="TALLA"
+						sortBy="#{productos.tallaProducto.tallaNombre}"
+						filterBy="#{productos.tallaProducto.tallaNombre}">
+						<h:outputText value="#{productos.tallaProducto.tallaNombre}" />
+					</p:column>
+
+					<p:column headerText="TIPO"
+						sortBy="#{productos.tipoProducto.tpNombre}"
+						filterBy="#{productos.tipoProducto.tpNombre}">
+						<h:outputText value="#{productos.tipoProducto.tpNombre}" />
+					</p:column>
+
+					<p:column headerText="Opciones">
+						<p:menuButton value="Options"
+							buttonStyleClass="ui-button-outlined"
+							buttonStyle="box-shadow: 0 0 10px">
+							<p:menuitem value="Editar" ajax="false" icon="fa fa-edit" />
+							<p:divider />
+							<p:menuitem value="Eliminar" icon="fa fa-trash" />
+							<p:divider />
+							<p:menuitem value="Crear" icon="fa fa-plus" />
+						</p:menuButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<br />
+		</div>
+	</h:form>
+
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
+		<title>Productos</title>
+	</f:facet>
+	
+</h:head>
+<body>
+<script src="../../js/funcion.js"/>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form id="form-menu">
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
+				outcome="/login?faces-redirect=true">
+				<f:param name="i" value="0" />
+			</p:menuitem>
+			<p:menuitem value="Inicio"
+				outcome="/seguridades/administrador/menu_administrador"
+				icon="fa fa-home">
+				<f:param name="i" value="1" />
+			</p:menuitem>
+			<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+				outcome="/inventario/ventas/index_ventas">
+				<f:param name="i" value="2" />
+			</p:menuitem>
+
+			<p:menuitem value="Ventas por Anticipos" icon="fa fa-cart-arrow-down"
+				outcome="/inventario/ventas_anticipos/index_anticipos">
+				<f:param name="i" value="3" />
+			</p:menuitem>
+
+			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
+				outcome="/inventario/compras/index_compras">
+				<f:param name="i" value="4" />
+			</p:menuitem>
+
+			<p:menuitem value="Clientes" icon="fa fa-users"
+				outcome="/talentohumano/clientes/menu_clientes">
+				<f:param name="i" value="5" />
+			</p:menuitem>
+
+			<p:menuitem value="Vendedores" icon="fa fa-group"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/talentohumano/vendedores/menu_vendedores">
+				<f:param name="i" value="6" />
+			</p:menuitem>
+
+			<p:menuitem value="Facturas" icon="fa fa-file-text"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/inventario/facturas/menu_facturas">
+				<f:param name="i" value="7" />
+			</p:menuitem>
+
+			<p:menuitem value="Productos" icon="fa fa-cubes"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/inventario/productos/menu_productos">
+				<f:param name="i" value="8" />
+			</p:menuitem>
+
+
+			<f:facet name="options">
+				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
+					icon="fa fa-user">
+					<p:menuitem value="Perfil" icon="fa fa-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="fa fa-sign-out"
+						outcome="/login"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+		<div align="center">
+			<p:staticMessage severity="info"
+				summary="Lista de Productos en General"></p:staticMessage>
+		</div>
+	</h:form>
+
+
+
+	<h:form id="form-tablaproductos">
+		<div align="center">
+			<p:panel header="">
+				<p:dataTable value="#{beanProductos.listaProductos}" var="productos"
+					paginator="true" reflow="true" rows="5">
+					<p:column headerText="COD" sortBy="#{productos.prodCodigo}"
+						filterBy="#{productos.prodCodigo}">
+						<h:outputText value="#{productos.prodCodigo}" />
+					</p:column>
+					<p:column headerText="CANT" sortBy="#{productos.prodCantidad}"
+						filterBy="#{productos.prodCantidad}">
+						<h:outputText value="#{productos.prodCantidad}" />
+					</p:column>
+
+					<p:column headerText="NOMBRE" sortBy="#{productos.prodNombre}"
+						filterBy="#{productos.prodNombre}">
+						<h:outputText value="#{productos.prodNombre}" />
+					</p:column>
+					<p:column headerText="DESCR" sortBy="#{productos.prodDescripcion}"
+						filterBy="#{productos.prodDescripcion}">
+						<h:outputText value="#{productos.prodDescripcion}" />
+					</p:column>
+
+					<p:column headerText="PROVEEDOR"
+						sortBy="#{productos.empresa.empNombreEmpresa}"
+						filterBy="#{productos.empresa.empNombreEmpresa}">
+						<h:outputText value="#{productos.empresa.empNombreEmpresa}" />
+					</p:column>
+					<p:column headerText="PRECIO" sortBy="#{productos.prodPvpublico}"
+						filterBy="#{productos.prodPvpublico}">
+						<h:outputText value="#{productos.prodPvpublico}" />
+					</p:column>
+
+					<p:column headerText="TALLA"
+						sortBy="#{productos.tallaProducto.tallaNombre}"
+						filterBy="#{productos.tallaProducto.tallaNombre}">
+						<h:outputText value="#{productos.tallaProducto.tallaNombre}" />
+					</p:column>
+
+					<p:column headerText="TIPO"
+						sortBy="#{productos.tipoProducto.tpNombre}"
+						filterBy="#{productos.tipoProducto.tpNombre}">
+						<h:outputText value="#{productos.tipoProducto.tpNombre}" />
+					</p:column>
+
+					<p:column headerText="Opciones">
+						<p:menuButton value="Opciones"
+							buttonStyleClass="ui-button-outlined"
+							buttonStyle="box-shadow: 0 0 10px">
+							<p:divider />
+							<p:menuitem value="Editar" icon="fa fa-edit"
+								update=":form-editar:editar-ProductDialog"
+								actionListener="#{beanProductos.actionListenerSeleccionarProducto(productos.prodCodigo)}"
+								oncomplete="PF('editarProductDialog').show()">
+								<p:resetInput target=":form-editar:editar-ProductDialog" />
+							</p:menuitem>
+							<p:divider />
+							<p:menuitem value="Crear" icon="fa fa-plus"
+								update=":form-crear:crearnuevo-ProductDialog"
+								actionListener="#{beanProductos.actionListenerSeleccionarProducto(productos.prodCodigo)}"
+								oncomplete="PF('crearnuevoProductDialog').show()">
+								<p:resetInput target=":form-crear:crearnuevo-ProductDialog" />
+							</p:menuitem>
+							<p:divider />
+
+							<p:menuitem update="@form,:form-tablaproductos" value="Eliminar"
+								icon="fa fa-trash"
+								actionListener="#{beanProductos.actionListenerEliminarProducto(productos.prodCodigo)}">
+							</p:menuitem>
+						</p:menuButton>
+
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<br />
+		</div>
+	</h:form>
+
+
+
+
+
+	<h:form id="form-editar">
+		<p:growl>
+			<p:autoUpdate></p:autoUpdate>
+		</p:growl>
+		<div align="center">
+			<p:dialog header="Editar un Producto" showEffect="fade" modal="true"
+				widgetVar="editarProductDialog" responsive="true">
+				<p:outputPanel id="editar-ProductDialog" class="ui-fluid">
+
+					<div align="center">
+						<p:panel>
+
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel for="@next" value="CODIGO: " />
+								<p:inputText id="a" placeholder="CODIGO"
+									value="#{beanProductos.productoEditar.prodCodigo}"
+									required="true"
+									requiredMessage="Ingrese el codigo del producto!">
+									<p:tooltip for="a" value="Ingrese el codigo del producto!"
+										position="bottom" />
+								</p:inputText>
+
+								<p:outputLabel for="@next" value="Nombre de producto: " />
+								<p:inputText id="b" placeholder="Nombre de Producto"
+									value="#{beanProductos.productoEditar.prodNombre}"
+									required="true"
+									requiredMessage="Ingrese el nombre de producto!">
+									<p:tooltip for="b" value="Ingrese el nombre de producto!"
+										position="bottom" />
+								</p:inputText>
+
+								<p:outputLabel value="Seleccionar la Talla:"></p:outputLabel>
+								<p:selectOneMenu
+									value="#{beanProductos.id_talla_producto}">
+									<f:selectItem
+										itemLabel="#{beanProductos.productoSeleccionado.tallaProducto.tallaNombre}"
+										itemValue="#{beanProductos.productoSeleccionado.tallaProducto.idTallaProducto}" />
+									<f:selectItems value="#{beanProductos.listaTallaProductos}"
+										var="talla" itemLabel="#{talla.tallaNombre}"
+										itemValue="#{talla.idTallaProducto}"></f:selectItems>
+								</p:selectOneMenu>
+
+								<p:outputLabel for="@next" value="Descripcion: " />
+								<p:inputTextarea id="c" placeholder="Descripcion del producto"
+									value="#{beanProductos.productoEditar.prodDescripcion}"
+									required="true"
+									requiredMessage="Ingrese la descripcion del producto!!">
+									<p:tooltip for="c" value="Ingrese la descripcion del producto!"
+										position="bottom" />
+								</p:inputTextarea>
+
+								<p:outputLabel for="@next" value="Cantidad: " />
+								<p:spinner id="d" placeholder="Cantidad de productos" min="0"
+									max="50"
+									value="#{beanProductos.productoEditar.prodCantidad}">
+									<p:tooltip for="d" value="Ingrese la cantidad de productosl"
+										position="bottom" />
+								</p:spinner>
+
+								<p:outputLabel for="@next" value="Precio Proveedor: " />
+								<p:spinner id="e" placeholder="15.25" buttons="horizontal-after"
+									prefix="$ " stepFactor="0.01"
+									upButtonStyleClass="ui-button-success" min="0.00"
+									downButtonStyleClass="ui-button-danger"
+									value="#{beanProductos.productoEditar.prodPvproveedor}"
+									required="true"
+									requiredMessage="Ingrese el precio de proveedor!">
+									<p:tooltip for="e" value="Ingrese el precio de proveedor"
+										position="bottom" />
+								</p:spinner>
+
+								<p:outputLabel for="@next" value="IVA: " />
+								<p:selectOneMenu id="f" placeholder="12"
+									value="#{beanProductos.productoEditar.prodIva}"
+									required="true" requiredMessage="Seleccione el valor del Iva!">
+									<f:selectItem itemLabel="12 %" itemValue="12" />
+									<f:selectItem itemLabel="0 %" itemValue="0" />
+									<p:tooltip for="f" value="Seleccione el valor del Iva!"
+										position="bottom" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="@next" value="Precio Venta Publico: " />
+								<p:spinner id="g" placeholder="15.25" buttons="horizontal-after" prefix="$ "
+									stepFactor="0.01" min="0.00"
+									value="#{beanProductos.productoEditar.prodPvpublico}"
+									required="true"
+									requiredMessage="Ingrese el precio de venta al publico!">
+									<p:tooltip for="g"
+										value="Ingrese el precio de venta al publico"
+										position="bottom" />
+								</p:spinner>
+
+								<p:outputLabel for="@next" value="Tipo de Producto: " />
+								<p:selectOneMenu
+									value="#{beanProductos.id_tipo_producto}">
+									<f:selectItem
+										itemLabel="#{beanProductos.productoSeleccionado.tipoProducto.tpNombre}"
+										itemValue="#{beanProductos.productoSeleccionado.tipoProducto.idTipoProducto}"
+										noSelectionOption="true" />
+									<f:selectItems value="#{beanProductos.listaTipoProductos}"
+										var="tipo" itemLabel="#{tipo.tpNombre}"
+										itemValue="#{tipo.idTipoProducto}"></f:selectItems>
+								</p:selectOneMenu>
+
+								<p:outputLabel for="@next" value="Proveedor de Producto: " />
+								<p:selectOneMenu value="#{beanProductos.id_proveedor}"
+									style="width: 250px">
+									<f:selectItem
+										itemLabel="#{beanProductos.productoSeleccionado.empresa.empNombreEmpresa}"
+										itemValue="#{beanProductos.productoSeleccionado.empresa.idEmpresa}"
+										noSelectionOption="true" />
+									<f:selectItems value="#{beanProductos.listaEmpresas}"
+										var="empresa" itemLabel="#{empresa.empNombreEmpresa}"
+										itemValue="#{empresa.idEmpresa}"></f:selectItems>
+								</p:selectOneMenu>
+
+
+
+							</p:panelGrid>
+						</p:panel>
+
+						<p:panel>
+							<div align="center">
+								<p:row>
+
+									<p:panelGrid columns="1">
+										<p:commandButton value="Guardar Edicion de Producto" id="btn-editar"
+											icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
+											update="form-tablaproductos"
+											process="editar-ProductDialog @this"
+											actionListener="#{beanProductos.actionListenerEditarProducto()}"
+											onclick="PF('editarProductDialog').hide()"/>
+									</p:panelGrid>
+
+								</p:row>
+							</div>
+						</p:panel>
+
+
+					</div>
+				</p:outputPanel>
+
+			</p:dialog>
+		</div>
+	</h:form>
+
+
+
+	<h:form id="form-crear">
+		<p:growl>
+			<p:autoUpdate></p:autoUpdate>
+		</p:growl>
+		<div align="center">
+			<p:dialog header="Agregar un nuevo Producto" showEffect="fade"
+				modal="true" widgetVar="crearnuevoProductDialog" responsive="true">
+				<p:outputPanel id="crearnuevo-ProductDialog" class="ui-fluid">
+
+					<div align="center">
+						<p:panel>
+
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel for="@next" value="CODIGO: " />
+								<p:inputText id="a" placeholder="CODIGO"
+									value="#{beanProductos.productoSeleccionado.prodCodigo}"
+									required="true"
+									requiredMessage="Ingrese el codigo del producto!">
+									<p:tooltip for="a" value="Ingrese el codigo del producto!"
+										position="bottom" />
+								</p:inputText>
+
+								<p:outputLabel for="@next" value="Nombre de producto: " />
+								<p:inputText id="b" placeholder="Nombre de Producto"
+									value="#{beanProductos.productoSeleccionado.prodNombre}"
+									required="true"
+									requiredMessage="Ingrese el nombre de producto!">
+									<p:tooltip for="b" value="Ingrese el nombre de producto!"
+										position="bottom" />
+								</p:inputText>
+
+								<p:outputLabel for="@next" value="Seleccionar la talla:" />
+								<p:selectOneMenu
+									value="#{beanProductos.productoSeleccionado.prodNombre}">
+									<f:selectItem
+										itemLabel="#{beanProductos.productoSeleccionado.tallaProducto.tallaNombre}"
+										itemValue="#{beanProductos.productoSeleccionado.tallaProducto.idTallaProducto}" />
+									<f:selectItems value="#{beanProductos.listaTallaProductos}"
+										var="talla" itemLabel="#{talla.tallaNombre}"
+										itemValue="#{talla.idTallaProducto}"></f:selectItems>
+								</p:selectOneMenu>
+
+								<p:outputLabel for="@next" value="Descripcion: " />
+								<p:inputTextarea id="c" placeholder="Descripcion del producto"
+									value="#{beanProductos.productoSeleccionado.prodDescripcion}"
+									required="true"
+									requiredMessage="Ingrese la descripcion del producto!!">
+									<p:tooltip for="c" value="Ingrese la descripcion del producto!"
+										position="bottom" />
+								</p:inputTextarea>
+
+								<p:outputLabel for="@next" value="Cantidad: " />
+								<p:spinner id="d" placeholder="Cantidad de productos" min="0"
+									max="50"
+									value="#{beanProductos.productoSeleccionado.prodCantidad}">
+									<p:tooltip for="d" value="Ingrese la cantidad de productosl"
+										position="bottom" />
+								</p:spinner>
+
+								<p:outputLabel for="@next" value="Precio Proveedor: " />
+								<p:spinner id="e" placeholder="12.25"
+									value="#{beanProductos.productoSeleccionado.prodPvproveedor}"
+									required="true"
+									requiredMessage="Ingrese el precio de proveedor!">
+									<p:tooltip for="e" value="Ingrese el precio de proveedor"
+										position="bottom" />
+								</p:spinner>
+
+								<p:outputLabel for="@next" value="IVA: " />
+								<p:selectOneMenu id="f" placeholder="12"
+									value="#{beanProductos.productoSeleccionado.prodIva}"
+									required="true" requiredMessage="Seleccione el valor del Iva!">
+									<f:selectItem itemLabel="12 %" itemValue="12" />
+									<f:selectItem itemLabel="0 %" itemValue="0" />
+									<p:tooltip for="f" value="Seleccione el valor del Iva!"
+										position="bottom" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="@next" value="Precio Venta Publico: " />
+								<p:spinner id="g" placeholder="15.25"
+									value="#{beanProductos.productoSeleccionado.prodPvpublico}"
+									required="true"
+									requiredMessage="Ingrese el precio de venta al publico!">
+									<p:tooltip for="g"
+										value="Ingrese el precio de venta al publico"
+										position="bottom" />
+								</p:spinner>
+
+								<p:outputLabel for="@next" value="Tipo de Producto: " />
+								<p:selectOneMenu value="1">
+									<f:selectItem
+										itemLabel="#{beanProductos.productoSeleccionado.tipoProducto.tpNombre}"
+										itemValue="#{beanProductos.productoSeleccionado.tipoProducto.idTipoProducto}"
+										noSelectionOption="true" />
+									<f:selectItems value="#{beanProductos.listaTipoProductos}"
+										var="tipo" itemLabel="#{tipo.tpNombre}"
+										itemValue="#{tipo.idTipoProducto}"></f:selectItems>
+								</p:selectOneMenu>
+
+								<p:outputLabel for="@next" value="Proveedor de Producto: " />
+								<p:selectOneMenu
+									value="#{beanProductos.productoSeleccionado.idProducto}"
+									style="width: 250px">
+									<f:selectItem itemLabel="" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{beanProductos.listaEmpresas}"
+										var="empresa" itemLabel="#{empresa.empNombreEmpresa}"
+										itemValue="#{empresa.idEmpresa}"></f:selectItems>
+								</p:selectOneMenu>
+
+
+
+							</p:panelGrid>
+						</p:panel>
+
+						<p:panel>
+							<div align="center">
+								<p:row>
+
+									<p:panelGrid columns="2">
+										<p:commandButton value="Guardar Edicion de Producto"
+											icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
+											action="#{beanUsuarios.actionLoginGerente()}"
+											process="crearnuevo-ProductDialog"
+											onclick="PF('crearnuevoProductDialog').show()" />
+										<p:commandButton value="Cancelar" icon="pi pi-times"
+											onclick="PF('crearnuevoProductDialog').hide()"
+											update="form-editar" styleClass="ui-button-danger"
+											action="#{beanUsuarios.actionListenerCancelarLogin()}" />
+									</p:panelGrid>
+
+								</p:row>
+							</div>
+						</p:panel>
+
+
+					</div>
+				</p:outputPanel>
+
+			</p:dialog>
+		</div>
+	</h:form>
+
+
+
+
+</body>
+</html>

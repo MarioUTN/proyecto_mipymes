@@ -1,45 +1,103 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
-<h:head></h:head> 
-<body> 
-	<h1>Ventas Normales</h1>
+<h:head>
+	<f:facet name="first">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
+		<title>Ventas</title>
+	</f:facet>
+</h:head>
+<body>
 	<p:growl>
-		<p:autoUpdate></p:autoUpdate>
+		<p:autoUpdate />
 	</p:growl>
 	<h:form>
 		<p:menubar>
-			<p:menuitem value="Regresar" icon="pi pi-home"
-				outcome="/login?faces-redirect=true" >
+			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
+				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
-				</p:menuitem>
-			<p:menuitem value="Inicio" outcome="/inventario/compras/index_compras"
-				icon="pi pi-home">
+			</p:menuitem>
+			<p:menuitem value="Inicio"
+				outcome="/seguridades/administrador/menu_administrador"
+				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:menuitem value="Ventas Normales" icon="pi pi-users"
-				outcome="index_ventas" >
+			<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+				outcome="/inventario/ventas/index_ventas">
 				<f:param name="i" value="2" />
-				</p:menuitem>
-				
-			<p:menuitem value="Ventas por Anticipos" icon="pi pi-slack"
-				outcome="/inventario/ventas_anticipos/index_anticipos" >
+			</p:menuitem>
+
+			<p:menuitem value="Ventas por Anticipos" icon="fa fa-cart-arrow-down"
+				outcome="/inventario/ventas_anticipos/index_anticipos">
 				<f:param name="i" value="3" />
-				</p:menuitem>
+			</p:menuitem>
+
+			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
+				outcome="/inventario/compras/index_compras">
+				<f:param name="i" value="4" />
+			</p:menuitem>
+
+			<p:menuitem value="Clientes" icon="fa fa-users"
+				outcome="/talentohumano/clientes/menu_clientes">
+				<f:param name="i" value="5" />
+			</p:menuitem>
+
+			<p:menuitem value="Vendedores" icon="fa fa-group" disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/talentohumano/vendedores/menu_vendedores">
+				<f:param name="i" value="6" />
+			</p:menuitem>
+
+			<p:menuitem value="Facturas" icon="fa fa-file-text"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/inventario/facturas/menu_facturas">
+				<f:param name="i" value="7" />
+			</p:menuitem>
+
+			<p:menuitem value="Productos" icon="fa fa-cubes"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/inventario/productos/menu_productos">
+				<f:param name="i" value="8" />
+			</p:menuitem>
+
+
 			<f:facet name="options">
-				<p:menuButton value="masalazara@utn.edu.ec" icon="pi pi-user">
-					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
-					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
+					icon="fa fa-user">
+					<p:menuitem value="Perfil" icon="fa fa-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="fa fa-sign-out"
 						outcome="/login"></p:menuitem>
 				</p:menuButton>
 			</f:facet>
 		</p:menubar>
-		<p:staticMessage severity="info"
-			summary="Módulo de Compras a Proveedores"></p:staticMessage>
+		<div align="center">
+			<p:staticMessage severity="info" summary="Menu Principal Compras"></p:staticMessage>
+		</div>
 	</h:form>
-</body> 
+	<h:form id="form1">
+		<div align="center">
+			<p:panelGrid columns="1">
+				<p:commandButton value="Ingresar un Nuevo Cliente"
+					icon="fa fa-cart-plus" styleClass="ui-button-success"
+					style="width: 340px" action="agregar_persona">
+				</p:commandButton>
+
+				<p:commandButton value="Realizar una Venta"
+					icon="fa fa-cart-plus" styleClass="ui-button-success"
+					style="width: 340px" action="agregar_persona">
+				</p:commandButton>
+
+				<p:commandButton value="Ver"
+					icon="fa fa-cart-plus" styleClass="ui-button-success"
+					style="width: 340px" action="agregar_persona">
+				</p:commandButton>
+			</p:panelGrid>
+		</div>
+	</h:form>
+
+</body>
 </html>
