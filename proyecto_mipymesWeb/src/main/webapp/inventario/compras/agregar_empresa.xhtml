@@ -11,18 +11,6 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Agregar Proveedor</title>
 	</f:facet>
-	<style>
-/* reset on the showcase style*/
-body .ui-panelgrid .ui-panelgrid-cell {
-	background-color: transparent;
-}
-
-/* example use of styles for your form */
-.my-heading-row {
-	background-color: var(- -surface-c);
-	font-weight: bold;
-}
-</style>
 </h:head>
 <body>
 	<p:growl>
@@ -126,22 +114,12 @@ body .ui-panelgrid .ui-panelgrid-cell {
 	</h:form>
 	<h:form id="form2">
 		<div align="center">
-			<p:dialog header="Ingresar un Nuevo Proveedor" showEffect="fade"
+			<p:dialog header="Ingresar Datos de la Empresa - Proveedorr" showEffect="fade"
 				modal="true" widgetVar="manageProductDialog2" responsive="true">
 				<p:outputPanel id="manage-product-content2" class="ui-fluid">
 
 					<div align="center">
-
-						<p:fieldset legend="Ingresar Datos de la Empresa - Proveedor"
-							toggleable="true" collapsed="true">
 							<p:panel>
-								<p:panelGrid columns="1" columnClasses="ui-grid-col-12"
-									layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
-									style="border:0px none; background-color:transparent;">
-									<p:row styleClass="my-heading-row">
-                                    Datos Personales
-                                </p:row>
-								</p:panelGrid>
 								<p:panelGrid columns="4"
 									columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 									layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
@@ -239,7 +217,6 @@ body .ui-panelgrid .ui-panelgrid-cell {
 									</div>
 								</p:panel>
 							</div>
-						</p:fieldset>
 					</div>
 				</p:outputPanel>
 

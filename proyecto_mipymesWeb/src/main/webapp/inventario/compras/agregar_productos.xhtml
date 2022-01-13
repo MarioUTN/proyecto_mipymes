@@ -11,18 +11,6 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Agregar Productos</title>
 	</f:facet>
-	<style>
-/* reset on the showcase style*/
-body .ui-panelgrid .ui-panelgrid-cell {
-	background-color: transparent;
-}
-
-/* example use of styles for your form */
-.my-heading-row {
-	background-color: var(- -surface-c);
-	font-weight: bold;
-}
-</style>
 </h:head>
 <body>
 	<p:growl>
@@ -119,15 +107,11 @@ body .ui-panelgrid .ui-panelgrid-cell {
 	</h:form>
 	<h:form id="form2">
 		<div align="center">
-			<p:dialog header="Ingresar un Nuevo Producto" showEffect="fade"
+			<p:dialog header="Ingresar Datos del Producto" showEffect="fade"
 				modal="true" widgetVar="manageProductDialog2" responsive="true">
 				<p:outputPanel id="manage-product-content2" class="ui-fluid">
 
 					<div align="center">
-
-						<p:fieldset legend="Ingresar Datos del Producto" toggleable="true"
-							collapsed="true">
-
 							<div class="p-field">
 								<p:outputLabel for="name">Nombre del Producto</p:outputLabel>
 								<p:inputText id="name" value="#{beanCompras.nombre_producto}"
@@ -163,7 +147,6 @@ body .ui-panelgrid .ui-panelgrid-cell {
 									</p:row>
 								</div>
 							</div>
-						</p:fieldset>
 					</div>
 				</p:outputPanel>
 
