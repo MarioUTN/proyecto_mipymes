@@ -168,7 +168,7 @@ public class BeanUsuarios implements Serializable {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
+	//Cambio
 	public List<Usuario> getListaUsuarios() {
 		return listaUsuarios;
 	}
