@@ -11,10 +11,10 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Productos</title>
 	</f:facet>
-	
+
 </h:head>
 <body>
-<script src="../../js/funcion.js"/>
+	<script src="../../js/funcion.js" />
 	<p:growl>
 		<p:autoUpdate />
 	</p:growl>
@@ -203,8 +203,7 @@
 								</p:inputText>
 
 								<p:outputLabel value="Seleccionar la Talla:"></p:outputLabel>
-								<p:selectOneMenu
-									value="#{beanProductos.id_talla_producto}">
+								<p:selectOneMenu value="#{beanProductos.id_talla_producto}">
 									<f:selectItem
 										itemLabel="#{beanProductos.productoSeleccionado.tallaProducto.tallaNombre}"
 										itemValue="#{beanProductos.productoSeleccionado.tallaProducto.idTallaProducto}" />
@@ -224,8 +223,7 @@
 
 								<p:outputLabel for="@next" value="Cantidad: " />
 								<p:spinner id="d" placeholder="Cantidad de productos" min="0"
-									max="50"
-									value="#{beanProductos.productoEditar.prodCantidad}">
+									max="50" value="#{beanProductos.productoEditar.prodCantidad}">
 									<p:tooltip for="d" value="Ingrese la cantidad de productosl"
 										position="bottom" />
 								</p:spinner>
@@ -244,8 +242,8 @@
 
 								<p:outputLabel for="@next" value="IVA: " />
 								<p:selectOneMenu id="f" placeholder="12"
-									value="#{beanProductos.productoEditar.prodIva}"
-									required="true" requiredMessage="Seleccione el valor del Iva!">
+									value="#{beanProductos.productoEditar.prodIva}" required="true"
+									requiredMessage="Seleccione el valor del Iva!">
 									<f:selectItem itemLabel="12 %" itemValue="12" />
 									<f:selectItem itemLabel="0 %" itemValue="0" />
 									<p:tooltip for="f" value="Seleccione el valor del Iva!"
@@ -253,8 +251,8 @@
 								</p:selectOneMenu>
 
 								<p:outputLabel for="@next" value="Precio Venta Publico: " />
-								<p:spinner id="g" placeholder="15.25" buttons="horizontal-after" prefix="$ "
-									stepFactor="0.01" min="0.00"
+								<p:spinner id="g" placeholder="15.25" buttons="horizontal-after"
+									prefix="$ " stepFactor="0.01" min="0.00"
 									value="#{beanProductos.productoEditar.prodPvpublico}"
 									required="true"
 									requiredMessage="Ingrese el precio de venta al publico!">
@@ -264,8 +262,7 @@
 								</p:spinner>
 
 								<p:outputLabel for="@next" value="Tipo de Producto: " />
-								<p:selectOneMenu
-									value="#{beanProductos.id_tipo_producto}">
+								<p:selectOneMenu value="#{beanProductos.id_tipo_producto}">
 									<f:selectItem
 										itemLabel="#{beanProductos.productoSeleccionado.tipoProducto.tpNombre}"
 										itemValue="#{beanProductos.productoSeleccionado.tipoProducto.idTipoProducto}"
@@ -297,12 +294,12 @@
 								<p:row>
 
 									<p:panelGrid columns="1">
-										<p:commandButton value="Guardar Edicion de Producto" id="btn-editar"
-											icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
-											update="form-tablaproductos"
+										<p:commandButton value="Guardar Edicion de Producto"
+											id="btn-editar" icon="fa fa-arrow-circle-right"
+											styleClass="p-mr-2" update="form-tablaproductos"
 											process="editar-ProductDialog @this"
 											actionListener="#{beanProductos.actionListenerEditarProducto()}"
-											onclick="PF('editarProductDialog').hide()"/>
+											onclick="PF('editarProductDialog').hide()" />
 									</p:panelGrid>
 
 								</p:row>
@@ -338,7 +335,7 @@
 
 								<p:outputLabel for="@next" value="CODIGO: " />
 								<p:inputText id="a" placeholder="CODIGO"
-									value="#{beanProductos.productoSeleccionado.prodCodigo}"
+									value="#{beanProductos.productoNuevo.prodCodigo}"
 									required="true"
 									requiredMessage="Ingrese el codigo del producto!">
 									<p:tooltip for="a" value="Ingrese el codigo del producto!"
@@ -347,27 +344,41 @@
 
 								<p:outputLabel for="@next" value="Nombre de producto: " />
 								<p:inputText id="b" placeholder="Nombre de Producto"
-									value="#{beanProductos.productoSeleccionado.prodNombre}"
+									value="#{beanProductos.productoNuevo.prodNombre}"
 									required="true"
 									requiredMessage="Ingrese el nombre de producto!">
 									<p:tooltip for="b" value="Ingrese el nombre de producto!"
 										position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Seleccionar la talla:" />
-								<p:selectOneMenu
-									value="#{beanProductos.productoSeleccionado.prodNombre}">
-									<f:selectItem
-										itemLabel="#{beanProductos.productoSeleccionado.tallaProducto.tallaNombre}"
-										itemValue="#{beanProductos.productoSeleccionado.tallaProducto.idTallaProducto}" />
+								<p:outputLabel value="Seleccionar la Talla:"></p:outputLabel>
+								<p:selectOneMenu value="#{beanProductos.id_talla_producto}"
+									panelStyle="width:180px" effect="fade" filter="true"
+									filterMatchMode="startsWith">
 									<f:selectItems value="#{beanProductos.listaTallaProductos}"
 										var="talla" itemLabel="#{talla.tallaNombre}"
-										itemValue="#{talla.idTallaProducto}"></f:selectItems>
+										itemValue="#{talla.idTallaProducto}">
+										<p:column style="width:10%">
+											<span class="flag flag-#{talla.tallaNombre}"
+												style="width: 30px; height: 20px" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Name" />
+											</f:facet>
+											<h:outputText value="#{talla.tallaNombre}" />
+										</p:column>
+										<f:facet name="footer">
+											<h:outputText
+												value="#{beanProductos.listaTallaProductos.size()} Tallas"
+												style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+										</f:facet>
+									</f:selectItems>
 								</p:selectOneMenu>
 
 								<p:outputLabel for="@next" value="Descripcion: " />
 								<p:inputTextarea id="c" placeholder="Descripcion del producto"
-									value="#{beanProductos.productoSeleccionado.prodDescripcion}"
+									value="#{beanProductos.productoNuevo.prodDescripcion}"
 									required="true"
 									requiredMessage="Ingrese la descripcion del producto!!">
 									<p:tooltip for="c" value="Ingrese la descripcion del producto!"
@@ -375,16 +386,23 @@
 								</p:inputTextarea>
 
 								<p:outputLabel for="@next" value="Cantidad: " />
-								<p:spinner id="d" placeholder="Cantidad de productos" min="0"
-									max="50"
-									value="#{beanProductos.productoSeleccionado.prodCantidad}">
-									<p:tooltip for="d" value="Ingrese la cantidad de productosl"
+								<p:spinner id="d" placeholder="5" buttons="horizontal-after"
+									prefix="Cant.  " stepFactor="1"
+									upButtonStyleClass="ui-button-success" min="0"
+									downButtonStyleClass="ui-button-danger"
+									value="#{beanProductos.productoNuevo.prodCantidad}"
+									required="true"
+									requiredMessage="Ingrese la cantidad de productos!">
+									<p:tooltip for="d" value="Ingrese la cantidad de productos!"
 										position="bottom" />
 								</p:spinner>
 
 								<p:outputLabel for="@next" value="Precio Proveedor: " />
-								<p:spinner id="e" placeholder="12.25"
-									value="#{beanProductos.productoSeleccionado.prodPvproveedor}"
+								<p:spinner id="e" placeholder="15.25" buttons="horizontal-after"
+									prefix="$ " stepFactor="0.01"
+									upButtonStyleClass="ui-button-success" min="0.00"
+									downButtonStyleClass="ui-button-danger"
+									value="#{beanProductos.productoNuevo.prodPvproveedor}"
 									required="true"
 									requiredMessage="Ingrese el precio de proveedor!">
 									<p:tooltip for="e" value="Ingrese el precio de proveedor"
@@ -393,8 +411,8 @@
 
 								<p:outputLabel for="@next" value="IVA: " />
 								<p:selectOneMenu id="f" placeholder="12"
-									value="#{beanProductos.productoSeleccionado.prodIva}"
-									required="true" requiredMessage="Seleccione el valor del Iva!">
+									value="#{beanProductos.productoNuevo.prodIva}" required="true"
+									requiredMessage="Seleccione el valor del Iva!">
 									<f:selectItem itemLabel="12 %" itemValue="12" />
 									<f:selectItem itemLabel="0 %" itemValue="0" />
 									<p:tooltip for="f" value="Seleccione el valor del Iva!"
@@ -402,8 +420,9 @@
 								</p:selectOneMenu>
 
 								<p:outputLabel for="@next" value="Precio Venta Publico: " />
-								<p:spinner id="g" placeholder="15.25"
-									value="#{beanProductos.productoSeleccionado.prodPvpublico}"
+								<p:spinner id="g" placeholder="15.25" buttons="horizontal-after"
+									prefix="$ " stepFactor="0.01" min="0.00"
+									value="#{beanProductos.productoNuevo.prodPvpublico}"
 									required="true"
 									requiredMessage="Ingrese el precio de venta al publico!">
 									<p:tooltip for="g"
@@ -412,25 +431,53 @@
 								</p:spinner>
 
 								<p:outputLabel for="@next" value="Tipo de Producto: " />
-								<p:selectOneMenu value="1">
-									<f:selectItem
-										itemLabel="#{beanProductos.productoSeleccionado.tipoProducto.tpNombre}"
-										itemValue="#{beanProductos.productoSeleccionado.tipoProducto.idTipoProducto}"
-										noSelectionOption="true" />
+								<p:selectOneMenu value="#{beanProductos.id_tipo_producto}"
+									panelStyle="width:180px" effect="fade" filter="true"
+									filterMatchMode="startsWith">
 									<f:selectItems value="#{beanProductos.listaTipoProductos}"
 										var="tipo" itemLabel="#{tipo.tpNombre}"
-										itemValue="#{tipo.idTipoProducto}"></f:selectItems>
+										itemValue="#{tipo.idTipoProducto}">
+										<p:column style="width:10%">
+											<span class="flag flag-#{tipo.tpNombre}"
+												style="width: 30px; height: 20px" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Name" />
+											</f:facet>
+											<h:outputText value="#{tipo.tpNombre}" />
+										</p:column>
+										<f:facet name="footer">
+											<h:outputText
+												value="#{beanProductos.listaTipoProductos.size()} Tallas"
+												style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+										</f:facet>
+									</f:selectItems>
 								</p:selectOneMenu>
 
 								<p:outputLabel for="@next" value="Proveedor de Producto: " />
-								<p:selectOneMenu
-									value="#{beanProductos.productoSeleccionado.idProducto}"
-									style="width: 250px">
-									<f:selectItem itemLabel="" itemValue=""
-										noSelectionOption="true" />
+								<p:selectOneMenu value="#{beanProductos.id_proveedor}"
+									panelStyle="width:180px" effect="fade" filter="true"
+									filterMatchMode="startsWith">
 									<f:selectItems value="#{beanProductos.listaEmpresas}"
 										var="empresa" itemLabel="#{empresa.empNombreEmpresa}"
-										itemValue="#{empresa.idEmpresa}"></f:selectItems>
+										itemValue="#{empresa.idEmpresa}">
+										<p:column style="width:10%">
+											<span class="flag flag-#{empresa.empNombreEmpresa}"
+												style="width: 30px; height: 20px" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Name" />
+											</f:facet>
+											<h:outputText value="#{empresa.empNombreEmpresa}" />
+										</p:column>
+										<f:facet name="footer">
+											<h:outputText
+												value="#{beanProductos.listaEmpresas.size()} Tallas"
+												style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+										</f:facet>
+									</f:selectItems>
 								</p:selectOneMenu>
 
 
@@ -442,16 +489,13 @@
 							<div align="center">
 								<p:row>
 
-									<p:panelGrid columns="2">
-										<p:commandButton value="Guardar Edicion de Producto"
-											icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
-											action="#{beanUsuarios.actionLoginGerente()}"
-											process="crearnuevo-ProductDialog"
-											onclick="PF('crearnuevoProductDialog').show()" />
-										<p:commandButton value="Cancelar" icon="pi pi-times"
-											onclick="PF('crearnuevoProductDialog').hide()"
-											update="form-editar" styleClass="ui-button-danger"
-											action="#{beanUsuarios.actionListenerCancelarLogin()}" />
+									<p:panelGrid columns="1">
+										<p:commandButton value="Guardar Nuevo Producto"
+											id="btn-editar" icon="fa fa-plus"
+											styleClass="p-mr-2" update="form-tablaproductos"
+											process="crearnuevo-ProductDialog @this"
+											actionListener="#{beanProductos.actionListenerEditarProducto()}"
+											onclick="PF('crearnuevoProductDialog').hide()" />
 									</p:panelGrid>
 
 								</p:row>
@@ -460,6 +504,7 @@
 
 
 					</div>
+
 				</p:outputPanel>
 
 			</p:dialog>

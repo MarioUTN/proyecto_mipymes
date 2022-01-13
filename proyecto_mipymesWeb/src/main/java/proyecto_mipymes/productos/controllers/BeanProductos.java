@@ -35,6 +35,7 @@ public class BeanProductos implements Serializable {
 	private Producto productoNuevo;
 	private Producto productoEditar;
 	private Producto productoSeleccionado;
+	private TallaProducto tallaProducto;
 
 	private int id_proveedor;
 	private int id_talla_producto;
@@ -214,4 +215,12 @@ public class BeanProductos implements Serializable {
 		this.listaEmpresas = listaEmpresas;
 	}
 
+	public TallaProducto getTallaProducto() {
+		return tallaProducto;
+	}
+	
+	public void setTallaProducto(TallaProducto tallaProducto) {
+		this.tallaProducto = tallaProducto;
+	}
+	
 }
