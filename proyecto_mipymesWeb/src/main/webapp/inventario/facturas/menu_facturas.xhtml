@@ -1,9 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<f:facet name="first">
@@ -11,9 +11,9 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Facturas</title>
 	</f:facet>
-</h:head> 
-<body> 
-	<h:form id="form0">
+</h:head>
+<body>
+	<h:form id="form-menu">
 		<p:menubar>
 			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
@@ -44,7 +44,8 @@
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group" disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+			<p:menuitem value="Vendedores" icon="fa fa-group"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
@@ -71,10 +72,168 @@
 				</p:menuButton>
 			</f:facet>
 		</p:menubar>
+	</h:form>
+
+	<h:form id="form-cabecera-factura">
 		<div align="center">
-			<p:staticMessage severity="info"
-				summary="Menu de Facturas"></p:staticMessage>
+			<p:splitter>
+				<p:splitterPanel>
+					<p:splitter layout="vertical">
+						<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
+							size="5">
+                    Panel 2
+                </p:splitterPanel>
+						<p:splitterPanel>
+							<p:splitter>
+								<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
+									<p:panelGrid columns="2" styleClass="ui-noborder">
+										<p:outputLabel value="Cedula o RUC: "></p:outputLabel>
+										<p:inputText></p:inputText>
+										<p:outputLabel value="Nombres: "></p:outputLabel>
+										<p:inputText></p:inputText>
+									</p:panelGrid>
+								</p:splitterPanel>
+								<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
+									<p:panelGrid columns="2" styleClass="ui-noborder">
+										<p:outputLabel value="Apellidos: "></p:outputLabel>
+										<p:inputText></p:inputText>
+										<p:outputLabel value="Direccion: "></p:outputLabel>
+										<p:inputText></p:inputText>
+									</p:panelGrid>
+								</p:splitterPanel>
+								<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
+									<p:panelGrid columns="2" styleClass="ui-noborder">
+										<p:outputLabel value="Telefono: "></p:outputLabel>
+										<p:inputText></p:inputText>
+										<p:outputLabel value="Email: "></p:outputLabel>
+										<p:inputText></p:inputText>
+									</p:panelGrid>
+								</p:splitterPanel>
+							</p:splitter>
+
+						</p:splitterPanel>
+
+					</p:splitter>
+				</p:splitterPanel>
+			</p:splitter>
+			<p:commandButton value="Guardar Datos del Cliente" icon="fa fa-save"></p:commandButton>
 		</div>
 	</h:form>
-</body> 
+	<h:form id="form-productos">
+		<div align="center">
+			<p:splitter>
+				<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
+					<p:panelGrid columns="5" styleClass="ui-noborder">
+						<p:outputLabel for="@next" value="Selecionar Producto: " />
+						<p:selectOneMenu value="#{beanProductos.id_tipo_producto}"
+							style="width:400px" panelStyle="width:180px" effect="fade"
+							filter="true" filterMatchMode="startsWith">
+							<f:selectItems value="#{beanProductos.listaProductos}"
+								var="productos" itemLabel="#{productos.prodNombre}"
+								itemValue="#{productos.idProducto}">
+								<p:column style="width:10%">
+									<span class="flag flag-#{productos.prodNombre}"
+										style="width: 30px; height: 20px" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Name" />
+									</f:facet>
+									<h:outputText value="#{productos.prodNombre}" />
+								</p:column>
+								<f:facet name="footer">
+									<h:outputText
+										value="#{beanProductos.listaProductos.size()} Tallas"
+										style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+								</f:facet>
+							</f:selectItems>
+						</p:selectOneMenu>
+
+						<h:outputText value="Cantidad de Productos:" />
+						<p:spinner id="g" placeholder="3" buttons="horizontal-after"
+							stepFactor="1" min="0"
+							value="#{beanProductos.productoNuevo.prodPvpublico}"
+							required="true"
+							requiredMessage="Ingrese la cantidad de productos!">
+							<p:tooltip for="g" value="Ingrese la cantidad de productos!"
+								position="bottom" />
+						</p:spinner>
+						<p:commandButton type="button" value="Agregar Producto"
+							styleClass="rounded-button ui-button-success" icon="fa fa-plus" />
+					</p:panelGrid>
+				</p:splitterPanel>
+			</p:splitter>
+		</div>
+	</h:form>
+	<h:form id="form-detalle-factura">
+		<p:panel header="">
+			<div align="center">
+				<p:splitter>
+
+					<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
+						size="150">
+						<div align="center">
+							<p:dataTable value="#{beanProductos.listaProductos}"
+								var="productos" paginator="true" reflow="true" rows="4"
+								styleClass="products-table" paginatorPosition="bottom">
+								<p:column headerText="COD" style="width:100px">
+									<h:outputText value="#{productos.prodCodigo}" />
+								</p:column>
+								<p:column headerText="CANT" style="width:50px">
+									<h:outputText value="#{productos.prodCantidad}" />
+								</p:column>
+
+								<p:column headerText="NOMBRE">
+									<h:outputText value="#{productos.prodNombre}" />
+								</p:column>
+								<p:column headerText="DESCR">
+									<h:outputText value="#{productos.prodDescripcion}" />
+								</p:column>
+
+								<p:column headerText="TALLA">
+									<h:outputText value="#{productos.tallaProducto.tallaNombre}" />
+								</p:column>
+
+								<p:column headerText="PRECIO">
+									<h:outputText value="#{productos.prodPvpublico}" />
+								</p:column>
+
+								<p:column headerText="Opciones">
+									<p:panelGrid columns="2" styleClass="ui-noborder">
+										<p:commandButton type="button" icon="fa fa-edit"
+											styleClass="rounded-button ui-button-success" />
+										<p:commandButton type="button" icon="fa fa-trash"
+											styleClass="rounded-button ui-button-danger" />
+									</p:panelGrid>
+
+								</p:column>
+							</p:dataTable>
+							<br />
+						</div>
+					</p:splitterPanel>
+					<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
+						size="80">
+						<br/><br/><br/><br/>
+						<p:panel header="Valor Total a Pagar">
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<p:outputLabel value="Sub Total: " style="font-weight:bold"></p:outputLabel>
+								<p:outputLabel value="12" style="font-weight:bold"></p:outputLabel>
+								<p:outputLabel value="IVA 12 %: " style="font-weight:bold"></p:outputLabel>
+								<p:outputLabel  value="15" style="font-weight:bold"></p:outputLabel>
+								<p:outputLabel value="SIVA 0 %: " style="font-weight:bold"></p:outputLabel>
+								<p:outputLabel value="12" style="font-weight:bold"></p:outputLabel>
+								<p:outputLabel value="TOAL A PAGAR: " style="font-weight:bold"></p:outputLabel>
+								<p:outputLabel  value="15" style="font-weight:bold"></p:outputLabel>
+							</p:panelGrid>
+						</p:panel>
+					</p:splitterPanel>
+				</p:splitter>
+				<p:panelGrid columns="2" styleClass="ui-noborder">
+					<p:commandButton type="button" value="Registrar Venta" styleClass="ui-button-raised ui-button-success" icon="fa fa-check"/>
+					<p:commandButton type="button" value="Cancelar Venta" styleClass="ui-button-raised ui-button-danger" icon="fa fa-times"/>
+				</p:panelGrid>
+			</div>
+		</p:panel>
+	</h:form>
+</body>
 </html>

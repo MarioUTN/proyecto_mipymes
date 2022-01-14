@@ -67,18 +67,18 @@ public class ManagerProductos {
 	public Producto findAllProductosByCodigoProducto(String codigo_producto) {
 		Query query = entityManager.createQuery("select p from Producto p where p.prodCodigo='" + codigo_producto + "'",
 				Producto.class);
-		Producto p=new Producto();
+		Producto producto=new Producto();
 		try {
-			p = (Producto) query.getSingleResult();
-			if (p != null) {
-				return p;
+			producto = (Producto) query.getSingleResult();
+			if (producto != null) {
+				return producto;
 			} else {
-				p=null;
+				producto=null;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-		}
-		return p;
+		} 
+		return producto;
 		
 	}
 
