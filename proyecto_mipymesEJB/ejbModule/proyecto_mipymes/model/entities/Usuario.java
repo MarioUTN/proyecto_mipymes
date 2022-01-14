@@ -23,12 +23,18 @@ public class Usuario implements Serializable {
 	@Column(name="us_activo", nullable=false)
 	private Boolean usActivo;
 
+	@Column(name="us_apellidos", nullable=false, length=60)
+	private String usApellidos;
+
 	@Column(name="us_email", nullable=false, length=60)
 	private String usEmail;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="us_fecha_registro", nullable=false)
 	private Date usFechaRegistro;
+
+	@Column(name="us_nombres", nullable=false, length=60)
+	private String usNombres;
 
 	@Column(name="us_password", nullable=false, length=100)
 	private String usPassword;
@@ -40,11 +46,6 @@ public class Usuario implements Serializable {
 	//bi-directional many-to-one association to Gerente
 	@OneToMany(mappedBy="usuario")
 	private List<Gerente> gerentes;
-
-	//bi-directional many-to-one association to Persona
-	@ManyToOne
-	@JoinColumn(name="us_persona", nullable=false)
-	private Persona persona;
 
 	//bi-directional many-to-one association to TipoUsuario
 	@ManyToOne
@@ -74,6 +75,14 @@ public class Usuario implements Serializable {
 		this.usActivo = usActivo;
 	}
 
+	public String getUsApellidos() {
+		return this.usApellidos;
+	}
+
+	public void setUsApellidos(String usApellidos) {
+		this.usApellidos = usApellidos;
+	}
+
 	public String getUsEmail() {
 		return this.usEmail;
 	}
@@ -88,6 +97,14 @@ public class Usuario implements Serializable {
 
 	public void setUsFechaRegistro(Date usFechaRegistro) {
 		this.usFechaRegistro = usFechaRegistro;
+	}
+
+	public String getUsNombres() {
+		return this.usNombres;
+	}
+
+	public void setUsNombres(String usNombres) {
+		this.usNombres = usNombres;
 	}
 
 	public String getUsPassword() {
@@ -140,14 +157,6 @@ public class Usuario implements Serializable {
 		gerente.setUsuario(null);
 
 		return gerente;
-	}
-
-	public Persona getPersona() {
-		return this.persona;
-	}
-
-	public void setPersona(Persona persona) {
-		this.persona = persona;
 	}
 
 	public TipoUsuario getTipoUsuario() {

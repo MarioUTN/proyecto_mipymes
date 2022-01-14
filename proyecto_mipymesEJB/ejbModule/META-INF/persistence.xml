@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-	<persistence-unit name="proyectoDS" transaction-type="JTA">
-	<jta-data-source>java:/proyectoDS</jta-data-source>
-	<class>proyecto_mipymes.model.entities.CabeceraCompra</class>
-	<class>proyecto_mipymes.model.entities.CabeceraFactura</class>
-	<class>proyecto_mipymes.model.entities.CabeceraIngreso</class>
-	<class>proyecto_mipymes.model.entities.Cliente</class>
-	<class>proyecto_mipymes.model.entities.CompraProducto</class>
-	<class>proyecto_mipymes.model.entities.DetalleAbono</class>
-	<class>proyecto_mipymes.model.entities.DetalleCompra</class>
-	<class>proyecto_mipymes.model.entities.DetalleFactura</class>
-	<class>proyecto_mipymes.model.entities.DetalleIngreso</class>
-	<class>proyecto_mipymes.model.entities.Empresa</class>
-	<class>proyecto_mipymes.model.entities.EstadoPedido</class>
-	<class>proyecto_mipymes.model.entities.Factura</class>
-	<class>proyecto_mipymes.model.entities.FacturaIngreso</class>
-	<class>proyecto_mipymes.model.entities.FormaPago</class>
-	<class>proyecto_mipymes.model.entities.Genero</class>
-	<class>proyecto_mipymes.model.entities.Gerente</class>
-	<class>proyecto_mipymes.model.entities.Persona</class>
-	<class>proyecto_mipymes.model.entities.Producto</class>
-	<class>proyecto_mipymes.model.entities.TallaProducto</class>
-	<class>proyecto_mipymes.model.entities.TipoFactura</class>
-	<class>proyecto_mipymes.model.entities.TipoProducto</class>
-	<class>proyecto_mipymes.model.entities.TipoUsuario</class>
-	<class>proyecto_mipymes.model.entities.Usuario</class>
-	<class>proyecto_mipymes.model.entities.Vendedor</class>
+<persistence version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="proyectoDS"
+		transaction-type="JTA">
+		<jta-data-source>java:/proyectoDS</jta-data-source>
+		<class>proyecto_mipymes.model.entities.CabeceraCompra</class>
+		<class>proyecto_mipymes.model.entities.CabeceraFactura</class>
+		<class>proyecto_mipymes.model.entities.CabeceraIngreso</class>
+		<class>proyecto_mipymes.model.entities.Cliente</class>
+		<class>proyecto_mipymes.model.entities.CompraProducto</class>
+		<class>proyecto_mipymes.model.entities.DetalleAbono</class>
+		<class>proyecto_mipymes.model.entities.DetalleCompra</class>
+		<class>proyecto_mipymes.model.entities.DetalleFactura</class>
+		<class>proyecto_mipymes.model.entities.DetalleIngreso</class>
+		<class>proyecto_mipymes.model.entities.Empresa</class>
+		<class>proyecto_mipymes.model.entities.EstadoPedido</class>
+		<class>proyecto_mipymes.model.entities.Factura</class>
+		<class>proyecto_mipymes.model.entities.FacturaIngreso</class>
+		<class>proyecto_mipymes.model.entities.FormaPago</class>
+		<class>proyecto_mipymes.model.entities.Gerente</class>
+		<class>proyecto_mipymes.model.entities.Producto</class>
+		<class>proyecto_mipymes.model.entities.TallaProducto</class>
+		<class>proyecto_mipymes.model.entities.TipoFactura</class>
+		<class>proyecto_mipymes.model.entities.TipoProducto</class>
+		<class>proyecto_mipymes.model.entities.TipoUsuario</class>
+		<class>proyecto_mipymes.model.entities.Usuario</class>
+		<class>proyecto_mipymes.model.entities.Vendedor</class>
 	</persistence-unit>
 </persistence>

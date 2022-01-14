@@ -22,6 +22,9 @@ public class Vendedor implements Serializable {
 	@Column(name="id_vendedor", unique=true, nullable=false)
 	private Integer idVendedor;
 
+	@Column(name="ven_cedula", nullable=false, length=10)
+	private String venCedula;
+
 	@Column(name="ven_direccion", nullable=false, length=100)
 	private String venDireccion;
 
@@ -68,6 +71,14 @@ public class Vendedor implements Serializable {
 
 	public void setIdVendedor(Integer idVendedor) {
 		this.idVendedor = idVendedor;
+	}
+
+	public String getVenCedula() {
+		return this.venCedula;
+	}
+
+	public void setVenCedula(String venCedula) {
+		this.venCedula = venCedula;
 	}
 
 	public String getVenDireccion() {

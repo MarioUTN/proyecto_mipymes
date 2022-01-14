@@ -20,6 +20,9 @@ public class Gerente implements Serializable {
 	@Column(name="id_gerente", unique=true, nullable=false)
 	private Integer idGerente;
 
+	@Column(name="ger_cedula", nullable=false, length=10)
+	private String gerCedula;
+
 	@Column(name="ger_direccion", nullable=false, length=100)
 	private String gerDireccion;
 
@@ -47,6 +50,14 @@ public class Gerente implements Serializable {
 
 	public void setIdGerente(Integer idGerente) {
 		this.idGerente = idGerente;
+	}
+
+	public String getGerCedula() {
+		return this.gerCedula;
+	}
+
+	public void setGerCedula(String gerCedula) {
+		this.gerCedula = gerCedula;
 	}
 
 	public String getGerDireccion() {
