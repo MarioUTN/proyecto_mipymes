@@ -11,10 +11,10 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Productos</title>
 	</f:facet>
-
+	<script type="text/javaScript" src="../../js/funcion.js" />
 </h:head>
 <body>
-	<script src="../../js/funcion.js" />
+
 	<p:growl>
 		<p:autoUpdate />
 	</p:growl>
@@ -491,8 +491,8 @@
 
 									<p:panelGrid columns="1">
 										<p:commandButton value="Guardar Nuevo Producto"
-											id="btn-editar" icon="fa fa-plus"
-											styleClass="p-mr-2" update="form-tablaproductos"
+											id="btn-editar" icon="fa fa-plus" styleClass="p-mr-2"
+											update="form-tablaproductos"
 											process="crearnuevo-ProductDialog @this"
 											actionListener="#{beanProductos.actionListenerEditarProducto()}"
 											onclick="PF('crearnuevoProductDialog').hide()" />

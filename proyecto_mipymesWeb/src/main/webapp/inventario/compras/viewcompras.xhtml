@@ -93,9 +93,9 @@
 				<p:dataTable value="#{beanCompras.listaCompraProductos}"
 					var="compraProductos" paginator="true" reflow="true" rows="5">
 					<p:column headerText="Vendedor"
-						sortBy="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}"
-						filterBy="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}">
-						<h:outputText value="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}" />
+						sortBy="#{compraProductos.cabeceraCompra.vendedor.usuario.usNombres}"
+						filterBy="#{compraProductos.cabeceraCompra.vendedor.usuario.usNombres}">
+						<h:outputText value="#{compraProductos.cabeceraCompra.vendedor.usuario.usNombres}" />
 					</p:column>
 					<p:column headerText="Proveedor"
 						sortBy="#{compraProductos.cabeceraCompra.empresa.empNombreEmpresa}"
