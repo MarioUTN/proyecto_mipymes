@@ -16,6 +16,7 @@ import proyecto_mipymes.model.entities.CabeceraFactura;
 import proyecto_mipymes.model.entities.Cliente;
 import proyecto_mipymes.model.entities.DetalleFactura;
 import proyecto_mipymes.model.entities.Empresa;
+import proyecto_mipymes.model.entities.Factura;
 import proyecto_mipymes.model.entities.FormaPago;
 import proyecto_mipymes.model.entities.Producto;
 import proyecto_mipymes.model.entities.TipoFactura;
@@ -43,6 +44,10 @@ public class ManagerVentas {
 
 	public List<Empresa> findAllEmpresas() {
 		return entityManager.createNamedQuery("Empresa.findAll", Empresa.class).getResultList();
+	}
+
+	public List<Factura> findAllFacturas() {
+		return entityManager.createNamedQuery("Factura.findAll", Factura.class).getResultList();
 	}
 
 	public Producto findProductoById(int id_producto) {
@@ -149,12 +154,39 @@ public class ManagerVentas {
 		Empresa empresa = entityManager.find(Empresa.class, id_empresa);
 		Vendedor vendedor = entityManager.find(Vendedor.class, id_vendedor);
 		CabeceraFactura cabeceraFactura = new CabeceraFactura();
-		if (cliente.getCliCodigo() == null) {
-			cabeceraFactura.setCliente(cliente);
-			cabeceraFactura.setEmpresa(empresa);
-			cabeceraFactura.setVendedor(vendedor);
-			entityManager.persist(cabeceraFactura);
-			return cabeceraFactura;
+		cabeceraFactura.setCliente(cliente);
+		cabeceraFactura.setEmpresa(empresa);
+		cabeceraFactura.setVendedor(vendedor);
+		entityManager.persist(cabeceraFactura);
+		return cabeceraFactura;
+	}
+
+	public Factura insertarFactura(Cliente cliente, int id_vendedor, int id_empresa,
+			List<DetalleFactura> listaDetalleFacturas, int id_forma_pago, int id_tipo_factura) {
+		if (listaDetalleFacturas != null) {
+			Factura factura = new Factura();
+			FormaPago formaPago = entityManager.find(FormaPago.class, id_forma_pago);
+			TipoFactura tipoFactura = entityManager.find(TipoFactura.class, id_tipo_factura);
+			factura.setCabeceraFactura(insertarCabeceraFactura(cliente, id_vendedor, id_empresa));
+			factura.setDetalleFacturas(listaDetalleFacturas);
+			factura.setFactNumeroFactura("00" + findAllFacturas().size() + 1);
+			factura.setFactFechaEmision(new Date());
+			factura.setFactFechaRemision(new Date());
+			factura.setFactFechaAutorizacion(new Date());
+			factura.setFormaPago(formaPago);
+			factura.setTipoFactura(tipoFactura);
+			factura.setFactEstado(true);
+			factura.setFactEntregado(true);
+			factura.setFactDescuento(new BigDecimal(0));
+			factura.setFactSubtotal(new BigDecimal(valorSubTotal(listaDetalleFacturas)));
+			factura.setFactIva(new BigDecimal(valorIva(listaDetalleFacturas)));
+			factura.setFactTotal(new BigDecimal(valorTotalPagar(listaDetalleFacturas)));
+			entityManager.persist(factura);
+			for (DetalleFactura detalleFactura : listaDetalleFacturas) {
+				detalleFactura.setFactura(factura);
+				entityManager.persist(detalleFactura);
+			}
+			return factura;
 		} else {
 			return null;
 		}
@@ -249,4 +281,5 @@ public class ManagerVentas {
 		}
 		return listaDetalleFacturas;
 	}
+
 }

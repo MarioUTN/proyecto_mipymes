@@ -14,7 +14,10 @@ import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.Cliente;
 import proyecto_mipymes.model.entities.DetalleFactura;
 import proyecto_mipymes.model.entities.Empresa;
+import proyecto_mipymes.model.entities.Factura;
+import proyecto_mipymes.model.entities.FormaPago;
 import proyecto_mipymes.model.entities.Producto;
+import proyecto_mipymes.model.entities.TipoFactura;
 
 @Named
 @SessionScoped
@@ -31,12 +34,15 @@ public class BeanVentas implements Serializable {
 	private List<Empresa> listaEmpresas;
 	private List<Cliente> listaClientes;
 	private List<DetalleFactura> listaDetalleFacturas;
-	private DetalleFactura detalleFacturaSeleccionado;
+	private List<FormaPago> listaFormaPagos;
+	private List<TipoFactura> listaTipoFacturas;
 
+	private DetalleFactura detalleFacturaSeleccionado;
 	private Cliente cliente;
 	private Cliente clienteSeleccionado;
 	private Producto productoSeleccionado;
 	private Empresa empresa;
+	private Factura factura;
 
 	private String cedula_ruc;
 	private String nombres;
@@ -52,6 +58,9 @@ public class BeanVentas implements Serializable {
 	private double subTotal;
 	private int index;
 
+	private int id_tipo_factura;
+	private int id_forma_pago;
+
 	public BeanVentas() {
 		// TODO Auto-generated constructor stub
 	}
@@ -62,11 +71,14 @@ public class BeanVentas implements Serializable {
 		listaEmpresas = managerVentas.findAllEmpresas();
 		listaClientes = managerVentas.findAllClientes();
 		productoSeleccionado = new Producto();
+		listaFormaPagos = managerVentas.findAllFormaPagos();
+		listaTipoFacturas = managerVentas.findAllTipoFacturas();
 		listaDetalleFacturas = new ArrayList<DetalleFactura>();
 	}
 
 	public void actionListenerCrearCliente() {
-		cliente = managerVentas.crearCliente(cedula_ruc, nombres, apellidos, telefono, email, direccion);
+		clienteSeleccionado = new Cliente();
+		clienteSeleccionado = managerVentas.crearCliente(cedula_ruc, nombres, apellidos, telefono, email, direccion);
 		JSFUtil.crearMensajeError("Error no aaunnnnn!");
 		if (cliente != null) {
 			JSFUtil.crearMensajeInfo("Cliente creado con exito!");
@@ -133,22 +145,41 @@ public class BeanVentas implements Serializable {
 		}
 	}
 
+	public void actionInsertarFactura(int id_vendedor, int id_empresa) {
+		factura = managerVentas.insertarFactura(clienteSeleccionado, id_vendedor, id_empresa, listaDetalleFacturas,
+				id_forma_pago, id_tipo_factura);
+		if (factura != null) {
+			JSFUtil.crearMensajeInfo("Factura creada con exito!");
+			actionListenerLimpiarCampos();
+		} else {
+			JSFUtil.crearMensajeError("Error de facturacion!");
+		}
+	}
+
 	public int actionSeleccionarIndex(int index) {
 		this.index = index;
 		return this.index;
 	}
 
 	public void actionListenerCancelarFacturacion() {
+		actionListenerLimpiarCampos();
+		JSFUtil.crearMensajeWarning("Facturcion Cancelada!");
+	}
+
+	public void actionListenerLimpiarCampos() {
 		listaDetalleFacturas = new ArrayList<DetalleFactura>();
-		JSFUtil.crearMensajeInfo("Facturcion Cancelada: " + listaDetalleFacturas.size());
+		clienteSeleccionado = new Cliente();
+		this.cedula_ruc = "";
+		this.nombres = "";
+		this.apellidos = "";
+		this.telefono = "";
+		this.email = "";
+		this.direccion = "";
+		valorTotal = 0;
+		subTotal = 0;
+		iva = 0;
 	}
 
-	
-	public void actionListenerCancelarFacturacionSize() {
-		JSFUtil.crearMensajeInfo("Facturcion Cancelada: " + listaDetalleFacturas.size());
-	}
-
-	
 	public void setIndex(int index) {
 		this.index = index;
 	}
@@ -311,5 +342,45 @@ public class BeanVentas implements Serializable {
 
 	public DetalleFactura getDetalleFacturaSeleccionado() {
 		return detalleFacturaSeleccionado;
+	}
+
+	public int getId_forma_pago() {
+		return id_forma_pago;
+	}
+
+	public void setId_forma_pago(int id_forma_pago) {
+		this.id_forma_pago = id_forma_pago;
+	}
+
+	public int getId_tipo_factura() {
+		return id_tipo_factura;
+	}
+
+	public void setId_tipo_factura(int id_tipo_factura) {
+		this.id_tipo_factura = id_tipo_factura;
+	}
+
+	public List<FormaPago> getListaFormaPagos() {
+		return listaFormaPagos;
+	}
+
+	public void setListaFormaPagos(List<FormaPago> listaFormaPagos) {
+		this.listaFormaPagos = listaFormaPagos;
+	}
+
+	public List<TipoFactura> getListaTipoFacturas() {
+		return listaTipoFacturas;
+	}
+
+	public void setListaTipoFacturas(List<TipoFactura> listaTipoFacturas) {
+		this.listaTipoFacturas = listaTipoFacturas;
+	}
+
+	public Factura getFactura() {
+		return factura;
+	}
+
+	public void setFactura(Factura factura) {
+		this.factura = factura;
 	}
 }

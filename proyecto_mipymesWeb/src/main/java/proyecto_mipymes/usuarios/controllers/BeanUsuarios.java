@@ -27,6 +27,7 @@ public class BeanUsuarios implements Serializable {
 	private Gerente gerente;
 	private Vendedor vendedor;
 	private Cliente cliente;
+	
 
 	public BeanUsuarios() {
 		// TODO Auto-generated constructor stub
@@ -96,6 +97,7 @@ public class BeanUsuarios implements Serializable {
 		if (managerUsuarios.loginUsuarios(id_usuario, password) == 1) {
 			gerente = managerUsuarios.findGerenteByUsuario(id_usuario);
 			usuario=managerUsuarios.findUsuarioByIdUsuario(id_usuario);
+			vendedor=managerUsuarios.findVendedorByCedula(gerente.getGerCedula());
 			JSFUtil.crearMensajeWarning("Usuario: " + gerente.getUsuario().getIdUsuario());
 			return "seguridades/administrador/menu_administrador";
 		}

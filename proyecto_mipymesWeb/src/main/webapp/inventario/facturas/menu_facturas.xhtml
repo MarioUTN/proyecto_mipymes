@@ -79,6 +79,16 @@
 	<div align="center">
 
 		<p:panel header="Ventas y Facturacion">
+			<p:splitter layout="vertical">
+				<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
+					<p:panelGrid columns="4" styleClass="ui-noborder">
+						<h:outputLabel value="Vendedor:" style="font-weight:bold" />
+						<h:outputLabel value="#{beanUsuarios.vendedor.usuario.usNombres}" />
+						<h:outputLabel value="Empresa:" style="font-weight:bold" />
+						<h:outputLabel value="#{beanVentas.empresa.empNombreEmpresa}" />
+					</p:panelGrid>
+				</p:splitterPanel>
+			</p:splitter>
 			<h:form id="form-cabecera-factura">
 				<div align="center">
 					<p:splitter>
@@ -190,7 +200,7 @@
 								<div align="center">
 									<p:dataTable value="#{beanVentas.listaDetalleFacturas}"
 										stripedRows="true" var="detalle" paginator="true"
-										reflow="true" rows="5" style="font-size: 12px"
+										reflow="true" rows="9" style="font-size: 12px"
 										paginatorPosition="bottom" rowIndexVar="index">
 										<p:column headerText="COD" style="width:80px">
 											<h:outputText value="#{detalle.producto.prodCodigo}" />
@@ -223,7 +233,8 @@
 
 										<p:column headerText="Opciones">
 											<p:commandButton icon="fa fa-edit"
-												onclick="PF('dlg3').show()" actionListener="#{beanVentas.actionSeleccionarIndex(index)}"
+												onclick="PF('dlg3').show()"
+												actionListener="#{beanVentas.actionSeleccionarIndex(index)}"
 												styleClass="rounded-button ui-button-success">
 											</p:commandButton>
 											<p:commandButton icon="fa fa-trash"
@@ -231,19 +242,23 @@
 												styleClass="rounded-button ui-button-danger"
 												update="form-detalle-factura" />
 
-											<p:dialog header="Editar Cantidad" widgetVar="dlg3" minHeight="40"
-												width="350" showEffect="fade">
+											<p:dialog header="Editar Cantidad" widgetVar="dlg3"
+												minHeight="40" width="350" showEffect="fade">
 												<p:panelGrid columns="2" styleClass="ui-noborder">
 													<h:outputText value="Cantidad" />
 													<p:spinner id="minMax" value="#{beanVentas.cantidad}"
 														min="0" max="100" />
 												</p:panelGrid>
 												<f:facet name="footer">
-													<p:commandButton  value="Cancelar" onclick="PF('dlg3').hide()" icon="fa fa-times-circle"
-														style="width: 8rem" styleClass="rounded-button ui-button-danger"/>
-													<p:commandButton value="Editar" update="form-detalle-factura" icon="fa fa-check-square"
+													<p:commandButton value="Cancelar"
+														onclick="PF('dlg3').hide()" icon="fa fa-times-circle"
+														style="width: 8rem"
+														styleClass="rounded-button ui-button-danger" />
+													<p:commandButton value="Editar"
+														update="form-detalle-factura" icon="fa fa-check-square"
 														actionListener="#{beanVentas.actionListenerEditarCantidad(beanVentas.index)}"
-														style="width: 8rem" onclick="PF('dlg3').hide()" styleClass="rounded-button ui-button-success"/>
+														style="width: 8rem" onclick="PF('dlg3').hide()"
+														styleClass="rounded-button ui-button-success" />
 												</f:facet>
 											</p:dialog>
 										</p:column>
@@ -267,19 +282,67 @@
 										<p:outputLabel value="#{beanVentas.valorTotal}"
 											style="font-weight:bold; font-size:22px; color: blue"></p:outputLabel>
 									</p:panelGrid>
+
+								</p:panel>
+								<p:panel header="">
 									<p:panelGrid columns="2" styleClass="ui-noborder">
-										<p:commandButton value="Guardar" update="form-detalle-factura" actionListener="#{beanVentas.actionListenerCancelarFacturacionSize()}"
+										<p:outputLabel for="@next" value="Tipo de Pago: " />
+										<p:selectOneMenu value="#{beanVentas.id_forma_pago}"
+											style="width:300px" panelStyle="width:180px" effect="fade"
+											filter="true" filterMatchMode="startsWith">
+											<f:selectItems value="#{beanVentas.listaFormaPagos}"
+												var="pago" itemLabel="#{pago.fpNombre}"
+												itemValue="#{pago.idFormaPago}">
+												<p:column style="width:10%">
+													<span class="flag flag-#{pago.fpNombre}"
+														style="width: 30px; height: 20px" />
+												</p:column>
+												<p:column>
+													<f:facet name="header">
+														<h:outputText value="Name" />
+													</f:facet>
+													<h:outputText value="#{pago.fpNombre}" />
+												</p:column>
+
+											</f:selectItems>
+										</p:selectOneMenu>
+										<p:outputLabel for="@next" value="Tipo de Factura:" />
+										<p:selectOneMenu value="#{beanVentas.id_tipo_factura}"
+											style="width:300px" panelStyle="width:180px" effect="fade"
+											filter="true" filterMatchMode="startsWith">
+											<f:selectItems value="#{beanVentas.listaTipoFacturas}"
+												var="tipo" itemLabel="#{tipo.tfNombre}"
+												itemValue="#{tipo.idTipoFactura}">
+												<p:column style="width:10%">
+													<span class="flag flag-#{tipo.tfNombre}"
+														style="width: 30px; height: 20px" />
+												</p:column>
+												<p:column>
+													<f:facet name="header">
+														<h:outputText value="Name" />
+													</f:facet>
+													<h:outputText value="#{tipo.tfNombre}" />
+												</p:column>
+
+											</f:selectItems>
+											
+										</p:selectOneMenu>
+									</p:panelGrid>
+									<p:panelGrid columns="2" styleClass="ui-noborder">
+										<p:commandButton value="Guardar" update="@form,:form-detalle-factura,:form-cabecera-factura"
+											actionListener="#{beanVentas.actionInsertarFactura(beanUsuarios.vendedor.idVendedor, beanVentas.empresa.idEmpresa)}"
 											styleClass="ui-button-raised ui-button-success"
 											icon="fa fa-check" />
-										<p:commandButton value="Cancelar" actionListener="#{beanVentas.actionListenerCancelarFacturacion()}"
-											styleClass="ui-button-raised ui-button-danger" update="form-detalle-factura"
-											icon="fa fa-times" />
+										<p:commandButton value="Cancelar"
+											actionListener="#{beanVentas.actionListenerCancelarFacturacion()}"
+											styleClass="ui-button-raised ui-button-danger"
+											update="@form,:form-detalle-factura,:form-cabecera-factura" icon="fa fa-times" />
 									</p:panelGrid>
 								</p:panel>
 								<p:panel header="">
 									<div align="center">
 										<p:staticMessage severity="warn"
-											summary="¡La forma de cobro se realiza de contado!"></p:staticMessage>
+											summary="¡La forma de cobro se realiza de contado o a crédito siempre y cuando el cliente no tenga deudas con la empresa!"></p:staticMessage>
 									</div>
 								</p:panel>
 							</p:splitterPanel>

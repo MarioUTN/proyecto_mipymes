@@ -51,6 +51,13 @@ public class ManagerUsuarios {
 		query.setParameter("ger_usuario", ger_usuario);
 		return (Gerente) query.getSingleResult();
 	}
+	
+	public Vendedor findVendedorByCedula(String cedula) {
+		Query query = entityManager.createQuery("select v from Vendedor v where v.venCedula=:cedula",
+				Vendedor.class);
+		query.setParameter("cedula", cedula);
+		return (Vendedor) query.getSingleResult();
+	}
 
 	public Cliente findClienteByUsuario(String cli_usuario) {
 		Query query = entityManager.createQuery("select c from Cliente c where c.usuario.idUsuario=:cli_usuario",
