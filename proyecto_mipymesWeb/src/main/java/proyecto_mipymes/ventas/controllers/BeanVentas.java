@@ -1,6 +1,7 @@
 package proyecto_mipymes.ventas.controllers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import javax.inject.Named;
 import proyect_mipymes.model.ventas.managers.ManagerVentas;
 import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.Cliente;
+import proyecto_mipymes.model.entities.DetalleFactura;
 import proyecto_mipymes.model.entities.Empresa;
 import proyecto_mipymes.model.entities.Producto;
 
@@ -28,6 +30,8 @@ public class BeanVentas implements Serializable {
 
 	private List<Empresa> listaEmpresas;
 	private List<Cliente> listaClientes;
+	private List<DetalleFactura> listaDetalleFacturas;
+	private DetalleFactura detalleFacturaSeleccionado;
 
 	private Cliente cliente;
 	private Cliente clienteSeleccionado;
@@ -42,6 +46,11 @@ public class BeanVentas implements Serializable {
 	private String direccion;
 
 	private int id_producto;
+	private int cantidad;
+	private double valorTotal;
+	private double iva;
+	private double subTotal;
+	private int index;
 
 	public BeanVentas() {
 		// TODO Auto-generated constructor stub
@@ -52,7 +61,8 @@ public class BeanVentas implements Serializable {
 		empresa = managerVentas.findAllEmpresaByRuc("1003938477001");
 		listaEmpresas = managerVentas.findAllEmpresas();
 		listaClientes = managerVentas.findAllClientes();
-		productoSeleccionado=new Producto();
+		productoSeleccionado = new Producto();
+		listaDetalleFacturas = new ArrayList<DetalleFactura>();
 	}
 
 	public void actionListenerCrearCliente() {
@@ -67,7 +77,7 @@ public class BeanVentas implements Serializable {
 
 	public void actionListenerSeleccionarProducto(int id_producto) {
 		productoSeleccionado = managerVentas.findProductoById(id_producto);
-		JSFUtil.crearMensajeInfo("Producto seleccionado: "+productoSeleccionado.getProdCodigo());
+		JSFUtil.crearMensajeInfo("Producto seleccionado: " + productoSeleccionado.getProdCodigo());
 	}
 
 	public void actionListenerSeleccionarCliente(String cedula_ruc) {
@@ -83,6 +93,92 @@ public class BeanVentas implements Serializable {
 		} else {
 			JSFUtil.crearMensajeError("No existe el ciente con C.I. o RUC: " + cedula_ruc);
 		}
+	}
+
+	public void actionListenerAgregarProductos() {
+		listaDetalleFacturas = managerVentas.agregarProductosFactura(listaDetalleFacturas, id_producto, cantidad);
+		valorTotal = managerVentas.valorTotalPagar(listaDetalleFacturas);
+		iva = managerVentas.valorIva(listaDetalleFacturas);
+		subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
+		JSFUtil.crearMensajeInfo("Producto: " + listaDetalleFacturas.get(0).getProducto().getProdNombre());
+
+	}
+
+	public void actionListenerSeleccionarDetalleFactura(int index) {
+		detalleFacturaSeleccionado = listaDetalleFacturas.get(index);
+		JSFUtil.crearMensajeWarning("Detalle seleccionado: " + detalleFacturaSeleccionado.getIdDetalleFactura() + " "
+				+ index + " " + listaDetalleFacturas.size());
+	}
+
+	public void actionListenerEditarCantidad(int index) {
+		listaDetalleFacturas = managerVentas.editarCantidadProductoListaDetalle(listaDetalleFacturas, cantidad, index);
+		valorTotal = managerVentas.valorTotalPagar(listaDetalleFacturas);
+		iva = managerVentas.valorIva(listaDetalleFacturas);
+		subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
+		JSFUtil.crearMensajeWarning("Cantidad: " + index);
+
+	}
+
+	public void actionListenerEliminarProductoDetalleFactura(int index) {
+		// listaDetalleFacturas =
+		if (index >= 0) {
+			JSFUtil.crearMensajeInfo("Producto eliminado del detalle factura!" + index + " "
+					+ listaDetalleFacturas.get(index).getDetCantidad());
+			listaDetalleFacturas = managerVentas.eliminarProductoListaDetalle(listaDetalleFacturas, index);
+			valorTotal = managerVentas.valorTotalPagar(listaDetalleFacturas);
+			iva = managerVentas.valorIva(listaDetalleFacturas);
+			subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
+		} else {
+			JSFUtil.crearMensajeError("Error de index: " + index);
+		}
+	}
+
+	public int actionSeleccionarIndex(int index) {
+		this.index = index;
+		return this.index;
+	}
+
+	public void actionListenerCancelarFacturacion() {
+		listaDetalleFacturas = new ArrayList<DetalleFactura>();
+		JSFUtil.crearMensajeInfo("Facturcion Cancelada: " + listaDetalleFacturas.size());
+	}
+
+	
+	public void actionListenerCancelarFacturacionSize() {
+		JSFUtil.crearMensajeInfo("Facturcion Cancelada: " + listaDetalleFacturas.size());
+	}
+
+	
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public double getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public List<DetalleFactura> getListaDetalleFacturas() {
+		return listaDetalleFacturas;
+	}
+
+	public void setListaDetalleFacturas(List<DetalleFactura> listaDetalleFacturas) {
+		this.listaDetalleFacturas = listaDetalleFacturas;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public int getCantidad() {
+		return cantidad;
 	}
 
 	public int getId_producto() {
@@ -180,16 +276,40 @@ public class BeanVentas implements Serializable {
 	public List<Empresa> getListaEmpresas() {
 		return listaEmpresas;
 	}
-	
+
 	public void setListaEmpresas(List<Empresa> listaEmpresas) {
 		this.listaEmpresas = listaEmpresas;
 	}
-	
+
 	public Empresa getEmpresa() {
 		return empresa;
 	}
+
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
 	}
-	
+
+	public double getIva() {
+		return iva;
+	}
+
+	public void setIva(double iva) {
+		this.iva = iva;
+	}
+
+	public double getSubTotal() {
+		return subTotal;
+	}
+
+	public void setSubTotal(double subTotal) {
+		this.subTotal = subTotal;
+	}
+
+	public void setDetalleFacturaSeleccionado(DetalleFactura detalleFacturaSeleccionado) {
+		this.detalleFacturaSeleccionado = detalleFacturaSeleccionado;
+	}
+
+	public DetalleFactura getDetalleFacturaSeleccionado() {
+		return detalleFacturaSeleccionado;
+	}
 }
