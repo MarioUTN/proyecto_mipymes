@@ -108,11 +108,16 @@ public class BeanVentas implements Serializable {
 	}
 
 	public void actionListenerAgregarProductos() {
-		listaDetalleFacturas = managerVentas.agregarProductosFactura(listaDetalleFacturas, id_producto, cantidad);
-		valorTotal = managerVentas.valorTotalPagar(listaDetalleFacturas);
-		iva = managerVentas.valorIva(listaDetalleFacturas);
-		subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
-		JSFUtil.crearMensajeInfo("Producto: " + listaDetalleFacturas.get(0).getProducto().getProdNombre());
+		if(!managerVentas.findDetalleFacturaByCodProducto(listaDetalleFacturas, id_producto)) {
+			listaDetalleFacturas = managerVentas.agregarProductosFactura(listaDetalleFacturas, id_producto, cantidad);
+			valorTotal = managerVentas.valorTotalPagar(listaDetalleFacturas);
+			iva = managerVentas.valorIva(listaDetalleFacturas);
+			subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
+			JSFUtil.crearMensajeInfo("Producto: " + listaDetalleFacturas.get(0).getProducto().getProdNombre());
+		}
+		else {
+			JSFUtil.crearMensajeError("Produto ya existe en el detalle factura, tiene la opcion de eliminar o editar la cantidad!");
+		}
 
 	}
 

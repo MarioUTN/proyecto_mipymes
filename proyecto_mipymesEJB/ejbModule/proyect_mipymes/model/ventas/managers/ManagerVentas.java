@@ -248,8 +248,13 @@ public class ManagerVentas {
 
 	public List<DetalleFactura> editarCantidadProductoListaDetalle(List<DetalleFactura> listaDetalleFacturas,
 			int cantidad, int index) {
-		listaDetalleFacturas.get(index).setDetCantidad(cantidad);
-		listaDetalleFacturas = calcularCamposDetalleFactura(listaDetalleFacturas, cantidad, index);
+
+		if (verificarCantidadVentaProductos(listaDetalleFacturas.get(index).getProducto(), cantidad)) {
+			listaDetalleFacturas.get(index).setDetCantidad(cantidad);
+			listaDetalleFacturas = calcularCamposDetalleFactura(listaDetalleFacturas, cantidad, index);
+		} else {
+			JSFUtil.crearMensajeError("Error, No se puede agregar mas cantidad de lo que existe en stock!");
+		}
 		return listaDetalleFacturas;
 	}
 
@@ -263,6 +268,18 @@ public class ManagerVentas {
 				calcularSubtotal(cantidad, listaDetalleFacturas.get(index).getDetPrecioUnitario()),
 				CalcularIva(calcularSubtotal(cantidad, listaDetalleFacturas.get(index).getDetPrecioUnitario()))));
 		return listaDetalleFacturas;
+	}
+
+	public boolean findDetalleFacturaByCodProducto(List<DetalleFactura> listaDetalleFacturas, int id_producto) {
+		boolean resp = false;
+		for (DetalleFactura detalleFactura : listaDetalleFacturas) {
+			JSFUtil.crearMensajeWarning("Producto: "+detalleFactura.getProducto().getProdCodigo());
+			if (detalleFactura.getProducto().getIdProducto() == id_producto) {
+				resp = true;
+				break;
+			}
+		}
+		return resp;
 	}
 
 	public List<DetalleFactura> agregarProductosFactura(List<DetalleFactura> listaDetalleFacturas, int id_producto,
