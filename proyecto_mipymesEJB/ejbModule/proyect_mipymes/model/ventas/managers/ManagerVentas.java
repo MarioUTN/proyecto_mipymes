@@ -193,37 +193,6 @@ public class ManagerVentas {
 			return null;
 		}
 	}
-	
-	public Factura insertarFacturaAnticipos(Cliente cliente, int id_vendedor, int id_empresa,
-			List<DetalleFactura> listaDetalleFacturas, int id_forma_pago, int id_tipo_factura) {
-		if (listaDetalleFacturas != null) {
-			Factura factura = new Factura();
-			FormaPago formaPago = entityManager.find(FormaPago.class, id_forma_pago);
-			TipoFactura tipoFactura = entityManager.find(TipoFactura.class, id_tipo_factura);
-			factura.setCabeceraFactura(insertarCabeceraFactura(cliente, id_vendedor, id_empresa));
-			factura.setDetalleFacturas(listaDetalleFacturas);
-			factura.setFactNumeroFactura("000-00" + (findAllFacturas().size() + 1));
-			factura.setFactFechaEmision(new Date());
-			factura.setFactFechaRemision(new Date());
-			factura.setFactFechaAutorizacion(new Date());
-			factura.setFormaPago(formaPago);
-			factura.setTipoFactura(tipoFactura);
-			factura.setFactEstado(true);
-			factura.setFactEntregado(false);
-			factura.setFactDescuento(new BigDecimal(0));
-			factura.setFactSubtotal(new BigDecimal(valorSubTotal(listaDetalleFacturas)));
-			factura.setFactIva(new BigDecimal(valorIva(listaDetalleFacturas)));
-			factura.setFactTotal(new BigDecimal(valorTotalPagar(listaDetalleFacturas)));
-			entityManager.persist(factura);
-			for (DetalleFactura detalleFactura : listaDetalleFacturas) {
-				detalleFactura.setFactura(factura);
-				entityManager.persist(detalleFactura);
-			}
-			return factura;
-		} else {
-			return null;
-		}
-	}
 
 	public BigDecimal calcularSubtotal(int cant, BigDecimal precio) {
 		BigDecimal f = precio.multiply(new BigDecimal(cant));
@@ -359,15 +328,86 @@ public class ManagerVentas {
 		return estado_pedido;
 	}
 
+	public Factura insertarFacturaAnticipos(Cliente cliente, int id_vendedor, int id_empresa,
+			List<DetalleFactura> listaDetalleFacturas, int id_forma_pago, int id_tipo_factura) {
+		if (listaDetalleFacturas != null) {
+			Factura factura = new Factura();
+			FormaPago formaPago = entityManager.find(FormaPago.class, id_forma_pago);
+			TipoFactura tipoFactura = entityManager.find(TipoFactura.class, id_tipo_factura);
+			factura.setCabeceraFactura(insertarCabeceraFactura(cliente, id_vendedor, id_empresa));
+			factura.setDetalleFacturas(listaDetalleFacturas);
+			factura.setFactNumeroFactura("000-00" + (findAllFacturas().size() + 1));
+			factura.setFactFechaEmision(new Date());
+			factura.setFactFechaRemision(new Date());
+			factura.setFactFechaAutorizacion(new Date());
+			factura.setFormaPago(formaPago);
+			factura.setTipoFactura(tipoFactura);
+			factura.setFactEstado(true);
+			factura.setFactEntregado(false);
+			factura.setFactDescuento(new BigDecimal(0));
+			factura.setFactSubtotal(new BigDecimal(valorSubTotal(listaDetalleFacturas)));
+			factura.setFactIva(new BigDecimal(valorIva(listaDetalleFacturas)));
+			factura.setFactTotal(new BigDecimal(valorTotalPagar(listaDetalleFacturas)));
+			entityManager.persist(factura);
+			for (DetalleFactura detalleFactura : listaDetalleFacturas) {
+				detalleFactura.setFactura(factura);
+				entityManager.persist(detalleFactura);
+			}
+			return factura;
+		} else {
+			return null;
+		}
+	}
+	
+	public BigDecimal calcularSaldoAnterior(BigDecimal saldo, double valor_abono) {
+		double saldo_anterior = (saldo.doubleValue() - valor_abono)+valor_abono;
+		return new BigDecimal(saldo_anterior).round(new MathContext(5));
+	}
+
+	public DetalleAbono agregarAbonoFacturaAnticipo(EstadoPedido estadoPedido, Cliente cliente, int id_vendedor,
+			double valor_abono) {
+		if (verificarValorAbonar(estadoPedido.getEstValorTotal().doubleValue(), valor_abono)) {
+			DetalleAbono detalleAbono = new DetalleAbono();
+			Vendedor vendedor = entityManager.find(Vendedor.class, id_vendedor);
+			estadoPedido = findEstdoPedido(estadoPedido.getFactura().getIdFactura());
+			detalleAbono.setEstadoPedido(estadoPedido);
+			detalleAbono.setDetabAbono(new BigDecimal(valor_abono));
+			detalleAbono.setDetabSaldoAnterior(estadoPedido.getEstValorTotal());
+			detalleAbono.setDetabSaldoActual(calcularSaldoActual(estadoPedido.getEstValorTotal(), valor_abono));
+			detalleAbono.setDetabFechaAbono(new Date());
+			detalleAbono.setCliente(cliente);
+			detalleAbono.setVendedor(vendedor);
+			entityManager.persist(detalleAbono);
+			return detalleAbono;
+		} else {
+			return null;
+		}
+
+	}
+
+	public EstadoPedido insertarEstadoPedidoAnticipo(Factura factura, double valor_abono) {
+		if (factura != null && verificarValorAbonar(factura.getFactSubtotal().doubleValue(), valor_abono)) {
+			EstadoPedido estadoPedido = new EstadoPedido();
+			estadoPedido.setFactura(factura);
+			estadoPedido.setEstFechaEmision(new Date());
+			estadoPedido.setEstValorTotal(factura.getFactTotal());
+			estadoPedido.setEstSaldo(calcularSaldoActual(factura.getFactTotal(), valor_abono));
+			entityManager.persist(estadoPedido);
+			return estadoPedido;
+		} else {
+			return null;
+		}
+	}
+
 	public EstadoPedido insertarEstadoPedido(Factura factura, List<DetalleAbono> listaDetalleAbonos,
 			double valor_abono) {
 		if (verificarValorAbonar(factura.getFactSubtotal().doubleValue(), valor_abono)) {
 			EstadoPedido estadoPedido = new EstadoPedido();
 			estadoPedido.setFactura(factura);
 			estadoPedido.setEstFechaEmision(new Date());
-			JSFUtil.crearMensajeError("Total factura: "+factura.getFactTotal());
+			JSFUtil.crearMensajeError("Total factura: " + valor_abono);
 			estadoPedido.setEstValorTotal(factura.getFactTotal());
-			estadoPedido.setEstSaldo(new BigDecimal(valor_abono));
+			estadoPedido.setEstSaldo(calcularSaldoActual(factura.getFactTotal(), valor_abono));
 			estadoPedido.setDetalleAbonos(listaDetalleAbonos);
 			entityManager.persist(estadoPedido);
 			for (DetalleAbono detalleAbono : listaDetalleAbonos) {
@@ -375,21 +415,19 @@ public class ManagerVentas {
 				entityManager.persist(detalleAbono);
 			}
 			return estadoPedido;
-		}
-		else
-		{
+		} else {
 			return null;
 		}
-		
+
 	}
 
 	public List<DetalleAbono> agregarAbonoFactura(List<DetalleAbono> listaDetalleAbonos, Factura factura,
 			Cliente cliente, int id_vendedor, double valor) {
 		if (verificarValorAbonar(factura.getFactSubtotal().doubleValue(), valor)) {
-			Vendedor vendedor=entityManager.find(Vendedor.class, id_vendedor);
+			Vendedor vendedor = entityManager.find(Vendedor.class, id_vendedor);
 			EstadoPedido estadoPedido = findEstdoPedido(factura.getIdFactura());
 			DetalleAbono detalleAbono = new DetalleAbono();
-			JSFUtil.crearMensajeWarning("Valorrrrr: "+estadoPedido.getEstSaldo());
+			// JSFUtil.crearMensajeWarning("Valorrrrr: "+estadoPedido.getEstSaldo());
 			detalleAbono.setEstadoPedido(estadoPedido);
 			detalleAbono.setDetabAbono(new BigDecimal(valor));
 			detalleAbono.setDetabSaldoAnterior(estadoPedido.getEstSaldo());

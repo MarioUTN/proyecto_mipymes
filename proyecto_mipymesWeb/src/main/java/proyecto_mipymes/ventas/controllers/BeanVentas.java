@@ -174,16 +174,22 @@ public class BeanVentas implements Serializable {
 	}
 	
 	public void actionListenerAgregarDetalleAbono(int id_vendedor) {
-		listaDetalleAbonos=managerVentas.agregarAbonoFactura(listaDetalleAbonos, facturaAnticipo, clienteSeleccionado, id_vendedor, valor_abono);
-		JSFUtil.crearMensajeInfo("Detalle abono agregado con exito!");
-		estadoPedido=managerVentas.insertarEstadoPedido(facturaAnticipo, listaDetalleAbonos, id_vendedor);
-		JSFUtil.crearMensajeInfo("Facturacion creada con exito!");
+		estadoPedido=managerVentas.insertarEstadoPedidoAnticipo(facturaAnticipo, valor_abono);
+		if(estadoPedido!=null) {
+			//JSFUtil.crearMensajeInfo("Facturacion por anticipos creada con exito!"+estadoPedido.getEstSaldo());
+			detalleAbono=managerVentas.agregarAbonoFacturaAnticipo(estadoPedido, clienteSeleccionado, id_vendedor, valor_abono);
+			JSFUtil.crearMensajeInfo("Facturacion por anticipos creada con exito!"+estadoPedido.getEstSaldo());
+			clienteSeleccionado=new Cliente();
+		}
+		else {
+			JSFUtil.crearMensajeInfo("Error al crear Facturacion por anticipo!");
+		}
+		
 	}
 	public void actionInsertarFacturaAnticipos(int id_vendedor, int id_empresa) {
-		facturaAnticipo = managerVentas.insertarFactura(clienteSeleccionado, id_vendedor, id_empresa, listaDetalleFacturas,
+		facturaAnticipo = managerVentas.insertarFacturaAnticipos(clienteSeleccionado, id_vendedor, id_empresa, listaDetalleFacturas,
 				5, 4);
 		if (facturaAnticipo != null) {
-			estadoPedido=managerVentas.insertarEstadoPedido(facturaAnticipo, listaDetalleAbonos, valor_abono);
 			JSFUtil.crearMensajeInfo("Factura creada con exito!");
 			actionListenerLimpiarCampos();
 		} else {
@@ -203,7 +209,7 @@ public class BeanVentas implements Serializable {
 
 	public void actionListenerLimpiarCampos() {
 		listaDetalleFacturas = new ArrayList<DetalleFactura>();
-		clienteSeleccionado = new Cliente();
+		//clienteSeleccionado = new Cliente();
 		this.cedula_ruc = "";
 		this.nombres = "";
 		this.apellidos = "";
