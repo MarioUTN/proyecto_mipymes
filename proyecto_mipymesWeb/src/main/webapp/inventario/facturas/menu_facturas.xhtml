@@ -98,34 +98,34 @@
 									<p:splitter>
 										<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 											<p:panelGrid columns="3" styleClass="ui-noborder">
-												<p:outputLabel value="Cedula o RUC: "></p:outputLabel>
+												<p:outputLabel value="Cedula o RUC: " style="font-weight:bold"></p:outputLabel>
 												<p:inputText type="buttom" value="#{beanVentas.cedula_ruc}"
 													placeholder="1001562812001"></p:inputText>
 												<p:commandButton value="Buscar" icon="fa fa-search"
 													update="form-cabecera-factura"
 													styleClass="rounded-button ui-button-help"
 													actionListener="#{beanVentas.actionListenerSeleccionarCliente(beanVentas.cedula_ruc)}" />
-												<p:outputLabel value="Nombres: "></p:outputLabel>
+												<p:outputLabel value="Nombres: " style="font-weight:bold"></p:outputLabel>
 												<p:inputText value="#{beanVentas.nombres}"
 													placeholder="Mario Andres"></p:inputText>
 											</p:panelGrid>
 										</p:splitterPanel>
 										<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 											<p:panelGrid columns="2" styleClass="ui-noborder">
-												<p:outputLabel value="Apellidos: "></p:outputLabel>
+												<p:outputLabel value="Apellidos: " style="font-weight:bold"></p:outputLabel>
 												<p:inputText value="#{beanVentas.apellidos}"
 													placeholder="SalazarAnrango"></p:inputText>
-												<p:outputLabel value="Direccion: "></p:outputLabel>
+												<p:outputLabel value="Direccion: " style="font-weight:bold"></p:outputLabel>
 												<p:inputText value="#{beanVentas.direccion}"
 													placeholder="Ibarra El Tejar"></p:inputText>
 											</p:panelGrid>
 										</p:splitterPanel>
 										<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 											<p:panelGrid columns="2" styleClass="ui-noborder">
-												<p:outputLabel value="Telefono: "></p:outputLabel>
+												<p:outputLabel value="Telefono: " style="font-weight:bold"></p:outputLabel>
 												<p:inputText value="#{beanVentas.telefono}"
 													placeholder="0989061898"></p:inputText>
-												<p:outputLabel value="Email: "></p:outputLabel>
+												<p:outputLabel value="Email: " style="font-weight:bold"></p:outputLabel>
 												<p:inputText value="#{beanVentas.email}" type="email"
 													label="email" placeholder="example@utn.edu.ec">
 
@@ -149,7 +149,7 @@
 					<p:splitter>
 						<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 							<p:panelGrid columns="5" styleClass="ui-noborder">
-								<p:outputLabel for="@next" value="Selecionar Producto: " />
+								<p:outputLabel for="@next" value="Selecionar Producto: " style="font-weight:bold"/>
 								<p:selectOneMenu value="#{beanVentas.id_producto}"
 									style="width:350px" panelStyle="width:180px" effect="fade"
 									filter="true" filterMatchMode="startsWith">
@@ -174,7 +174,7 @@
 											style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
 									</f:facet>
 								</p:selectOneMenu>
-								<h:outputText value="Cantidad de Productos:" />
+								<h:outputText value="Cantidad de Productos:" style="font-weight:bold"/>
 								<p:spinner id="g" placeholder="3" buttons="horizontal-after"
 									stepFactor="1" min="1" value="#{beanVentas.cantidad}"
 									required="true"
@@ -245,9 +245,9 @@
 											<p:dialog header="Editar Cantidad" widgetVar="dlg3"
 												minHeight="40" width="350" showEffect="fade">
 												<p:panelGrid columns="2" styleClass="ui-noborder">
-													<h:outputText value="Cantidad" />
+													<h:outputText value="Cantidad" style="font-weight:bold"/>
 													<p:spinner id="minMax" value="#{beanVentas.cantidad}"
-														min="0" max="100" />
+														min="1" max="100" />
 												</p:panelGrid>
 												<f:facet name="footer">
 													<p:commandButton value="Cancelar"
@@ -286,7 +286,7 @@
 								</p:panel>
 								<p:panel header="">
 									<p:panelGrid columns="2" styleClass="ui-noborder">
-										<p:outputLabel for="@next" value="Tipo de Pago: " />
+										<p:outputLabel for="@next" value="Tipo de Pago: " style="font-weight:bold" />
 										<p:selectOneMenu value="#{beanVentas.id_forma_pago}"
 											style="width:300px" panelStyle="width:180px" effect="fade"
 											filter="true" filterMatchMode="startsWith">
@@ -306,7 +306,7 @@
 
 											</f:selectItems>
 										</p:selectOneMenu>
-										<p:outputLabel for="@next" value="Tipo de Factura:" />
+										<p:outputLabel for="@next" value="Tipo de Factura:" style="font-weight:bold" />
 										<p:selectOneMenu value="#{beanVentas.id_tipo_factura}"
 											style="width:300px" panelStyle="width:180px" effect="fade"
 											filter="true" filterMatchMode="startsWith">

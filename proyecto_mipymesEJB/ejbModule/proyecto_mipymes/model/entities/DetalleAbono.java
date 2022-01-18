@@ -28,6 +28,12 @@ public class DetalleAbono implements Serializable {
 	@Column(name="detab_fecha_abono", nullable=false)
 	private Date detabFechaAbono;
 
+	@Column(name="detab_saldo_actual", nullable=false, precision=8, scale=2)
+	private BigDecimal detabSaldoActual;
+
+	@Column(name="detab_saldo_anterior", nullable=false, precision=8, scale=2)
+	private BigDecimal detabSaldoAnterior;
+
 	//bi-directional many-to-one association to Cliente
 	@ManyToOne
 	@JoinColumn(name="detab_cliente", nullable=false)
@@ -68,6 +74,22 @@ public class DetalleAbono implements Serializable {
 
 	public void setDetabFechaAbono(Date detabFechaAbono) {
 		this.detabFechaAbono = detabFechaAbono;
+	}
+
+	public BigDecimal getDetabSaldoActual() {
+		return this.detabSaldoActual;
+	}
+
+	public void setDetabSaldoActual(BigDecimal detabSaldoActual) {
+		this.detabSaldoActual = detabSaldoActual;
+	}
+
+	public BigDecimal getDetabSaldoAnterior() {
+		return this.detabSaldoAnterior;
+	}
+
+	public void setDetabSaldoAnterior(BigDecimal detabSaldoAnterior) {
+		this.detabSaldoAnterior = detabSaldoAnterior;
 	}
 
 	public Cliente getCliente() {

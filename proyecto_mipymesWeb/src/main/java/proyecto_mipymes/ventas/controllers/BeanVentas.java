@@ -12,8 +12,10 @@ import javax.inject.Named;
 import proyect_mipymes.model.ventas.managers.ManagerVentas;
 import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.Cliente;
+import proyecto_mipymes.model.entities.DetalleAbono;
 import proyecto_mipymes.model.entities.DetalleFactura;
 import proyecto_mipymes.model.entities.Empresa;
+import proyecto_mipymes.model.entities.EstadoPedido;
 import proyecto_mipymes.model.entities.Factura;
 import proyecto_mipymes.model.entities.FormaPago;
 import proyecto_mipymes.model.entities.Producto;
@@ -36,6 +38,7 @@ public class BeanVentas implements Serializable {
 	private List<DetalleFactura> listaDetalleFacturas;
 	private List<FormaPago> listaFormaPagos;
 	private List<TipoFactura> listaTipoFacturas;
+	private List<DetalleAbono> listaDetalleAbonos;
 
 	private DetalleFactura detalleFacturaSeleccionado;
 	private Cliente cliente;
@@ -43,6 +46,9 @@ public class BeanVentas implements Serializable {
 	private Producto productoSeleccionado;
 	private Empresa empresa;
 	private Factura factura;
+	private Factura facturaAnticipo;
+	private EstadoPedido estadoPedido;
+	private DetalleAbono detalleAbono;
 
 	private String cedula_ruc;
 	private String nombres;
@@ -56,6 +62,9 @@ public class BeanVentas implements Serializable {
 	private double valorTotal;
 	private double iva;
 	private double subTotal;
+	private double valor_abono;
+	private double saldo_anterior;
+	private double saldo_actual;
 	private int index;
 
 	private int id_tipo_factura;
@@ -74,6 +83,7 @@ public class BeanVentas implements Serializable {
 		listaFormaPagos = managerVentas.findAllFormaPagos();
 		listaTipoFacturas = managerVentas.findAllTipoFacturas();
 		listaDetalleFacturas = new ArrayList<DetalleFactura>();
+		listaDetalleAbonos=new ArrayList<DetalleAbono>();
 	}
 
 	public void actionListenerCrearCliente() {
@@ -114,6 +124,7 @@ public class BeanVentas implements Serializable {
 			iva = managerVentas.valorIva(listaDetalleFacturas);
 			subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
 			JSFUtil.crearMensajeInfo("Producto: " + listaDetalleFacturas.get(0).getProducto().getProdNombre());
+			this.cantidad=1;
 		}
 		else {
 			JSFUtil.crearMensajeError("Produto ya existe en el detalle factura, tiene la opcion de eliminar o editar la cantidad!");
@@ -132,6 +143,7 @@ public class BeanVentas implements Serializable {
 		valorTotal = managerVentas.valorTotalPagar(listaDetalleFacturas);
 		iva = managerVentas.valorIva(listaDetalleFacturas);
 		subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
+		this.cantidad=1;
 		JSFUtil.crearMensajeWarning("Cantidad: " + index);
 
 	}
@@ -154,6 +166,24 @@ public class BeanVentas implements Serializable {
 		factura = managerVentas.insertarFactura(clienteSeleccionado, id_vendedor, id_empresa, listaDetalleFacturas,
 				id_forma_pago, id_tipo_factura);
 		if (factura != null) {
+			JSFUtil.crearMensajeInfo("Factura creada con exito!");
+			actionListenerLimpiarCampos();
+		} else {
+			JSFUtil.crearMensajeError("Error de facturacion!");
+		}
+	}
+	
+	public void actionListenerAgregarDetalleAbono(int id_vendedor) {
+		listaDetalleAbonos=managerVentas.agregarAbonoFactura(listaDetalleAbonos, facturaAnticipo, clienteSeleccionado, id_vendedor, valor_abono);
+		JSFUtil.crearMensajeInfo("Detalle abono agregado con exito!");
+		estadoPedido=managerVentas.insertarEstadoPedido(facturaAnticipo, listaDetalleAbonos, id_vendedor);
+		JSFUtil.crearMensajeInfo("Facturacion creada con exito!");
+	}
+	public void actionInsertarFacturaAnticipos(int id_vendedor, int id_empresa) {
+		facturaAnticipo = managerVentas.insertarFactura(clienteSeleccionado, id_vendedor, id_empresa, listaDetalleFacturas,
+				5, 4);
+		if (facturaAnticipo != null) {
+			estadoPedido=managerVentas.insertarEstadoPedido(facturaAnticipo, listaDetalleAbonos, valor_abono);
 			JSFUtil.crearMensajeInfo("Factura creada con exito!");
 			actionListenerLimpiarCampos();
 		} else {
@@ -388,4 +418,62 @@ public class BeanVentas implements Serializable {
 	public void setFactura(Factura factura) {
 		this.factura = factura;
 	}
+
+	public List<DetalleAbono> getListaDetalleAbonos() {
+		return listaDetalleAbonos;
+	}
+
+	public void setListaDetalleAbonos(List<DetalleAbono> listaDetalleAbonos) {
+		this.listaDetalleAbonos = listaDetalleAbonos;
+	}
+
+	public Factura getFacturaAnticipo() {
+		return facturaAnticipo;
+	}
+
+	public void setFacturaAnticipo(Factura facturaAnticipo) {
+		this.facturaAnticipo = facturaAnticipo;
+	}
+
+	public EstadoPedido getEstadoPedido() {
+		return estadoPedido;
+	}
+
+	public void setEstadoPedido(EstadoPedido estadoPedido) {
+		this.estadoPedido = estadoPedido;
+	}
+
+	public DetalleAbono getDetalleAbono() {
+		return detalleAbono;
+	}
+
+	public void setDetalleAbono(DetalleAbono detalleAbono) {
+		this.detalleAbono = detalleAbono;
+	}
+
+	public double getValor_abono() {
+		return valor_abono;
+	}
+
+	public void setValor_abono(double valor_abono) {
+		this.valor_abono = valor_abono;
+	}
+
+	public double getSaldo_anterior() {
+		return saldo_anterior;
+	}
+
+	public void setSaldo_anterior(double saldo_anterior) {
+		this.saldo_anterior = saldo_anterior;
+	}
+
+	public double getSaldo_actual() {
+		return saldo_actual;
+	}
+
+	public void setSaldo_actual(double saldo_actual) {
+		this.saldo_actual = saldo_actual;
+	}
+	
+	
 }

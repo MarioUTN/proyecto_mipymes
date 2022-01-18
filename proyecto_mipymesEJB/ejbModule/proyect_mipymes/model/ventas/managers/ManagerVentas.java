@@ -14,8 +14,10 @@ import javax.persistence.Query;
 import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.CabeceraFactura;
 import proyecto_mipymes.model.entities.Cliente;
+import proyecto_mipymes.model.entities.DetalleAbono;
 import proyecto_mipymes.model.entities.DetalleFactura;
 import proyecto_mipymes.model.entities.Empresa;
+import proyecto_mipymes.model.entities.EstadoPedido;
 import proyecto_mipymes.model.entities.Factura;
 import proyecto_mipymes.model.entities.FormaPago;
 import proyecto_mipymes.model.entities.Producto;
@@ -169,7 +171,7 @@ public class ManagerVentas {
 			TipoFactura tipoFactura = entityManager.find(TipoFactura.class, id_tipo_factura);
 			factura.setCabeceraFactura(insertarCabeceraFactura(cliente, id_vendedor, id_empresa));
 			factura.setDetalleFacturas(listaDetalleFacturas);
-			factura.setFactNumeroFactura("00" + findAllFacturas().size() + 1);
+			factura.setFactNumeroFactura("000-00" + (findAllFacturas().size() + 1));
 			factura.setFactFechaEmision(new Date());
 			factura.setFactFechaRemision(new Date());
 			factura.setFactFechaAutorizacion(new Date());
@@ -177,6 +179,37 @@ public class ManagerVentas {
 			factura.setTipoFactura(tipoFactura);
 			factura.setFactEstado(true);
 			factura.setFactEntregado(true);
+			factura.setFactDescuento(new BigDecimal(0));
+			factura.setFactSubtotal(new BigDecimal(valorSubTotal(listaDetalleFacturas)));
+			factura.setFactIva(new BigDecimal(valorIva(listaDetalleFacturas)));
+			factura.setFactTotal(new BigDecimal(valorTotalPagar(listaDetalleFacturas)));
+			entityManager.persist(factura);
+			for (DetalleFactura detalleFactura : listaDetalleFacturas) {
+				detalleFactura.setFactura(factura);
+				entityManager.persist(detalleFactura);
+			}
+			return factura;
+		} else {
+			return null;
+		}
+	}
+	
+	public Factura insertarFacturaAnticipos(Cliente cliente, int id_vendedor, int id_empresa,
+			List<DetalleFactura> listaDetalleFacturas, int id_forma_pago, int id_tipo_factura) {
+		if (listaDetalleFacturas != null) {
+			Factura factura = new Factura();
+			FormaPago formaPago = entityManager.find(FormaPago.class, id_forma_pago);
+			TipoFactura tipoFactura = entityManager.find(TipoFactura.class, id_tipo_factura);
+			factura.setCabeceraFactura(insertarCabeceraFactura(cliente, id_vendedor, id_empresa));
+			factura.setDetalleFacturas(listaDetalleFacturas);
+			factura.setFactNumeroFactura("000-00" + (findAllFacturas().size() + 1));
+			factura.setFactFechaEmision(new Date());
+			factura.setFactFechaRemision(new Date());
+			factura.setFactFechaAutorizacion(new Date());
+			factura.setFormaPago(formaPago);
+			factura.setTipoFactura(tipoFactura);
+			factura.setFactEstado(true);
+			factura.setFactEntregado(false);
 			factura.setFactDescuento(new BigDecimal(0));
 			factura.setFactSubtotal(new BigDecimal(valorSubTotal(listaDetalleFacturas)));
 			factura.setFactIva(new BigDecimal(valorIva(listaDetalleFacturas)));
@@ -210,7 +243,7 @@ public class ManagerVentas {
 
 	public boolean verificarCantidadVentaProductos(Producto producto, int cantidad) {
 		int var = producto.getProdCantidad() - cantidad;
-		return (cantidad <= producto.getProdCantidad() && var >= 0);
+		return (cantidad <= producto.getProdCantidad() && var >= 0 && cantidad > 0);
 	}
 
 	public double formatearDecimales(Double numero, Integer numeroDecimales) {
@@ -273,7 +306,7 @@ public class ManagerVentas {
 	public boolean findDetalleFacturaByCodProducto(List<DetalleFactura> listaDetalleFacturas, int id_producto) {
 		boolean resp = false;
 		for (DetalleFactura detalleFactura : listaDetalleFacturas) {
-			JSFUtil.crearMensajeWarning("Producto: "+detalleFactura.getProducto().getProdCodigo());
+			JSFUtil.crearMensajeWarning("Producto: " + detalleFactura.getProducto().getProdCodigo());
 			if (detalleFactura.getProducto().getIdProducto() == id_producto) {
 				resp = true;
 				break;
@@ -297,6 +330,76 @@ public class ManagerVentas {
 			listaDetalleFacturas.add(detalleFactura);
 		}
 		return listaDetalleFacturas;
+	}
+
+	public boolean verificarValorAbonar(double valor_total, double valor_abono) {
+		double var = valor_abono - valor_abono;
+		return (valor_abono >= 0 && valor_abono <= valor_total && var >= 0);
+	}
+
+	public BigDecimal calcularSaldoActual(BigDecimal valor_total, double valor_abono) {
+		double sa = valor_total.doubleValue() - valor_abono;
+		return new BigDecimal(sa).round(new MathContext(5));
+	}
+
+	public EstadoPedido findEstdoPedido(int id_factura) {
+		Query query = entityManager.createQuery(
+				"select ep from EstadoPedido ep where ep.factura.idFactura=" + id_factura + "", EstadoPedido.class);
+		EstadoPedido estado_pedido = new EstadoPedido();
+		try {
+			estado_pedido = (EstadoPedido) query.getSingleResult();
+			if (estado_pedido != null) {
+				return estado_pedido;
+			} else {
+				estado_pedido = null;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return estado_pedido;
+	}
+
+	public EstadoPedido insertarEstadoPedido(Factura factura, List<DetalleAbono> listaDetalleAbonos,
+			double valor_abono) {
+		if (verificarValorAbonar(factura.getFactSubtotal().doubleValue(), valor_abono)) {
+			EstadoPedido estadoPedido = new EstadoPedido();
+			estadoPedido.setFactura(factura);
+			estadoPedido.setEstFechaEmision(new Date());
+			JSFUtil.crearMensajeError("Total factura: "+factura.getFactTotal());
+			estadoPedido.setEstValorTotal(factura.getFactTotal());
+			estadoPedido.setEstSaldo(new BigDecimal(valor_abono));
+			estadoPedido.setDetalleAbonos(listaDetalleAbonos);
+			entityManager.persist(estadoPedido);
+			for (DetalleAbono detalleAbono : listaDetalleAbonos) {
+				detalleAbono.setCliente(factura.getCabeceraFactura().getCliente());
+				entityManager.persist(detalleAbono);
+			}
+			return estadoPedido;
+		}
+		else
+		{
+			return null;
+		}
+		
+	}
+
+	public List<DetalleAbono> agregarAbonoFactura(List<DetalleAbono> listaDetalleAbonos, Factura factura,
+			Cliente cliente, int id_vendedor, double valor) {
+		if (verificarValorAbonar(factura.getFactSubtotal().doubleValue(), valor)) {
+			Vendedor vendedor=entityManager.find(Vendedor.class, id_vendedor);
+			EstadoPedido estadoPedido = findEstdoPedido(factura.getIdFactura());
+			DetalleAbono detalleAbono = new DetalleAbono();
+			JSFUtil.crearMensajeWarning("Valorrrrr: "+estadoPedido.getEstSaldo());
+			detalleAbono.setEstadoPedido(estadoPedido);
+			detalleAbono.setDetabAbono(new BigDecimal(valor));
+			detalleAbono.setDetabSaldoAnterior(estadoPedido.getEstSaldo());
+			detalleAbono.setDetabSaldoActual(calcularSaldoActual(estadoPedido.getEstValorTotal(), valor));
+			detalleAbono.setDetabFechaAbono(new Date());
+			detalleAbono.setCliente(cliente);
+			detalleAbono.setVendedor(vendedor);
+			listaDetalleAbonos.add(detalleAbono);
+		}
+		return listaDetalleAbonos;
 	}
 
 }
