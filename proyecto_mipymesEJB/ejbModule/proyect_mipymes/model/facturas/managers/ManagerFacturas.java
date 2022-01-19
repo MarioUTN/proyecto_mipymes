@@ -2,6 +2,7 @@ package proyect_mipymes.model.facturas.managers;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,14 +75,15 @@ public class ManagerFacturas {
 	public Factura findFacturaById(int id_factura) {
 		return entityManager.find(Factura.class, id_factura);
 	}
-	
-	public List<DetalleAbono> findAllDetalleAbonosByIdFactura(int id_factura){
+
+	public List<DetalleAbono> findAllDetalleAbonosByIdFactura(int id_factura) {
 		Query query = entityManager.createQuery(
-				"select da from DetalleAbono da where da.estadoPedido.factura.idFactura=:id_factura", DetalleAbono.class);
+				"select da from DetalleAbono da where da.estadoPedido.factura.idFactura=:id_factura",
+				DetalleAbono.class);
 		query.setParameter("id_factura", id_factura);
 		return query.getResultList();
 	}
-	
+
 	public boolean verificarValorAbonar(double valor_total, double valor_abono) {
 		double var = valor_abono - valor_abono;
 		return (valor_abono >= 0 && valor_abono <= valor_total && var >= 0);
@@ -91,12 +93,12 @@ public class ManagerFacturas {
 		double sa = valor_total.doubleValue() - valor_abono;
 		return new BigDecimal(sa).round(new MathContext(5));
 	}
-	
+
 	public BigDecimal calcularSaldoAnterior(BigDecimal saldo, double valor_abono) {
-		double saldo_anterior = (saldo.doubleValue() - valor_abono)+valor_abono;
+		double saldo_anterior = (saldo.doubleValue() - valor_abono) + valor_abono;
 		return new BigDecimal(saldo_anterior).round(new MathContext(5));
 	}
-	
+
 	public EstadoPedido findEstdoPedido(int id_factura) {
 		Query query = entityManager.createQuery(
 				"select ep from EstadoPedido ep where ep.factura.idFactura=" + id_factura + "", EstadoPedido.class);
@@ -113,23 +115,42 @@ public class ManagerFacturas {
 		}
 		return estado_pedido;
 	}
-	
-	
-	public List<DetalleAbono> agregarAbonoFactura(List<DetalleAbono> listaDetalleAbonos, Factura factura,
-			Cliente cliente, int id_vendedor, double valor) {
-		if (verificarValorAbonar(factura.getFactSubtotal().doubleValue(), valor)) {
+
+	public List<DetalleAbono> agregarAbonoFactura(List<DetalleAbono> listaDetalleAbonos, List<DetalleAbono> auxiliar,
+			Factura factura, Cliente cliente, int id_vendedor, double valor_abono) {
+
+		if (verificarValorAbonar(factura.getFactSubtotal().doubleValue(), valor_abono)) {
 			Vendedor vendedor = entityManager.find(Vendedor.class, id_vendedor);
 			EstadoPedido estadoPedido = findEstdoPedido(factura.getIdFactura());
 			DetalleAbono detalleAbono = new DetalleAbono();
 			detalleAbono.setEstadoPedido(estadoPedido);
-			detalleAbono.setDetabAbono(new BigDecimal(valor));
-			detalleAbono.setDetabSaldoAnterior(listaDetalleAbonos.get(listaDetalleAbonos.size()-1).getDetabSaldoActual());
-			detalleAbono.setDetabSaldoActual(calcularSaldoActual(listaDetalleAbonos.get(listaDetalleAbonos.size()-1).getDetabSaldoAnterior(), valor));
+			detalleAbono.setDetabAbono(new BigDecimal(valor_abono));
+			detalleAbono
+					.setDetabSaldoAnterior(listaDetalleAbonos.get(listaDetalleAbonos.size() - 1).getDetabSaldoActual());
+			detalleAbono.setDetabSaldoActual(calcularSaldoActual(
+					listaDetalleAbonos.get(listaDetalleAbonos.size() - 1).getDetabSaldoActual(), valor_abono));
 			detalleAbono.setDetabFechaAbono(new Date());
 			detalleAbono.setCliente(cliente);
 			detalleAbono.setVendedor(vendedor);
 			listaDetalleAbonos.add(detalleAbono);
+			auxiliar.add(detalleAbono);
 		}
-		return listaDetalleAbonos;
+		return auxiliar;
+	}
+
+	public EstadoPedido actualizarEstadoPedido(List<DetalleAbono> listDetalleAbonos) {
+		EstadoPedido estadoPedido = entityManager.find(EstadoPedido.class,
+				listDetalleAbonos.get(0).getEstadoPedido().getIdEstadoPedido());
+		Factura factura = entityManager.find(Factura.class, estadoPedido.getFactura().getIdFactura());
+		for (DetalleAbono detalleAbono : listDetalleAbonos) {
+			entityManager.persist(detalleAbono);
+		}
+		estadoPedido.setEstSaldo(listDetalleAbonos.get(listDetalleAbonos.size() - 1).getDetabSaldoActual());
+		entityManager.merge(estadoPedido);
+		if (estadoPedido.getEstSaldo().doubleValue() == 0) {
+			factura.setFactEstado(true);
+			entityManager.merge(factura);
+		}
+		return estadoPedido;
 	}
 }

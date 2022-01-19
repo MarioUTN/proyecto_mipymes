@@ -187,6 +187,9 @@ public class ManagerVentas {
 			for (DetalleFactura detalleFactura : listaDetalleFacturas) {
 				detalleFactura.setFactura(factura);
 				entityManager.persist(detalleFactura);
+				detalleFactura.getProducto().setProdCantidad(
+						detalleFactura.getProducto().getProdCantidad() - detalleFactura.getDetCantidad());
+				entityManager.merge(detalleFactura.getProducto());
 			}
 			return factura;
 		} else {
@@ -342,7 +345,7 @@ public class ManagerVentas {
 			factura.setFactFechaAutorizacion(new Date());
 			factura.setFormaPago(formaPago);
 			factura.setTipoFactura(tipoFactura);
-			factura.setFactEstado(true);
+			factura.setFactEstado(false);
 			factura.setFactEntregado(false);
 			factura.setFactDescuento(new BigDecimal(0));
 			factura.setFactSubtotal(new BigDecimal(valorSubTotal(listaDetalleFacturas)));
@@ -352,15 +355,18 @@ public class ManagerVentas {
 			for (DetalleFactura detalleFactura : listaDetalleFacturas) {
 				detalleFactura.setFactura(factura);
 				entityManager.persist(detalleFactura);
+				detalleFactura.getProducto().setProdCantidad(
+						detalleFactura.getProducto().getProdCantidad() - detalleFactura.getDetCantidad());
+				entityManager.merge(detalleFactura.getProducto());
 			}
 			return factura;
 		} else {
 			return null;
 		}
 	}
-	
+
 	public BigDecimal calcularSaldoAnterior(BigDecimal saldo, double valor_abono) {
-		double saldo_anterior = (saldo.doubleValue() - valor_abono)+valor_abono;
+		double saldo_anterior = (saldo.doubleValue() - valor_abono) + valor_abono;
 		return new BigDecimal(saldo_anterior).round(new MathContext(5));
 	}
 
@@ -420,7 +426,5 @@ public class ManagerVentas {
 		}
 
 	}
-
-	
 
 }

@@ -321,7 +321,7 @@
 									onclick="PF('abonarFactura').show()"
 									update=":form-abonar:abonar-Factura"
 									oncomplete="PF('abonarFactura').show()"
-									styleClass="ui-button-help">
+									styleClass="ui-button-help" disabled="#{factura.factEstado}">
 									<p:resetInput target=":form-abonar:abonar-Factura" />
 								</p:commandButton>
 							</p:column>
@@ -704,7 +704,7 @@
 						<p:panelGrid columns="2" styleClass="ui-noborder">
 							<p:commandButton value="Abonar" disabled="false"
 								styleClass="rounded-button ui-button-help" style="width: auto"
-								oncomplete="PF('abonarFactura').show()" icon="fa fa-money"
+								oncomplete="PF('abonarFactura').show()" icon="fa fa-money" actionListener="#{beanFacturas.actionListenerGuardarAbonosFacturas()}"
 								update="form-facturas,:form-detalle" />
 
 							<p:commandButton value="Salir"

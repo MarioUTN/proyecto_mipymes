@@ -1,6 +1,7 @@
 package proyecto_mipymes.facturas.controllers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import javax.inject.Named;
 import proyect_mipymes.model.facturas.managers.ManagerFacturas;
 import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.DetalleAbono;
+import proyecto_mipymes.model.entities.EstadoPedido;
 import proyecto_mipymes.model.entities.Factura;
 import proyecto_mipymes.model.entities.FormaPago;
 import proyecto_mipymes.model.entities.TipoFactura;
@@ -27,6 +29,7 @@ public class BeanFacturas implements Serializable {
 	private List<TipoFactura> listaTipoFacturas;
 	private List<FormaPago> listaFormaPagos;
 	private List<DetalleAbono> listaDetalleAbonos;
+	private List<DetalleAbono> auxiliar;
 
 	private String cedula_ruc;
 	private int id_tipo_factura;
@@ -34,6 +37,7 @@ public class BeanFacturas implements Serializable {
 
 	private Factura facturaSeleccionada;
 	private DetalleAbono detalleAbono;
+	private EstadoPedido estadoPedido;
 	private double valor_abono;
 
 	public BeanFacturas() {
@@ -45,6 +49,7 @@ public class BeanFacturas implements Serializable {
 		listaFacturas = managerFacturas.findAllFacturas();
 		listaTipoFacturas = managerFacturas.findAllTipoFacturas();
 		listaFormaPagos = managerFacturas.findAllFormaPagoFacturas();
+		auxiliar = new ArrayList<DetalleAbono>();
 	}
 
 	public void actionListenerNuscarFacturaByTipo() {
@@ -137,30 +142,35 @@ public class BeanFacturas implements Serializable {
 		}
 	}
 
-	
 	public void actionListenerAgregarAbonoFactura(int id_vendedor) {
-		listaDetalleAbonos = managerFacturas.agregarAbonoFactura(listaDetalleAbonos, facturaSeleccionada,
+		auxiliar = managerFacturas.agregarAbonoFactura(listaDetalleAbonos, auxiliar, facturaSeleccionada,
 				facturaSeleccionada.getCabeceraFactura().getCliente(), id_vendedor, valor_abono);
-			JSFUtil.crearMensajeInfo("Lista encontrada " + listaDetalleAbonos.size() + " id factura: ");
-		
+		JSFUtil.crearMensajeInfo("Lista encontrada " + listaDetalleAbonos.size() + " id factura: ");
+
+	}
+
+	public void actionListenerGuardarAbonosFacturas() {
+		estadoPedido = managerFacturas.actualizarEstadoPedido(auxiliar);
+		JSFUtil.crearMensajeInfo("Cambios guardados con exito!");
+		auxiliar = new ArrayList<DetalleAbono>();
 	}
 
 	public DetalleAbono getDetalleAbono() {
 		return detalleAbono;
 	}
-	
+
 	public void setDetalleAbono(DetalleAbono detalleAbono) {
 		this.detalleAbono = detalleAbono;
 	}
-	
+
 	public double getValor_abono() {
 		return valor_abono;
 	}
-	
+
 	public void setValor_abono(double valor_abono) {
 		this.valor_abono = valor_abono;
 	}
-	
+
 	public List<DetalleAbono> getListaDetalleAbonos() {
 		return listaDetalleAbonos;
 	}
@@ -225,4 +235,19 @@ public class BeanFacturas implements Serializable {
 		this.facturaSeleccionada = facturaSeleccionada;
 	}
 
+	public List<DetalleAbono> getAuxiliar() {
+		return auxiliar;
+	}
+
+	public void setAuxiliar(List<DetalleAbono> auxiliar) {
+		this.auxiliar = auxiliar;
+	}
+
+	public EstadoPedido getEstadoPedido() {
+		return estadoPedido;
+	}
+
+	public void setEstadoPedido(EstadoPedido estadoPedido) {
+		this.estadoPedido = estadoPedido;
+	}
 }
