@@ -421,23 +421,6 @@ public class ManagerVentas {
 
 	}
 
-	public List<DetalleAbono> agregarAbonoFactura(List<DetalleAbono> listaDetalleAbonos, Factura factura,
-			Cliente cliente, int id_vendedor, double valor) {
-		if (verificarValorAbonar(factura.getFactSubtotal().doubleValue(), valor)) {
-			Vendedor vendedor = entityManager.find(Vendedor.class, id_vendedor);
-			EstadoPedido estadoPedido = findEstdoPedido(factura.getIdFactura());
-			DetalleAbono detalleAbono = new DetalleAbono();
-			// JSFUtil.crearMensajeWarning("Valorrrrr: "+estadoPedido.getEstSaldo());
-			detalleAbono.setEstadoPedido(estadoPedido);
-			detalleAbono.setDetabAbono(new BigDecimal(valor));
-			detalleAbono.setDetabSaldoAnterior(estadoPedido.getEstSaldo());
-			detalleAbono.setDetabSaldoActual(calcularSaldoActual(estadoPedido.getEstValorTotal(), valor));
-			detalleAbono.setDetabFechaAbono(new Date());
-			detalleAbono.setCliente(cliente);
-			detalleAbono.setVendedor(vendedor);
-			listaDetalleAbonos.add(detalleAbono);
-		}
-		return listaDetalleAbonos;
-	}
+	
 
 }

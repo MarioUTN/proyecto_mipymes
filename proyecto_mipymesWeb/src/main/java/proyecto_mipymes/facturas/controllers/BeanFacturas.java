@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import proyect_mipymes.model.facturas.managers.ManagerFacturas;
 import proyecto_mipymes.controller.util.JSFUtil;
+import proyecto_mipymes.model.entities.DetalleAbono;
 import proyecto_mipymes.model.entities.Factura;
 import proyecto_mipymes.model.entities.FormaPago;
 import proyecto_mipymes.model.entities.TipoFactura;
@@ -25,12 +26,15 @@ public class BeanFacturas implements Serializable {
 	private List<Factura> listaFacturas;
 	private List<TipoFactura> listaTipoFacturas;
 	private List<FormaPago> listaFormaPagos;
+	private List<DetalleAbono> listaDetalleAbonos;
 
 	private String cedula_ruc;
 	private int id_tipo_factura;
 	private int id_forma_pago;
 
 	private Factura facturaSeleccionada;
+	private DetalleAbono detalleAbono;
+	private double valor_abono;
 
 	public BeanFacturas() {
 		// TODO Auto-generated constructor stub
@@ -107,23 +111,64 @@ public class BeanFacturas implements Serializable {
 	}
 
 	public void actionListenerSeleccionarFactura(int id_facura) {
-		facturaSeleccionada=managerFacturas.findFacturaById(id_facura);
-		JSFUtil.crearMensajeWarning("Factura seleccionada: "+facturaSeleccionada.getIdFactura());
+		facturaSeleccionada = managerFacturas.findFacturaById(id_facura);
+		JSFUtil.crearMensajeWarning("Factura seleccionada: " + facturaSeleccionada.getIdFactura());
 	}
-	
+
 	public String estado_EntregadoProductos() {
-		String resp="";
-		if(facturaSeleccionada!=null) {
-			if(facturaSeleccionada.getFactEntregado() && facturaSeleccionada.getFactEstado()) {
-				resp="Factura cancelada y entregado los productos!";
+		String resp = "";
+		if (facturaSeleccionada != null) {
+			if (facturaSeleccionada.getFactEntregado() && facturaSeleccionada.getFactEstado()) {
+				resp = "Factura cancelada y entregado los productos!";
 			}
-		}
-		else {
+		} else {
 			return "Factura no cancelada y no entregado los productos!";
 		}
 		return resp;
 	}
+
+	public void actionListenerSeleccionarDetalleAbono(int id_factura) {
+		facturaSeleccionada = managerFacturas.findFacturaById(id_factura);
+		listaDetalleAbonos = managerFacturas.findAllDetalleAbonosByIdFactura(id_factura);
+		if (listaDetalleAbonos.size() > 0) {
+			JSFUtil.crearMensajeInfo("Lista encontrada " + listaDetalleAbonos.size() + " id factura: " + id_factura);
+		} else {
+			JSFUtil.crearMensajeError("Error! no se encontraron resultados!");
+		}
+	}
+
 	
+	public void actionListenerAgregarAbonoFactura(int id_vendedor) {
+		listaDetalleAbonos = managerFacturas.agregarAbonoFactura(listaDetalleAbonos, facturaSeleccionada,
+				facturaSeleccionada.getCabeceraFactura().getCliente(), id_vendedor, valor_abono);
+			JSFUtil.crearMensajeInfo("Lista encontrada " + listaDetalleAbonos.size() + " id factura: ");
+		
+	}
+
+	public DetalleAbono getDetalleAbono() {
+		return detalleAbono;
+	}
+	
+	public void setDetalleAbono(DetalleAbono detalleAbono) {
+		this.detalleAbono = detalleAbono;
+	}
+	
+	public double getValor_abono() {
+		return valor_abono;
+	}
+	
+	public void setValor_abono(double valor_abono) {
+		this.valor_abono = valor_abono;
+	}
+	
+	public List<DetalleAbono> getListaDetalleAbonos() {
+		return listaDetalleAbonos;
+	}
+
+	public void setListaDetalleAbonos(List<DetalleAbono> listaDetalleAbonos) {
+		this.listaDetalleAbonos = listaDetalleAbonos;
+	}
+
 	public List<Factura> getListaFacturas() {
 		return listaFacturas;
 	}

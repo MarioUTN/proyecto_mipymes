@@ -1,5 +1,8 @@
 package proyect_mipymes.model.facturas.managers;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -8,10 +11,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import proyecto_mipymes.model.entities.Empresa;
+import proyecto_mipymes.model.entities.Cliente;
+import proyecto_mipymes.model.entities.DetalleAbono;
+import proyecto_mipymes.model.entities.EstadoPedido;
 import proyecto_mipymes.model.entities.Factura;
 import proyecto_mipymes.model.entities.FormaPago;
 import proyecto_mipymes.model.entities.TipoFactura;
+import proyecto_mipymes.model.entities.Vendedor;
 
 /**
  * Session Bean implementation class ManagerFacturas
@@ -68,5 +74,62 @@ public class ManagerFacturas {
 	public Factura findFacturaById(int id_factura) {
 		return entityManager.find(Factura.class, id_factura);
 	}
+	
+	public List<DetalleAbono> findAllDetalleAbonosByIdFactura(int id_factura){
+		Query query = entityManager.createQuery(
+				"select da from DetalleAbono da where da.estadoPedido.factura.idFactura=:id_factura", DetalleAbono.class);
+		query.setParameter("id_factura", id_factura);
+		return query.getResultList();
+	}
+	
+	public boolean verificarValorAbonar(double valor_total, double valor_abono) {
+		double var = valor_abono - valor_abono;
+		return (valor_abono >= 0 && valor_abono <= valor_total && var >= 0);
+	}
 
+	public BigDecimal calcularSaldoActual(BigDecimal valor_total, double valor_abono) {
+		double sa = valor_total.doubleValue() - valor_abono;
+		return new BigDecimal(sa).round(new MathContext(5));
+	}
+	
+	public BigDecimal calcularSaldoAnterior(BigDecimal saldo, double valor_abono) {
+		double saldo_anterior = (saldo.doubleValue() - valor_abono)+valor_abono;
+		return new BigDecimal(saldo_anterior).round(new MathContext(5));
+	}
+	
+	public EstadoPedido findEstdoPedido(int id_factura) {
+		Query query = entityManager.createQuery(
+				"select ep from EstadoPedido ep where ep.factura.idFactura=" + id_factura + "", EstadoPedido.class);
+		EstadoPedido estado_pedido = new EstadoPedido();
+		try {
+			estado_pedido = (EstadoPedido) query.getSingleResult();
+			if (estado_pedido != null) {
+				return estado_pedido;
+			} else {
+				estado_pedido = null;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return estado_pedido;
+	}
+	
+	
+	public List<DetalleAbono> agregarAbonoFactura(List<DetalleAbono> listaDetalleAbonos, Factura factura,
+			Cliente cliente, int id_vendedor, double valor) {
+		if (verificarValorAbonar(factura.getFactSubtotal().doubleValue(), valor)) {
+			Vendedor vendedor = entityManager.find(Vendedor.class, id_vendedor);
+			EstadoPedido estadoPedido = findEstdoPedido(factura.getIdFactura());
+			DetalleAbono detalleAbono = new DetalleAbono();
+			detalleAbono.setEstadoPedido(estadoPedido);
+			detalleAbono.setDetabAbono(new BigDecimal(valor));
+			detalleAbono.setDetabSaldoAnterior(listaDetalleAbonos.get(listaDetalleAbonos.size()-1).getDetabSaldoActual());
+			detalleAbono.setDetabSaldoActual(calcularSaldoActual(listaDetalleAbonos.get(listaDetalleAbonos.size()-1).getDetabSaldoAnterior(), valor));
+			detalleAbono.setDetabFechaAbono(new Date());
+			detalleAbono.setCliente(cliente);
+			detalleAbono.setVendedor(vendedor);
+			listaDetalleAbonos.add(detalleAbono);
+		}
+		return listaDetalleAbonos;
+	}
 }

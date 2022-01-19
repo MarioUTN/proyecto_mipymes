@@ -316,7 +316,14 @@
 									styleClass="ui-button-success">
 									<p:resetInput target=":form-detalle:detalle-Factura" />
 								</p:commandButton>
-
+								<p:commandButton icon="fa fa-dollar"
+									actionListener="#{beanFacturas.actionListenerSeleccionarDetalleAbono(factura.idFactura)}"
+									onclick="PF('abonarFactura').show()"
+									update=":form-abonar:abonar-Factura"
+									oncomplete="PF('abonarFactura').show()"
+									styleClass="ui-button-help">
+									<p:resetInput target=":form-abonar:abonar-Factura" />
+								</p:commandButton>
 							</p:column>
 						</p:dataTable>
 					</div>
@@ -357,8 +364,8 @@
 											<p:splitterPanel>
 												<p:splitter>
 													<p:splitterPanel
-														styleClass="p-d-flex p-ai-center p-jc-center">
-														<p:panelGrid columns="2" styleClass="ui-noborder">
+														styleClass="p-d-flex p-ai-center p-jc-center" size="100">
+														<p:panelGrid columns="6" styleClass="ui-noborder">
 															<p:outputLabel value="Cedula o RUC: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
@@ -367,11 +374,6 @@
 															<p:outputLabel value="Nombres: " style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.usuario.usNombres}" />
-														</p:panelGrid>
-													</p:splitterPanel>
-													<p:splitterPanel
-														styleClass="p-d-flex p-ai-center p-jc-center">
-														<p:panelGrid columns="2" styleClass="ui-noborder">
 															<p:outputLabel value="Apellidos: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
@@ -380,11 +382,6 @@
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliDireccion}" />
-														</p:panelGrid>
-													</p:splitterPanel>
-													<p:splitterPanel
-														styleClass="p-d-flex p-ai-center p-jc-center">
-														<p:panelGrid columns="2" styleClass="ui-noborder">
 															<p:outputLabel value="Telefono: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
@@ -393,6 +390,21 @@
 
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliEmail}" />
+														</p:panelGrid>
+													</p:splitterPanel>
+													<p:splitterPanel size="30"
+														styleClass="p-d-flex p-ai-center p-jc-center">
+														<p:panelGrid columns="2" styleClass="ui-noborder">
+															<p:outputLabel value="Factura Cancelada: "
+																style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel
+																value="#{beanFacturas.facturaSeleccionada.factEstado}" />
+
+															<p:outputLabel value="Productos entregados: "
+																style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel
+																value="#{beanFacturas.facturaSeleccionada.factEntregado}" />
+
 														</p:panelGrid>
 													</p:splitterPanel>
 												</p:splitter>
@@ -435,7 +447,7 @@
 													<h:outputText value="#{detalle.producto.prodPvpublico}" />
 												</p:column>
 
-												<p:column headerText="IVA 12%" style="width:40px">
+												<p:column headerText="IVA 12%" style="width:60px">
 													<h:outputText value="#{detalle.detIva}" />
 												</p:column>
 
@@ -495,6 +507,210 @@
 								styleClass="rounded-button ui-button-danger" style="width: auto"
 								oncomplete="PF('detalleFactura').hide()" icon="fa fa-close"
 								update="form-facturas" />
+						</p:panelGrid>
+					</p:outputPanel>
+
+				</p:dialog>
+			</div>
+		</h:form>
+
+		<h:form id="form-abonar">
+			<div align="center">
+				<p:dialog header="Abonar Factura" showEffect="fade" modal="true"
+					widgetVar="abonarFactura" responsive="true">
+					<p:outputPanel id="abonar-Factura" class="ui-fluid">
+
+						<p:panel header="">
+							<p:splitter layout="vertical">
+								<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
+									<p:panelGrid columns="6" styleClass="ui-noborder">
+										<h:outputLabel value="Fecha Emision:" style="font-weight:bold" />
+										<h:outputLabel
+											value="#{beanFacturas.facturaSeleccionada.factFechaEmision}" />
+										<h:outputLabel value="Vendedor: " style="font-weight:bold" />
+										<h:outputLabel
+											value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.vendedor.usuario.usNombres}" />
+										<h:outputLabel value="Fact. Numero: " style="font-weight:bold" />
+										<h:outputLabel
+											value="#{beanFacturas.facturaSeleccionada.factNumeroFactura}"
+											style="font-weight:bold; color: red" />
+									</p:panelGrid>
+								</p:splitterPanel>
+							</p:splitter>
+							<div align="center">
+								<p:splitter>
+									<p:splitterPanel>
+										<p:splitter layout="vertical">
+											<p:splitterPanel>
+												<p:splitter>
+													<p:splitterPanel
+														styleClass="p-d-flex p-ai-center p-jc-center" size="100">
+														<p:panelGrid columns="6" styleClass="ui-noborder">
+															<p:outputLabel value="Cedula o RUC: "
+																style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel
+																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliRucCedula}" />
+
+															<p:outputLabel value="Nombres: " style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel
+																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.usuario.usNombres}" />
+															<p:outputLabel value="Apellidos: "
+																style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel
+																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.usuario.usApellidos}" />
+															<p:outputLabel value="Direccion: "
+																style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel
+																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliDireccion}" />
+															<p:outputLabel value="Telefono: "
+																style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel
+																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliTelefono}" />
+															<p:outputLabel value="Email: " style="font-weight:bold"></p:outputLabel>
+
+															<p:outputLabel
+																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliEmail}" />
+														</p:panelGrid>
+													</p:splitterPanel>
+													<p:splitterPanel size="30"
+														styleClass="p-d-flex p-ai-center p-jc-center">
+														<p:panelGrid columns="4" styleClass="ui-noborder">
+
+															<p:outputLabel value="Valor: " style="font-weight:bold" />
+															<p:spinner id="e" placeholder="15.25" stepFactor="0.01"
+																style="width:125px" min="0.00"
+																value="#{beanFacturas.valor_abono}" required="true"
+																requiredMessage="Ingrese el valor del abono!">
+																<p:tooltip for="e" value="Ingrese el valor del abono!"
+																	position="bottom" />
+															</p:spinner>
+
+
+
+														</p:panelGrid>
+
+														<div align="center">
+
+															<p:panelGrid columns="1" styleClass="ui-noborder">
+																<p:commandButton value="Abonar Factura"
+																	icon="fa fa-save" styleClass="rounded-button ui-button-success" oncomplete="PF('abonarFactura').show()"
+																	update="tabla-abono" actionListener="#{beanFacturas.actionListenerAgregarAbonoFactura(beanUsuarios.vendedor.idVendedor)}" />
+															</p:panelGrid>
+
+														</div>
+													</p:splitterPanel>
+													<p:splitterPanel size="30"
+														styleClass="p-d-flex p-ai-center p-jc-center">
+														<p:panelGrid columns="2" styleClass="ui-noborder">
+															<p:outputLabel value="Factura Cancelada: "
+																style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel
+																value="#{beanFacturas.facturaSeleccionada.factEstado}" />
+
+															<p:outputLabel value="Productos entregados: "
+																style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel
+																value="#{beanFacturas.facturaSeleccionada.factEntregado}" />
+
+														</p:panelGrid>
+													</p:splitterPanel>
+												</p:splitter>
+
+											</p:splitterPanel>
+
+										</p:splitter>
+									</p:splitterPanel>
+								</p:splitter>
+
+							</div>
+						</p:panel>
+
+						<p:panel header="Detalle de abonos realizados">
+							<div align="center">
+								<p:splitter>
+									<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
+										size="100">
+										<div align="center">
+											<p:dataTable value="#{beanFacturas.listaDetalleAbonos}" id="tabla-abono"
+												stripedRows="true" var="detalleabono" paginator="true"
+												reflow="true" rows="4" style="font-size: 12px"
+												paginatorPosition="bottom" rowIndexVar="index">
+												<p:column headerText="CLIENTE" style="width:80px">
+													<h:outputText
+														value="#{detalleabono.cliente.usuario.usNombres}" />
+												</p:column>
+												<p:column headerText="VENDEDOR">
+													<h:outputText
+														value="#{detalleabono.vendedor.usuario.usNombres}" />
+												</p:column>
+
+												<p:column headerText="VALOR ABONO">
+													<h:outputText value="#{detalleabono.detabAbono}" />
+												</p:column>
+												<p:column headerText="FECHA ABONO">
+													<h:outputText value="#{detalleabono.detabFechaAbono}" />
+												</p:column>
+
+												<p:column headerText="SALDO ANTERIOR">
+													<h:outputText value="#{detalleabono.detabSaldoAnterior}" />
+												</p:column>
+
+												<p:column headerText="SALDO ACTUAL" style="width:60px">
+													<h:outputText value="#{detalleabono.detabSaldoActual}" />
+												</p:column>
+
+												<p:column headerText="VALO TOTAL FACTURA">
+													<h:outputText
+														value="#{detalleabono.estadoPedido.estValorTotal}" />
+												</p:column>
+											</p:dataTable>
+										</div>
+									</p:splitterPanel>
+									<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
+										size="30">
+										<p:panel header="Valor Total de la Factura">
+											<p:panelGrid columns="2" styleClass="ui-noborder">
+												<p:outputLabel value="Sub Total: " style="font-weight:bold"></p:outputLabel>
+												<p:outputLabel
+													value="#{beanFacturas.facturaSeleccionada.factSubtotal}"
+													style="font-weight:bold"></p:outputLabel>
+												<p:outputLabel value="IVA 12 %: " style="font-weight:bold"></p:outputLabel>
+												<p:outputLabel
+													value="#{beanFacturas.facturaSeleccionada.factIva}"
+													style="font-weight:bold"></p:outputLabel>
+												<p:outputLabel value="IVA 00 %: " style="font-weight:bold"></p:outputLabel>
+												<p:outputLabel value="0.00" style="font-weight:bold"></p:outputLabel>
+												<p:outputLabel value="TOTAL: "
+													style="font-weight:bold; font-size:22px; color: blue"></p:outputLabel>
+												<p:outputLabel
+													value="#{beanFacturas.facturaSeleccionada.factTotal}"
+													style="font-weight:bold; font-size:22px; color: blue"></p:outputLabel>
+											</p:panelGrid>
+
+										</p:panel>
+										<p:panel header="">
+											<div align="center">
+												<p:staticMessage severity="warn"
+													summary="#{beanFacturas.estado_EntregadoProductos()}"></p:staticMessage>
+											</div>
+										</p:panel>
+
+									</p:splitterPanel>
+								</p:splitter>
+
+							</div>
+						</p:panel>
+
+						<p:panelGrid columns="2" styleClass="ui-noborder">
+							<p:commandButton value="Abonar" disabled="false"
+								styleClass="rounded-button ui-button-help" style="width: auto"
+								oncomplete="PF('abonarFactura').show()" icon="fa fa-money"
+								update="form-facturas,:form-detalle" />
+
+							<p:commandButton value="Salir"
+								styleClass="rounded-button ui-button-danger" style="width: auto"
+								oncomplete="PF('abonarFactura').hide()" icon="fa fa-close"
+								update="form-facturas,:form-detalle" />
 						</p:panelGrid>
 					</p:outputPanel>
 
