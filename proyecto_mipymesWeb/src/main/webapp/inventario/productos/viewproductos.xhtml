@@ -89,7 +89,8 @@
 		<div align="center">
 			<p:panel header="">
 				<p:dataTable value="#{beanProductos.listaProductos}" var="productos"
-					paginator="true" reflow="true" rows="5">
+					stripedRows="true" paginator="true" reflow="true"
+					rows="7" style="font-size: 12px" paginatorPosition="bottom">
 					<p:column headerText="COD" sortBy="#{productos.prodCodigo}"
 						filterBy="#{productos.prodCodigo}">
 						<h:outputText value="#{productos.prodCodigo}" />

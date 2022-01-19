@@ -56,7 +56,7 @@ public class Factura implements Serializable {
 	private BigDecimal factTotal;
 
 	//bi-directional many-to-one association to DetalleFactura
-	@OneToMany(mappedBy="factura")
+	@OneToMany(mappedBy="factura",fetch = FetchType.EAGER)
 	private List<DetalleFactura> detalleFacturas;
 
 	//bi-directional many-to-one association to EstadoPedido

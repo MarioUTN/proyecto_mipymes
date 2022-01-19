@@ -207,6 +207,8 @@ public class BeanVentas implements Serializable {
 		JSFUtil.crearMensajeWarning("Facturcion Cancelada!");
 	}
 
+	
+	
 	public void actionListenerLimpiarCampos() {
 		listaDetalleFacturas = new ArrayList<DetalleFactura>();
 		//clienteSeleccionado = new Cliente();
