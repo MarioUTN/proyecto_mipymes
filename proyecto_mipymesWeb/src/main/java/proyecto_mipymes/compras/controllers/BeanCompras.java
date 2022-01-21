@@ -1,6 +1,7 @@
 package proyecto_mipymes.compras.controllers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +20,7 @@ public class BeanCompras implements Serializable {
 
 	@EJB
 	private ManagerCompras managerCompras;
-	
+
 	private Producto producto;
 	private Producto productoNuevo;
 	private CompraProducto compraProducto;
@@ -27,7 +28,8 @@ public class BeanCompras implements Serializable {
 	private DetalleCompra detalleCompra;
 	private Vendedor vendedor;
 	private Empresa empresa;
-	
+	private Empresa emp;
+
 	private double precio;
 	private String codigo_producto;
 	private int cantidad;
@@ -35,48 +37,75 @@ public class BeanCompras implements Serializable {
 	private String descripcion_producto;
 	private double precio_unitario;
 	private int id_empresaSeleccionada;
-	
+	private int idGerente;
+	private int idproducto;
+
 	private List<Producto> listaProductos;
 	private List<Empresa> listaEmpresas;
 	private List<DetalleCompra> listaDetalleCompras;
 	private List<Gerente> listaGerentes;
 	private List<CompraProducto> listaCompraProductos;
-	
+
 	public BeanCompras() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@PostConstruct
 	public void Inicializar() {
-		empresa=new Empresa();
-		listaProductos=managerCompras.findAllProductos();
-		listaEmpresas=managerCompras.findAllEmpresas();
-		listaGerentes=managerCompras.findAllGerente();
-		listaCompraProductos=managerCompras.findAllCompraProductos();
-		listaDetalleCompras=managerCompras.findAllDetallesCompras();
+		empresa = new Empresa();
+		listaProductos = managerCompras.findAllProductos();
+		listaEmpresas = managerCompras.findAllEmpresas();
+		listaGerentes = managerCompras.findAllGerente();
+		listaCompraProductos = managerCompras.findAllCompraProductos();
+		listaDetalleCompras = new ArrayList<DetalleCompra>();
+
 	}
 
 	public void setListaGerentes(List<Gerente> listaGerentes) {
 		this.listaGerentes = listaGerentes;
 	}
-	
+
+	public void actionListenerAgregarGerente() {
+		emp = managerCompras.agregarProveedor(empresa, idGerente);
+		if (emp != null) {
+			JSFUtil.crearMensajeInfo("Empresa agregada con exito! " + emp.getEmpCiudad());
+			emp = new Empresa();
+			empresa = new Empresa();
+			listaEmpresas = managerCompras.findAllEmpresas();
+		} else {
+			JSFUtil.crearMensajeError("Error al agregar empresa! ");
+		}
+	}
+
+	public void actionListenerAgregarProducto() {
+		listaDetalleCompras = managerCompras.agregarProducto(listaDetalleCompras, idproducto, cantidad);
+		JSFUtil.crearMensajeInfo("Si Agrego :v");
+
+	}
+
+	public void actionListenerAgregarInexistenteProducto() {
+		listaDetalleCompras = managerCompras.agregarNuevoProducto(listaDetalleCompras, nombre_producto,
+				descripcion_producto, precio, cantidad);
+		JSFUtil.crearMensajeInfo("Valio Nuevo producto inexitente");
+	}
+
 	public List<Gerente> getListaGerentes() {
 		return listaGerentes;
 	}
-	
+
 	public String actionSeleccionarEmpresa() {
-		JSFUtil.crearMensajeInfo("Empresa seleccionada: "+id_empresaSeleccionada);
+		JSFUtil.crearMensajeInfo("Empresa seleccionada: " + id_empresaSeleccionada);
 		return "agregar_productos";
 	}
-	
+
 	public void setId_empresaSeleccionada(int id_empresaSeleccionada) {
 		this.id_empresaSeleccionada = id_empresaSeleccionada;
 	}
-	
+
 	public int getId_empresaSeleccionada() {
 		return id_empresaSeleccionada;
 	}
-	
+
 	public Producto getProducto() {
 		return producto;
 	}
@@ -87,6 +116,14 @@ public class BeanCompras implements Serializable {
 
 	public Producto getProductoNuevo() {
 		return productoNuevo;
+	}
+
+	public int getIdproducto() {
+		return idproducto;
+	}
+
+	public void setIdproducto(int idproducto) {
+		this.idproducto = idproducto;
 	}
 
 	public void setProductoNuevo(Producto productoNuevo) {
@@ -204,13 +241,29 @@ public class BeanCompras implements Serializable {
 	public void setListaDetalleCompras(List<DetalleCompra> listaDetalleCompras) {
 		this.listaDetalleCompras = listaDetalleCompras;
 	}
-	
+
 	public void setListaCompraProductos(List<CompraProducto> listaCompraProductos) {
 		this.listaCompraProductos = listaCompraProductos;
 	}
-	
+
 	public List<CompraProducto> getListaCompraProductos() {
 		return listaCompraProductos;
+	}
+
+	public int getIdGerente() {
+		return idGerente;
+	}
+
+	public void setIdGerente(int idGerente) {
+		this.idGerente = idGerente;
+	}
+
+	public Empresa getEmp() {
+		return emp;
+	}
+
+	public void setEmp(Empresa emp) {
+		this.emp = emp;
 	}
 
 }
