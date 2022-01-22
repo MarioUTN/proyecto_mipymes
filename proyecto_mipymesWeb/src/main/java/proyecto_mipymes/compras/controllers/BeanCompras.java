@@ -27,8 +27,14 @@ public class BeanCompras implements Serializable {
 	private DetalleCompra detalleCompra;
 	private Vendedor vendedor;
 	private Empresa empresa;
+<<<<<<< HEAD
 	private Empresa proveedor;
 
+=======
+	private Empresa emp;
+
+	private double precio;
+>>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
 	private String codigo_producto;
 	private int cantidad;
 	private String nombre_producto;
@@ -37,10 +43,13 @@ public class BeanCompras implements Serializable {
 	private int id_empresaSeleccionada;
 	private int idGerente;
 	private int idproducto;
+<<<<<<< HEAD
 	
 	private double valorTotal;
 	private double iva;
 	private double subTotal;
+=======
+>>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
 
 	private List<Producto> listaProductos;
 	private List<Empresa> listaEmpresas;
@@ -68,10 +77,17 @@ public class BeanCompras implements Serializable {
 	}
 
 	public void actionListenerAgregarGerente() {
+<<<<<<< HEAD
 		proveedor = managerCompras.agregarProveedor(empresa, idGerente);
 		if (proveedor != null) {
 			JSFUtil.crearMensajeInfo("Empresa agregada con exito! " + proveedor.getEmpCiudad());
 			proveedor = new Empresa();
+=======
+		emp = managerCompras.agregarProveedor(empresa, idGerente);
+		if (emp != null) {
+			JSFUtil.crearMensajeInfo("Empresa agregada con exito! " + emp.getEmpCiudad());
+			emp = new Empresa();
+>>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
 			empresa = new Empresa();
 			listaEmpresas = managerCompras.findAllEmpresas();
 		} else {
@@ -81,14 +97,18 @@ public class BeanCompras implements Serializable {
 
 	public void actionListenerAgregarProducto() {
 		listaDetalleCompras = managerCompras.agregarProducto(listaDetalleCompras, idproducto, cantidad);
+<<<<<<< HEAD
 		valorTotal = managerCompras.valorTotalPagar(listaDetalleCompras);
 		iva = managerCompras.valorIva(valorTotal);
 		subTotal = managerCompras.valorSubTotal(valorTotal);
+=======
+>>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
 		JSFUtil.crearMensajeInfo("Si Agrego :v");
 
 	}
 
 	public void actionListenerAgregarInexistenteProducto() {
+<<<<<<< HEAD
 		listaDetalleCompras = managerCompras.agregarNuevoProducto(listaDetalleCompras, codigo_producto, nombre_producto,
 				descripcion_producto, precio_unitario, cantidad);
 		valorTotal = managerCompras.valorTotalPagar(listaDetalleCompras);
@@ -122,6 +142,13 @@ public class BeanCompras implements Serializable {
 		}
 	}
 	
+=======
+		listaDetalleCompras = managerCompras.agregarNuevoProducto(listaDetalleCompras, nombre_producto,
+				descripcion_producto, precio, cantidad);
+		JSFUtil.crearMensajeInfo("Valio Nuevo producto inexitente");
+	}
+
+>>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
 	public List<Gerente> getListaGerentes() {
 		return listaGerentes;
 	}
@@ -152,8 +179,21 @@ public class BeanCompras implements Serializable {
 		return idproducto;
 	}
 
+<<<<<<< HEAD
 	public void setIdproducto(int idproducto) {
 		this.idproducto = idproducto;
+=======
+	public int getIdproducto() {
+		return idproducto;
+	}
+
+	public void setIdproducto(int idproducto) {
+		this.idproducto = idproducto;
+	}
+
+	public void setProductoNuevo(Producto productoNuevo) {
+		this.productoNuevo = productoNuevo;
+>>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
 	}
 
 
@@ -279,6 +319,7 @@ public class BeanCompras implements Serializable {
 	}
 
 	public Empresa getEmp() {
+<<<<<<< HEAD
 		return proveedor;
 	}
 
@@ -321,3 +362,13 @@ public class BeanCompras implements Serializable {
 	
 
 }
+=======
+		return emp;
+	}
+
+	public void setEmp(Empresa emp) {
+		this.emp = emp;
+	}
+
+}
+>>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
