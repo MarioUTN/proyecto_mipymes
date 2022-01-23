@@ -133,10 +133,10 @@
 									update="form-detalle-compra"
 									styleClass="rounded-button ui-button-success" icon="fa fa-cart-plus" />
 								<p:commandButton value="Agregar Nuevo Producto"
-									icon="fa fa-plus" update=":form-producto:nuevo-producto"
+									icon="fa fa-plus" update=":form-producto:nuevo-Producto"
 									oncomplete="PF('nuevoProducto').show()"
 									styleClass="rounded-button ui-button-success">
-									<p:resetInput target=":form-producto:nuevo-producto" />
+									<p:resetInput target=":form-producto:nuevo-Producto" />
 								</p:commandButton>
 							</p:panelGrid>
 						</p:splitterPanel>
@@ -232,12 +232,10 @@
 
 									<p:panelGrid columns="2" styleClass="ui-noborder">
 										<p:commandButton value="Guardar"
-											update="@form,:form-detalle-compra,:form-abonar-factura:abonar-Factura"
+											update="@form,:form-detalle-compra"
 											actionListener="#{beanVentas.actionInsertarFacturaAnticipos(beanUsuarios.vendedor.idVendedor,beanVentas.empresa.idEmpresa)}"
 											styleClass="ui-button-raised ui-button-success"
-											icon="fa fa-check" onclick="PF('abonarFactura').show()"
-											oncomplete="PF('abonarFactura').show()">
-											<p:resetInput target=":form-abonar-factura:abonar-Factura" />
+											icon="fa fa-check">
 										</p:commandButton>
 										<p:commandButton value="Cancelar"
 											styleClass="ui-button-raised ui-button-danger"
@@ -260,103 +258,195 @@
 			</h:form>
 		</p:panel>
 
-		<h:form id="form-abonar-factura">
-			<div align="center">
-				<p:dialog header="Ingresar el valor a abonar" showEffect="fade"
-					modal="true" widgetVar="abonarFactura" responsive="true">
-					<p:outputPanel id="abonar-Factura" class="ui-fluid">
-
-						<div align="center">
-							<p:panelGrid columns="4" styleClass="ui-noborder">
-
-								<p:outputLabel value="Valor: " style="font-weight:bold" />
-								<p:spinner id="e" placeholder="15.25" stepFactor="0.01"
-									style="width:125px" min="0.00"
-									value="#{beanVentas.valor_abono}" required="true"
-									requiredMessage="Ingrese el valor del abono!">
-									<p:tooltip for="e" value="Ingrese el valor del abono!"
-										position="bottom" />
-								</p:spinner>
-
-
-
-							</p:panelGrid>
-
-							<div align="center">
-
-								<p:panelGrid columns="1" styleClass="ui-noborder">
-									<p:commandButton value="Guardar Factura" id="btn-editar"
-										icon="fa fa-save" styleClass="p-mr-2"
-										update="@form,:form-abonar-factura"
-										process="abonar-Factura @this"
-										actionListener="#{beanVentas.actionListenerAgregarDetalleAbono(beanUsuarios.vendedor.idVendedor)}"
-										onclick="PF('abonarFactura').hide()" />
-								</p:panelGrid>
-
-							</div>
-
-
-						</div>
-					</p:outputPanel>
-
-				</p:dialog>
-			</div>
-		</h:form>
-
-
 	</div>
 
 
 	<h:form id="form-producto">
 		<div align="center">
-			<p:dialog header="Ingresar Datos del Producto" showEffect="fade"
+			<p:dialog header="Agregar un nuevo Producto" showEffect="fade"
 				modal="true" widgetVar="nuevoProducto" responsive="true">
-				<p:outputPanel id="nuevo-producto" class="ui-fluid">
+				<p:outputPanel id="nuevo-Producto" class="ui-fluid">
 
 					<div align="center">
+						<p:panel>
 
-						<div class="p-field">
-							<p:outputLabel for="code">Codigo del Producto</p:outputLabel>
-							<p:inputText id="code" value="#{beanCompras.codigo_producto}"
-								required="true" />
-						</div>
-						<div class="p-field">
-							<p:outputLabel for="name">Nombre del Producto</p:outputLabel>
-							<p:inputText id="name" value="#{beanCompras.nombre_producto}"
-								required="true" />
-						</div>
-						<div class="p-field">
-							<p:outputLabel for="description">Descripcion del Producto</p:outputLabel>
-							<p:inputTextarea id="description"
-								value="#{beanCompras.descripcion_producto}" />
-						</div>
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+								style="border:0px none; background-color:transparent;">
 
-						<div class="p-formgrid p-grid">
-							<div class="p-field p-col">
-								<p:outputLabel for="price">Precio del Producto</p:outputLabel>
-								<p:inputNumber id="price" value="#{beanCompras.precio_unitario}"
-									symbol=" USD" symbolPosition="s" decimalSeparator="."
-									thousandSeparator="," />
-							</div>
-							<div class="p-field p-col">
-								<p:outputLabel for="quantity">Cantidad de Productos</p:outputLabel>
-								<p:spinner id="quantity" min="5" max="50"
-									value="#{beanCompras.cantidad}" />
-							</div>
-						</div>
+								<p:outputLabel for="@next" value="CODIGO: " />
+								<p:inputText id="a" placeholder="CODIGO"
+									value="#{beanProductos.productoNuevo.prodCodigo}"
+									required="true"
+									requiredMessage="Ingrese el codigo del producto!">
+									<p:tooltip for="a" value="Ingrese el codigo del producto!"
+										position="bottom" />
+								</p:inputText>
 
-						<div align="center">
-							<br />
+								<p:outputLabel for="@next" value="Nombre de producto: " />
+								<p:inputText id="b" placeholder="Nombre de Producto"
+									value="#{beanProductos.productoNuevo.prodNombre}"
+									required="true"
+									requiredMessage="Ingrese el nombre de producto!">
+									<p:tooltip for="b" value="Ingrese el nombre de producto!"
+										position="bottom" />
+								</p:inputText>
+
+								<p:outputLabel value="Seleccionar la Talla:"></p:outputLabel>
+								<p:selectOneMenu value="#{beanProductos.id_talla_producto}"
+									panelStyle="width:180px" effect="fade" filter="true"
+									filterMatchMode="startsWith">
+									<f:selectItems value="#{beanProductos.listaTallaProductos}"
+										var="talla" itemLabel="#{talla.tallaNombre}"
+										itemValue="#{talla.idTallaProducto}">
+										<p:column style="width:10%">
+											<span class="flag flag-#{talla.tallaNombre}"
+												style="width: 30px; height: 20px" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Name" />
+											</f:facet>
+											<h:outputText value="#{talla.tallaNombre}" />
+										</p:column>
+										<f:facet name="footer">
+											<h:outputText
+												value="#{beanProductos.listaTallaProductos.size()} Tallas"
+												style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+										</f:facet>
+									</f:selectItems>
+								</p:selectOneMenu>
+
+								<p:outputLabel for="@next" value="Descripcion: " />
+								<p:inputTextarea id="c" placeholder="Descripcion del producto"
+									value="#{beanProductos.productoNuevo.prodDescripcion}"
+									required="true"
+									requiredMessage="Ingrese la descripcion del producto!!">
+									<p:tooltip for="c" value="Ingrese la descripcion del producto!"
+										position="bottom" />
+								</p:inputTextarea>
+
+								<p:outputLabel for="@next" value="Cantidad: " />
+								<p:spinner id="d" placeholder="5" buttons="horizontal-after"
+									prefix="Cant.  " stepFactor="1"
+									upButtonStyleClass="ui-button-success" min="0"
+									downButtonStyleClass="ui-button-danger"
+									value="#{beanProductos.productoNuevo.prodCantidad}"
+									required="true"
+									requiredMessage="Ingrese la cantidad de productos!">
+									<p:tooltip for="d" value="Ingrese la cantidad de productos!"
+										position="bottom" />
+								</p:spinner>
+
+								<p:outputLabel for="@next" value="Precio Proveedor: " />
+								<p:spinner id="e" placeholder="15.25" buttons="horizontal-after"
+									prefix="$ " stepFactor="0.01"
+									upButtonStyleClass="ui-button-success" min="0.00"
+									downButtonStyleClass="ui-button-danger"
+									value="#{beanProductos.productoNuevo.prodPvproveedor}"
+									required="true"
+									requiredMessage="Ingrese el precio de proveedor!">
+									<p:tooltip for="e" value="Ingrese el precio de proveedor"
+										position="bottom" />
+								</p:spinner>
+
+								<p:outputLabel for="@next" value="IVA: " />
+								<p:selectOneMenu id="f" placeholder="12"
+									value="#{beanProductos.productoNuevo.prodIva}" required="true"
+									requiredMessage="Seleccione el valor del Iva!">
+									<f:selectItem itemLabel="12 %" itemValue="12" />
+									<f:selectItem itemLabel="0 %" itemValue="0" />
+									<p:tooltip for="f" value="Seleccione el valor del Iva!"
+										position="bottom" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="@next" value="Precio Venta Publico: " />
+								<p:spinner id="g" placeholder="15.25" buttons="horizontal-after"
+									prefix="$ " stepFactor="0.01" min="0.00"
+									value="#{beanProductos.productoNuevo.prodPvpublico}"
+									required="true"
+									requiredMessage="Ingrese el precio de venta al publico!">
+									<p:tooltip for="g"
+										value="Ingrese el precio de venta al publico"
+										position="bottom" />
+								</p:spinner>
+
+								<p:outputLabel for="@next" value="Tipo de Producto: " />
+								<p:selectOneMenu value="#{beanProductos.id_tipo_producto}"
+									panelStyle="width:180px" effect="fade" filter="true"
+									filterMatchMode="startsWith">
+									<f:selectItems value="#{beanProductos.listaTipoProductos}"
+										var="tipo" itemLabel="#{tipo.tpNombre}"
+										itemValue="#{tipo.idTipoProducto}">
+										<p:column style="width:10%">
+											<span class="flag flag-#{tipo.tpNombre}"
+												style="width: 30px; height: 20px" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Name" />
+											</f:facet>
+											<h:outputText value="#{tipo.tpNombre}" />
+										</p:column>
+										<f:facet name="footer">
+											<h:outputText
+												value="#{beanProductos.listaTipoProductos.size()} Tallas"
+												style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+										</f:facet>
+									</f:selectItems>
+								</p:selectOneMenu>
+
+								<p:outputLabel for="@next" value="Proveedor de Producto: " />
+								<p:selectOneMenu value="#{beanProductos.id_proveedor}"
+									panelStyle="width:180px" effect="fade" filter="true"
+									filterMatchMode="startsWith">
+									<f:selectItems value="#{beanProductos.listaEmpresas}"
+										var="empresa" itemLabel="#{empresa.empNombreEmpresa}"
+										itemValue="#{empresa.idEmpresa}">
+										<p:column style="width:10%">
+											<span class="flag flag-#{empresa.empNombreEmpresa}"
+												style="width: 30px; height: 20px" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Name" />
+											</f:facet>
+											<h:outputText value="#{empresa.empNombreEmpresa}" />
+										</p:column>
+										<f:facet name="footer">
+											<h:outputText
+												value="#{beanProductos.listaEmpresas.size()} Tallas"
+												style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+										</f:facet>
+									</f:selectItems>
+								</p:selectOneMenu>
+
+
+
+							</p:panelGrid>
+						</p:panel>
+
+						<p:panel>
 							<div align="center">
 								<p:row>
-									<p:commandButton value="Ingresar el Producto"
-										styleClass="ui-button-success" style="width: auto"
-										actionListener="#{beanCompras.actionListenerAgregarInexistenteProducto()}"
-										update=":form-detalle-compra" icon="fa fa-save" />
+
+									<p:panelGrid columns="1">
+										<p:commandButton value="Guardar Nuevo Producto"
+											id="btn-editar" icon="fa fa-plus" styleClass="p-mr-2"
+											update="@form,:form-detalle-compra"
+											process="nuevo-Producto @this"
+											actionListener="#{beanProductos.actionListenerEditarProducto()}"
+											onclick="PF('nuevoProducto').hide()" />
+									</p:panelGrid>
+
 								</p:row>
 							</div>
-						</div>
+						</p:panel>
+
+
 					</div>
+
 				</p:outputPanel>
 
 			</p:dialog>

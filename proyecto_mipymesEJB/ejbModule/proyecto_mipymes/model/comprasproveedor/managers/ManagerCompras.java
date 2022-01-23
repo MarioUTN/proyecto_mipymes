@@ -56,6 +56,10 @@ public class ManagerCompras {
 	public List<DetalleCompra> findAllDetallesCompras() {
 		return entityManager.createNamedQuery("DetalleCompra.findAll", DetalleCompra.class).getResultList();
 	}
+	
+	public List<DetalleIngreso> findAllDetallesIngresos() {
+		return entityManager.createNamedQuery("DetalleIngreso.findAll", DetalleIngreso.class).getResultList();
+	}
 
 	public Producto findProductoByCodigo(String codigo) {
 		Query query = entityManager.createQuery("select p from Producto p where p.prodCodigo=:codigo", Producto.class);
@@ -96,39 +100,27 @@ public class ManagerCompras {
 		return detalleCompra;
 	}
 
-<<<<<<< HEAD
 	public List<DetalleCompra> agregarNuevoProducto(List<DetalleCompra> detalleCompra, String codico_producto,
 			String nombreProducto, String descripcionProducto, double precio, int cantidad) {
-=======
-	public List<DetalleCompra> agregarNuevoProducto(List<DetalleCompra> detalleCompra, String nombreProducto,
-			String descripcionProducto, double precio, int cantidad) {
->>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
 		DetalleCompra detalle = new DetalleCompra();
 		detalle.setDetcompNombreProducto(nombreProducto);
 		detalle.setDetcompCantidad(cantidad);
 		detalle.setDetcompDescripcion(descripcionProducto);
-<<<<<<< HEAD
 		detalle.setDetcompCodigoProducto(codico_producto);
 		detalle.setDetcompPrecioUnit(new BigDecimal(precio));
 		detalle.setDetcompPrecioTotal(calcularPrecioTotal(cantidad, precio));
-=======
-
 		detalle.setDetcompPrecioTotal((CalcularTotal(new BigDecimal(cantidad), new BigDecimal(precio))));
 		detalle.setDetcompPrecioUnit(new BigDecimal(precio));
->>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
 		detalleCompra.add(detalle);
 		return detalleCompra;
 
 	}
 
-<<<<<<< HEAD
 	public BigDecimal calcularPrecioTotal(int cant, double precio) {
 		double e = cant * precio;
 		return new BigDecimal(e).round(new MathContext(5));
 	}
 
-=======
->>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
 	public double calcularTotal(List<DetalleCompra> detalleCompra) {
 		double total = 0;
 		for (DetalleCompra detalle : detalleCompra) {
@@ -137,20 +129,16 @@ public class ManagerCompras {
 		return total;
 	}
 
-<<<<<<< HEAD
 	public BigDecimal CalcularIva(BigDecimal subtotal) {
 		double e = (subtotal).doubleValue() * 0.12;
 		return new BigDecimal(e).round(new MathContext(5));
 	}
 
-=======
->>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
 	public double calcularSubTotalCompra(double total) {
 
 		return total / 1.12;
 	}
 
-<<<<<<< HEAD
 	public double formatearDecimales(Double numero, Integer numeroDecimales) {
 		return Math.round(numero * Math.pow(10, numeroDecimales)) / Math.pow(10, numeroDecimales);
 	}
@@ -189,8 +177,6 @@ public class ManagerCompras {
 		return listaDetallecompras;
 	}
 
-=======
->>>>>>> bd3fd12dab5fbe9aaabc51c9cd23604a46416606
 	public CompraProducto insertarPedido(List<DetalleCompra> detalleCompra, Empresa proveedor, int idVendedor) {
 		CompraProducto comprapro = new CompraProducto();
 		CabeceraCompra cabeceraCompra = ingresarCabeceraCompra(idVendedor, proveedor);
