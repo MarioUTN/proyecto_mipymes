@@ -57,10 +57,7 @@ public class ManagerCompras {
 		return entityManager.createNamedQuery("DetalleCompra.findAll", DetalleCompra.class).getResultList();
 	}
 	
-	public List<DetalleIngreso> findAllDetallesIngresos() {
-		return entityManager.createNamedQuery("DetalleIngreso.findAll", DetalleIngreso.class).getResultList();
-	}
-
+	
 	public Producto findProductoByCodigo(String codigo) {
 		Query query = entityManager.createQuery("select p from Producto p where p.prodCodigo=:codigo", Producto.class);
 		query.setParameter("codigo", codigo);
@@ -136,7 +133,7 @@ public class ManagerCompras {
 
 	public double calcularSubTotalCompra(double total) {
 
-		return total / 1.12;
+		return formatearDecimales(total / 1.12, 3);
 	}
 
 	public double formatearDecimales(Double numero, Integer numeroDecimales) {

@@ -78,46 +78,48 @@
 	</h:form>
 	<div align="center">
 		<p:steps activeIndex="0">
-			<p:menuitem value="Agregar Proveedor" />
+			<p:menuitem value="Agregar Cabecera Ingreso" />
 			<p:menuitem value="Agregar Productos para Compras" />
 			<p:menuitem value="Ver compras de Productos" />
 			<p:menuitem value="Enviar Pedido de Productos" />
 		</p:steps>
 	</div>
-	<h:form id="form1">
+	<h:form id="form-cabecera">
 		<div align="center">
-			<p:panel header="Agregar un Proveedor para el Pedido">
+			<p:panel header="Agregar un Datos para el Pedido">
 
 				<p:panelGrid columns="4" styleClass="ui-noborder">
 					<h:outputText value="Numero de Factura:" />
-					<p:inputText />
+					<p:inputText value="#{beanIngresos.numero_factura}" />
 					<h:outputText value="Autorizacion:" />
-					<p:inputText />
+					<p:inputText value="#{beanIngresos.autorizacion}" />
 					<h:outputText value="Fecha de emision: " />
-					<p:datePicker />
+					<p:datePicker value="#{beanIngresos.fecha_emision}" />
 					<h:outputText value="Fecha de Caducacion:" />
-					<p:datePicker />
+					<p:datePicker value="#{beanIngresos.fecha_caducacion}" />
 				</p:panelGrid>
-				<p:panelGrid columns="2" styleClass="ui-noborder">
+				<p:panelGrid columns="3" styleClass="ui-noborder">
 					<h:outputText value="Elija un proveedor:" />
-					<p:selectOneMenu value="#{beanCompras.id_empresaSeleccionada}">
+					<p:selectOneMenu value="#{beanIngresos.id_proveedor}">
 						<f:selectItem itemLabel="Seleccione un curso..." itemValue="0"
 							noSelectionOption="true" />
 						<f:selectItems value="#{beanCompras.listaEmpresas}" var="c"
 							itemLabel="#{c.empNombreEmpresa}" itemValue="#{c.idEmpresa}"></f:selectItems>
 					</p:selectOneMenu>
-
-				</p:panelGrid>
-				<p:panelGrid columns="2" styleClass="ui-noborder">
-					<p:commandButton value="Seleccionar Proveedor"
-						action="#{beanCompras.actionSeleccionarEmpresa()}"
-						icon="fa fa-check-square"></p:commandButton>
 					<p:commandButton value="Registrar Nuevo Proveedor"
 						icon="fa fa-plus" update=":form2:manage-product-content2"
 						oncomplete="PF('manageProductDialog2').show()"
 						styleClass="ui-button-success">
 						<p:resetInput target=":form2:manage-product-content2" />
 					</p:commandButton>
+				</p:panelGrid>
+				<p:panelGrid columns="2" styleClass="ui-noborder">
+					<p:commandButton value="Guardar Datos" update="form-cabecera"
+						action="#{beanIngresos.actionLlenarCabeceraIngreso(beanUsuarios.vendedor.idVendedor)}"
+						icon="fa fa-check-square"></p:commandButton>
+					<p:commandButton value="Cancelar"
+						styleClass="ui-button-raised ui-button-danger"
+						icon="fa fa-times" />
 				</p:panelGrid>
 			</p:panel>
 		</div>
