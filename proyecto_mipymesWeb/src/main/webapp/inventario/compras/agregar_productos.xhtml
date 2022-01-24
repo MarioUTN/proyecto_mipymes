@@ -421,7 +421,7 @@
 									<p:panelGrid columns="2" styleClass="ui-noborder">
 										<p:commandButton value="Guardar"
 											update="@form,:form-detalle-compra"
-											actionListener="#{beanVentas.actionInsertarFacturaAnticipos(beanUsuarios.vendedor.idVendedor,beanVentas.empresa.idEmpresa)}"
+											actionListener="#{beanIngresos.actionListenerInsertarFacturaIngreso(beanUsuarios.vendedor.idVendedor)}"
 											styleClass="ui-button-raised ui-button-success"
 											icon="fa fa-check">
 										</p:commandButton>

@@ -39,6 +39,7 @@ public class BeanCompras implements Serializable {
 	private int id_empresaSeleccionada;
 	private int idGerente;
 	private int idproducto;
+	private int idproveedor;
 
 	private double valorTotal;
 	private double iva;
@@ -120,6 +121,20 @@ public class BeanCompras implements Serializable {
 			subTotal = managerCompras.valorSubTotal(valorTotal);
 		} else {
 			JSFUtil.crearMensajeError("Error de index: " + index);
+		}
+	}
+
+	public void actionListenerInsertarPedido(int id_vendedor) {
+		compraProducto = managerCompras.insertarPedido(listaDetalleCompras, idproveedor, id_vendedor);
+		if (compraProducto != null) {
+			JSFUtil.crearMensajeInfo("Pedido generado con exito!");
+			listaDetalleCompras = new ArrayList<DetalleCompra>();
+			valorTotal = 0;
+			iva = 0;
+			subTotal = 0;
+		}
+		else {
+			JSFUtil.crearMensajeError("Error al generar pedido!");
 		}
 	}
 
@@ -322,5 +337,12 @@ public class BeanCompras implements Serializable {
 
 	public Producto getProductoNuevo() {
 		return productoNuevo;
+	}
+	
+	public void setIdproveedor(int idproveedor) {
+		this.idproveedor = idproveedor;
+	}
+	public int getIdproveedor() {
+		return idproveedor;
 	}
 }

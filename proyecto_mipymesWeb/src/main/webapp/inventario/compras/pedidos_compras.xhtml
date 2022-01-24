@@ -92,14 +92,14 @@
 					</p:panelGrid>
 				</p:splitterPanel>
 			</p:splitter>
-			<h:form id="form-proveedor">
+			<h:form id="form-productos">
 				<div align="center">
 					<p:splitter>
 						<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 							<p:panelGrid columns="3" styleClass="ui-noborder">
 								<p:outputLabel for="@next" value="Selecionar Producto: "
 									style="font-weight:bold" />
-								<p:selectOneMenu value="#{beanCompras.id_empresaSeleccionada}"
+								<p:selectOneMenu value="#{beanCompras.idproveedor}"
 									style="width:350px" panelStyle="width:180px" effect="fade"
 									filter="true" filterMatchMode="startsWith">
 									<f:selectItems value="#{beanCompras.listaEmpresas}"
@@ -134,8 +134,6 @@
 						</p:splitterPanel>
 					</p:splitter>
 				</div>
-			</h:form>
-			<h:form id="form-productos">
 				<div align="center">
 					<p:splitter>
 						<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
@@ -278,12 +276,10 @@
 
 									<p:panelGrid columns="2" styleClass="ui-noborder">
 										<p:commandButton value="Guardar"
-											update="@form,:form-detalle-compra,:form-abonar-factura:abonar-Factura"
-											actionListener="#{beanVentas.actionInsertarFacturaAnticipos(beanUsuarios.vendedor.idVendedor,beanVentas.empresa.idEmpresa)}"
+											update="@form"
+											actionListener="#{beanCompras.actionListenerInsertarPedido(beanUsuarios.vendedor.idVendedor)}"
 											styleClass="ui-button-raised ui-button-success"
-											icon="fa fa-check" onclick="PF('abonarFactura').show()"
-											oncomplete="PF('abonarFactura').show()">
-											<p:resetInput target=":form-abonar-factura:abonar-Factura" />
+											icon="fa fa-check">
 										</p:commandButton>
 										<p:commandButton value="Cancelar"
 											styleClass="ui-button-raised ui-button-danger"
@@ -306,50 +302,7 @@
 			</h:form>
 		</p:panel>
 
-		<h:form id="form-abonar-factura">
-			<div align="center">
-				<p:dialog header="Ingresar el valor a abonar" showEffect="fade"
-					modal="true" widgetVar="abonarFactura" responsive="true">
-					<p:outputPanel id="abonar-Factura" class="ui-fluid">
-
-						<div align="center">
-							<p:panelGrid columns="4" styleClass="ui-noborder">
-
-								<p:outputLabel value="Valor: " style="font-weight:bold" />
-								<p:spinner id="e" placeholder="15.25" stepFactor="0.01"
-									style="width:125px" min="0.00"
-									value="#{beanVentas.valor_abono}" required="true"
-									requiredMessage="Ingrese el valor del abono!">
-									<p:tooltip for="e" value="Ingrese el valor del abono!"
-										position="bottom" />
-								</p:spinner>
-
-
-
-							</p:panelGrid>
-
-							<div align="center">
-
-								<p:panelGrid columns="1" styleClass="ui-noborder">
-									<p:commandButton value="Guardar Factura" id="btn-editar"
-										icon="fa fa-save" styleClass="p-mr-2"
-										update="@form,:form-abonar-factura"
-										process="abonar-Factura @this"
-										actionListener="#{beanVentas.actionListenerAgregarDetalleAbono(beanUsuarios.vendedor.idVendedor)}"
-										onclick="PF('abonarFactura').hide()" />
-								</p:panelGrid>
-
-							</div>
-
-
-						</div>
-					</p:outputPanel>
-
-				</p:dialog>
-			</div>
-		</h:form>
-
-
+		
 	</div>
 
 	<h:form id="form2">

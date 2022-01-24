@@ -174,16 +174,16 @@ public class ManagerCompras {
 		return listaDetallecompras;
 	}
 
-	public CompraProducto insertarPedido(List<DetalleCompra> detalleCompra, Empresa proveedor, int idVendedor) {
+	public CompraProducto insertarPedido(List<DetalleCompra> detalleCompra, int proveedor, int idVendedor) {
 		CompraProducto comprapro = new CompraProducto();
 		CabeceraCompra cabeceraCompra = ingresarCabeceraCompra(idVendedor, proveedor);
+		entityManager.persist(cabeceraCompra);
 		comprapro.setCabeceraCompra(cabeceraCompra);
 		comprapro.setComprodAprobado(false);
 		comprapro.setComprodFecha(new Date());
 		comprapro.setComprodSubtotal(new BigDecimal(calcularSubTotalCompra(calcularTotal(detalleCompra))));
 		comprapro.setComprodTotal(new BigDecimal(calcularTotal(detalleCompra)));
 		comprapro.setComprodIva(CalcularIva(comprapro.getComprodSubtotal()));
-		entityManager.persist(cabeceraCompra);
 		entityManager.persist(comprapro);
 		for (DetalleCompra detalle : detalleCompra) {
 			detalle.setCompraProducto(comprapro);
@@ -192,9 +192,10 @@ public class ManagerCompras {
 		return comprapro;
 	}
 
-	public CabeceraCompra ingresarCabeceraCompra(int idVendedor, Empresa provedor) {
+	public CabeceraCompra ingresarCabeceraCompra(int idVendedor, int idprovedor) {
+		Empresa proveedor=entityManager.find(Empresa.class, idprovedor);
 		CabeceraCompra cabeceraCompra = new CabeceraCompra();
-		cabeceraCompra.setEmpresa(provedor);
+		cabeceraCompra.setEmpresa(proveedor);
 		cabeceraCompra.setVendedor(entityManager.find(Vendedor.class, idVendedor));
 //		entityManager.persist(cabeceraCompra);
 		return cabeceraCompra;

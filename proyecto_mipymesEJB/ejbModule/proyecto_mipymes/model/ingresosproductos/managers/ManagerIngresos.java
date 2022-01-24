@@ -234,6 +234,9 @@ public class ManagerIngresos {
 		entityManager.persist(facturaIngreso);
 		for (DetalleIngreso detalleIngreso : listaDetalleIngresos) {
 			detalleIngreso.setFacturaIngreso(facturaIngreso);
+			Producto producto=entityManager.find(Producto.class, detalleIngreso.getProducto().getIdProducto());
+			producto.setProdCantidad(producto.getProdCantidad()+detalleIngreso.getDetingCantidad());
+			entityManager.merge(producto);
 			entityManager.persist(detalleIngreso);
 		}
 		return facturaIngreso;

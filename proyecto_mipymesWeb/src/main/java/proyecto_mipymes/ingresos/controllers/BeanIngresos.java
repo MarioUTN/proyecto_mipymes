@@ -46,7 +46,7 @@ public class BeanIngresos implements Serializable {
 	private Date fecha_emision;
 	private Date fecha_caducacion;
 	private String numero_factura;
-	
+
 	private double valorTotal;
 	private double iva;
 	private double subTotal;
@@ -94,16 +94,19 @@ public class BeanIngresos implements Serializable {
 		valorTotal = managerIngresos.valorTotalPagar(listaDetalleIngresos);
 		iva = managerIngresos.valorIva(valorTotal);
 		subTotal = managerIngresos.valorSubTotal(valorTotal);
-		//producto=managerIngresos.crearNuevoProducto(productoNuevo, id_talla_producto, id_tipo_producto, id_proveedor)
+		// producto=managerIngresos.crearNuevoProducto(productoNuevo, id_talla_producto,
+		// id_tipo_producto, id_proveedor)
 		JSFUtil.crearMensajeInfo("Producto nuevo agregado!");
 	}
 
 	public void verIndex(int index) {
-		this.index=index;
+		this.index = index;
 		JSFUtil.crearMensajeWarning("Index: " + index);
 	}
+
 	public void actionListenerEditarCantidad() {
-		listaDetalleIngresos = managerIngresos.editarCantidadProductoListaDetalle(listaDetalleIngresos, cantidad, index);
+		listaDetalleIngresos = managerIngresos.editarCantidadProductoListaDetalle(listaDetalleIngresos, cantidad,
+				index);
 		valorTotal = managerIngresos.valorTotalPagar(listaDetalleIngresos);
 		iva = managerIngresos.valorIva(valorTotal);
 		subTotal = managerIngresos.valorSubTotal(valorTotal);
@@ -125,14 +128,28 @@ public class BeanIngresos implements Serializable {
 			JSFUtil.crearMensajeError("Error de index: " + index);
 		}
 	}
-	
+
+	public void actionListenerInsertarFacturaIngreso(int id_vendedor) {
+		facturaIngreso = managerIngresos.insertarFacturaIngreso(cabeceraIngreso, listaDetalleIngresos, id_vendedor);
+		if (facturaIngreso != null) {
+			JSFUtil.crearMensajeInfo("Ingreso realizado con exito!");
+			listaDetalleIngresos = new ArrayList<DetalleIngreso>();
+			valorTotal = 0;
+			iva = 0;
+			subTotal = 0;
+		} else {
+			JSFUtil.crearMensajeError("Error al ingresar factura!!");
+		}
+	}
+
 	public int getIndex() {
 		return index;
 	}
+
 	public void setIndex(int index) {
 		this.index = index;
 	}
-	
+
 	public Producto getProducto() {
 		return producto;
 	}
