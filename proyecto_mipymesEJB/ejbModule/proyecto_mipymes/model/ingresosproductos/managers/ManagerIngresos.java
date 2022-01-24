@@ -13,6 +13,7 @@ import javax.persistence.Query;
 
 import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.CabeceraIngreso;
+import proyecto_mipymes.model.entities.DetalleCompra;
 import proyecto_mipymes.model.entities.DetalleFactura;
 import proyecto_mipymes.model.entities.DetalleIngreso;
 import proyecto_mipymes.model.entities.Empresa;
@@ -49,8 +50,9 @@ public class ManagerIngresos {
 	}
 
 	public Producto findProductoByCodigo(String codigo) {
-		Query query = entityManager.createQuery("select p from Producto p where p.prodCodigo='"+codigo+"'", Producto.class);
-		Producto producto = new Producto(); 
+		Query query = entityManager.createQuery("select p from Producto p where p.prodCodigo='" + codigo + "'",
+				Producto.class);
+		Producto producto = new Producto();
 		try {
 			producto = (Producto) query.getSingleResult();
 			if (producto != null) {
@@ -63,7 +65,7 @@ public class ManagerIngresos {
 		}
 		return producto;
 	}
-	
+
 	public Empresa agregarProveedor(Empresa empresaNueva, int idGerente) {
 		Gerente gerente = entityManager.find(Gerente.class, idGerente);
 		JSFUtil.crearMensajeInfo(" Hola " + findEmpresaByRuc(empresaNueva.getEmpRuc()).getEmpCiudad());
@@ -96,7 +98,7 @@ public class ManagerIngresos {
 
 	public CabeceraIngreso insertarCabeceraIngreso(int id_proveedor, int id_vendedor, String autorizacion,
 			Date fecha_emision, Date fecha_caducacion, String numero_factura) {
-		Empresa proveedor=entityManager.find(Empresa.class, id_proveedor);
+		Empresa proveedor = entityManager.find(Empresa.class, id_proveedor);
 		Vendedor vendedor = entityManager.find(Vendedor.class, id_vendedor);
 		CabeceraIngreso cabeceraIngreso = new CabeceraIngreso();
 		cabeceraIngreso.setEmpresa(proveedor);
@@ -137,14 +139,37 @@ public class ManagerIngresos {
 
 	}
 
-	public Producto crearNuevoProducto(Producto productoNuevo, int id_talla_producto, int id_tipo_producto, int id_proveedor) {
+	public double valorSubTotal(double total) {
+		double subTotal = total / 1.12;
+
+		return formatearDecimales(subTotal, 2);
+	}
+
+	public double calcularSubTotalIngreso(double total) {
+
+		return formatearDecimales(total / 1.12, 3);
+	}
+
+	public double valorIva(double total) {
+		double iva = total - calcularSubTotalIngreso(total);
+		return formatearDecimales(iva, 2);
+	}
+
+	public double valorTotalPagar(List<DetalleIngreso> listaDetalleIngresos) {
+		double valorTotal = 0;
+		for (DetalleIngreso detalleFactura : listaDetalleIngresos) {
+			valorTotal += detalleFactura.getDetingPrecioTotal().doubleValue();
+		}
+		return formatearDecimales(valorTotal, 2);
+	}
+
+	public Producto crearNuevoProducto(Producto productoNuevo, int id_talla_producto, int id_tipo_producto,
+			int id_proveedor) {
 		Producto producto = findProductoByCodigo(productoNuevo.getProdCodigo());
 		if (producto.getProdCodigo() == null) {
 			Empresa empresa = entityManager.find(Empresa.class, id_proveedor);
-			TallaProducto tallaProducto = entityManager.find(TallaProducto.class,
-					id_talla_producto);
-			TipoProducto tipoProducto = entityManager.find(TipoProducto.class,
-					id_tipo_producto);
+			TallaProducto tallaProducto = entityManager.find(TallaProducto.class, id_talla_producto);
+			TipoProducto tipoProducto = entityManager.find(TipoProducto.class, id_tipo_producto);
 			producto.setEmpresa(empresa);
 			producto.setTallaProducto(tallaProducto);
 			producto.setTipoProducto(tipoProducto);
@@ -231,10 +256,8 @@ public class ManagerIngresos {
 		listaDetalleIngresos.get(index).setDetingSubtotal(
 				(calcularSubtotal(cantidad, listaDetalleIngresos.get(index).getDetingPrecioUnitario(),
 						listaDetalleIngresos.get(index).getDetingIva().doubleValue())));
-		listaDetalleIngresos.get(index).setDetingPrecioTotal(
-				(calcularPrecioTotal(cantidad, index)));
-		
-		
+		listaDetalleIngresos.get(index).setDetingPrecioTotal(calcularPrecioTotal(cantidad, listaDetalleIngresos.get(index).getDetingPrecioUnitario().doubleValue()));
+
 		return listaDetalleIngresos;
 	}
 

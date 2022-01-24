@@ -46,6 +46,11 @@ public class BeanIngresos implements Serializable {
 	private Date fecha_emision;
 	private Date fecha_caducacion;
 	private String numero_factura;
+	
+	private double valorTotal;
+	private double iva;
+	private double subTotal;
+	private int index;
 
 	public BeanIngresos() {
 		// TODO Auto-generated constructor stub
@@ -77,16 +82,57 @@ public class BeanIngresos implements Serializable {
 	public void actionListenerAgregarProductos() {
 		listaDetalleIngresos = managerIngresos.agregarProductoDetalleIngreso(listaDetalleIngresos, id_producto,
 				cantidad);
+		valorTotal = managerIngresos.valorTotalPagar(listaDetalleIngresos);
+		iva = managerIngresos.valorIva(valorTotal);
+		subTotal = managerIngresos.valorSubTotal(valorTotal);
 		JSFUtil.crearMensajeInfo("Producto agregado con exito!");
 	}
 
 	public void actionListenerAgregarNuevoProducto() {
 		listaDetalleIngresos = managerIngresos.agregarNuevoProductoDetalleIngreso(listaDetalleIngresos, productoNuevo,
 				cantidad, id_talla_producto, id_tipo_producto, id_proveedor);
+		valorTotal = managerIngresos.valorTotalPagar(listaDetalleIngresos);
+		iva = managerIngresos.valorIva(valorTotal);
+		subTotal = managerIngresos.valorSubTotal(valorTotal);
 		//producto=managerIngresos.crearNuevoProducto(productoNuevo, id_talla_producto, id_tipo_producto, id_proveedor)
 		JSFUtil.crearMensajeInfo("Producto nuevo agregado!");
 	}
 
+	public void verIndex(int index) {
+		this.index=index;
+		JSFUtil.crearMensajeWarning("Index: " + index);
+	}
+	public void actionListenerEditarCantidad() {
+		listaDetalleIngresos = managerIngresos.editarCantidadProductoListaDetalle(listaDetalleIngresos, cantidad, index);
+		valorTotal = managerIngresos.valorTotalPagar(listaDetalleIngresos);
+		iva = managerIngresos.valorIva(valorTotal);
+		subTotal = managerIngresos.valorSubTotal(valorTotal);
+		this.cantidad = 1;
+		JSFUtil.crearMensajeWarning("Cantidad: " + index);
+
+	}
+
+	public void actionListenerEliminarProductoDetalleIngreso(int index) {
+		// listaDetalleFacturas =
+		if (index >= 0) {
+			JSFUtil.crearMensajeInfo("Producto eliminado del detalle factura!" + index + " "
+					+ listaDetalleIngresos.get(index).getDetingCantidad());
+			listaDetalleIngresos = managerIngresos.eliminarProductoListaDetalle(listaDetalleIngresos, index);
+			valorTotal = managerIngresos.valorTotalPagar(listaDetalleIngresos);
+			iva = managerIngresos.valorIva(valorTotal);
+			subTotal = managerIngresos.valorSubTotal(valorTotal);
+		} else {
+			JSFUtil.crearMensajeError("Error de index: " + index);
+		}
+	}
+	
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
 	public Producto getProducto() {
 		return producto;
 	}
@@ -213,6 +259,30 @@ public class BeanIngresos implements Serializable {
 
 	public void setId_tipo_producto(int id_tipo_producto) {
 		this.id_tipo_producto = id_tipo_producto;
+	}
+
+	public double getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public double getIva() {
+		return iva;
+	}
+
+	public void setIva(double iva) {
+		this.iva = iva;
+	}
+
+	public double getSubTotal() {
+		return subTotal;
+	}
+
+	public void setSubTotal(double subTotal) {
+		this.subTotal = subTotal;
 	}
 
 }

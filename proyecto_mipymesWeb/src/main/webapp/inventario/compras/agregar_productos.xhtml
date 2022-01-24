@@ -353,6 +353,10 @@
 										<p:column headerText="PRECIO UNIT">
 											<h:outputText value="#{detalle.detingPrecioUnitario}" />
 										</p:column>
+										
+										<p:column headerText="SUB TOTAL">
+											<h:outputText value="#{detalle.detingSubtotal}" />
+										</p:column>
 
 										<p:column headerText="IVA">
 											<h:outputText value="#{detalle.detingIva}" />
@@ -364,19 +368,19 @@
 
 										<p:column headerText="Opciones">
 											<p:commandButton icon="fa fa-edit"
-												onclick="PF('dlg3').show()"
+												onclick="PF('dlg3').show()" actionListener="#{beanIngresos.verIndex(index)}"
 												styleClass="rounded-button ui-button-success">
 											</p:commandButton>
 											<p:commandButton icon="fa fa-trash"
 												styleClass="rounded-button ui-button-danger"
-												actionListener="#{beanCompras.actionListenerEliminarProductoDetalleCompra(index)}"
+												actionListener="#{beanIngresos.actionListenerEliminarProductoDetalleIngreso(index)}"
 												update="form-detalle-compra" />
 
 											<p:dialog header="Editar Cantidad" widgetVar="dlg3"
 												minHeight="40" width="350" showEffect="fade">
 												<p:panelGrid columns="2" styleClass="ui-noborder">
 													<h:outputText value="Cantidad:" style="font-weight:bold" />
-													<p:spinner id="minMax" value="#{beanCompras.cantidad}"
+													<p:spinner id="minMax" value="#{beanIngresos.cantidad}"
 														min="1" max="100" />
 												</p:panelGrid>
 												<f:facet name="footer">
@@ -386,7 +390,7 @@
 														styleClass="rounded-button ui-button-danger" />
 													<p:commandButton value="Editar"
 														update="form-detalle-compra" icon="fa fa-check-square"
-														actionListener="#{beanCompras.actionListenerEditarCantidad(index)}"
+														actionListener="#{beanIngresos.actionListenerEditarCantidad()}"
 														style="width: 8rem" onclick="PF('dlg3').hide()"
 														styleClass="rounded-button ui-button-success" />
 												</f:facet>
@@ -400,16 +404,16 @@
 								<p:panel header="Valor Total a Pagar">
 									<p:panelGrid columns="2" styleClass="ui-noborder">
 										<p:outputLabel value="Sub Total: " style="font-weight:bold"></p:outputLabel>
-										<p:outputLabel value="#{beanCompras.subTotal}"
+										<p:outputLabel value="#{beanIngresos.subTotal}"
 											style="font-weight:bold"></p:outputLabel>
 										<p:outputLabel value="IVA 12 %: " style="font-weight:bold"></p:outputLabel>
-										<p:outputLabel value="#{beanCompras.iva}"
+										<p:outputLabel value="#{beanIngresos.iva}"
 											style="font-weight:bold"></p:outputLabel>
 										<p:outputLabel value="IVA 00 %: " style="font-weight:bold"></p:outputLabel>
 										<p:outputLabel value="0.00" style="font-weight:bold"></p:outputLabel>
 										<p:outputLabel value="TOTAL: "
 											style="font-weight:bold; font-size:22px; color: blue"></p:outputLabel>
-										<p:outputLabel value="#{beanCompras.valorTotal}"
+										<p:outputLabel value="#{beanIngresos.valorTotal}"
 											style="font-weight:bold; font-size:22px; color: blue"></p:outputLabel>
 									</p:panelGrid>
 

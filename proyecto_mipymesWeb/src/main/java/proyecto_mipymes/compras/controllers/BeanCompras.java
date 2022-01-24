@@ -39,7 +39,7 @@ public class BeanCompras implements Serializable {
 	private int id_empresaSeleccionada;
 	private int idGerente;
 	private int idproducto;
-	
+
 	private double valorTotal;
 	private double iva;
 	private double subTotal;
@@ -99,13 +99,12 @@ public class BeanCompras implements Serializable {
 		JSFUtil.crearMensajeInfo("Valio Nuevo producto inexitente");
 	}
 
-	
 	public void actionListenerEditarCantidad(int index) {
 		listaDetalleCompras = managerCompras.editarCantidadProductoListaDetalle(listaDetalleCompras, cantidad, index);
 		valorTotal = managerCompras.valorTotalPagar(listaDetalleCompras);
 		iva = managerCompras.valorIva(valorTotal);
 		subTotal = managerCompras.valorSubTotal(valorTotal);
-		this.cantidad=1;
+		this.cantidad = 1;
 		JSFUtil.crearMensajeWarning("Cantidad: " + index);
 
 	}
@@ -123,6 +122,7 @@ public class BeanCompras implements Serializable {
 			JSFUtil.crearMensajeError("Error de index: " + index);
 		}
 	}
+
 	public List<Gerente> getListaGerentes() {
 		return listaGerentes;
 	}
@@ -148,8 +148,6 @@ public class BeanCompras implements Serializable {
 		this.producto = producto;
 	}
 
-
-
 	public int getIdproducto() {
 		return idproducto;
 	}
@@ -161,7 +159,6 @@ public class BeanCompras implements Serializable {
 	public void setProductoNuevo(Producto productoNuevo) {
 		this.productoNuevo = productoNuevo;
 	}
-
 
 	public CompraProducto getCompraProducto() {
 		return compraProducto;
@@ -202,7 +199,6 @@ public class BeanCompras implements Serializable {
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
 	}
-
 
 	public String getCodigo_producto() {
 		return codigo_producto;
@@ -284,9 +280,6 @@ public class BeanCompras implements Serializable {
 		this.idGerente = idGerente;
 	}
 
-
-
-	
 	public Empresa getProveedor() {
 		return proveedor;
 	}
@@ -318,8 +311,16 @@ public class BeanCompras implements Serializable {
 	public void setSubTotal(double subTotal) {
 		this.subTotal = subTotal;
 	}
-	
-	
 
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
 
+	public double getPrecio() {
+		return precio;
+	}
+
+	public Producto getProductoNuevo() {
+		return productoNuevo;
+	}
 }
