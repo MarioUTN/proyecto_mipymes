@@ -89,8 +89,8 @@ public class BeanVentas implements Serializable {
 	public void actionListenerCrearCliente() {
 		clienteSeleccionado = new Cliente();
 		clienteSeleccionado = managerVentas.crearCliente(cedula_ruc, nombres, apellidos, telefono, email, direccion);
-		JSFUtil.crearMensajeError("Error no aaunnnnn!");
-		if (cliente != null) {
+		//JSFUtil.crearMensajeError("Error no aaunnnnn!");
+		if (clienteSeleccionado != null) {
 			JSFUtil.crearMensajeInfo("Cliente creado con exito!");
 		} else {
 			JSFUtil.crearMensajeError("Error al crear el cliente!");
@@ -190,7 +190,7 @@ public class BeanVentas implements Serializable {
 		facturaAnticipo = managerVentas.insertarFacturaAnticipos(clienteSeleccionado, id_vendedor, id_empresa, listaDetalleFacturas,
 				5, 4);
 		if (facturaAnticipo != null) {
-			JSFUtil.crearMensajeInfo("Factura creada con exito!");
+			//JSFUtil.crearMensajeInfo("Factura creada con exito!");
 			actionListenerLimpiarCampos();
 		} else {
 			JSFUtil.crearMensajeError("Error de facturacion!");

@@ -57,6 +57,9 @@ public class ManagerCompras {
 		return entityManager.createNamedQuery("DetalleCompra.findAll", DetalleCompra.class).getResultList();
 	}
 	
+	public CompraProducto findCompraProductoById(int id_compraproducto) {
+		return entityManager.find(CompraProducto.class, id_compraproducto);
+	}
 	
 	public Producto findProductoByCodigo(String codigo) {
 		Query query = entityManager.createQuery("select p from Producto p where p.prodCodigo=:codigo", Producto.class);

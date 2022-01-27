@@ -1,14 +1,24 @@
 package proyecto_mipymes.facturas.controllers;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import proyect_mipymes.model.facturas.managers.ManagerFacturas;
 import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.DetalleAbono;
@@ -16,6 +26,7 @@ import proyecto_mipymes.model.entities.EstadoPedido;
 import proyecto_mipymes.model.entities.Factura;
 import proyecto_mipymes.model.entities.FormaPago;
 import proyecto_mipymes.model.entities.TipoFactura;
+import proyecto_mipymes.model.utils.Encriptar;
 
 @Named
 @SessionScoped
@@ -155,6 +166,41 @@ public class BeanFacturas implements Serializable {
 		auxiliar = new ArrayList<DetalleAbono>();
 	}
 
+	// --------------------------------------------------------------
+	public String actionListenerGenerarReporte() {
+		String password="Ofrn8mXdeBbjdBwSoUTgG1HtxUzuEVuz";
+		String usuario="+C907bUeVrzYFLXb/mdoMg==";
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("idFact", facturaSeleccionada.getIdFactura());
+		FacesContext context = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("reportes/reporteF.jasper");
+		System.out.println(ruta);
+		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+		response.addHeader("Content-disposition", "attachment;filename=reporteF.pdf");
+		response.setContentType("application/pdf");
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection connection = null;
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", Encriptar.descryp(usuario), Encriptar.descryp(password));
+			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
+			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
+			context.getApplication().getStateManager().saveView(context);
+
+			context.responseComplete();
+			System.out.println("reporte generado.");
+		} catch (Exception e) {
+//			JSFUtil.crearMensajeERROR(e.getMessage());
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	// ***************************************************************
+
+	
+	
 	public DetalleAbono getDetalleAbono() {
 		return detalleAbono;
 	}

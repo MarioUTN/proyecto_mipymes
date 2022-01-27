@@ -75,13 +75,10 @@
 				</p:menuButton>
 			</f:facet>
 		</p:menubar>
-		<div align="center">
-			<p:staticMessage severity="info" summary="Menu Principal Compras"></p:staticMessage>
-		</div>
 	</h:form>
 	<div align="center">
 
-		<p:panel header="Ventas y Facturacion">
+		<p:panel header="Pedidos de Productos">
 			<p:splitter layout="vertical">
 				<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 					<p:panelGrid columns="4" styleClass="ui-noborder">
@@ -277,7 +274,7 @@
 									<p:panelGrid columns="2" styleClass="ui-noborder">
 										<p:commandButton value="Guardar"
 											update="@form"
-											actionListener="#{beanCompras.actionListenerInsertarPedido(beanUsuarios.vendedor.idVendedor)}"
+											action="viewpedidos"
 											styleClass="ui-button-raised ui-button-success"
 											icon="fa fa-check">
 										</p:commandButton>

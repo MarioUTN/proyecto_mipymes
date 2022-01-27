@@ -123,7 +123,7 @@ public class ManagerVentas {
 			String direccion) {
 		Cliente cliente = findAllClienteByCedulaRuc(cedula_ruc);
 		if (cliente.getCliCodigo() == null) {
-			JSFUtil.crearMensajeInfo("Entre aqui!!!!!!!!!!!");
+			//JSFUtil.crearMensajeInfo("Entre aqui!!!!!!!!!!!");
 			TipoUsuario tipoUsuario = findTipoUsuarioById(3);
 
 			Usuario usuario = new Usuario();

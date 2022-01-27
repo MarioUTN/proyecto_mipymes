@@ -1,17 +1,28 @@
 package proyecto_mipymes.compras.controllers;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.comprasproveedor.managers.ManagerCompras;
 import proyecto_mipymes.model.entities.*;
+import proyecto_mipymes.model.utils.Encriptar;
 
 @Named
 @SessionScoped
@@ -24,6 +35,7 @@ public class BeanCompras implements Serializable {
 	private Producto producto;
 	private Producto productoNuevo;
 	private CompraProducto compraProducto;
+	private CompraProducto compraProductoSeleccionado;
 	private CabeceraCompra cabeceraCompra;
 	private DetalleCompra detalleCompra;
 	private Vendedor vendedor;
@@ -137,7 +149,42 @@ public class BeanCompras implements Serializable {
 			JSFUtil.crearMensajeError("Error al generar pedido!");
 		}
 	}
+	
+	public void actionListenerSeleccionarPedido(int id_pedido) {
+		compraProductoSeleccionado=managerCompras.findCompraProductoById(id_pedido);
+		JSFUtil.crearMensajeInfo("Pedido seleccionado: "+id_pedido);
+	}
 
+	public String actionListenerGenerarReportePedido() {
+		String password="Ofrn8mXdeBbjdBwSoUTgG1HtxUzuEVuz";
+		String usuario="+C907bUeVrzYFLXb/mdoMg==";
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("idcp", compraProductoSeleccionado.getIdCompraProducto());
+		FacesContext context = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("reportes/pedidos.jasper");
+		System.out.println(ruta);
+		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+		response.addHeader("Content-disposition", "attachment;filename=reporteF.pdf");
+		response.setContentType("application/pdf");
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection connection = null;
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", Encriptar.descryp(usuario), Encriptar.descryp(password));
+			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
+			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
+			context.getApplication().getStateManager().saveView(context);
+
+			context.responseComplete();
+			JSFUtil.crearMensajeInfo("Reporte de pedido generado con exito!");
+		} catch (Exception e) {
+//			JSFUtil.crearMensajeERROR(e.getMessage());
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
 	public List<Gerente> getListaGerentes() {
 		return listaGerentes;
 	}
@@ -344,5 +391,13 @@ public class BeanCompras implements Serializable {
 	}
 	public int getIdproveedor() {
 		return idproveedor;
+	}
+	
+	public void setCompraProductoSeleccionado(CompraProducto compraProductoSeleccionado) {
+		this.compraProductoSeleccionado = compraProductoSeleccionado;
+	}
+	
+	public CompraProducto getCompraProductoSeleccionado() {
+		return compraProductoSeleccionado;
 	}
 }
