@@ -195,4 +195,30 @@ public class ManagerCompras {
 		}
 		return resp;
 	}
+
+	public void actualizaProveedor(Empresa edicionProveedor, int idGerente) throws Exception {
+		Gerente gerente = entityManager.find(Gerente.class, idGerente);
+		Empresa proveedor = entityManager.find(Empresa.class, edicionProveedor.getIdEmpresa());
+		proveedor.setEmpRuc(edicionProveedor.getEmpRuc());
+		proveedor.setEmpCiudad(edicionProveedor.getEmpCiudad());
+		proveedor.setEmpEmail(edicionProveedor.getEmpEmail());
+		proveedor.setEmpMatriz(edicionProveedor.getEmpMatriz());
+
+		proveedor.setEmpPais(edicionProveedor.getEmpPais());
+		proveedor.setEmpNombreEmpresa(edicionProveedor.getEmpNombreEmpresa());
+		proveedor.setEmpProvincia(edicionProveedor.getEmpProvincia());
+		proveedor.setEmpSucursal(edicionProveedor.getEmpSucursal());
+		proveedor.setEmpTelefono(edicionProveedor.getEmpTelefono());
+		proveedor.setGerente(gerente);
+
+		entityManager.merge(proveedor);
+
+	}
+
+	public void EliminarEmpresa(int idEmpresa) {
+		Empresa empresa= entityManager.find(Empresa.class, idEmpresa);
+		entityManager.remove(empresa);
+
+	}
+
 }

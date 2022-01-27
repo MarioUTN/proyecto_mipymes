@@ -20,9 +20,6 @@ public class ManagerUsuarios {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/**
-	 * Default constructor.
-	 */
 	public ManagerUsuarios() {
 		// TODO Auto-generated constructor stub
 	}
@@ -51,10 +48,9 @@ public class ManagerUsuarios {
 		query.setParameter("ger_usuario", ger_usuario);
 		return (Gerente) query.getSingleResult();
 	}
-	
+
 	public Vendedor findVendedorByCedula(String cedula) {
-		Query query = entityManager.createQuery("select v from Vendedor v where v.venCedula=:cedula",
-				Vendedor.class);
+		Query query = entityManager.createQuery("select v from Vendedor v where v.venCedula=:cedula", Vendedor.class);
 		query.setParameter("cedula", cedula);
 		return (Vendedor) query.getSingleResult();
 	}

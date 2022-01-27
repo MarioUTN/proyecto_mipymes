@@ -341,6 +341,11 @@
 					<p:outputPanel id="detalle-Factura" class="ui-fluid">
 
 						<p:panel header="">
+							<f:facet name="actions">
+								<p:commandButton value="Generar Reporte" ajax="false"
+									action="#{beanFacturas.actionListenerGenerarReporte()}">
+								</p:commandButton>
+							</f:facet>
 							<p:splitter layout="vertical">
 								<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 									<p:panelGrid columns="6" styleClass="ui-noborder">
@@ -593,8 +598,11 @@
 
 															<p:panelGrid columns="1" styleClass="ui-noborder">
 																<p:commandButton value="Abonar Factura"
-																	icon="fa fa-save" styleClass="rounded-button ui-button-success" oncomplete="PF('abonarFactura').show()"
-																	update="tabla-abono" actionListener="#{beanFacturas.actionListenerAgregarAbonoFactura(beanUsuarios.vendedor.idVendedor)}" />
+																	icon="fa fa-save"
+																	styleClass="rounded-button ui-button-success"
+																	oncomplete="PF('abonarFactura').show()"
+																	update="tabla-abono"
+																	actionListener="#{beanFacturas.actionListenerAgregarAbonoFactura(beanUsuarios.vendedor.idVendedor)}" />
 															</p:panelGrid>
 
 														</div>
@@ -631,10 +639,11 @@
 									<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
 										size="100">
 										<div align="center">
-											<p:dataTable value="#{beanFacturas.listaDetalleAbonos}" id="tabla-abono"
-												stripedRows="true" var="detalleabono" paginator="true"
-												reflow="true" rows="4" style="font-size: 12px"
-												paginatorPosition="bottom" rowIndexVar="index">
+											<p:dataTable value="#{beanFacturas.listaDetalleAbonos}"
+												id="tabla-abono" stripedRows="true" var="detalleabono"
+												paginator="true" reflow="true" rows="4"
+												style="font-size: 12px" paginatorPosition="bottom"
+												rowIndexVar="index">
 												<p:column headerText="CLIENTE" style="width:80px">
 													<h:outputText
 														value="#{detalleabono.cliente.usuario.usNombres}" />
@@ -704,7 +713,8 @@
 						<p:panelGrid columns="2" styleClass="ui-noborder">
 							<p:commandButton value="Abonar" disabled="false"
 								styleClass="rounded-button ui-button-help" style="width: auto"
-								oncomplete="PF('abonarFactura').show()" icon="fa fa-money" actionListener="#{beanFacturas.actionListenerGuardarAbonosFacturas()}"
+								oncomplete="PF('abonarFactura').show()" icon="fa fa-money"
+								actionListener="#{beanFacturas.actionListenerGuardarAbonosFacturas()}"
 								update="form-facturas,:form-detalle" />
 
 							<p:commandButton value="Salir"

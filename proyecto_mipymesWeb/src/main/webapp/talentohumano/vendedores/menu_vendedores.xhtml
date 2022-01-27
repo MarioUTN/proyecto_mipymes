@@ -13,6 +13,9 @@
 	</f:facet>
 </h:head>
 <body>
+	<p:growl>
+		<p:autoUpdate></p:autoUpdate>
+	</p:growl>
 	<h:form>
 		<p:menubar>
 			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
@@ -44,7 +47,8 @@
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group" disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+			<p:menuitem value="Vendedores" icon="fa fa-group"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
@@ -75,5 +79,207 @@
 			<p:staticMessage severity="info" summary="Menu Principal Vendedor"></p:staticMessage>
 		</div>
 	</h:form>
+	<div align="center">
+		<p:commandButton value="Registrar Nuevo Vendedor" icon="fa fa-plus"
+			update=":form2:manage-product-content2"
+			oncomplete="PF('manageProductDialog2').show()"
+			styleClass="ui-button-success">
+			<p:resetInput target=":form2:manage-product-content2" />
+		</p:commandButton>
+	</div>
+	<h:form id="form2">
+		<div align="center">
+			<p:dialog header="Ingresar datos del vendedor" showEffect="fade"
+				modal="true" widgetVar="manageProductDialog2" responsive="true">
+				<p:outputPanel id="manage-product-content2" class="ui-fluid">
+
+					<div align="center">
+						<p:panel>
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel for="@next" value="Cédula: " />
+								<p:inputText id="a" placeholder="Cédula" required="true"
+									requiredMessage="Ingrese el número de cédula"
+									value="#{beanUsuarios.vendedorDTO.cedulaV}">
+									<p:tooltip for="a" value="Cédula" position="bottom" />
+								</p:inputText>
+								<p:outputLabel for="@next" value="Nombres: " />
+								<p:inputText id="b" placeholder="Nombres"
+									value="#{beanUsuarios.vendedorDTO.nombresV}" required="true"
+									requiredMessage="Ingrese sus nombres!">
+									<p:tooltip for="b" value="Ingrese sus nombres!"
+										position="bottom" />
+								</p:inputText>
+
+								<p:outputLabel for="@next" value="Apellidos: " />
+								<p:inputText id="c" placeholder="Apellidos"
+									value="#{beanUsuarios.vendedorDTO.apellidosV}" required="true"
+									requiredMessage="Ingrese sus Apellidos!">
+									<p:tooltip for="c" value="Ingrese sus Apellidos"
+										position="bottom" />
+								</p:inputText>
+
+
+
+								<p:outputLabel for="@next" value="Email " />
+								<p:inputText id="d" placeholder="Email"
+									value="#{beanUsuarios.vendedorDTO.emailV}" required="true"
+									requiredMessage="Ingrese su email!!">
+									<p:tooltip for="d" value="Ingrese su email!" position="bottom" />
+								</p:inputText>
+
+								<h:outputText value="Contraseña:" />
+								<p:password value="#{beanUsuarios.vendedorDTO.contraseñaV}"
+									required="true" requiredMessage="Ingrese la contraseña"
+									placeholder="**********" feedback="false" />
+
+								<p:outputLabel for="@next" value="Teléfono: " />
+								<p:inputText id="e" placeholder="0989061898"
+									value="#{beanUsuarios.vendedorDTO.telefonoV}" required="true"
+									requiredMessage="Ingrese el teléfono!">
+									<p:tooltip for="e" value="Ingrese su numero de teléfono"
+										position="bottom" />
+								</p:inputText>
+
+								<p:outputLabel for="@next" value="Dirección: " />
+								<p:inputText id="f" placeholder="Dirección"
+									value="#{beanUsuarios.vendedorDTO.direccionV}">
+									<p:tooltip for="f" value="Dirección" position="bottom" />
+								</p:inputText>
+
+							</p:panelGrid>
+						</p:panel>
+						<div align="center">
+							<p:panel>
+								<div align="center">
+									<p:row>
+										<p:commandButton value="Guardar Datos"
+											styleClass="ui-button-success" style="width: auto"
+											update=":formtable"
+											actionListener="#{beanUsuarios.actionListenerAgregarVendedor()}"
+											icon="fa fa-save" />
+									</p:row>
+								</div>
+							</p:panel>
+						</div>
+					</div>
+				</p:outputPanel>
+
+			</p:dialog>
+		</div>
+	</h:form>
+	<h:form id="formtable">
+		<p:panel header="Información">
+			<p:dataTable value="#{beanUsuarios.listaVendedores}"
+				stripedRows="true" var="detalle" paginator="true" reflow="true"
+				rows="7" style="font-size: 12px" paginatorPosition="bottom">
+
+				<p:column headerText="Cédula" style="width:80px">
+					<h:outputText value="#{detalle.venCedula}" />
+				</p:column>
+				<p:column headerText="Nombres" style="width:80px">
+					<h:outputText value="#{detalle.usuario.usNombres}" />
+				</p:column>
+				<p:column headerText="Apellidos" style="width:80px">
+					<h:outputText value="#{detalle.usuario.usApellidos}" />
+				</p:column>
+				<p:column headerText="Teléfono">
+					<h:outputText value="#{detalle.venTelefono}" />
+				</p:column>
+				<p:column headerText="Email">
+					<h:outputText value="#{detalle.venEmail}" />
+				</p:column>
+				<p:column headerText="Direccón">
+					<h:outputText value="#{detalle.venDireccion}" />
+				</p:column>
+				<p:column headerText="Estado">
+					<h:outputText value="#{detalle.usuario.usActivo}" />
+				</p:column>
+				<p:column headerText="Opciones">
+					<p:commandButton icon="fa fa-edit" onclick="PF('dlg3').show()"
+						actionListener="#{beanUsuarios.cargarVendedor(detalle)}"
+						update=":formEditarPro"
+						styleClass="rounded-button ui-button-success">
+					</p:commandButton>
+					<p:commandButton update=":formtable" icon="pi pi-pencil" value="Estado"
+						actionListener="#{beanUsuarios.actionListenerActualizarEstadoEmpleado(detalle)}"
+						styleClass="rounded-button ui-button-success" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+	<p:dialog header="Editar Vendedor" widgetVar="dlg3" minHeight="700"
+		width="900" showEffect="fade">
+		<h:form id="formEditarPro">
+			<p:panelGrid columns="4"
+				columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+				layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+				style="border:0px none; background-color:transparent;">
+
+				<p:outputLabel for="@next" value="Cédula: " />
+				<p:inputText id="a" placeholder="Cédula" required="true"
+					requiredMessage="Ingrese el número de cédula"
+					value="#{beanUsuarios.editarVendedorDTO.cedulaV}">
+					<p:tooltip for="a" value="Cédula" position="bottom" />
+				</p:inputText>
+				<p:outputLabel for="@next" value="Nombres: " />
+				<p:inputText id="b" placeholder="Nombres"
+					value="#{beanUsuarios.editarVendedorDTO.nombresV}" required="true"
+					requiredMessage="Ingrese sus nombres!">
+					<p:tooltip for="b" value="Ingrese sus nombres!" position="bottom" />
+				</p:inputText>
+
+				<p:outputLabel for="@next" value="Apellidos: " />
+				<p:inputText id="c" placeholder="Apellidos"
+					value="#{beanUsuarios.editarVendedorDTO.apellidosV}"
+					required="true" requiredMessage="Ingrese sus Apellidos!">
+					<p:tooltip for="c" value="Ingrese sus Apellidos" position="bottom" />
+				</p:inputText>
+				<p:outputLabel for="@next" value="Email " />
+				<p:inputText id="d" placeholder="Email"
+					value="#{beanUsuarios.editarVendedorDTO.emailV}" required="true"
+					requiredMessage="Ingrese su email!!">
+					<p:tooltip for="d" value="Ingrese su email!" position="bottom" />
+				</p:inputText>
+
+				<h:outputText value="Contraseña:" />
+				<p:password value="#{beanUsuarios.editarVendedorDTO.contraseñaV}"
+					required="true" requiredMessage="Ingrese la contraseña"
+					placeholder="**********" feedback="false" />
+
+				<p:outputLabel for="@next" value="Teléfono: " />
+				<p:inputText id="e" placeholder="0989061898"
+					value="#{beanUsuarios.editarVendedorDTO.telefonoV}" required="true"
+					requiredMessage="Ingrese el teléfono!">
+					<p:tooltip for="e" value="Ingrese su numero de teléfono"
+						position="bottom" />
+				</p:inputText>
+
+				<p:outputLabel for="@next" value="Dirección: " />
+				<p:inputText id="f" placeholder="Dirección"
+					value="#{beanUsuarios.editarVendedorDTO.direccionV}">
+					<p:tooltip for="f" value="Dirección" position="bottom" />
+				</p:inputText>
+			</p:panelGrid>
+			<div align="center">
+				<p:panel>
+					<div align="center">
+						<p:row>
+							<p:commandButton value="Editar Datos"
+								styleClass="ui-button-success" style="width: auto"
+								update=":formtable"
+								actionListener="#{beanUsuarios.actionListenerActualizarEmpleado()}"
+								icon="fa fa-save" />
+						</p:row>
+					</div>
+				</p:panel>
+			</div>
+		</h:form>
+
+	</p:dialog>
+
 </body>
 </html>

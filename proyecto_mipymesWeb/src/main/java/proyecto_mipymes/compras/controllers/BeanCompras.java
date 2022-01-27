@@ -30,6 +30,36 @@ public class BeanCompras implements Serializable {
 	private Empresa empresa;
 	private Empresa emp;
 
+	// Variable adicional
+	private Empresa editarEmpresa;
+
+	public void actionListenercargarEmpresa(Empresa empresae) {
+		editarEmpresa = empresae;
+	}
+
+	public void actionListenerActualizarEmpresa() throws Exception {
+		try {
+			JSFUtil.crearMensajeInfo("Actualizado" + idEditarGerente);
+			managerCompras.actualizaProveedor(editarEmpresa, idGerente);
+			JSFUtil.crearMensajeInfo("Actualizado");
+		} catch (Exception e) {
+			JSFUtil.crearMensajeError("No se pudo actualizar");
+		}
+
+	}
+
+	public void actionListenerEliminarProveedor(int idProveedor) {
+
+		try {
+			managerCompras.EliminarEmpresa(idProveedor);
+			listaEmpresas = managerCompras.findAllEmpresas();
+			JSFUtil.crearMensajeInfo("Eliminado");
+		} catch (Exception e) {
+			JSFUtil.crearMensajeError("Error");
+			// TODO: handle exception
+		}
+	}
+
 	private double precio;
 	private String codigo_producto;
 	private int cantidad;
@@ -38,6 +68,7 @@ public class BeanCompras implements Serializable {
 	private double precio_unitario;
 	private int id_empresaSeleccionada;
 	private int idGerente;
+	private int idEditarGerente;
 	private int idproducto;
 
 	private List<Producto> listaProductos;
@@ -264,6 +295,22 @@ public class BeanCompras implements Serializable {
 
 	public void setEmp(Empresa emp) {
 		this.emp = emp;
+	}
+
+	public Empresa getEditarEmpresa() {
+		return editarEmpresa;
+	}
+
+	public void setEditarEmpresa(Empresa editarEmpresa) {
+		this.editarEmpresa = editarEmpresa;
+	}
+
+	public int getIdEditarGerente() {
+		return idEditarGerente;
+	}
+
+	public void setIdEditarGerente(int idEditarGerente) {
+		this.idEditarGerente = idEditarGerente;
 	}
 
 }

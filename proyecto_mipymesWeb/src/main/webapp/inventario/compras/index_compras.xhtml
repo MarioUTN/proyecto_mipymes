@@ -60,7 +60,6 @@
 			</p:menuitem>
 
 			<p:menuitem value="Productos" icon="fa fa-cubes"
-				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/productos/menu_productos">
 				<f:param name="i" value="8" />
 			</p:menuitem>
@@ -222,8 +221,6 @@
 										<p:column headerText="PRECIO UNIT">
 											<h:outputText value="#{detalle.detcompPrecioUnit}" />
 										</p:column>
-
-
 
 										<p:column headerText="TOTAL">
 											<h:outputText value="#{detalle.detcompPrecioTotal}" />
