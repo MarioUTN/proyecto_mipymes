@@ -117,8 +117,10 @@ public class ManagerVendedor {
 		Usuario usuario = entityManager.find(Usuario.class, vendedor.getUsuario().getIdUsuario());
 		if (usuario.getUsActivo() == true) {
 			usuario.setUsActivo(false);
+			JSFUtil.crearMensajeInfo("Vendedor Desabilitado");
 		} else {
 			usuario.setUsActivo(true);
+			JSFUtil.crearMensajeInfo("Vendedor Activo");
 		}
 		entityManager.merge(usuario);
 

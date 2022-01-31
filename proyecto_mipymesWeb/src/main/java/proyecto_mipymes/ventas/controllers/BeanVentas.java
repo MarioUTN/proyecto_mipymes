@@ -83,13 +83,13 @@ public class BeanVentas implements Serializable {
 		listaFormaPagos = managerVentas.findAllFormaPagos();
 		listaTipoFacturas = managerVentas.findAllTipoFacturas();
 		listaDetalleFacturas = new ArrayList<DetalleFactura>();
-		listaDetalleAbonos=new ArrayList<DetalleAbono>();
+		listaDetalleAbonos = new ArrayList<DetalleAbono>();
 	}
 
 	public void actionListenerCrearCliente() {
 		clienteSeleccionado = new Cliente();
 		clienteSeleccionado = managerVentas.crearCliente(cedula_ruc, nombres, apellidos, telefono, email, direccion);
-		JSFUtil.crearMensajeError("Error no aaunnnnn!");
+
 		if (cliente != null) {
 			JSFUtil.crearMensajeInfo("Cliente creado con exito!");
 		} else {
@@ -118,16 +118,16 @@ public class BeanVentas implements Serializable {
 	}
 
 	public void actionListenerAgregarProductos() {
-		if(!managerVentas.findDetalleFacturaByCodProducto(listaDetalleFacturas, id_producto)) {
+		if (!managerVentas.findDetalleFacturaByCodProducto(listaDetalleFacturas, id_producto)) {
 			listaDetalleFacturas = managerVentas.agregarProductosFactura(listaDetalleFacturas, id_producto, cantidad);
 			valorTotal = managerVentas.valorTotalPagar(listaDetalleFacturas);
 			iva = managerVentas.valorIva(listaDetalleFacturas);
 			subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
 			JSFUtil.crearMensajeInfo("Producto: " + listaDetalleFacturas.get(0).getProducto().getProdNombre());
-			this.cantidad=1;
-		}
-		else {
-			JSFUtil.crearMensajeError("Produto ya existe en el detalle factura, tiene la opcion de eliminar o editar la cantidad!");
+			this.cantidad = 1;
+		} else {
+			JSFUtil.crearMensajeError(
+					"Produto ya existe en el detalle factura, tiene la opcion de eliminar o editar la cantidad!");
 		}
 
 	}
@@ -143,7 +143,7 @@ public class BeanVentas implements Serializable {
 		valorTotal = managerVentas.valorTotalPagar(listaDetalleFacturas);
 		iva = managerVentas.valorIva(listaDetalleFacturas);
 		subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
-		this.cantidad=1;
+		this.cantidad = 1;
 		JSFUtil.crearMensajeWarning("Cantidad: " + index);
 
 	}
@@ -172,23 +172,25 @@ public class BeanVentas implements Serializable {
 			JSFUtil.crearMensajeError("Error de facturacion!");
 		}
 	}
-	
+
 	public void actionListenerAgregarDetalleAbono(int id_vendedor) {
-		estadoPedido=managerVentas.insertarEstadoPedidoAnticipo(facturaAnticipo, valor_abono);
-		if(estadoPedido!=null) {
-			//JSFUtil.crearMensajeInfo("Facturacion por anticipos creada con exito!"+estadoPedido.getEstSaldo());
-			detalleAbono=managerVentas.agregarAbonoFacturaAnticipo(estadoPedido, clienteSeleccionado, id_vendedor, valor_abono);
-			JSFUtil.crearMensajeInfo("Facturacion por anticipos creada con exito!"+estadoPedido.getEstSaldo());
-			clienteSeleccionado=new Cliente();
-		}
-		else {
+		estadoPedido = managerVentas.insertarEstadoPedidoAnticipo(facturaAnticipo, valor_abono);
+		if (estadoPedido != null) {
+			// JSFUtil.crearMensajeInfo("Facturacion por anticipos creada con
+			// exito!"+estadoPedido.getEstSaldo());
+			detalleAbono = managerVentas.agregarAbonoFacturaAnticipo(estadoPedido, clienteSeleccionado, id_vendedor,
+					valor_abono);
+			JSFUtil.crearMensajeInfo("Facturacion por anticipos creada con exito!" + estadoPedido.getEstSaldo());
+			clienteSeleccionado = new Cliente();
+		} else {
 			JSFUtil.crearMensajeInfo("Error al crear Facturacion por anticipo!");
 		}
-		
+
 	}
+
 	public void actionInsertarFacturaAnticipos(int id_vendedor, int id_empresa) {
-		facturaAnticipo = managerVentas.insertarFacturaAnticipos(clienteSeleccionado, id_vendedor, id_empresa, listaDetalleFacturas,
-				5, 4);
+		facturaAnticipo = managerVentas.insertarFacturaAnticipos(clienteSeleccionado, id_vendedor, id_empresa,
+				listaDetalleFacturas, 5, 4);
 		if (facturaAnticipo != null) {
 			JSFUtil.crearMensajeInfo("Factura creada con exito!");
 			actionListenerLimpiarCampos();
@@ -207,11 +209,9 @@ public class BeanVentas implements Serializable {
 		JSFUtil.crearMensajeWarning("Facturcion Cancelada!");
 	}
 
-	
-	
 	public void actionListenerLimpiarCampos() {
 		listaDetalleFacturas = new ArrayList<DetalleFactura>();
-		//clienteSeleccionado = new Cliente();
+		// clienteSeleccionado = new Cliente();
 		this.cedula_ruc = "";
 		this.nombres = "";
 		this.apellidos = "";
@@ -482,6 +482,5 @@ public class BeanVentas implements Serializable {
 	public void setSaldo_actual(double saldo_actual) {
 		this.saldo_actual = saldo_actual;
 	}
-	
-	
+
 }

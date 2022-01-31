@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import proyecto_mipymes.controller.util.JSFUtil;
+import proyecto_mipymes.model.dtos.ClienteDTO;
 import proyecto_mipymes.model.entities.Cliente;
 import proyecto_mipymes.model.entities.Producto;
 import proyecto_mipymes.model.entities.TipoUsuario;
@@ -60,10 +61,10 @@ public class ManagerClientes {
 	public Cliente crearCliente(String cedula_ruc, String nombres, String apellidos, String telefono, String email,
 			String direccion) {
 		Cliente cliente = findAllClienteByCedulaRuc(cedula_ruc);
-		if (cliente.getCliCodigo()==null) {
+		if (cliente.getCliCodigo() == null) {
 			JSFUtil.crearMensajeInfo("Entre aqui!!!!!!!!!!!");
 			TipoUsuario tipoUsuario = findTipoUsuarioById(3);
-			
+
 			Usuario usuario = new Usuario();
 			usuario.setIdUsuario("CLI-" + cedula_ruc);
 			usuario.setUsEmail(email);
@@ -74,13 +75,45 @@ public class ManagerClientes {
 			usuario.setUsFechaRegistro(new Date());
 			usuario.setTipoUsuario(tipoUsuario);
 			entityManager.persist(usuario);
-			
+
 			cliente.setUsuario(usuario);
 			cliente.setCliTelefono(telefono);
 			cliente.setCliRucCedula(cedula_ruc);
 			cliente.setCliEmail(email);
 			cliente.setCliDireccion(direccion);
 			cliente.setCliRucCedula(cedula_ruc);
+			cliente.setCliFechaRegistro(new Date());
+			cliente.setCliCodigo("CLI-" + (findAllClientes().size() + 1));
+			entityManager.persist(cliente);
+			return cliente;
+		} else {
+			return null;
+		}
+	}
+
+	public Cliente crearCliente(ClienteDTO clienteDTO) {
+		Cliente cliente = findAllClienteByCedulaRuc(clienteDTO.getCedulaC());
+		if (cliente.getCliCodigo() == null) {
+			JSFUtil.crearMensajeInfo("Entre aqui!!!!!!!!!!!");
+			TipoUsuario tipoUsuario = findTipoUsuarioById(3);
+
+			Usuario usuario = new Usuario();
+			usuario.setIdUsuario("CLI-" + clienteDTO.getCedulaC());
+			usuario.setUsEmail(clienteDTO.getEmailC());
+			usuario.setUsPassword(Encriptar.encriptar("CLI-" + clienteDTO.getCedulaC()));
+			usuario.setUsActivo(true);
+			usuario.setUsNombres(clienteDTO.getNombresC());
+			usuario.setUsApellidos(clienteDTO.getApellidosC());
+			usuario.setUsFechaRegistro(new Date());
+			usuario.setTipoUsuario(tipoUsuario);
+			entityManager.persist(usuario);
+
+			cliente.setUsuario(usuario);
+			cliente.setCliTelefono(clienteDTO.getTelefonoC());
+			cliente.setCliRucCedula(clienteDTO.getCedulaC());
+			cliente.setCliEmail(clienteDTO.getEmailC());
+			cliente.setCliDireccion(clienteDTO.getDireccionC());
+			cliente.setCliRucCedula(clienteDTO.getCedulaC());
 			cliente.setCliFechaRegistro(new Date());
 			cliente.setCliCodigo("CLI-" + (findAllClientes().size() + 1));
 			entityManager.persist(cliente);

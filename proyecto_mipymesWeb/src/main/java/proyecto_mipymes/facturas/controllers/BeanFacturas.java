@@ -102,7 +102,7 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", "alexander", "12345");
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", "postgres", "12345");
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
@@ -112,6 +112,34 @@ public class BeanFacturas implements Serializable {
 		} catch (Exception e) {
 //			JSFUtil.crearMensajeERROR(e.getMessage());
 			System.out.println(e);
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public String actionReporte() {
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		/*
+		 * parametros.put("p_titulo_principal",p_titulo_principal);
+		 * parametros.put("p_titulo",p_titulo);
+		 */ FacesContext context = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("inventario/facturas/ReporteProductos.jasper");
+		System.out.println(ruta);
+		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+		response.addHeader("Content-disposition", "attachment;filename=reporte.pdf");
+		response.setContentType("application/pdf");
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection connection = null;
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", "postgres", "12345");
+			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
+			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
+			context.getApplication().getStateManager().saveView(context);
+			System.out.println("reporte generado.");
+			context.responseComplete();
+		} catch (Exception e) {
+			JSFUtil.crearMensajeError(""+e);
 			e.printStackTrace();
 		}
 		return "";

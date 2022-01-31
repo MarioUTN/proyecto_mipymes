@@ -1,9 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<f:facet name="first">
@@ -11,8 +11,11 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Clientes</title>
 	</f:facet>
-</h:head> 
-<body> 
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate></p:autoUpdate>
+	</p:growl>
 	<h:form id="form0">
 		<p:menubar>
 			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
@@ -44,7 +47,8 @@
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group" disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+			<p:menuitem value="Vendedores" icon="fa fa-group"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
@@ -61,7 +65,7 @@
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
- 
+
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="fa fa-user">
@@ -72,33 +76,96 @@
 			</f:facet>
 		</p:menubar>
 		<div align="center">
-			<p:staticMessage severity="info"
-				summary="Menu de vista de clientes"></p:staticMessage>
+			<p:staticMessage severity="info" summary="Menu de vista de clientes"></p:staticMessage>
 		</div>
 	</h:form>
-	
-	<h:form id="form1">
+	<div align="center">
+		<p:commandButton value="Registrar nuevo cliente" icon="fa fa-plus"
+			update=":form2:manage-product-content2"
+			oncomplete="PF('manageProductDialog2').show()"
+			styleClass="ui-button-success">
+			<p:resetInput target=":form2:manage-product-content2" />
+		</p:commandButton>
+	</div>
+	<h:form id="form2">
 		<div align="center">
-			<p:panelGrid columns="1">
-				<p:commandButton value="Agregar Un Nuevo Cliente"
-					icon="fa fa-user-plus" styleClass="ui-button-success"
-					style="width: 340px" action="agregar_cliente">
-				</p:commandButton>
-<!-- 
-				<p:commandButton value="Realizar un Ingreso de Productos"
-					icon="fa fa-cart-plus" styleClass="ui-button-success"
-					style="width: 340px" action="agregar_empresa">
-				</p:commandButton>
+			<p:dialog header="Ingresar datos del cliente" showEffect="fade"
+				modal="true" widgetVar="manageProductDialog2" responsive="true">
+				<p:outputPanel id="manage-product-content2" class="ui-fluid">
 
-				<p:commandButton value="Ver Productos cn menor existencia"
-					icon="fa fa-cart-plus" styleClass="ui-button-success"
-					style="width: 340px" action="agregar_empresa">
-				</p:commandButton>
-				 -->
-			</p:panelGrid>
+					<div align="center">
+						<p:panel>
+							<p:panelGrid columns="4"
+								columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+								layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+								style="border:0px none; background-color:transparent;">
+
+								<p:outputLabel for="@next" value="Cédula: " />
+								<p:inputText id="a" placeholder="Cédula" required="true"
+									requiredMessage="Ingrese el número de cédula"
+									value="#{beanClientes.clienteDTO.cedulaC}">
+									<p:tooltip for="a" value="Cédula" position="bottom" />
+								</p:inputText>
+								<p:outputLabel for="@next" value="Nombres: " />
+								<p:inputText id="b" placeholder="Nombres"
+									value="#{beanClientes.clienteDTO.nombresC}" required="true"
+									requiredMessage="Ingrese sus nombres!">
+									<p:tooltip for="b" value="Ingrese sus nombres!"
+										position="bottom" />
+								</p:inputText>
+
+								<p:outputLabel for="@next" value="Apellidos: " />
+								<p:inputText id="c" placeholder="Apellidos"
+									value="#{beanClientes.clienteDTO.apellidosC}" required="true"
+									requiredMessage="Ingrese sus Apellidos!">
+									<p:tooltip for="c" value="Ingrese sus Apellidos"
+										position="bottom" />
+								</p:inputText>
+
+
+
+								<p:outputLabel for="@next" value="Email " />
+								<p:inputText id="d" placeholder="Email"
+									value="#{beanClientes.clienteDTO.emailC}" required="true"
+									requiredMessage="Ingrese su email!!">
+									<p:tooltip for="d" value="Ingrese su email!" position="bottom" />
+								</p:inputText>
+
+
+
+								<p:outputLabel for="@next" value="Teléfono: " />
+								<p:inputText id="e" placeholder="0989061898"
+									value="#{beanClientes.clienteDTO.telefonoC}" required="true"
+									requiredMessage="Ingrese el teléfono!">
+									<p:tooltip for="e" value="Ingrese su numero de teléfono"
+										position="bottom" />
+								</p:inputText>
+
+								<p:outputLabel for="@next" value="Dirección: " />
+								<p:inputText id="f" placeholder="Dirección"
+									value="#{beanClientes.clienteDTO.direccionC}">
+									<p:tooltip for="f" value="Dirección" position="bottom" />
+								</p:inputText>
+
+							</p:panelGrid>
+						</p:panel>
+						<div align="center">
+							<p:panel>
+								<div align="center">
+									<p:row>
+										<p:commandButton value="Guardar Datos"
+											styleClass="ui-button-success" style="width: auto"
+											actionListener="#{beanClientes.actionListenerRegistrarCliente()}"
+											icon="fa fa-save" />
+									</p:row>
+								</div>
+							</p:panel>
+						</div>
+					</div>
+				</p:outputPanel>
+
+			</p:dialog>
 		</div>
 	</h:form>
-	
-	
-</body> 
+</body>
 </html>
