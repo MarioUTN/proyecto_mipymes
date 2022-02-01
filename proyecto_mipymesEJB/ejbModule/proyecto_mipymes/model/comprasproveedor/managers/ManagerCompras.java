@@ -57,6 +57,10 @@ public class ManagerCompras {
 		return entityManager.createNamedQuery("DetalleCompra.findAll", DetalleCompra.class).getResultList();
 	}
 
+	public CompraProducto findCompraProductoById(int id_compraproducto) {
+		return entityManager.find(CompraProducto.class, id_compraproducto);
+	}
+
 	public Producto findProductoByCodigo(String codigo) {
 		Query query = entityManager.createQuery("select p from Producto p where p.prodCodigo=:codigo", Producto.class);
 		query.setParameter("codigo", codigo);
@@ -74,11 +78,6 @@ public class ManagerCompras {
 	public BigDecimal calcularSubtotal(int cant, BigDecimal precio) {
 		BigDecimal f = precio.multiply(new BigDecimal(cant));
 		double e = (f).doubleValue() / 1.12;
-		return new BigDecimal(e).round(new MathContext(5));
-	}
-
-	public BigDecimal CalcularIva(BigDecimal subtotal) {
-		double e = (subtotal).doubleValue() * 0.12;
 		return new BigDecimal(e).round(new MathContext(5));
 	}
 
@@ -101,18 +100,25 @@ public class ManagerCompras {
 		return detalleCompra;
 	}
 
-	public List<DetalleCompra> agregarNuevoProducto(List<DetalleCompra> detalleCompra, String nombreProducto,
-			String descripcionProducto, double precio, int cantidad) {
+	public List<DetalleCompra> agregarNuevoProducto(List<DetalleCompra> detalleCompra, String codico_producto,
+			String nombreProducto, String descripcionProducto, double precio, int cantidad) {
 		DetalleCompra detalle = new DetalleCompra();
 		detalle.setDetcompNombreProducto(nombreProducto);
 		detalle.setDetcompCantidad(cantidad);
 		detalle.setDetcompDescripcion(descripcionProducto);
-
+		detalle.setDetcompCodigoProducto(codico_producto);
+		detalle.setDetcompPrecioUnit(new BigDecimal(precio));
+		detalle.setDetcompPrecioTotal(calcularPrecioTotal(cantidad, precio));
 		detalle.setDetcompPrecioTotal((CalcularTotal(new BigDecimal(cantidad), new BigDecimal(precio))));
 		detalle.setDetcompPrecioUnit(new BigDecimal(precio));
 		detalleCompra.add(detalle);
 		return detalleCompra;
 
+	}
+
+	public BigDecimal calcularPrecioTotal(int cant, double precio) {
+		double e = cant * precio;
+		return new BigDecimal(e).round(new MathContext(5));
 	}
 
 	public double calcularTotal(List<DetalleCompra> detalleCompra) {
@@ -123,21 +129,64 @@ public class ManagerCompras {
 		return total;
 	}
 
-	public double calcularSubTotalCompra(double total) {
-
-		return total / 1.12;
+	public BigDecimal CalcularIva(BigDecimal subtotal) {
+		double e = (subtotal).doubleValue() * 0.12;
+		return new BigDecimal(e).round(new MathContext(5));
 	}
 
-	public CompraProducto insertarPedido(List<DetalleCompra> detalleCompra, Empresa proveedor, int idVendedor) {
+	public double calcularSubTotalCompra(double total) {
+
+		return formatearDecimales(total / 1.12, 3);
+	}
+
+	public double formatearDecimales(Double numero, Integer numeroDecimales) {
+		return Math.round(numero * Math.pow(10, numeroDecimales)) / Math.pow(10, numeroDecimales);
+	}
+
+	public double valorSubTotal(double total) {
+		double subTotal = total / 1.12;
+
+		return formatearDecimales(subTotal, 2);
+	}
+
+	public double valorIva(double total) {
+		double iva = total - calcularSubTotalCompra(total);
+		return formatearDecimales(iva, 2);
+	}
+
+	public double valorTotalPagar(List<DetalleCompra> listaDetalleCompras) {
+		double valorTotal = 0;
+		for (DetalleCompra detalleFactura : listaDetalleCompras) {
+			valorTotal += detalleFactura.getDetcompPrecioTotal().doubleValue();
+		}
+		return formatearDecimales(valorTotal, 2);
+	}
+
+	public List<DetalleCompra> eliminarProductoListaDetalle(List<DetalleCompra> listaDetallecompras, int index) {
+		listaDetallecompras.remove(index);
+		return listaDetallecompras;
+	}
+
+	public List<DetalleCompra> editarCantidadProductoListaDetalle(List<DetalleCompra> listaDetallecompras, int cantidad,
+			int index) {
+
+		listaDetallecompras.get(index).setDetcompCantidad(cantidad);
+		listaDetallecompras.get(index).setDetcompPrecioTotal(
+				calcularPrecioTotal(cantidad, listaDetallecompras.get(index).getDetcompPrecioUnit().doubleValue()));
+
+		return listaDetallecompras;
+	}
+
+	public CompraProducto insertarPedido(List<DetalleCompra> detalleCompra, int proveedor, int idVendedor) {
 		CompraProducto comprapro = new CompraProducto();
 		CabeceraCompra cabeceraCompra = ingresarCabeceraCompra(idVendedor, proveedor);
+		entityManager.persist(cabeceraCompra);
 		comprapro.setCabeceraCompra(cabeceraCompra);
 		comprapro.setComprodAprobado(false);
 		comprapro.setComprodFecha(new Date());
 		comprapro.setComprodSubtotal(new BigDecimal(calcularSubTotalCompra(calcularTotal(detalleCompra))));
 		comprapro.setComprodTotal(new BigDecimal(calcularTotal(detalleCompra)));
 		comprapro.setComprodIva(CalcularIva(comprapro.getComprodSubtotal()));
-		entityManager.persist(cabeceraCompra);
 		entityManager.persist(comprapro);
 		for (DetalleCompra detalle : detalleCompra) {
 			detalle.setCompraProducto(comprapro);
@@ -146,9 +195,10 @@ public class ManagerCompras {
 		return comprapro;
 	}
 
-	public CabeceraCompra ingresarCabeceraCompra(int idVendedor, Empresa provedor) {
+	public CabeceraCompra ingresarCabeceraCompra(int idVendedor, int idprovedor) {
+		Empresa proveedor = entityManager.find(Empresa.class, idprovedor);
 		CabeceraCompra cabeceraCompra = new CabeceraCompra();
-		cabeceraCompra.setEmpresa(provedor);
+		cabeceraCompra.setEmpresa(proveedor);
 		cabeceraCompra.setVendedor(entityManager.find(Vendedor.class, idVendedor));
 //		entityManager.persist(cabeceraCompra);
 		return cabeceraCompra;
@@ -196,29 +246,14 @@ public class ManagerCompras {
 		return resp;
 	}
 
-	public void actualizaProveedor(Empresa edicionProveedor, int idGerente) throws Exception {
-		Gerente gerente = entityManager.find(Gerente.class, idGerente);
-		Empresa proveedor = entityManager.find(Empresa.class, edicionProveedor.getIdEmpresa());
-		proveedor.setEmpRuc(edicionProveedor.getEmpRuc());
-		proveedor.setEmpCiudad(edicionProveedor.getEmpCiudad());
-		proveedor.setEmpEmail(edicionProveedor.getEmpEmail());
-		proveedor.setEmpMatriz(edicionProveedor.getEmpMatriz());
-
-		proveedor.setEmpPais(edicionProveedor.getEmpPais());
-		proveedor.setEmpNombreEmpresa(edicionProveedor.getEmpNombreEmpresa());
-		proveedor.setEmpProvincia(edicionProveedor.getEmpProvincia());
-		proveedor.setEmpSucursal(edicionProveedor.getEmpSucursal());
-		proveedor.setEmpTelefono(edicionProveedor.getEmpTelefono());
-		proveedor.setGerente(gerente);
-
-		entityManager.merge(proveedor);
-
+	public boolean aprobarPedidoProductos(int id_compra_producto) {
+		CompraProducto compraProducto = findCompraProductoById(id_compra_producto);
+		if (compraProducto.getComprodAprobado()) {
+			compraProducto.setComprodAprobado(false);
+		} else {
+			compraProducto.setComprodAprobado(true);
+		}
+		entityManager.merge(compraProducto);
+		return compraProducto.getComprodAprobado();
 	}
-
-	public void EliminarEmpresa(int idEmpresa) {
-		Empresa empresa= entityManager.find(Empresa.class, idEmpresa);
-		entityManager.remove(empresa);
-
-	}
-
 }

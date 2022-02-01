@@ -38,7 +38,7 @@ public class BeanUsuarios implements Serializable {
 	private String nombresV;
 	private String apellidosV;
 	private String emailV;
-	private String contraseñaV;
+	private String contrasenaV;
 	private String telefonoV;
 	private String cedulaV;
 	private String direccionV;
@@ -66,7 +66,7 @@ public class BeanUsuarios implements Serializable {
 	public String actionLoginVendedor() {
 		if (managerUsuarios.loginUsuarios(id_usuario, password) == 1
 				|| managerUsuarios.loginUsuarios(id_usuario, password) == 3) {
-			JSFUtil.crearMensajeWarning("Su usuario no pertenece a la de un Vendedor!!");
+			JSFUtil.crearMensajeWarning("Su usuario no pertenece a la de un VendedorDTO!!");
 			return "";
 		}
 
@@ -275,12 +275,12 @@ public class BeanUsuarios implements Serializable {
 		this.emailV = emailV;
 	}
 
-	public String getContraseñaV() {
-		return contraseñaV;
+	public String getContrasnnaV() {
+		return contrasenaV;
 	}
 
-	public void setContraseñaV(String contraseñaV) {
-		this.contraseñaV = contraseñaV;
+	public void setContrasenaV(String contrasenaV) {
+		this.contrasenaV = contrasenaV;
 	}
 
 	public String getTelefonoV() {

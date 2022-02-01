@@ -17,7 +17,7 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_usuario", unique=true, nullable=false, length=15)
+	@Column(name="id_usuario", unique=true, nullable=false, length=25)
 	private String idUsuario;
 
 	@Column(name="us_activo", nullable=false)
@@ -52,7 +52,7 @@ public class Usuario implements Serializable {
 	@JoinColumn(name="us_tipousuario", nullable=false)
 	private TipoUsuario tipoUsuario;
 
-	//bi-directional many-to-one association to Vendedor
+	//bi-directional many-to-one association to VendedorDTO
 	@OneToMany(mappedBy="usuario")
 	private List<Vendedor> vendedors;
 

@@ -89,11 +89,10 @@ public class BeanVentas implements Serializable {
 	public void actionListenerCrearCliente() {
 		clienteSeleccionado = new Cliente();
 		clienteSeleccionado = managerVentas.crearCliente(cedula_ruc, nombres, apellidos, telefono, email, direccion);
-
-		if (cliente != null) {
+		if (clienteSeleccionado != null) {
 			JSFUtil.crearMensajeInfo("Cliente creado con exito!");
 		} else {
-			JSFUtil.crearMensajeError("Error al crear el cliente!");
+			JSFUtil.crearMensajeError("Error al crear el cliente!"+clienteSeleccionado.getCliCodigo());
 		}
 	}
 

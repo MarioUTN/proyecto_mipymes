@@ -43,7 +43,7 @@ public class ManagerAnticipos {
 	}
 
 	public List<Vendedor> findAllVendedores() {
-		return entityManager.createNamedQuery("Vendedor.findAll", Vendedor.class).getResultList();
+		return entityManager.createNamedQuery("VendedorDTO.findAll", Vendedor.class).getResultList();
 	}
 
 	public List<FormaPago> findAllFormaPagos() {

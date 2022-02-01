@@ -9,12 +9,12 @@
 	<f:facet name="first">
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
-		<title>Agregar Productos</title>
+		<title>Compras</title>
 	</f:facet>
 </h:head>
 <body>
 	<p:growl>
-		<p:autoUpdate></p:autoUpdate>
+		<p:autoUpdate />
 	</p:growl>
 	<h:form>
 		<p:menubar>
@@ -47,7 +47,8 @@
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group" disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+			<p:menuitem value="Vendedores" icon="fa fa-group"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
@@ -68,15 +69,12 @@
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="fa fa-user">
-					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Perfil" icon="fa fa-cog"></p:menuitem>
 					<p:menuitem value="Cerrar sesión" icon="fa fa-sign-out"
 						outcome="/login"></p:menuitem>
 				</p:menuButton>
 			</f:facet>
 		</p:menubar>
-		<div align="center">
-			<p:staticMessage severity="info" summary="Agregar Productos para el pedido"></p:staticMessage>
-		</div>
 	</h:form>
 	<div align="center">
 		<p:steps activeIndex="1">
@@ -86,190 +84,371 @@
 			<p:menuitem value="Enviar Pedido de Productos" />
 		</p:steps>
 	</div>
-	<h:form id="form1">
-		<div align="center">
-			<p:panel header="Agregar Productos para el Pedido">
-				<p:panelGrid columns="2">
-					<p:commandButton value="Agregar un Producto Existente"
-						update=":form3:manage-product-content3"
-						oncomplete="PF('manageProductDialog3').show()" icon="fa fa-plus">
-						<p:resetInput target=":form3:manage-product-content3" />
-					</p:commandButton>
-					<p:commandButton value="Agregar Nuevo Producto" icon="fa fa-plus"
-						update=":form2:manage-product-content2"
-						oncomplete="PF('manageProductDialog2').show()"
-						styleClass="ui-button-success">
-						<p:resetInput target=":form2:manage-product-content2" />
-					</p:commandButton>
-				</p:panelGrid>
-			</p:panel>
-		</div>
-	</h:form>
-	<h:form id="form2">
-		<div align="center">
-			<p:dialog header="Ingresar Datos del Producto" showEffect="fade"
-				modal="true" widgetVar="manageProductDialog2" responsive="true">
-				<p:outputPanel id="manage-product-content2" class="ui-fluid">
+	<div align="center">
 
+		<p:panel header="Agregar Productos">
+
+
+			<h:form id="form-productos">
+				<div align="center">
+					<p:splitter>
+						<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
+							<p:panelGrid columns="6" styleClass="ui-noborder">
+								<p:outputLabel for="@next" value="Selecionar Producto: "
+									style="font-weight:bold" />
+								<p:selectOneMenu value="#{beanIngresos.id_producto}"
+									style="width:350px" panelStyle="width:180px" effect="fade"
+									filter="true" filterMatchMode="startsWith">
+									<f:selectItems value="#{beanProductos.listaProductos}"
+										var="productos" itemLabel="#{productos.prodNombre}"
+										itemValue="#{productos.idProducto}">
+										<p:column style="width:10%">
+											<span class="flag flag-#{productos.prodNombre}"
+												style="width: 30px; height: 20px" />
+										</p:column>
+										<p:column>
+											<f:facet name="header">
+												<h:outputText value="Name" />
+											</f:facet>
+											<h:outputText value="#{productos.prodNombre}" />
+										</p:column>
+
+									</f:selectItems>
+									<f:facet name="footer">
+										<h:outputText
+											value="#{beanProductos.listaProductos.size()} Productos Encontrados"
+											style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+									</f:facet>
+								</p:selectOneMenu>
+								<h:outputText value="Cantidad:" style="font-weight:bold" />
+								<p:spinner id="l" placeholder="3" buttons="horizontal-after"
+									stepFactor="1" min="1" value="#{beanIngresos.cantidad}"
+									required="true"
+									requiredMessage="Ingrese la cantidad de productos!">
+									<p:tooltip for="l" value="Ingrese la cantidad de productos!"
+										position="bottom" />
+								</p:spinner>
+								<p:commandButton value="Agregar Producto"
+									actionListener="#{beanIngresos.actionListenerAgregarProductos()}"
+									update="form-detalle-compra"
+									styleClass="rounded-button ui-button-success"
+									icon="fa fa-cart-plus" />
+								<p:commandButton value="Agregar Nuevo Producto"
+									icon="fa fa-plus"
+									onclick="PF('nuevoProducto').show()"
+									styleClass="rounded-button ui-button-success">
+								</p:commandButton>
+								<p:dialog header="Agregar un nuevo Producto" showEffect="fade"
+									modal="true" widgetVar="nuevoProducto" responsive="true">
+									
+
+										<div align="center">
+											<p:panel>
+
+												<p:panelGrid columns="4"
+													columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+													layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+													style="border:0px none; background-color:transparent;">
+
+													<p:outputLabel for="@next" value="CODIGO: " />
+													<p:inputText id="a" placeholder="CODIGO"
+														value="#{beanIngresos.productoNuevo.prodCodigo}">
+														<p:tooltip for="a" value="Ingrese el codigo del producto!"
+															position="bottom" />
+													</p:inputText>
+
+													<p:outputLabel for="@next" value="Nombre de producto: " />
+													<p:inputText id="b" placeholder="Nombre de Producto"
+														value="#{beanIngresos.productoNuevo.prodNombre}">
+														<p:tooltip for="b" value="Ingrese el nombre de producto!"
+															position="bottom" />
+													</p:inputText>
+
+													<p:outputLabel value="Seleccionar la Talla:"></p:outputLabel>
+													<p:selectOneMenu value="#{beanIngresos.id_talla_producto}"
+														panelStyle="width:180px" effect="fade" filter="true"
+														filterMatchMode="startsWith">
+														<f:selectItems
+															value="#{beanProductos.listaTallaProductos}" var="talla"
+															itemLabel="#{talla.tallaNombre}"
+															itemValue="#{talla.idTallaProducto}">
+															<p:column style="width:10%">
+																<span class="flag flag-#{talla.tallaNombre}"
+																	style="width: 30px; height: 20px" />
+															</p:column>
+															<p:column>
+																<f:facet name="header">
+																	<h:outputText value="Name" />
+																</f:facet>
+																<h:outputText value="#{talla.tallaNombre}" />
+															</p:column>
+															<f:facet name="footer">
+																<h:outputText
+																	value="#{beanProductos.listaTallaProductos.size()} Tallas"
+																	style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+															</f:facet>
+														</f:selectItems>
+													</p:selectOneMenu>
+
+													<p:outputLabel for="@next" value="Descripcion: " />
+													<p:inputTextarea id="c"
+														placeholder="Descripcion del producto"
+														value="#{beanIngresos.productoNuevo.prodDescripcion}">
+														<p:tooltip for="c"
+															value="Ingrese la descripcion del producto!"
+															position="bottom" />
+													</p:inputTextarea>
+
+													<p:outputLabel for="@next" value="Cantidad: " />
+													<p:spinner id="d" placeholder="5"
+														buttons="horizontal-after" prefix="Cant.  " stepFactor="1"
+														upButtonStyleClass="ui-button-success" min="0"
+														downButtonStyleClass="ui-button-danger"
+														value="#{beanIngresos.productoNuevo.prodCantidad}">
+														<p:tooltip for="d"
+															value="Ingrese la cantidad de productos!"
+															position="bottom" />
+													</p:spinner>
+
+													<p:outputLabel for="@next" value="Precio Proveedor: " />
+													<p:spinner id="e" placeholder="15.25"
+														buttons="horizontal-after" prefix="$ " stepFactor="0.01"
+														upButtonStyleClass="ui-button-success" min="0.00"
+														downButtonStyleClass="ui-button-danger"
+														value="#{beanIngresos.productoNuevo.prodPvproveedor}">
+														<p:tooltip for="e" value="Ingrese el precio de proveedor"
+															position="bottom" />
+													</p:spinner>
+
+													<p:outputLabel for="@next" value="IVA: " />
+													<p:selectOneMenu id="f" placeholder="12"
+														value="#{beanIngresos.productoNuevo.prodIva}">
+														<f:selectItem itemLabel="12 %" itemValue="12" />
+														<f:selectItem itemLabel="0 %" itemValue="0" />
+														<p:tooltip for="f" value="Seleccione el valor del Iva!"
+															position="bottom" />
+													</p:selectOneMenu>
+
+													<p:outputLabel for="@next" value="Precio Venta Publico: " />
+													<p:spinner id="g" placeholder="15.25"
+														buttons="horizontal-after" prefix="$ " stepFactor="0.01"
+														min="0.00"
+														value="#{beanIngresos.productoNuevo.prodPvpublico}">
+														<p:tooltip for="g"
+															value="Ingrese el precio de venta al publico"
+															position="bottom" />
+													</p:spinner>
+
+													<p:outputLabel for="@next" value="Tipo de Producto: " />
+													<p:selectOneMenu value="#{beanIngresos.id_tipo_producto}"
+														panelStyle="width:180px" effect="fade" filter="true"
+														filterMatchMode="startsWith">
+														<f:selectItems value="#{beanProductos.listaTipoProductos}"
+															var="tipo" itemLabel="#{tipo.tpNombre}"
+															itemValue="#{tipo.idTipoProducto}">
+															<p:column style="width:10%">
+																<span class="flag flag-#{tipo.tpNombre}"
+																	style="width: 30px; height: 20px" />
+															</p:column>
+															<p:column>
+																<f:facet name="header">
+																	<h:outputText value="Name" />
+																</f:facet>
+																<h:outputText value="#{tipo.tpNombre}" />
+															</p:column>
+															<f:facet name="footer">
+																<h:outputText
+																	value="#{beanProductos.listaTipoProductos.size()} Tallas"
+																	style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+															</f:facet>
+														</f:selectItems>
+													</p:selectOneMenu>
+
+													<p:outputLabel for="@next" value="Proveedor de Producto: " />
+													<p:selectOneMenu value="#{beanIngresos.id_proveedor}"
+														panelStyle="width:180px" effect="fade" filter="true"
+														filterMatchMode="startsWith">
+														<f:selectItems value="#{beanProductos.listaEmpresas}"
+															var="empresa" itemLabel="#{empresa.empNombreEmpresa}"
+															itemValue="#{empresa.idEmpresa}">
+															<p:column style="width:10%">
+																<span class="flag flag-#{empresa.empNombreEmpresa}"
+																	style="width: 30px; height: 20px" />
+															</p:column>
+															<p:column>
+																<f:facet name="header">
+																	<h:outputText value="Name" />
+																</f:facet>
+																<h:outputText value="#{empresa.empNombreEmpresa}" />
+															</p:column>
+															<f:facet name="footer">
+																<h:outputText
+																	value="#{beanProductos.listaEmpresas.size()} Tallas"
+																	style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+															</f:facet>
+														</f:selectItems>
+													</p:selectOneMenu>
+
+
+
+												</p:panelGrid>
+											</p:panel>
+
+											<p:panel>
+												<div align="center">
+													<p:row>
+
+														<p:panelGrid columns="2" styleClass="ui-noborder">
+															<p:commandButton value="Guardar Nuevo Producto"
+																id="btn-editar" icon="fa fa-plus" styleClass="p-mr-2"
+																update="form-detalle-compra"
+																actionListener="#{beanIngresos.actionListenerAgregarNuevoProducto()}"
+																onclick="PF('nuevoProducto').show()" />
+
+															<p:commandButton value="Listo" icon="fa fa-check"
+																styleClass="ui-button-raised ui-button-help"
+																onclick="PF('nuevoProducto').hide()" />
+														</p:panelGrid>
+
+													</p:row>
+												</div>
+											</p:panel>
+
+
+										</div>
+
+
+								</p:dialog>
+							</p:panelGrid>
+						</p:splitterPanel>
+					</p:splitter>
+				</div>
+			</h:form>
+			<h:form id="form-detalle-compra">
+				<p:panel header="">
 					<div align="center">
-							<div class="p-field">
-								<p:outputLabel for="name">Nombre del Producto</p:outputLabel>
-								<p:inputText id="name" value="#{beanCompras.nombre_producto}"
-									required="true" />
-							</div>
-							<div class="p-field">
-								<p:outputLabel for="description">Descripcion del Producto</p:outputLabel>
-								<p:inputTextarea id="description"
-									value="#{beanCompras.descripcion_producto}" />
-							</div>
-
-							<div class="p-formgrid p-grid">
-								<div class="p-field p-col">
-									<p:outputLabel for="price">Precio del Producto</p:outputLabel>
-									<p:inputNumber id="price"
-										value="#{beanCompras.precio_unitario}" symbol=" USD"
-										symbolPosition="s" decimalSeparator="." thousandSeparator="," />
-								</div>
-								<div class="p-field p-col">
-									<p:outputLabel for="quantity">Cantidad de Productos</p:outputLabel>
-									<p:spinner id="quantity" min="5" max="50"
-										value="#{beanCompras.cantidad}" />
-								</div>
-							</div>
-
-							<div align="center">
-								<br />
+						<p:splitter>
+							<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
+								size="180">
 								<div align="center">
-									<p:row>
-										<p:commandButton value="Ingresar el Producto"
-											styleClass="ui-button-success" style="width: auto"
-											icon="fa fa-save" />
-									</p:row>
+									<p:dataTable value="#{beanIngresos.listaDetalleIngresos}"
+										id="tabla-detalle-ingreso" stripedRows="true" var="detalle"
+										paginator="true" reflow="true" rows="7"
+										style="font-size: 12px" paginatorPosition="bottom"
+										rowIndexVar="index">
+										<p:column headerText="COD" style="width:80px">
+											<h:outputText value="#{detalle.producto.prodCodigo}" />
+										</p:column>
+										<p:column headerText="CANT" style="width:40px">
+											<h:outputText value="#{detalle.detingCantidad}" />
+										</p:column>
+
+										<p:column headerText="NOMBRE">
+											<h:outputText value="#{detalle.producto.prodNombre}" />
+										</p:column>
+										<p:column headerText="DESCR">
+											<h:outputText value="#{detalle.producto.prodDescripcion}" />
+										</p:column>
+
+										<p:column headerText="PRECIO UNIT">
+											<h:outputText value="#{detalle.detingPrecioUnitario}" />
+										</p:column>
+										
+										<p:column headerText="SUB TOTAL">
+											<h:outputText value="#{detalle.detingSubtotal}" />
+										</p:column>
+
+										<p:column headerText="IVA">
+											<h:outputText value="#{detalle.detingIva}" />
+										</p:column>
+
+										<p:column headerText="TOTAL">
+											<h:outputText value="#{detalle.detingPrecioTotal}" />
+										</p:column>
+
+										<p:column headerText="Opciones">
+											<p:commandButton icon="fa fa-edit"
+												onclick="PF('dlg3').show()" actionListener="#{beanIngresos.verIndex(index)}"
+												styleClass="rounded-button ui-button-success">
+											</p:commandButton>
+											<p:commandButton icon="fa fa-trash"
+												styleClass="rounded-button ui-button-danger"
+												actionListener="#{beanIngresos.actionListenerEliminarProductoDetalleIngreso(index)}"
+												update="form-detalle-compra" />
+
+											<p:dialog header="Editar Cantidad" widgetVar="dlg3"
+												minHeight="40" width="350" showEffect="fade">
+												<p:panelGrid columns="2" styleClass="ui-noborder">
+													<h:outputText value="Cantidad:" style="font-weight:bold" />
+													<p:spinner id="minMax" value="#{beanIngresos.cantidad}"
+														min="1" max="100" />
+												</p:panelGrid>
+												<f:facet name="footer">
+													<p:commandButton value="Cancelar"
+														onclick="PF('dlg3').hide()" icon="fa fa-times-circle"
+														style="width: 8rem"
+														styleClass="rounded-button ui-button-danger" />
+													<p:commandButton value="Editar"
+														update="form-detalle-compra" icon="fa fa-check-square"
+														actionListener="#{beanIngresos.actionListenerEditarCantidad()}"
+														style="width: 8rem" onclick="PF('dlg3').hide()"
+														styleClass="rounded-button ui-button-success" />
+												</f:facet>
+											</p:dialog>
+										</p:column>
+									</p:dataTable>
 								</div>
-							</div>
+							</p:splitterPanel>
+							<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
+								size="50">
+								<p:panel header="Valor Total a Pagar">
+									<p:panelGrid columns="2" styleClass="ui-noborder">
+										<p:outputLabel value="Sub Total: " style="font-weight:bold"></p:outputLabel>
+										<p:outputLabel value="#{beanIngresos.subTotal}"
+											style="font-weight:bold"></p:outputLabel>
+										<p:outputLabel value="IVA 12 %: " style="font-weight:bold"></p:outputLabel>
+										<p:outputLabel value="#{beanIngresos.iva}"
+											style="font-weight:bold"></p:outputLabel>
+										<p:outputLabel value="IVA 00 %: " style="font-weight:bold"></p:outputLabel>
+										<p:outputLabel value="0.00" style="font-weight:bold"></p:outputLabel>
+										<p:outputLabel value="TOTAL: "
+											style="font-weight:bold; font-size:22px; color: blue"></p:outputLabel>
+										<p:outputLabel value="#{beanIngresos.valorTotal}"
+											style="font-weight:bold; font-size:22px; color: blue"></p:outputLabel>
+									</p:panelGrid>
+
+
+									<p:panelGrid columns="2" styleClass="ui-noborder">
+										<p:commandButton value="Guardar"
+											update="@form,:form-detalle-compra"
+											action="#{beanIngresos.actionListenerInsertarFacturaIngreso(beanUsuarios.vendedor.idVendedor)}"
+											styleClass="ui-button-raised ui-button-success"
+											icon="fa fa-check">
+										</p:commandButton>
+										<p:commandButton value="Cancelar"
+											styleClass="ui-button-raised ui-button-danger"
+											update="@form,:form-detalle-compra," icon="fa fa-times" />
+									</p:panelGrid>
+								</p:panel>
+
+
+								<p:panel header="">
+									<div align="center">
+										<p:staticMessage severity="warn"
+											summary="¡La forma de cobro se realiza de contado o a crédito siempre y cuando el cliente no tenga deudas con la empresa!"></p:staticMessage>
+									</div>
+								</p:panel>
+							</p:splitterPanel>
+						</p:splitter>
+
 					</div>
-				</p:outputPanel>
+				</p:panel>
+			</h:form>
+		</p:panel>
 
-			</p:dialog>
-		</div>
-	</h:form>
-
-	<h:form id="form3">
-		<div align="center">
-			<p:dialog header="Ingresar un Nuevo Producto" showEffect="fade"
-				modal="true" widgetVar="manageProductDialog3" responsive="true">
-				<p:outputPanel id="manage-product-content3" class="ui-fluid">
-					<p:dataTable value="#{beanCompras.listaProductos}" var="producto">
-						<p:column headerText="Nombre Producto"
-							sortBy="#{producto.prodNombre}" filterBy="#{producto.prodNombre}">
-							<h:outputText value="#{producto.prodNombre}" />
-						</p:column>
-						<p:column headerText="Codigo de Producto"
-							sortBy="#{producto.prodCodigo}" filterBy="#{producto.prodCodigo}">
-							<h:outputText value="#{producto.prodCodigo}" />
-						</p:column>
-						<p:column headerText="Precio Unitario"
-							sortBy="#{producto.prodPvproveedor}"
-							filterBy="#{producto.prodPvproveedor}">
-							<h:outputText value="#{producto.prodPvproveedor}" />
-						</p:column>
-						<p:column headerText="Cantidad Existente"
-							sortBy="#{producto.prodCantidad}"
-							filterBy="#{producto.prodCantidad}">
-							<h:outputText value="#{producto.prodCantidad}" />
-						</p:column>
-						<p:column headerText="Opciones">
-							<p:commandButton value="Agregar Producto" icon="fa fa-cart-plus"
-								update=":form4:manage-product-content4"
-								oncomplete="PF('manageProductDialog4').show()"
-								styleClass="ui-button-success">
-								<p:resetInput target=":form4:manage-product-content4" />
-							</p:commandButton>
-
-						</p:column>
-					</p:dataTable>
-
-				</p:outputPanel>
-
-			</p:dialog>
-		</div>
-	</h:form>
-
-	<h:form id="form4">
-		<div align="center">
-			<p:dialog header="Ingresar la cantidad de Productos"
-				showEffect="fade" modal="true" widgetVar="manageProductDialog4"
-				responsive="true">
-				<p:outputPanel id="manage-product-content4" class="ui-fluid">
-					<p:panelGrid columns="2">
-						<h:outputText value="Ingresar la cantidad:" />
-						<p:spinner id="quantity" min="5" max="50"
-							value="#{beanCompras.cantidad}" />
-					</p:panelGrid>
-					<br />
-					<div align="center">
-						<p:commandButton value="Ingresar el Producto"
-							styleClass="ui-button-success" style="width: auto"
-							oncomplete="PF('manageProductDialog4').hide()" icon="fa fa-check" />
-					</div>
-				</p:outputPanel>
-
-			</p:dialog>
-		</div>
-	</h:form>
+	</div>
 
 
-	<h:form id="form5">
-		<div align="center">
-			<p:panel header="Productos Agregados">
-				<p:dataTable value="#{beanCompras.listaDetalleCompras}"
-					var="detalleCompras" paginator="true" rows="5">
-					<p:column headerText="Codigo de Producto"
-						sortBy="#{detalleCompras.detcompCodigoProducto}"
-						filterBy="#{detalleCompras.detcompCodigoProducto}">
-						<h:outputText value="#{detalleCompras.detcompCodigoProducto}" />
-					</p:column>
-					<p:column headerText="Nombre Producto"
-						sortBy="#{detalleCompras.detcompNombreProducto}"
-						filterBy="#{detalleCompras.detcompNombreProducto}">
-						<h:outputText value="#{producto.prodNombre}" />
-					</p:column>
-
-					<p:column headerText="Precio Unitario"
-						sortBy="#{detalleCompras.detcompPrecioUnit}"
-						filterBy="#{detalleCompras.detcompPrecioUnit}">
-						<h:outputText value="#{detalleCompras.detcompPrecioUnit}" />
-					</p:column>
-
-					<p:column headerText="Precio Total"
-						sortBy="#{detalleCompras.detcompPrecioTotal}"
-						filterBy="#{detalleCompras.detcompPrecioTotal}">
-						<h:outputText value="#{detalleCompras.detcompPrecioTotal}" />
-					</p:column>
-					<p:column headerText="Cantidad de Productos"
-						sortBy="#{detalleCompras.detcompCantidad}"
-						filterBy="#{detalleCompras.detcompCantidad}">
-						<h:outputText value="#{detalleCompras.detcompCantidad}" />
-					</p:column>
-					<p:column headerText="Opciones">
-						<p:commandButton value="Editar Producto" icon="fa fa-edit"
-							styleClass="ui-button-success">
-						</p:commandButton>
-
-						<p:commandButton value="Eliminar Producto" icon="fa fa-times"
-							styleClass="ui-button-danger">
-						</p:commandButton>
-
-					</p:column>
-				</p:dataTable>
-			</p:panel>
-			<br />
-			<div align="center">
-				<p:commandButton value="Generar Compras de los Productos" action="viewcompras"
-					styleClass="ui-button-success" style="width: auto" icon="fa fa-check" />
-			</div>
-		</div>
-	</h:form>
-
+	
 </body>
 </html>

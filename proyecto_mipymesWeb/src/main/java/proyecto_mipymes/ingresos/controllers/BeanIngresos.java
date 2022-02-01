@@ -129,7 +129,7 @@ public class BeanIngresos implements Serializable {
 		}
 	}
 
-	public void actionListenerInsertarFacturaIngreso(int id_vendedor) {
+	public String actionListenerInsertarFacturaIngreso(int id_vendedor) {
 		facturaIngreso = managerIngresos.insertarFacturaIngreso(cabeceraIngreso, listaDetalleIngresos, id_vendedor);
 		if (facturaIngreso != null) {
 			JSFUtil.crearMensajeInfo("Ingreso realizado con exito!");
@@ -137,8 +137,10 @@ public class BeanIngresos implements Serializable {
 			valorTotal = 0;
 			iva = 0;
 			subTotal = 0;
+			return "viewcompras";
 		} else {
 			JSFUtil.crearMensajeError("Error al ingresar factura!!");
+			return "";
 		}
 	}
 

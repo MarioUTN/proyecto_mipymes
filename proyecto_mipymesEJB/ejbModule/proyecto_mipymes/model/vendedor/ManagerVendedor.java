@@ -31,7 +31,7 @@ public class ManagerVendedor {
 	}
 
 	public Vendedor findAllVendedorByCedulaRuc(String cli_ruc_cedula) {
-		Query query = entityManager.createQuery("select c from Vendedor c where c.venCedula='" + cli_ruc_cedula + "'",
+		Query query = entityManager.createQuery("select c from VendedorDTO c where c.venCedula='" + cli_ruc_cedula + "'",
 				Vendedor.class);
 		Vendedor vendedor = new Vendedor();
 		try {
@@ -61,7 +61,7 @@ public class ManagerVendedor {
 			Usuario usuario = new Usuario();
 			usuario.setIdUsuario("VEN-" + vendedorDTO.getCedulaV());
 			usuario.setUsEmail(vendedorDTO.getEmailV());
-			usuario.setUsPassword(Encriptar.encriptar(vendedorDTO.getContraseñaV()));
+			usuario.setUsPassword(Encriptar.encriptar(vendedorDTO.getContrasenaV()));
 			usuario.setUsActivo(true);
 			usuario.setUsNombres(vendedorDTO.getNombresV());
 			usuario.setUsApellidos(vendedorDTO.getApellidosV());
@@ -117,10 +117,10 @@ public class ManagerVendedor {
 		Usuario usuario = entityManager.find(Usuario.class, vendedor.getUsuario().getIdUsuario());
 		if (usuario.getUsActivo() == true) {
 			usuario.setUsActivo(false);
-			JSFUtil.crearMensajeInfo("Vendedor Desabilitado");
+			JSFUtil.crearMensajeInfo("VendedorDTO Desabilitado");
 		} else {
 			usuario.setUsActivo(true);
-			JSFUtil.crearMensajeInfo("Vendedor Activo");
+			JSFUtil.crearMensajeInfo("VendedorDTO Activo");
 		}
 		entityManager.merge(usuario);
 

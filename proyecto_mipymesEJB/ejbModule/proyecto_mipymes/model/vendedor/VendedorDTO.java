@@ -5,34 +5,42 @@ public class VendedorDTO {
 	private String nombresV;
 	private String apellidosV;
 	private String emailV;
-	private String contraseñaV;
+	private String contrasenaV;
 	private String telefonoV;
 	private String cedulaV;
 	private String direccionV;
 	private String idUsuario;
 
-	public VendedorDTO(int id,String idUsuario, String nombresV, String apellidosV, String emailV, String contraseñaV, String telefonoV,
+	public VendedorDTO(int id,String idUsuario, String nombresV, String apellidosV, String emailV, String contraseÃ±aV, String telefonoV,
 			String cedulaV, String direccionV) {
 		this.idVendedor = id;
 		this.idUsuario=idUsuario;
 		this.nombresV = nombresV;
 		this.apellidosV = apellidosV;
 		this.emailV = emailV;
-		this.contraseñaV = contraseñaV;
+		this.contrasenaV = contraseÃ±aV;
 		this.telefonoV = telefonoV;
 		this.cedulaV = cedulaV;
 		this.direccionV = direccionV;
 	}
 
 	public VendedorDTO() {
-
+//Aqui
 		this.nombresV = "";
 		this.apellidosV = "";
 		this.emailV = "";
-		this.contraseñaV = "";
+		this.contrasenaV = "";
 		this.telefonoV = "";
 		this.cedulaV = "";
 		this.direccionV = "";
+	}
+
+	public int getIdVendedor() {
+		return idVendedor;
+	}
+
+	public void setIdVendedor(int idVendedor) {
+		this.idVendedor = idVendedor;
 	}
 
 	public String getNombresV() {
@@ -59,12 +67,12 @@ public class VendedorDTO {
 		this.emailV = emailV;
 	}
 
-	public String getContraseñaV() {
-		return contraseñaV;
+	public String getContrasenaV() {
+		return contrasenaV;
 	}
 
-	public void setContraseñaV(String contraseñaV) {
-		this.contraseñaV = contraseñaV;
+	public void setContrasenaV(String contrasenaV) {
+		this.contrasenaV = contrasenaV;
 	}
 
 	public String getTelefonoV() {
@@ -91,14 +99,6 @@ public class VendedorDTO {
 		this.direccionV = direccionV;
 	}
 
-	public int getIdVendedor() {
-		return idVendedor;
-	}
-
-	public void setIdVendedor(int idVendedor) {
-		this.idVendedor = idVendedor;
-	}
-
 	public String getIdUsuario() {
 		return idUsuario;
 	}
@@ -106,6 +106,5 @@ public class VendedorDTO {
 	public void setIdUsuario(String idUsuario) {
 		this.idUsuario = idUsuario;
 	}
-	
 
 }

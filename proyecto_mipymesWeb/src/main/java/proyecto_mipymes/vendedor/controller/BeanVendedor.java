@@ -18,7 +18,7 @@ public class BeanVendedor implements Serializable {
 	private String nombresV;
 	private String apellidosV;
 	private String emailV;
-	private String contraseñaV;
+	private String contrasenaV;
 	private String telefonoV;
 	private String cedulaV;
 	private String direccionV;
@@ -51,12 +51,12 @@ public class BeanVendedor implements Serializable {
 		this.emailV = emailV;
 	}
 
-	public String getContraseñaV() {
-		return contraseñaV;
+	public String getContrasenaV() {
+		return contrasenaV;
 	}
 
-	public void setContraseñaV(String contraseñaV) {
-		this.contraseñaV = contraseñaV;
+	public void setContrasenaV(String contrasenaV) {
+		this.contrasenaV = contrasenaV;
 	}
 
 	public String getTelefonoV() {

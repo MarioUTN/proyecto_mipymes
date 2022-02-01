@@ -25,7 +25,7 @@ public class CabeceraCompra implements Serializable {
 	@JoinColumn(name="cabcomp_proveedor", nullable=false)
 	private Empresa empresa;
 
-	//bi-directional many-to-one association to Vendedor
+	//bi-directional many-to-one association to VendedorDTO
 	@ManyToOne
 	@JoinColumn(name="cabcomp_vendedor", nullable=false)
 	private Vendedor vendedor;

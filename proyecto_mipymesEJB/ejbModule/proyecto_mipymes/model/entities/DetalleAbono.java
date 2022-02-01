@@ -44,7 +44,7 @@ public class DetalleAbono implements Serializable {
 	@JoinColumn(name="detab_estado_pedido", nullable=false)
 	private EstadoPedido estadoPedido;
 
-	//bi-directional many-to-one association to Vendedor
+	//bi-directional many-to-one association to VendedorDTO
 	@ManyToOne
 	@JoinColumn(name="detab_vendedor", nullable=false)
 	private Vendedor vendedor;

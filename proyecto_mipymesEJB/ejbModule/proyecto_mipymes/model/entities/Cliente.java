@@ -21,7 +21,7 @@ public class Cliente implements Serializable {
 	@Column(name="id_cliente", unique=true, nullable=false)
 	private Integer idCliente;
 
-	@Column(name="cli_codigo", nullable=false, length=5)
+	@Column(name="cli_codigo", nullable=false, length=10)
 	private String cliCodigo;
 
 	@Column(name="cli_direccion", nullable=false, length=100)

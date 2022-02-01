@@ -44,7 +44,7 @@ public class CompraProducto implements Serializable {
 	private CabeceraCompra cabeceraCompra;
 
 	//bi-directional many-to-one association to DetalleCompra
-	@OneToMany(mappedBy="compraProducto")
+	@OneToMany(mappedBy="compraProducto", fetch = FetchType.EAGER)
 	private List<DetalleCompra> detalleCompras;
 
 	public CompraProducto() {
