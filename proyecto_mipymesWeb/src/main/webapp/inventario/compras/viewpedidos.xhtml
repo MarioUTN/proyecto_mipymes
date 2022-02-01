@@ -17,7 +17,7 @@
 		<p:autoUpdate></p:autoUpdate>
 	</p:growl>
 	<h:form id="form0">
-		<p:menubar>
+		<p:menubar style="background-color: #5DADE2;">
 			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
@@ -27,15 +27,17 @@
 				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
-				outcome="/inventario/ventas/index_ventas">
-				<f:param name="i" value="2" />
-			</p:menuitem>
-
-			<p:menuitem value="Ventas por Anticipos" icon="fa fa-cart-arrow-down"
-				outcome="/inventario/ventas_anticipos/index_anticipos">
-				<f:param name="i" value="3" />
-			</p:menuitem>
+			<p:submenu label="Ventas" icon="fa fa-calendar-plus-o">
+				<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+					outcome="/inventario/ventas/index_ventas">
+					<f:param name="i" value="2" />
+				</p:menuitem>
+				<p:menuitem value="Ventas por Anticipos"
+					icon="fa fa-cart-arrow-down"
+					outcome="/inventario/ventas_anticipos/index_anticipos">
+					<f:param name="i" value="3" />
+				</p:menuitem>
+			</p:submenu>
 
 			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
 				outcome="/inventario/compras/index_compras">
@@ -65,6 +67,11 @@
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
+			<p:menuitem value="Proveedores" icon="fa fa-address-card"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/inventario/compras/Proveedor">
+				<f:param name="i" value="9" />
+			</p:menuitem>
 
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
@@ -75,7 +82,7 @@
 				</p:menuButton>
 			</f:facet>
 		</p:menubar>
-		
+
 	</h:form>
 
 	<h:form id="form2">
@@ -86,8 +93,10 @@
 						stripedRows="true" var="cp" paginator="true" reflow="true"
 						rows="6" style="font-size: 12px" paginatorPosition="bottom"
 						rowIndexVar="index">
-						<p:column headerText="EMPRESA" filterBy="#{cp.cabeceraCompra.empresa.empNombreEmpresa}">
-							<h:outputText value="#{cp.cabeceraCompra.empresa.empNombreEmpresa}" />
+						<p:column headerText="EMPRESA"
+							filterBy="#{cp.cabeceraCompra.empresa.empNombreEmpresa}">
+							<h:outputText
+								value="#{cp.cabeceraCompra.empresa.empNombreEmpresa}" />
 						</p:column>
 						<p:column headerText="FECHA EMISION">
 							<h:outputText value="#{cp.comprodFecha}" />
@@ -101,16 +110,15 @@
 						</p:column>
 
 						<p:column headerText="IVA" style="width:60px">
-							<h:outputText
-								value="#{cp.comprodIva}" />
+							<h:outputText value="#{cp.comprodIva}" />
 						</p:column>
 
 						<p:column headerText="TOTAL" style="width:60px">
 							<h:outputText value="#{cp.comprodTotal}" />
 						</p:column>
 						<p:column headerText="Opciones">
-								<p:panelGrid columns="5" styleClass="ui-noborder">
-									<p:commandButton icon="fa fa-list-alt"
+							<p:panelGrid columns="5" styleClass="ui-noborder">
+								<p:commandButton icon="fa fa-list-alt"
 									actionListener="#{beanCompras.actionListenerSeleccionarPedido(cp.idCompraProducto)}"
 									onclick="PF('detallePedido').show()"
 									update=":form-detalle:detalle-Pedido"
@@ -127,10 +135,11 @@
 								<p:commandButton icon="fa fa-send"
 									styleClass="rounded-button ui-button-warning">
 								</p:commandButton>
-								<p:commandButton icon="#{beanCompras.ico_aprovado}" actionListener="#{beanCompras.actionListenerAprovarPedido(cp.idCompraProducto)}"
+								<p:commandButton icon="#{beanCompras.ico_aprovado}"
+									actionListener="#{beanCompras.actionListenerAprovarPedido(cp.idCompraProducto)}"
 									styleClass="#{beanCompras.stilo_aprobado}" update="form2">
 								</p:commandButton>
-								</p:panelGrid>
+							</p:panelGrid>
 						</p:column>
 					</p:dataTable>
 				</div>
@@ -183,20 +192,18 @@
 												<p:splitterPanel
 													styleClass="p-d-flex p-ai-center p-jc-center" size="100">
 													<p:panelGrid columns="6" styleClass="ui-noborder">
-														<p:outputLabel value="RUC: "
-															style="font-weight:bold"></p:outputLabel>
+														<p:outputLabel value="RUC: " style="font-weight:bold"></p:outputLabel>
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.empRuc}" />
 
-														<p:outputLabel value="Nombre Empresa: " style="font-weight:bold"></p:outputLabel>
+														<p:outputLabel value="Nombre Empresa: "
+															style="font-weight:bold"></p:outputLabel>
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.empNombreEmpresa}" />
-														<p:outputLabel value="Matriz: "
-															style="font-weight:bold"></p:outputLabel>
+														<p:outputLabel value="Matriz: " style="font-weight:bold"></p:outputLabel>
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.empMatriz}" />
-														<p:outputLabel value="Email: "
-															style="font-weight:bold"></p:outputLabel>
+														<p:outputLabel value="Email: " style="font-weight:bold"></p:outputLabel>
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.empEmail}" />
 														<p:outputLabel value="Telefono: " style="font-weight:bold"></p:outputLabel>

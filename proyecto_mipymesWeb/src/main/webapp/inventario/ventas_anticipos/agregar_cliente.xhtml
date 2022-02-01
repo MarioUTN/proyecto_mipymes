@@ -14,7 +14,7 @@
 </h:head>
 <body>
 	<h:form id="form0">
-		<p:menubar>
+		<p:menubar style="background-color: #5DADE2;">
 			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
@@ -24,15 +24,17 @@
 				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
-				outcome="/inventario/ventas/index_ventas">
-				<f:param name="i" value="2" />
-			</p:menuitem>
-
-			<p:menuitem value="Ventas por Anticipos" icon="fa fa-cart-arrow-down"
-				outcome="/inventario/ventas_anticipos/index_anticipos">
-				<f:param name="i" value="3" />
-			</p:menuitem>
+			<p:submenu label="Ventas" icon="fa fa-calendar-plus-o">
+				<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+					outcome="/inventario/ventas/index_ventas">
+					<f:param name="i" value="2" />
+				</p:menuitem>
+				<p:menuitem value="Ventas por Anticipos"
+					icon="fa fa-cart-arrow-down"
+					outcome="/inventario/ventas_anticipos/index_anticipos">
+					<f:param name="i" value="3" />
+				</p:menuitem>
+			</p:submenu>
 
 			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
 				outcome="/inventario/compras/index_compras">
@@ -44,7 +46,8 @@
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group" disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+			<p:menuitem value="Vendedores" icon="fa fa-group"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
@@ -61,7 +64,12 @@
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
-
+			<p:menuitem value="Proveedores" icon="fa fa-address-card"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/inventario/compras/Proveedor">
+				<f:param name="i" value="9" />
+			</p:menuitem>
+			
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="fa fa-user">

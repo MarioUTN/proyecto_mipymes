@@ -41,6 +41,9 @@ public class BeanCompras implements Serializable {
 	private Vendedor vendedor;
 	private Empresa empresa;
 	private Empresa proveedor;
+	private Empresa editarEmpresa;
+	private int idEditarGerente;
+	private Empresa emp;
 
 	private double precio;
 	private String codigo_producto;
@@ -104,6 +107,20 @@ public class BeanCompras implements Serializable {
 			JSFUtil.crearMensajeError("Error al agregar empresa! ");
 		}
 	}
+	/*
+	
+	public void actionListenerAgregarGerente() {
+		emp = managerCompras.agregarProveedor(empresa, idGerente);
+		if (emp != null) {
+			JSFUtil.crearMensajeInfo("Empresa agregada con exito! " + emp.getEmpCiudad());
+			emp = new Empresa();
+			empresa = new Empresa();
+			listaEmpresas = managerCompras.findAllEmpresas();
+		} else {
+			JSFUtil.crearMensajeError("Error al agregar empresa! ");
+		}
+	}
+	*/
 
 	public void actionListenerAgregarProducto() {
 		listaDetalleCompras = managerCompras.agregarProducto(listaDetalleCompras, idproducto, cantidad);
@@ -209,6 +226,34 @@ public class BeanCompras implements Serializable {
 		listaCompraProductos = managerCompras.findAllCompraProductos();
 	}
 
+	public void actionListenercargarEmpresa(Empresa empresae) {
+		editarEmpresa = empresae;
+	}
+	
+	public void actionListenerActualizarEmpresa() throws Exception {
+		try {
+			JSFUtil.crearMensajeInfo("Actualizado" + idEditarGerente);
+			managerCompras.actualizaProveedor(editarEmpresa, idGerente);
+			JSFUtil.crearMensajeInfo("Actualizado");
+		} catch (Exception e) {
+			JSFUtil.crearMensajeError("No se pudo actualizar");
+		}
+
+	}
+
+	public void actionListenerEliminarProveedor(int idProveedor) {
+
+		try {
+			managerCompras.EliminarEmpresa(idProveedor);
+			listaEmpresas = managerCompras.findAllEmpresas();
+			JSFUtil.crearMensajeInfo("Eliminado");
+		} catch (Exception e) {
+			JSFUtil.crearMensajeError("Error");
+			// TODO: handle exception
+		}
+	}
+
+	
 	public List<Gerente> getListaGerentes() {
 		return listaGerentes;
 	}
@@ -440,5 +485,27 @@ public class BeanCompras implements Serializable {
 
 	public String getIco_aprovado() {
 		return ico_aprovado;
+	}
+	public Empresa getEditarEmpresa() {
+		return editarEmpresa;
+	}
+	
+	public void setEditarEmpresa(Empresa editarEmpresa) {
+		this.editarEmpresa = editarEmpresa;
+	}
+	
+	public void setIdEditarGerente(int idEditarGerente) {
+		this.idEditarGerente = idEditarGerente;
+	}
+	public int getIdEditarGerente() {
+		return idEditarGerente;
+	}
+	
+	public void setEmp(Empresa emp) {
+		this.emp = emp;
+	}
+	
+	public Empresa getEmp() {
+		return emp;
 	}
 }

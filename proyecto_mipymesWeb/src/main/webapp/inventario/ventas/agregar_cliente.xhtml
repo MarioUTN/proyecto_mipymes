@@ -14,12 +14,12 @@
 	</f:facet>
 </h:head>
 <body>
-<p:growl>
-	<p:autoUpdate/>
-</p:growl>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
 	<h:form id="form0">
 
-		<p:menubar>
+		<p:menubar style="background-color: #5DADE2;">
 			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
@@ -67,6 +67,11 @@
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
+			<p:menuitem value="Proveedores" icon="fa fa-address-card"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/inventario/compras/Proveedor">
+				<f:param name="i" value="9" />
+			</p:menuitem>
 
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
@@ -78,7 +83,8 @@
 			</f:facet>
 		</p:menubar>
 		<div align="center">
-			<p:staticMessage severity="info" summary="Agregar Informacion Adicional"></p:staticMessage>
+			<p:staticMessage severity="info"
+				summary="Agregar Informacion Adicional"></p:staticMessage>
 		</div>
 	</h:form>
 	<div align="center">
@@ -88,16 +94,16 @@
 			<p:menuitem value="Guardar Cliente" />
 		</p:steps>
 	</div>
-	
-	
-	<br/>
+
+
+	<br />
 	<h:form id="form2">
 		<div align="center">
 
 			<div align="center">
 
 				<p:panel header="Datos Personales">
-					
+
 					<p:panelGrid columns="4"
 						columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 						layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
@@ -124,8 +130,7 @@
 							<f:selectItem itemLabel="Seleccione un gerente..." itemValue="0"
 								noSelectionOption="true" />
 							<f:selectItems value="#{beanCompras.listaGerentes}" var="g"
-								itemLabel="#{g.usuario.usNombres}"
-								itemValue="#{g.idGerente}"></f:selectItems>
+								itemLabel="#{g.usuario.usNombres}" itemValue="#{g.idGerente}"></f:selectItems>
 						</p:selectOneMenu>
 
 						<p:outputLabel for="@next" value="Matriz " />
@@ -184,9 +189,9 @@
 					<p:panel>
 						<div align="center">
 							<p:row>
-								<p:commandButton value="Guardar Datos Personales" action="agregar_usuariocliente"
-									styleClass="ui-button-success" style="width: auto" update="form2"
-									icon="fa fa-save" />
+								<p:commandButton value="Guardar Datos Personales"
+									action="agregar_usuariocliente" styleClass="ui-button-success"
+									style="width: auto" update="form2" icon="fa fa-save" />
 							</p:row>
 						</div>
 					</p:panel>
@@ -194,6 +199,6 @@
 			</div>
 		</div>
 	</h:form>
-	
+
 </body>
 </html>

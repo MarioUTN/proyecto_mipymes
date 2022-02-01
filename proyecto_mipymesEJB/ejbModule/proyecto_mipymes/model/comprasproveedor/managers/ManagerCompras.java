@@ -32,6 +32,7 @@ public class ManagerCompras {
 	public ManagerCompras() {
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	public List<Vendedor> findAllVendedores() {
 		return entityManager.createNamedQuery("Vendedor.findAll", Vendedor.class).getResultList();
@@ -246,6 +247,32 @@ public class ManagerCompras {
 		return resp;
 	}
 
+	public void actualizaProveedor(Empresa edicionProveedor, int idGerente) throws Exception {
+		Gerente gerente = entityManager.find(Gerente.class, idGerente);
+		Empresa proveedor = entityManager.find(Empresa.class, edicionProveedor.getIdEmpresa());
+		proveedor.setEmpRuc(edicionProveedor.getEmpRuc());
+		proveedor.setEmpCiudad(edicionProveedor.getEmpCiudad());
+		proveedor.setEmpEmail(edicionProveedor.getEmpEmail());
+		proveedor.setEmpMatriz(edicionProveedor.getEmpMatriz());
+
+		proveedor.setEmpPais(edicionProveedor.getEmpPais());
+		proveedor.setEmpNombreEmpresa(edicionProveedor.getEmpNombreEmpresa());
+		proveedor.setEmpProvincia(edicionProveedor.getEmpProvincia());
+		proveedor.setEmpSucursal(edicionProveedor.getEmpSucursal());
+		proveedor.setEmpTelefono(edicionProveedor.getEmpTelefono());
+		proveedor.setGerente(gerente);
+
+		entityManager.merge(proveedor);
+
+	}
+
+	public void EliminarEmpresa(int idEmpresa) {
+		Empresa empresa= entityManager.find(Empresa.class, idEmpresa);
+		entityManager.remove(empresa);
+
+	}
+
+
 	public boolean aprobarPedidoProductos(int id_compra_producto) {
 		CompraProducto compraProducto = findCompraProductoById(id_compra_producto);
 		if (compraProducto.getComprodAprobado()) {
@@ -256,4 +283,21 @@ public class ManagerCompras {
 		entityManager.merge(compraProducto);
 		return compraProducto.getComprodAprobado();
 	}
+	
+	/*
+	public Empresa agregarProveedor(Empresa empresaNueva, int idGerente) {
+		Gerente gerente = entityManager.find(Gerente.class, idGerente);
+		JSFUtil.crearMensajeInfo(" Hola " + findEmpresaByRuc(empresaNueva.getEmpRuc()).getEmpCiudad());
+		if (findEmpresaByRuc(empresaNueva.getEmpRuc()).getEmpRuc() == null) {
+			empresaNueva.setGerente(gerente);
+			empresaNueva.setEmpFechaInicio(new Date());
+			entityManager.persist(empresaNueva);
+			return empresaNueva;
+		} else {
+			return null;
+		}
+
+	}
+	*/
+	
 }

@@ -17,7 +17,7 @@
 		<p:autoUpdate />
 	</p:growl>
 	<h:form id="form">
-		<p:menubar>
+		<p:menubar style="background-color: #5DADE2;">
 			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
@@ -27,15 +27,17 @@
 				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
-				outcome="/inventario/ventas/index_ventas">
-				<f:param name="i" value="2" />
-			</p:menuitem>
-
-			<p:menuitem value="Ventas por Anticipos" icon="fa fa-cart-arrow-down"
-				outcome="/inventario/ventas_anticipos/index_anticipos">
-				<f:param name="i" value="3" />
-			</p:menuitem>
+			<p:submenu label="Ventas" icon="fa fa-calendar-plus-o">
+				<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+					outcome="/inventario/ventas/index_ventas">
+					<f:param name="i" value="2" />
+				</p:menuitem>
+				<p:menuitem value="Ventas por Anticipos"
+					icon="fa fa-cart-arrow-down"
+					outcome="/inventario/ventas_anticipos/index_anticipos">
+					<f:param name="i" value="3" />
+				</p:menuitem>
+			</p:submenu>
 
 			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
 				outcome="/inventario/compras/index_compras">
@@ -65,6 +67,11 @@
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
+			<p:menuitem value="Proveedores" icon="fa fa-address-card"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/inventario/compras/Proveedor">
+				<f:param name="i" value="9" />
+			</p:menuitem>
 
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
@@ -127,29 +134,29 @@
 					<p:panelGrid columns="2">
 						<h:outputText value="Talla de Producto:" />
 						<p:selectOneMenu value="#{beanProductos.id_talla_producto}"
-									style="width:350px" panelStyle="width:180px" effect="fade"
-									filter="true" filterMatchMode="startsWith">
-									<f:selectItems value="#{beanProductos.listaTallaProductos}"
-										var="talla" itemLabel="#{talla.tallaNombre}"
-										itemValue="#{talla.idTallaProducto}">
-										<p:column style="width:10%">
-											<span class="flag flag-#{talla.tallaNombre}"
-												style="width: 30px; height: 20px" />
-										</p:column>
-										<p:column>
-											<f:facet name="header">
-												<h:outputText value="Name" />
-											</f:facet>
-											<h:outputText value="#{talla.tallaNombre}" />
-										</p:column>
-
-									</f:selectItems>
-									<f:facet name="footer">
-										<h:outputText
-											value="#{beanProductos.listaTallaProductos.size()} Tallas Encontrados"
-											style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+							style="width:350px" panelStyle="width:180px" effect="fade"
+							filter="true" filterMatchMode="startsWith">
+							<f:selectItems value="#{beanProductos.listaTallaProductos}"
+								var="talla" itemLabel="#{talla.tallaNombre}"
+								itemValue="#{talla.idTallaProducto}">
+								<p:column style="width:10%">
+									<span class="flag flag-#{talla.tallaNombre}"
+										style="width: 30px; height: 20px" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Name" />
 									</f:facet>
-								</p:selectOneMenu>
+									<h:outputText value="#{talla.tallaNombre}" />
+								</p:column>
+
+							</f:selectItems>
+							<f:facet name="footer">
+								<h:outputText
+									value="#{beanProductos.listaTallaProductos.size()} Tallas Encontrados"
+									style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+							</f:facet>
+						</p:selectOneMenu>
 					</p:panelGrid>
 					<br />
 					<div align="center">
@@ -173,29 +180,29 @@
 					<p:panelGrid columns="2">
 						<h:outputText value="Talla de Producto:" />
 						<p:selectOneMenu value="#{beanProductos.id_tipo_producto}"
-									style="width:350px" panelStyle="width:180px" effect="fade"
-									filter="true" filterMatchMode="startsWith">
-									<f:selectItems value="#{beanProductos.listaTipoProductos}"
-										var="tipo" itemLabel="#{tipo.tpNombre}"
-										itemValue="#{tipo.idTipoProducto}">
-										<p:column style="width:10%">
-											<span class="flag flag-#{tipo.tpNombre}"
-												style="width: 30px; height: 20px" />
-										</p:column>
-										<p:column>
-											<f:facet name="header">
-												<h:outputText value="Name" />
-											</f:facet>
-											<h:outputText value="#{tipo.tpNombre}" />
-										</p:column>
-
-									</f:selectItems>
-									<f:facet name="footer">
-										<h:outputText
-											value="#{beanProductos.listaTipoProductos.size()} Tipos Encontrados"
-											style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+							style="width:350px" panelStyle="width:180px" effect="fade"
+							filter="true" filterMatchMode="startsWith">
+							<f:selectItems value="#{beanProductos.listaTipoProductos}"
+								var="tipo" itemLabel="#{tipo.tpNombre}"
+								itemValue="#{tipo.idTipoProducto}">
+								<p:column style="width:10%">
+									<span class="flag flag-#{tipo.tpNombre}"
+										style="width: 30px; height: 20px" />
+								</p:column>
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Name" />
 									</f:facet>
-								</p:selectOneMenu>
+									<h:outputText value="#{tipo.tpNombre}" />
+								</p:column>
+
+							</f:selectItems>
+							<f:facet name="footer">
+								<h:outputText
+									value="#{beanProductos.listaTipoProductos.size()} Tipos Encontrados"
+									style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
+							</f:facet>
+						</p:selectOneMenu>
 					</p:panelGrid>
 					<br />
 					<div align="center">
@@ -648,9 +655,8 @@
 
 						<p:panel header="Tallas de Productos">
 							<p:dataTable value="#{beanProductos.listaTallaProductos}"
-								var="tallas" stripedRows="true" paginator="true"
-										reflow="true" rows="5" style="font-size: 12px"
-										paginatorPosition="bottom">
+								var="tallas" stripedRows="true" paginator="true" reflow="true"
+								rows="5" style="font-size: 12px" paginatorPosition="bottom">
 								<p:column headerText="COD" sortBy="#{tallas.idTallaProducto}"
 									filterBy="#{tallas.idTallaProducto}">
 									<h:outputText value="#{tallas.idTallaProducto}" />
@@ -692,9 +698,8 @@
 					<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 						<p:panel header="Tipo de Productos">
 							<p:dataTable value="#{beanProductos.listaTipoProductos}"
-								var="tipos" stripedRows="true" paginator="true"
-										reflow="true" rows="5" style="font-size: 12px"
-										paginatorPosition="bottom">
+								var="tipos" stripedRows="true" paginator="true" reflow="true"
+								rows="5" style="font-size: 12px" paginatorPosition="bottom">
 								<p:column headerText="COD" sortBy="#{tipos.idTipoProducto}"
 									filterBy="#{tipos.idTipoProducto}">
 									<h:outputText value="#{tipos.idTipoProducto}" />

@@ -1,9 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<f:facet name="first">
@@ -11,10 +11,10 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Agregar Productos</title>
 	</f:facet>
-</h:head> 
-<body> 
+</h:head>
+<body>
 	<h:form id="form0">
-		<p:menubar>
+		<p:menubar style="background-color: #5DADE2;">
 			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
@@ -24,15 +24,17 @@
 				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
-				outcome="/inventario/ventas/index_ventas">
-				<f:param name="i" value="2" />
-			</p:menuitem>
-
-			<p:menuitem value="Ventas por Anticipos" icon="fa fa-cart-arrow-down"
-				outcome="/inventario/ventas_anticipos/index_anticipos">
-				<f:param name="i" value="3" />
-			</p:menuitem>
+			<p:submenu label="Ventas" icon="fa fa-calendar-plus-o">
+				<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+					outcome="/inventario/ventas/index_ventas">
+					<f:param name="i" value="2" />
+				</p:menuitem>
+				<p:menuitem value="Ventas por Anticipos"
+					icon="fa fa-cart-arrow-down"
+					outcome="/inventario/ventas_anticipos/index_anticipos">
+					<f:param name="i" value="3" />
+				</p:menuitem>
+			</p:submenu>
 
 			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
 				outcome="/inventario/compras/index_compras">
@@ -44,7 +46,8 @@
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group" disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+			<p:menuitem value="Vendedores" icon="fa fa-group"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
@@ -62,6 +65,11 @@
 			</p:menuitem>
 
 
+			<p:menuitem value="Proveedores" icon="fa fa-address-card"
+				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
+				outcome="/inventario/compras/Proveedor">
+				<f:param name="i" value="9" />
+			</p:menuitem>
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="fa fa-user">
@@ -72,12 +80,11 @@
 			</f:facet>
 		</p:menubar>
 		<div align="center">
-			<p:staticMessage severity="info"
-				summary="Menu de Agregar Productos"></p:staticMessage>
+			<p:staticMessage severity="info" summary="Menu de Agregar Productos"></p:staticMessage>
 		</div>
 	</h:form>
-	
-	
-	
-</body> 
+
+
+
+</body>
 </html>
