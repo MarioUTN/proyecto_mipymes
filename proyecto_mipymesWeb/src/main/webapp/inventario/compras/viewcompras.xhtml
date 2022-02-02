@@ -95,8 +95,9 @@
 	<h:form id="form2">
 		<div align="center">
 			<p:commandButton value="Actualizar"
-				actionListener="#{beanCompras.actionActualizar()}" icon="fa fa-refresh"
-				update="@form,:form2" styleClass="ui-button-success"></p:commandButton>
+				actionListener="#{beanCompras.actionActualizar()}"
+				icon="fa fa-refresh" update="@form,:form2"
+				styleClass="ui-button-success"></p:commandButton>
 			<p:panel header="Lista de Pedidos Generados">
 				<p:dataTable value="#{beanCompras.listaFacturaIngresos}" var="fi"
 					paginator="true" reflow="true" rows="5">
@@ -127,6 +128,17 @@
 						filterBy="#{fi.factingTotal}">
 						<h:outputText value="#{fi.factingTotal}" />
 					</p:column>
+
+					<p:column headerText="Reporte">
+
+						<p:commandButton ajax="false"
+							styleClass="rounded-button ui-button-info ui-button-outlined"
+							icon="fa fa-file-pdf-o"
+							action="#{beanCompras.actionListenerGenerarReporteIngresos(fi.idFacturaIngreso)}">
+						</p:commandButton>
+					</p:column>
+
+
 				</p:dataTable>
 			</p:panel>
 			<br />

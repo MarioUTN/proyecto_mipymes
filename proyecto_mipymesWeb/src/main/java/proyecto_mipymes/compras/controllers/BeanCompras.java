@@ -76,7 +76,7 @@ public class BeanCompras implements Serializable {
 	@PostConstruct
 	public void Inicializar() {
 		empresa = new Empresa();
-		listaFacturaIngresos=managerCompras.findAllFacturasIngresos();
+		listaFacturaIngresos = managerCompras.findAllFacturasIngresos();
 		listaProductos = managerCompras.findAllProductos();
 		listaEmpresas = managerCompras.findAllEmpresas();
 		listaGerentes = managerCompras.findAllGerente();
@@ -84,9 +84,9 @@ public class BeanCompras implements Serializable {
 		for (CompraProducto compraProducto : listaCompraProductos) {
 			if (compraProducto.getComprodAprobado()) {
 				this.ico_aprovado = "fa fa-close";
-				this.stilo_aprobado="rounded-button ui-button-danger";
+				this.stilo_aprobado = "rounded-button ui-button-danger";
 			} else {
-				this.stilo_aprobado="rounded-button ui-button-success";
+				this.stilo_aprobado = "rounded-button ui-button-success";
 				this.ico_aprovado = "fa fa-check";
 			}
 		}
@@ -110,26 +110,21 @@ public class BeanCompras implements Serializable {
 		}
 	}
 	/*
-	
-	public void actionListenerAgregarGerente() {
-		emp = managerCompras.agregarProveedor(empresa, idGerente);
-		if (emp != null) {
-			JSFUtil.crearMensajeInfo("Empresa agregada con exito! " + emp.getEmpCiudad());
-			emp = new Empresa();
-			empresa = new Empresa();
-			listaEmpresas = managerCompras.findAllEmpresas();
-		} else {
-			JSFUtil.crearMensajeError("Error al agregar empresa! ");
-		}
-	}
-	*/
+	 * 
+	 * public void actionListenerAgregarGerente() { emp =
+	 * managerCompras.agregarProveedor(empresa, idGerente); if (emp != null) {
+	 * JSFUtil.crearMensajeInfo("Empresa agregada con exito! " +
+	 * emp.getEmpCiudad()); emp = new Empresa(); empresa = new Empresa();
+	 * listaEmpresas = managerCompras.findAllEmpresas(); } else {
+	 * JSFUtil.crearMensajeError("Error al agregar empresa! "); } }
+	 */
 
 	public void actionListenerAgregarProducto() {
 		listaDetalleCompras = managerCompras.agregarProducto(listaDetalleCompras, idproducto, cantidad);
 		valorTotal = managerCompras.valorTotalPagar(listaDetalleCompras);
 		iva = managerCompras.valorIva(valorTotal);
 		subTotal = managerCompras.valorSubTotal(valorTotal);
-		//JSFUtil.crearMensajeInfo("Si Agrego :v");
+		// JSFUtil.crearMensajeInfo("Si Agrego :v");
 
 	}
 
@@ -139,7 +134,7 @@ public class BeanCompras implements Serializable {
 		valorTotal = managerCompras.valorTotalPagar(listaDetalleCompras);
 		iva = managerCompras.valorIva(valorTotal);
 		subTotal = managerCompras.valorSubTotal(valorTotal);
-		//JSFUtil.crearMensajeInfo("Valio Nuevo producto inexitente");
+		// JSFUtil.crearMensajeInfo("Valio Nuevo producto inexitente");
 	}
 
 	public void actionListenerEditarCantidad(int index) {
@@ -148,15 +143,15 @@ public class BeanCompras implements Serializable {
 		iva = managerCompras.valorIva(valorTotal);
 		subTotal = managerCompras.valorSubTotal(valorTotal);
 		this.cantidad = 1;
-		//JSFUtil.crearMensajeWarning("Cantidad: " + index);
+		// JSFUtil.crearMensajeWarning("Cantidad: " + index);
 
 	}
 
 	public void actionListenerEliminarProductoDetalleCompra(int index) {
 		// listaDetalleFacturas =
 		if (index >= 0) {
-			JSFUtil.crearMensajeInfo("Producto eliminado del detalle factura!"
-					+ listaDetalleCompras.get(index).getDetcompCantidad());
+			JSFUtil.crearMensajeInfo(
+					"Producto eliminado del detalle factura!" + listaDetalleCompras.get(index).getDetcompCantidad());
 			listaDetalleCompras = managerCompras.eliminarProductoListaDetalle(listaDetalleCompras, index);
 			valorTotal = managerCompras.valorTotalPagar(listaDetalleCompras);
 			iva = managerCompras.valorIva(valorTotal);
@@ -165,17 +160,17 @@ public class BeanCompras implements Serializable {
 			JSFUtil.crearMensajeError("Error de index: " + index);
 		}
 	}
-	
+
 	public void actionActualizar() {
-		listaFacturaIngresos=managerCompras.findAllFacturasIngresos();
+		listaFacturaIngresos = managerCompras.findAllFacturasIngresos();
 		listaDetalleCompras = managerCompras.findAllDetallesCompras();
-		listaCompraProductos=managerCompras.findAllCompraProductos();
-		
+		listaCompraProductos = managerCompras.findAllCompraProductos();
+
 	}
 
 	public void actionListenerInsertarPedido(int id_vendedor) {
 		compraProducto = managerCompras.insertarPedido(listaDetalleCompras, idproveedor, id_vendedor);
-		listaFacturaIngresos=managerCompras.findAllFacturasIngresos();
+		listaFacturaIngresos = managerCompras.findAllFacturasIngresos();
 		if (compraProducto != null) {
 			JSFUtil.crearMensajeInfo("Pedido generado con Éxito!");
 			listaDetalleCompras = new ArrayList<DetalleCompra>();
@@ -223,33 +218,113 @@ public class BeanCompras implements Serializable {
 		return "";
 	}
 
+	public String actionListenerGenerarReportePedido(int id_compra) {
+		String password = "YoRn7KDvOAc=";
+		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("idcp", id_compra);
+		FacesContext context = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("reportes/pedidos.jasper");
+		System.out.println(ruta);
+		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+		response.addHeader("Content-disposition", "attachment;filename=reporteF.pdf");
+		response.setContentType("application/pdf");
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection connection = null;
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+					Encriptar.descryp(usuario), Encriptar.descryp(password));
+			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
+			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
+			context.getApplication().getStateManager().saveView(context);
+
+			context.responseComplete();
+			JSFUtil.crearMensajeInfo("Reporte de pedido generado con Éxito!");
+		} catch (Exception e) {
+//			JSFUtil.crearMensajeERROR(e.getMessage());
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	
+	public String actionListenerGenerarReporteIngresos(int id_facting) {
+		String password = "YoRn7KDvOAc=";
+		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("idcp", id_facting);
+		FacesContext context = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("reportes/ingresos.jasper");
+		System.out.println(ruta);
+		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+		response.addHeader("Content-disposition", "attachment;filename=reporteF.pdf");
+		response.setContentType("application/pdf");
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection connection = null;
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+					Encriptar.descryp(usuario), Encriptar.descryp(password));
+			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
+			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
+			context.getApplication().getStateManager().saveView(context);
+
+			context.responseComplete();
+			JSFUtil.crearMensajeInfo("Reporte de pedido generado con Éxito!");
+		} catch (Exception e) {
+//			JSFUtil.crearMensajeERROR(e.getMessage());
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		return "";
+	}
 
 	
 	public void actionListenerAprovarPedido(int id_compra_producto) {
 		if (managerCompras.aprobarPedidoProductos(id_compra_producto)) {
 			listaDetalleCompras = managerCompras.findAllDetallesCompras();
-			listaCompraProductos=managerCompras.findAllCompraProductos();
-			listaFacturaIngresos=managerCompras.findAllFacturasIngresos();
-			this.stilo_aprobado="rounded-button ui-button-danger";
-			this.ico_aprovado = "fa fa-close";
+			listaCompraProductos = managerCompras.findAllCompraProductos();
+			listaFacturaIngresos = managerCompras.findAllFacturasIngresos();
+			this.stilo_aprobado = style(id_compra_producto);
+			this.ico_aprovado=icono(id_compra_producto);
 			JSFUtil.crearMensajeInfo("Pedido aprovado con Éxito!");
 		} else {
 			listaDetalleCompras = managerCompras.findAllDetallesCompras();
-			listaCompraProductos=managerCompras.findAllCompraProductos();
-			this.ico_aprovado = "fa fa-check";
-			this.stilo_aprobado="rounded-button ui-button-success";
+			listaCompraProductos = managerCompras.findAllCompraProductos();
+			this.stilo_aprobado = style(id_compra_producto);
+			this.ico_aprovado=icono(id_compra_producto);
 			JSFUtil.crearMensajeInfo("Pedido no aprovado con Éxito!");
 		}
-		
+
+	}
+
+	public String icono(int idcompra) {
+		if (managerCompras.findCompraProductoById(idcompra).getComprodAprobado() == false) {
+			return "fa fa-close";
+
+		} else {
+			return "fa fa-check";
+		}
+	}
+	
+	public String style(int idcompra) {
+		if (managerCompras.findCompraProductoById(idcompra).getComprodAprobado() == false) {
+			return "rounded-button ui-button-danger";
+
+		} else {
+			return "rounded-button ui-button-success";
+		}
 	}
 
 	public void actionListenercargarEmpresa(Empresa empresae) {
 		editarEmpresa = empresae;
 	}
-	
+
 	public void actionListenerActualizarEmpresa() throws Exception {
 		try {
-			//JSFUtil.crearMensajeInfo("Actualizado" + idEditarGerente);
+			// JSFUtil.crearMensajeInfo("Actualizado" + idEditarGerente);
 			managerCompras.actualizaProveedor(editarEmpresa, idGerente);
 			JSFUtil.crearMensajeInfo("Empresa Actualizado correctamente!");
 		} catch (Exception e) {
@@ -270,20 +345,19 @@ public class BeanCompras implements Serializable {
 		}
 	}
 
-	
 	public List<Gerente> getListaGerentes() {
 		return listaGerentes;
 	}
 
 	public String actionSeleccionarEmpresa() {
-		//JSFUtil.crearMensajeInfo("Empresa seleccionada: " + id_empresaSeleccionada);
+		// JSFUtil.crearMensajeInfo("Empresa seleccionada: " + id_empresaSeleccionada);
 		return "agregar_productos";
 	}
-	
+
 	public void setStilo_aprobado(String stilo_aprobado) {
 		this.stilo_aprobado = stilo_aprobado;
 	}
-	
+
 	public String getStilo_aprobado() {
 		return stilo_aprobado;
 	}
@@ -503,34 +577,37 @@ public class BeanCompras implements Serializable {
 	public String getIco_aprovado() {
 		return ico_aprovado;
 	}
+
 	public Empresa getEditarEmpresa() {
 		return editarEmpresa;
 	}
-	
+
 	public void setEditarEmpresa(Empresa editarEmpresa) {
 		this.editarEmpresa = editarEmpresa;
 	}
-	
+
 	public void setIdEditarGerente(int idEditarGerente) {
 		this.idEditarGerente = idEditarGerente;
 	}
+
 	public int getIdEditarGerente() {
 		return idEditarGerente;
 	}
-	
+
 	public void setEmp(Empresa emp) {
 		this.emp = emp;
 	}
-	
+
 	public Empresa getEmp() {
 		return emp;
 	}
-	
+
 	public List<FacturaIngreso> getListaFacturaIngresos() {
 		return listaFacturaIngresos;
 	}
+
 	public void setListaFacturaIngresos(List<FacturaIngreso> listaFacturaIngresos) {
 		this.listaFacturaIngresos = listaFacturaIngresos;
 	}
-	
+
 }

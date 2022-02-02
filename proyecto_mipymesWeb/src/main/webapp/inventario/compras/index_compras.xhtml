@@ -155,14 +155,14 @@
 									styleClass="rounded-button ui-button-danger">
 								</p:commandButton>
 								<p:commandButton icon="fa fa-file-pdf-o"
-									styleClass="rounded-button ui-button-help">
+									styleClass="rounded-button ui-button-help" actionListener="#{beanCompras.actionListenerInsertarPedido(cp.idCompraProducto)}">
 								</p:commandButton>
 								<p:commandButton icon="fa fa-send"
 									styleClass="rounded-button ui-button-warning">
 								</p:commandButton>
-								<p:commandButton icon="#{beanCompras.ico_aprovado}"
+								<p:commandButton icon="fa fa-check"
 									actionListener="#{beanCompras.actionListenerAprovarPedido(cp.idCompraProducto)}"
-									styleClass="#{beanCompras.stilo_aprobado}" update="form2">
+									styleClass="rounded-button ui-button-success" update="form2">
 								</p:commandButton>
 							</p:panelGrid>
 						</p:column>
