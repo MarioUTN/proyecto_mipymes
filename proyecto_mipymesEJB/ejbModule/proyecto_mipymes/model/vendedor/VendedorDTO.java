@@ -11,14 +11,14 @@ public class VendedorDTO {
 	private String direccionV;
 	private String idUsuario;
 
-	public VendedorDTO(int id,String idUsuario, String nombresV, String apellidosV, String emailV, String contraseñaV, String telefonoV,
+	public VendedorDTO(int id,String idUsuario, String nombresV, String apellidosV, String emailV, String contrasenaV, String telefonoV,
 			String cedulaV, String direccionV) {
 		this.idVendedor = id;
 		this.idUsuario=idUsuario;
 		this.nombresV = nombresV;
 		this.apellidosV = apellidosV;
 		this.emailV = emailV;
-		this.contrasenaV = contraseñaV;
+		this.contrasenaV = contrasenaV;
 		this.telefonoV = telefonoV;
 		this.cedulaV = cedulaV;
 		this.direccionV = direccionV;
