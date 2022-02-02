@@ -101,7 +101,7 @@ public class BeanIngresos implements Serializable {
 
 	public void verIndex(int index) {
 		this.index = index;
-		JSFUtil.crearMensajeWarning("Index: " + index);
+		//JSFUtil.crearMensajeWarning("Index: " + index);
 	}
 
 	public void actionListenerEditarCantidad() {
@@ -111,21 +111,21 @@ public class BeanIngresos implements Serializable {
 		iva = managerIngresos.valorIva(valorTotal);
 		subTotal = managerIngresos.valorSubTotal(valorTotal);
 		this.cantidad = 1;
-		JSFUtil.crearMensajeWarning("Cantidad: " + index);
+		//JSFUtil.crearMensajeWarning("Cantidad: " + index);
 
 	}
 
 	public void actionListenerEliminarProductoDetalleIngreso(int index) {
 		// listaDetalleFacturas =
 		if (index >= 0) {
-			JSFUtil.crearMensajeInfo("Producto eliminado del detalle factura!" + index + " "
+			JSFUtil.crearMensajeInfo("Producto eliminado del detalle factura!"
 					+ listaDetalleIngresos.get(index).getDetingCantidad());
 			listaDetalleIngresos = managerIngresos.eliminarProductoListaDetalle(listaDetalleIngresos, index);
 			valorTotal = managerIngresos.valorTotalPagar(listaDetalleIngresos);
 			iva = managerIngresos.valorIva(valorTotal);
 			subTotal = managerIngresos.valorSubTotal(valorTotal);
 		} else {
-			JSFUtil.crearMensajeError("Error de index: " + index);
+			JSFUtil.crearMensajeError("Error al eliminar!: " + index);
 		}
 	}
 

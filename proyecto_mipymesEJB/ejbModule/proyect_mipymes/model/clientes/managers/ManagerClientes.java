@@ -66,7 +66,7 @@ public class ManagerClientes {
 			String direccion) {
 		Cliente cliente = findAllClienteByCedulaRuc(cedula_ruc);
 		if (cliente.getCliCodigo() == null) {
-			JSFUtil.crearMensajeInfo("Entre aqui!!!!!!!!!!!");
+			//JSFUtil.crearMensajeInfo("Entre aqui!!!!!!!!!!!");
 			TipoUsuario tipoUsuario = findTipoUsuarioById(3);
 
 			Usuario usuario = new Usuario();
@@ -98,7 +98,7 @@ public class ManagerClientes {
 	public Cliente crearCliente(ClienteDTO clienteDTO) {
 		Cliente cliente = findAllClienteByCedulaRuc(clienteDTO.getCedulaC());
 		if (cliente.getCliCodigo() == null) {
-			JSFUtil.crearMensajeInfo("Entre aqui!!!!!!!!!!!");
+			//JSFUtil.crearMensajeInfo("Entre aqui!!!!!!!!!!!");
 			TipoUsuario tipoUsuario = findTipoUsuarioById(3);
 
 			Usuario usuario = new Usuario();

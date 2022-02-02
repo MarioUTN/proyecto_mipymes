@@ -45,6 +45,10 @@ public class ManagerCompras {
 	public List<Producto> findAllProductos() {
 		return entityManager.createNamedQuery("Producto.findAll", Producto.class).getResultList();
 	}
+	
+	public List<FacturaIngreso> findAllFacturasIngresos() {
+		return entityManager.createNamedQuery("FacturaIngreso.findAll", FacturaIngreso.class).getResultList();
+	}
 
 	public List<Gerente> findAllGerente() {
 		return entityManager.createNamedQuery("Gerente.findAll", Gerente.class).getResultList();

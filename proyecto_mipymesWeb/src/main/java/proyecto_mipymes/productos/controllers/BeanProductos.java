@@ -61,7 +61,7 @@ public class BeanProductos implements Serializable {
 	public void actionListenerInsertarProducto() {
 		if (managerProductos.ingresarNuevoProducto(productoNuevo, id_proveedor, id_talla_producto,
 				id_tipo_producto) != null) {
-			JSFUtil.crearMensajeInfo("Producto Ingresado con exito!");
+			JSFUtil.crearMensajeInfo("Producto Ingresado con Éxito!");
 		} else {
 			JSFUtil.crearMensajeError("Error al ingresar el producto!");
 		}
@@ -70,10 +70,7 @@ public class BeanProductos implements Serializable {
 	public void actionListenerSeleccionarProducto(String codigo_producto) {
 		try {
 			productoSeleccionado = managerProductos.findAllProductosByCodigoProducto(codigo_producto);
-			JSFUtil.crearMensajeWarning("Producto COD Seleccionado: " + productoSeleccionado.getProdCodigo() + ""
-					+ "Talla: " + productoSeleccionado.getTallaProducto().getTallaNombre() + "" + "Talla: "
-					+ productoSeleccionado.getTallaProducto().getTallaNombre() + "" + "Talla: "
-					+ productoSeleccionado.getTallaProducto().getTallaNombre() + "" + codigo_producto);
+			JSFUtil.crearMensajeWarning("Producto COD Seleccionado: " + productoSeleccionado.getProdCodigo());
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -82,10 +79,14 @@ public class BeanProductos implements Serializable {
 	public void actionListenerEditarProducto() throws Exception {
 			int r = managerProductos.editarProducto(productoSeleccionado, productoEditar, id_talla_producto,
 					id_tipo_producto, id_proveedor);
-			JSFUtil.crearMensajeError("r " + r);
+			//JSFUtil.crearMensajeError("r " + r);
 			if (r == 0) {
 				Inicializar();
 				JSFUtil.crearMensajeInfo("Producto se actualizo correctamente!");
+			}
+			else
+			{
+				JSFUtil.crearMensajeError("Error al actualizar!" + r);
 			}
 			
 

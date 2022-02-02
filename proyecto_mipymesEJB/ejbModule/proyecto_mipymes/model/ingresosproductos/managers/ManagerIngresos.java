@@ -68,7 +68,7 @@ public class ManagerIngresos {
 
 	public Empresa agregarProveedor(Empresa empresaNueva, int idGerente) {
 		Gerente gerente = entityManager.find(Gerente.class, idGerente);
-		JSFUtil.crearMensajeInfo(" Hola " + findEmpresaByRuc(empresaNueva.getEmpRuc()).getEmpCiudad());
+		//JSFUtil.crearMensajeInfo(" Hola " + findEmpresaByRuc(empresaNueva.getEmpRuc()).getEmpCiudad());
 		if (findEmpresaByRuc(empresaNueva.getEmpRuc()).getEmpRuc() == null) {
 			empresaNueva.setGerente(gerente);
 			empresaNueva.setEmpFechaInicio(new Date());

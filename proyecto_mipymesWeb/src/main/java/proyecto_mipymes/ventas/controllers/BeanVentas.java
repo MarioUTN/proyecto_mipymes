@@ -90,7 +90,7 @@ public class BeanVentas implements Serializable {
 		clienteSeleccionado = new Cliente();
 		clienteSeleccionado = managerVentas.crearCliente(cedula_ruc, nombres, apellidos, telefono, email, direccion);
 		if (clienteSeleccionado != null) {
-			JSFUtil.crearMensajeInfo("Cliente creado con exito!");
+			JSFUtil.crearMensajeInfo("Cliente creado con Éxito!");
 		} else {
 			JSFUtil.crearMensajeError("Error al crear el cliente!"+clienteSeleccionado.getCliCodigo());
 		}
@@ -110,7 +110,7 @@ public class BeanVentas implements Serializable {
 			this.telefono = clienteSeleccionado.getCliTelefono();
 			this.email = clienteSeleccionado.getCliEmail();
 			this.direccion = clienteSeleccionado.getCliDireccion();
-			JSFUtil.crearMensajeInfo("Cliente encontrado: " + clienteSeleccionado.getCliRucCedula());
+			//JSFUtil.crearMensajeInfo("Cliente encontrado: " + clienteSeleccionado.getCliRucCedula());
 		} else {
 			JSFUtil.crearMensajeError("No existe el ciente con C.I. o RUC: " + cedula_ruc);
 		}
@@ -126,7 +126,7 @@ public class BeanVentas implements Serializable {
 			this.cantidad = 1;
 		} else {
 			JSFUtil.crearMensajeError(
-					"Produto ya existe en el detalle factura, tiene la opcion de eliminar o editar la cantidad!");
+					"Produto ya existe en el detalle factura, tiene la opción de eliminar o editar la cantidad!");
 		}
 
 	}
@@ -165,7 +165,7 @@ public class BeanVentas implements Serializable {
 		factura = managerVentas.insertarFactura(clienteSeleccionado, id_vendedor, id_empresa, listaDetalleFacturas,
 				id_forma_pago, id_tipo_factura);
 		if (factura != null) {
-			JSFUtil.crearMensajeInfo("Factura creada con exito!");
+			JSFUtil.crearMensajeInfo("Factura creada con Éxito!");
 			actionListenerLimpiarCampos();
 		} else {
 			JSFUtil.crearMensajeError("Error de facturacion!");
@@ -179,10 +179,10 @@ public class BeanVentas implements Serializable {
 			// exito!"+estadoPedido.getEstSaldo());
 			detalleAbono = managerVentas.agregarAbonoFacturaAnticipo(estadoPedido, clienteSeleccionado, id_vendedor,
 					valor_abono);
-			JSFUtil.crearMensajeInfo("Facturacion por anticipos creada con exito!" + estadoPedido.getEstSaldo());
+			JSFUtil.crearMensajeInfo("Facturacion por anticipos creada con Éxito!" + estadoPedido.getEstSaldo());
 			clienteSeleccionado = new Cliente();
 		} else {
-			JSFUtil.crearMensajeInfo("Error al crear Facturacion por anticipo!");
+			JSFUtil.crearMensajeInfo("Error al crear Facturación por anticipo!");
 		}
 
 	}
@@ -191,10 +191,10 @@ public class BeanVentas implements Serializable {
 		facturaAnticipo = managerVentas.insertarFacturaAnticipos(clienteSeleccionado, id_vendedor, id_empresa,
 				listaDetalleFacturas, 5, 4);
 		if (facturaAnticipo != null) {
-			JSFUtil.crearMensajeInfo("Factura creada con exito!");
+			JSFUtil.crearMensajeInfo("Factura creada con Éxito!");
 			actionListenerLimpiarCampos();
 		} else {
-			JSFUtil.crearMensajeError("Error de facturacion!");
+			JSFUtil.crearMensajeError("Error de facturación!");
 		}
 	}
 
@@ -205,7 +205,7 @@ public class BeanVentas implements Serializable {
 
 	public void actionListenerCancelarFacturacion() {
 		actionListenerLimpiarCampos();
-		JSFUtil.crearMensajeWarning("Facturcion Cancelada!");
+		JSFUtil.crearMensajeWarning("Facturción Cancelada!");
 	}
 
 	public void actionListenerLimpiarCampos() {

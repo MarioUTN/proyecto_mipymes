@@ -278,7 +278,7 @@ public class ManagerVentas {
 	public boolean findDetalleFacturaByCodProducto(List<DetalleFactura> listaDetalleFacturas, int id_producto) {
 		boolean resp = false;
 		for (DetalleFactura detalleFactura : listaDetalleFacturas) {
-			JSFUtil.crearMensajeWarning("Producto: " + detalleFactura.getProducto().getProdCodigo());
+			//JSFUtil.crearMensajeWarning("Producto: " + detalleFactura.getProducto().getProdCodigo());
 			if (detalleFactura.getProducto().getIdProducto() == id_producto) {
 				resp = true;
 				break;
@@ -411,7 +411,7 @@ public class ManagerVentas {
 			EstadoPedido estadoPedido = new EstadoPedido();
 			estadoPedido.setFactura(factura);
 			estadoPedido.setEstFechaEmision(new Date());
-			JSFUtil.crearMensajeError("Total factura: " + valor_abono);
+			//JSFUtil.crearMensajeError("Total factura: " + valor_abono);
 			estadoPedido.setEstValorTotal(factura.getFactTotal());
 			estadoPedido.setEstSaldo(calcularSaldoActual(factura.getFactTotal(), valor_abono));
 			estadoPedido.setDetalleAbonos(listaDetalleAbonos);

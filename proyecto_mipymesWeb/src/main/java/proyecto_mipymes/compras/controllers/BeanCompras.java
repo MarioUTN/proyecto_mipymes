@@ -67,6 +67,7 @@ public class BeanCompras implements Serializable {
 	private List<DetalleCompra> listaDetalleCompras;
 	private List<Gerente> listaGerentes;
 	private List<CompraProducto> listaCompraProductos;
+	private List<FacturaIngreso> listaFacturaIngresos;
 
 	public BeanCompras() {
 		// TODO Auto-generated constructor stub
@@ -75,6 +76,7 @@ public class BeanCompras implements Serializable {
 	@PostConstruct
 	public void Inicializar() {
 		empresa = new Empresa();
+		listaFacturaIngresos=managerCompras.findAllFacturasIngresos();
 		listaProductos = managerCompras.findAllProductos();
 		listaEmpresas = managerCompras.findAllEmpresas();
 		listaGerentes = managerCompras.findAllGerente();
@@ -99,7 +101,7 @@ public class BeanCompras implements Serializable {
 	public void actionListenerAgregarGerente() {
 		proveedor = managerCompras.agregarProveedor(empresa, idGerente);
 		if (proveedor != null) {
-			JSFUtil.crearMensajeInfo("Empresa agregada con exito! " + proveedor.getEmpCiudad());
+			JSFUtil.crearMensajeInfo("Empresa agregada con Éxito! " + proveedor.getEmpCiudad());
 			proveedor = new Empresa();
 			empresa = new Empresa();
 			listaEmpresas = managerCompras.findAllEmpresas();
@@ -127,7 +129,7 @@ public class BeanCompras implements Serializable {
 		valorTotal = managerCompras.valorTotalPagar(listaDetalleCompras);
 		iva = managerCompras.valorIva(valorTotal);
 		subTotal = managerCompras.valorSubTotal(valorTotal);
-		JSFUtil.crearMensajeInfo("Si Agrego :v");
+		//JSFUtil.crearMensajeInfo("Si Agrego :v");
 
 	}
 
@@ -137,7 +139,7 @@ public class BeanCompras implements Serializable {
 		valorTotal = managerCompras.valorTotalPagar(listaDetalleCompras);
 		iva = managerCompras.valorIva(valorTotal);
 		subTotal = managerCompras.valorSubTotal(valorTotal);
-		JSFUtil.crearMensajeInfo("Valio Nuevo producto inexitente");
+		//JSFUtil.crearMensajeInfo("Valio Nuevo producto inexitente");
 	}
 
 	public void actionListenerEditarCantidad(int index) {
@@ -146,14 +148,14 @@ public class BeanCompras implements Serializable {
 		iva = managerCompras.valorIva(valorTotal);
 		subTotal = managerCompras.valorSubTotal(valorTotal);
 		this.cantidad = 1;
-		JSFUtil.crearMensajeWarning("Cantidad: " + index);
+		//JSFUtil.crearMensajeWarning("Cantidad: " + index);
 
 	}
 
 	public void actionListenerEliminarProductoDetalleCompra(int index) {
 		// listaDetalleFacturas =
 		if (index >= 0) {
-			JSFUtil.crearMensajeInfo("Producto eliminado del detalle factura!" + index + " "
+			JSFUtil.crearMensajeInfo("Producto eliminado del detalle factura!"
 					+ listaDetalleCompras.get(index).getDetcompCantidad());
 			listaDetalleCompras = managerCompras.eliminarProductoListaDetalle(listaDetalleCompras, index);
 			valorTotal = managerCompras.valorTotalPagar(listaDetalleCompras);
@@ -163,11 +165,19 @@ public class BeanCompras implements Serializable {
 			JSFUtil.crearMensajeError("Error de index: " + index);
 		}
 	}
+	
+	public void actionActualizar() {
+		listaFacturaIngresos=managerCompras.findAllFacturasIngresos();
+		listaDetalleCompras = managerCompras.findAllDetallesCompras();
+		listaCompraProductos=managerCompras.findAllCompraProductos();
+		
+	}
 
 	public void actionListenerInsertarPedido(int id_vendedor) {
 		compraProducto = managerCompras.insertarPedido(listaDetalleCompras, idproveedor, id_vendedor);
+		listaFacturaIngresos=managerCompras.findAllFacturasIngresos();
 		if (compraProducto != null) {
-			JSFUtil.crearMensajeInfo("Pedido generado con exito!");
+			JSFUtil.crearMensajeInfo("Pedido generado con Éxito!");
 			listaDetalleCompras = new ArrayList<DetalleCompra>();
 			valorTotal = 0;
 			iva = 0;
@@ -204,7 +214,7 @@ public class BeanCompras implements Serializable {
 			context.getApplication().getStateManager().saveView(context);
 
 			context.responseComplete();
-			JSFUtil.crearMensajeInfo("Reporte de pedido generado con exito!");
+			JSFUtil.crearMensajeInfo("Reporte de pedido generado con Éxito!");
 		} catch (Exception e) {
 //			JSFUtil.crearMensajeERROR(e.getMessage());
 			System.out.println(e);
@@ -213,17 +223,24 @@ public class BeanCompras implements Serializable {
 		return "";
 	}
 
+
+	
 	public void actionListenerAprovarPedido(int id_compra_producto) {
 		if (managerCompras.aprobarPedidoProductos(id_compra_producto)) {
+			listaDetalleCompras = managerCompras.findAllDetallesCompras();
+			listaCompraProductos=managerCompras.findAllCompraProductos();
+			listaFacturaIngresos=managerCompras.findAllFacturasIngresos();
 			this.stilo_aprobado="rounded-button ui-button-danger";
 			this.ico_aprovado = "fa fa-close";
-			JSFUtil.crearMensajeInfo("Pedido aprovado con exito!");
+			JSFUtil.crearMensajeInfo("Pedido aprovado con Éxito!");
 		} else {
+			listaDetalleCompras = managerCompras.findAllDetallesCompras();
+			listaCompraProductos=managerCompras.findAllCompraProductos();
 			this.ico_aprovado = "fa fa-check";
 			this.stilo_aprobado="rounded-button ui-button-success";
-			JSFUtil.crearMensajeInfo("Pedido no aprovado con exito!");
+			JSFUtil.crearMensajeInfo("Pedido no aprovado con Éxito!");
 		}
-		listaCompraProductos = managerCompras.findAllCompraProductos();
+		
 	}
 
 	public void actionListenercargarEmpresa(Empresa empresae) {
@@ -232,9 +249,9 @@ public class BeanCompras implements Serializable {
 	
 	public void actionListenerActualizarEmpresa() throws Exception {
 		try {
-			JSFUtil.crearMensajeInfo("Actualizado" + idEditarGerente);
+			//JSFUtil.crearMensajeInfo("Actualizado" + idEditarGerente);
 			managerCompras.actualizaProveedor(editarEmpresa, idGerente);
-			JSFUtil.crearMensajeInfo("Actualizado");
+			JSFUtil.crearMensajeInfo("Empresa Actualizado correctamente!");
 		} catch (Exception e) {
 			JSFUtil.crearMensajeError("No se pudo actualizar");
 		}
@@ -246,9 +263,9 @@ public class BeanCompras implements Serializable {
 		try {
 			managerCompras.EliminarEmpresa(idProveedor);
 			listaEmpresas = managerCompras.findAllEmpresas();
-			JSFUtil.crearMensajeInfo("Eliminado");
+			JSFUtil.crearMensajeInfo("Proveedor Eliminado!");
 		} catch (Exception e) {
-			JSFUtil.crearMensajeError("Error");
+			JSFUtil.crearMensajeError("Error al eliminar proveedor!");
 			// TODO: handle exception
 		}
 	}
@@ -259,7 +276,7 @@ public class BeanCompras implements Serializable {
 	}
 
 	public String actionSeleccionarEmpresa() {
-		JSFUtil.crearMensajeInfo("Empresa seleccionada: " + id_empresaSeleccionada);
+		//JSFUtil.crearMensajeInfo("Empresa seleccionada: " + id_empresaSeleccionada);
 		return "agregar_productos";
 	}
 	
@@ -509,5 +526,11 @@ public class BeanCompras implements Serializable {
 		return emp;
 	}
 	
+	public List<FacturaIngreso> getListaFacturaIngresos() {
+		return listaFacturaIngresos;
+	}
+	public void setListaFacturaIngresos(List<FacturaIngreso> listaFacturaIngresos) {
+		this.listaFacturaIngresos = listaFacturaIngresos;
+	}
 	
 }

@@ -87,59 +87,45 @@
 		<p:steps activeIndex="2">
 			<p:menuitem value="Agregar Proveedor" />
 			<p:menuitem value="Agregar Productos para Compras" />
-			<p:menuitem value="Ver compras de Productos" />
+			<p:menuitem value="Ver Ingresos de Productos" />
 			<p:menuitem value="Enviar Pedido de Productos" />
 		</p:steps>
 	</div>
 
 	<h:form id="form2">
 		<div align="center">
+			<p:commandButton value="Actualizar"
+				actionListener="#{beanCompras.actionActualizar()}" icon="fa fa-refresh"
+				update="@form,:form2" styleClass="ui-button-success"></p:commandButton>
 			<p:panel header="Lista de Pedidos Generados">
-				<p:dataTable value="#{beanCompras.listaCompraProductos}"
-					var="compraProductos" paginator="true" reflow="true" rows="5">
+				<p:dataTable value="#{beanCompras.listaFacturaIngresos}" var="fi"
+					paginator="true" reflow="true" rows="5">
 					<p:column headerText="Vendedor"
-						sortBy="#{compraProductos.cabeceraCompra.vendedor.usuario.usNombres}"
-						filterBy="#{compraProductos.cabeceraCompra.vendedor.usuario.usNombres}">
+						sortBy="#{fi.cabeceraIngreso.vendedor.usuario.usNombres}"
+						filterBy="#{fi.cabeceraIngreso.vendedor.usuario.usNombres}">
 						<h:outputText
-							value="#{compraProductos.cabeceraCompra.vendedor.usuario.usNombres}" />
+							value="#{fi.cabeceraIngreso.vendedor.usuario.usNombres}" />
 					</p:column>
 					<p:column headerText="Proveedor"
-						sortBy="#{compraProductos.cabeceraCompra.empresa.empNombreEmpresa}"
-						filterBy="#{compraProductos.cabeceraCompra.empresa.empNombreEmpresa}">
+						sortBy="#{fi.cabeceraIngreso.empresa.empNombreEmpresa}"
+						filterBy="#{fi.cabeceraIngreso.empresa.empNombreEmpresa}">
 						<h:outputText
-							value="#{compraProductos.cabeceraCompra.empresa.empNombreEmpresa}" />
+							value="#{fi.cabeceraIngreso.empresa.empNombreEmpresa}" />
 					</p:column>
 
-					<p:column headerText="Aprobado"
-						sortBy="#{compraProductos.comprodAprobado}"
-						filterBy="#{compraProductos.comprodAprobado}">
-						<h:outputText value="#{compraProductos.comprodAprobado}" />
-					</p:column>
+
 					<p:column headerText="Valor Sub Total"
-						sortBy="#{compraProductos.comprodSubtotal}"
-						filterBy="#{compraProductos.comprodSubtotal}">
-						<h:outputText value="#{compraProductos.comprodSubtotal}" />
+						sortBy="#{fi.factingSubtotal}" filterBy="#{fi.factingSubtotal}">
+						<h:outputText value="#{fi.factingSubtotal}" />
 					</p:column>
 
-					<p:column headerText="Valor Iva"
-						sortBy="#{compraProductos.comprodIva}"
-						filterBy="#{compraProductos.comprodIva}">
-						<h:outputText value="#{compraProductos.comprodIva}" />
+					<p:column headerText="Valor Iva" sortBy="#{fi.factingIva}"
+						filterBy="#{fi.factingIva}">
+						<h:outputText value="#{fi.factingIva}" />
 					</p:column>
-					<p:column headerText="Valor Total"
-						sortBy="#{compraProductos.comprodTotal}"
-						filterBy="#{compraProductos.comprodTotal}">
-						<h:outputText value="#{compraProductos.comprodTotal}" />
-					</p:column>
-					<p:column headerText="Opciones">
-						<p:commandButton value="Editar Pedido" icon="fa fa-edit"
-							styleClass="ui-button-success">
-						</p:commandButton>
-
-						<p:commandButton value="Eliminar Pedido" icon="fa fa-times"
-							styleClass="ui-button-danger">
-						</p:commandButton>
-
+					<p:column headerText="Valor Total" sortBy="#{fi.factingTotal}"
+						filterBy="#{fi.factingTotal}">
+						<h:outputText value="#{fi.factingTotal}" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>

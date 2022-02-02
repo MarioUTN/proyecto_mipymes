@@ -280,7 +280,7 @@
 
 									<p:panelGrid columns="2" styleClass="ui-noborder">
 										<p:commandButton value="Guardar" update="@form"
-											action="viewpedidos"
+											action="#{beanCompras.actionListenerInsertarPedido(beanUsuarios.vendedor.idVendedor)}"
 											styleClass="ui-button-raised ui-button-success"
 											icon="fa fa-check">
 										</p:commandButton>

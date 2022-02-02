@@ -207,7 +207,7 @@ public class BeanFacturas implements Serializable {
 		facturaSeleccionada = managerFacturas.findFacturaById(id_factura);
 		listaDetalleAbonos = managerFacturas.findAllDetalleAbonosByIdFactura(id_factura);
 		if (listaDetalleAbonos.size() > 0) {
-			JSFUtil.crearMensajeInfo("Lista encontrada " + listaDetalleAbonos.size() + " id factura: " + id_factura);
+			//JSFUtil.crearMensajeInfo("Lista encontrada " + listaDetalleAbonos.size() + " id factura: " + id_factura);
 		} else {
 			JSFUtil.crearMensajeError("Error! no se encontraron resultados!");
 		}

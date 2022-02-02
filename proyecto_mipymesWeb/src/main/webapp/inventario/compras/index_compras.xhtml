@@ -86,7 +86,7 @@
 	</h:form>
 	<h:form id="form1">
 		<div align="center">
-			<p:panelGrid columns="3">
+			<p:panelGrid columns="4">
 				<p:commandButton value="Realizar un Pedido de Productos"
 					icon="fa fa-cart-plus" styleClass="ui-button-success"
 					style="width: 340px" action="pedidos_compras">
@@ -101,6 +101,12 @@
 					icon="fa fa-cart-plus" styleClass="ui-button-success"
 					style="width: 340px" action="/inventario/productos/menu_productos">
 				</p:commandButton>
+				
+				<p:commandButton value="Actualizar"
+					icon="fa fa-update" styleClass="ui-button-success" update="@form,:form2"
+					style="width: 340px" actionListener="#{beanCompras.actionActualizar()}">
+				</p:commandButton>
+				
 			</p:panelGrid>
 		</div>
 	</h:form>
@@ -165,7 +171,7 @@
 			</p:panel>
 			<br />
 			<div align="center">
-				<p:commandButton value="Siguiente" action="enviar_pedidos"
+				<p:commandButton value="Ir a Pedidos" action="enviar_pedidos"
 					styleClass="ui-button-success" style="width: auto" disabled="true"
 					icon="fa fa-arrow-circle-o-right" />
 			</div>
