@@ -313,12 +313,12 @@
 								layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
 								style="border:0px none; background-color:transparent;">
 
-								<p:outputLabel for="@next" value="CODIGO: " />
-								<p:inputText id="a" placeholder="CODIGO"
+								<p:outputLabel for="@next" value="CÓDIGO: " />
+								<p:inputText id="a" placeholder="CÓDIGO"
 									value="#{beanProductos.productoEditar.prodCodigo}"
 									required="true"
-									requiredMessage="Ingrese el codigo del producto!">
-									<p:tooltip for="a" value="Ingrese el codigo del producto!"
+									requiredMessage="Ingrese el Código del producto!">
+									<p:tooltip for="a" value="Ingrese el Código del producto!"
 										position="bottom" />
 								</p:inputText>
 
@@ -341,12 +341,12 @@
 										itemValue="#{talla.idTallaProducto}"></f:selectItems>
 								</p:selectOneMenu>
 
-								<p:outputLabel for="@next" value="Descripcion: " />
-								<p:inputTextarea id="c" placeholder="Descripcion del producto"
+								<p:outputLabel for="@next" value="Descripción: " />
+								<p:inputTextarea id="c" placeholder="Descripción del producto"
 									value="#{beanProductos.productoEditar.prodDescripcion}"
 									required="true"
-									requiredMessage="Ingrese la descripcion del producto!!">
-									<p:tooltip for="c" value="Ingrese la descripcion del producto!"
+									requiredMessage="Ingrese la descripción del producto!!">
+									<p:tooltip for="c" value="Ingrese la descripción del producto!"
 										position="bottom" />
 								</p:inputTextarea>
 
@@ -384,9 +384,9 @@
 									prefix="$ " stepFactor="0.01" min="0.00"
 									value="#{beanProductos.productoEditar.prodPvpublico}"
 									required="true"
-									requiredMessage="Ingrese el precio de venta al publico!">
+									requiredMessage="Ingrese el precio de venta al Público!">
 									<p:tooltip for="g"
-										value="Ingrese el precio de venta al publico"
+										value="Ingrese el precio de venta al Público!"
 										position="bottom" />
 								</p:spinner>
 
@@ -423,7 +423,7 @@
 								<p:row>
 
 									<p:panelGrid columns="1">
-										<p:commandButton value="Guardar Edicion de Producto"
+										<p:commandButton value="Guardar Edición de Producto"
 											id="btn-editar" icon="fa fa-arrow-circle-right"
 											styleClass="p-mr-2" update="form-tablaproductos"
 											process="editar-ProductDialog @this"
@@ -462,12 +462,12 @@
 								layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
 								style="border:0px none; background-color:transparent;">
 
-								<p:outputLabel for="@next" value="CODIGO: " />
-								<p:inputText id="a" placeholder="CODIGO"
+								<p:outputLabel for="@next" value="CÓDIGO: " />
+								<p:inputText id="a" placeholder="CÓDIGO"
 									value="#{beanProductos.productoNuevo.prodCodigo}"
 									required="true"
-									requiredMessage="Ingrese el codigo del producto!">
-									<p:tooltip for="a" value="Ingrese el codigo del producto!"
+									requiredMessage="Ingrese el código del producto!">
+									<p:tooltip for="a" value="Ingrese el código del producto!"
 										position="bottom" />
 								</p:inputText>
 
@@ -509,8 +509,8 @@
 								<p:inputTextarea id="c" placeholder="Descripcion del producto"
 									value="#{beanProductos.productoNuevo.prodDescripcion}"
 									required="true"
-									requiredMessage="Ingrese la descripcion del producto!!">
-									<p:tooltip for="c" value="Ingrese la descripcion del producto!"
+									requiredMessage="Ingrese la descripción del producto!!">
+									<p:tooltip for="c" value="Ingrese la descripción del producto!"
 										position="bottom" />
 								</p:inputTextarea>
 
@@ -553,9 +553,9 @@
 									prefix="$ " stepFactor="0.01" min="0.00"
 									value="#{beanProductos.productoNuevo.prodPvpublico}"
 									required="true"
-									requiredMessage="Ingrese el precio de venta al publico!">
+									requiredMessage="Ingrese el precio de venta al Público!">
 									<p:tooltip for="g"
-										value="Ingrese el precio de venta al publico"
+										value="Ingrese el precio de venta al Público!"
 										position="bottom" />
 								</p:spinner>
 
@@ -896,7 +896,7 @@
 							<div align="center">
 								<p:row>
 									<p:panelGrid columns="1">
-										<p:commandButton value="Guardar Edicion Tipo Producto"
+										<p:commandButton value="Guardar Edición Tipo Producto"
 											id="btn-editar" icon="fa fa-plus" styleClass="p-mr-2"
 											update="form-tallas-tipos"
 											process="editarTipo-ProductDialog @this"

@@ -157,10 +157,10 @@
 												layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
 												style="border:0px none; background-color:transparent;">
 
-												<p:outputLabel for="@next" value="CODIGO: " />
-												<p:inputText id="a" placeholder="CODIGO"
+												<p:outputLabel for="@next" value="CÓDIGO: " />
+												<p:inputText id="a" placeholder="CÓDIGO:"
 													value="#{beanIngresos.productoNuevo.prodCodigo}">
-													<p:tooltip for="a" value="Ingrese el codigo del producto!"
+													<p:tooltip for="a" value="Ingrese el código del producto!"
 														position="bottom" />
 												</p:inputText>
 
@@ -198,10 +198,10 @@
 
 												<p:outputLabel for="@next" value="Descripcion: " />
 												<p:inputTextarea id="c"
-													placeholder="Descripcion del producto"
+													placeholder="Descripción del producto"
 													value="#{beanIngresos.productoNuevo.prodDescripcion}">
 													<p:tooltip for="c"
-														value="Ingrese la descripcion del producto!"
+														value="Ingrese la descripción del producto!"
 														position="bottom" />
 												</p:inputTextarea>
 
@@ -235,13 +235,13 @@
 														position="bottom" />
 												</p:selectOneMenu>
 
-												<p:outputLabel for="@next" value="Precio Venta Publico: " />
+												<p:outputLabel for="@next" value="Precio Venta Público: " />
 												<p:spinner id="g" placeholder="15.25"
 													buttons="horizontal-after" prefix="$ " stepFactor="0.01"
 													min="0.00"
 													value="#{beanIngresos.productoNuevo.prodPvpublico}">
 													<p:tooltip for="g"
-														value="Ingrese el precio de venta al publico"
+														value="Ingrese el precio de venta al público"
 														position="bottom" />
 												</p:spinner>
 
@@ -442,7 +442,7 @@
 								<p:panel header="">
 									<div align="center">
 										<p:staticMessage severity="warn"
-											summary="¡La forma de cobro se realiza de contado o a crédito siempre y cuando el cliente no tenga deudas con la empresa!"></p:staticMessage>
+											summary="¡Agregue nuevos productos con su respectivo código y valor real del proveedor!"></p:staticMessage>
 									</div>
 								</p:panel>
 							</p:splitterPanel>

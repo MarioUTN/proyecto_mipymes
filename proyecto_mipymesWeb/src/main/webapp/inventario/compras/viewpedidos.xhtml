@@ -98,7 +98,7 @@
 							<h:outputText
 								value="#{cp.cabeceraCompra.empresa.empNombreEmpresa}" />
 						</p:column>
-						<p:column headerText="FECHA EMISION">
+						<p:column headerText="FECHA EMISIÓN">
 							<h:outputText value="#{cp.comprodFecha}" />
 						</p:column>
 
@@ -170,13 +170,13 @@
 						<p:splitter layout="vertical">
 							<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 								<p:panelGrid columns="6" styleClass="ui-noborder">
-									<h:outputLabel value="Fecha Emision:" style="font-weight:bold" />
+									<h:outputLabel value="Fecha Emisión:" style="font-weight:bold" />
 									<h:outputLabel
 										value="#{beanCompras.compraProductoSeleccionado.comprodFecha}" />
 									<h:outputLabel value="Vendedor: " style="font-weight:bold" />
 									<h:outputLabel
 										value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.vendedor.usuario.usNombres}" />
-									<h:outputLabel value="Pedido Numero: " style="font-weight:bold" />
+									<h:outputLabel value="Pedido Número: " style="font-weight:bold" />
 									<h:outputLabel
 										value="000-00#{beanCompras.compraProductoSeleccionado.idCompraProducto}"
 										style="font-weight:bold; color: red" />
@@ -206,7 +206,7 @@
 														<p:outputLabel value="Email: " style="font-weight:bold"></p:outputLabel>
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.empEmail}" />
-														<p:outputLabel value="Telefono: " style="font-weight:bold"></p:outputLabel>
+														<p:outputLabel value="Teléfono: " style="font-weight:bold"></p:outputLabel>
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.empTelefono}" />
 														<p:outputLabel value="Gerente: " style="font-weight:bold"></p:outputLabel>

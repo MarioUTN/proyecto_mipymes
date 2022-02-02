@@ -98,17 +98,17 @@
 				<p:panelGrid columns="4" styleClass="ui-noborder">
 					<h:outputText value="Numero de Factura:" />
 					<p:inputText value="#{beanIngresos.numero_factura}" />
-					<h:outputText value="Autorizacion:" />
+					<h:outputText value="Autorización:" />
 					<p:inputText value="#{beanIngresos.autorizacion}" />
-					<h:outputText value="Fecha de emision: " />
+					<h:outputText value="Fecha de emisivn: " />
 					<p:datePicker value="#{beanIngresos.fecha_emision}" />
-					<h:outputText value="Fecha de Caducacion:" />
+					<h:outputText value="Fecha de Caducación:" />
 					<p:datePicker value="#{beanIngresos.fecha_caducacion}" />
 				</p:panelGrid>
 				<p:panelGrid columns="3" styleClass="ui-noborder">
 					<h:outputText value="Elija un proveedor:" />
 					<p:selectOneMenu value="#{beanIngresos.id_proveedor}">
-						<f:selectItem itemLabel="Seleccione un curso..." itemValue="0"
+						<f:selectItem itemLabel="Seleccione un proveedor..." itemValue="0"
 							noSelectionOption="true" />
 						<f:selectItems value="#{beanCompras.listaEmpresas}" var="c"
 							itemLabel="#{c.empNombreEmpresa}" itemValue="#{c.idEmpresa}"></f:selectItems>
@@ -156,7 +156,7 @@
 								<p:inputText id="b" placeholder="Empresa S.A."
 									value="#{beanCompras.empresa.empNombreEmpresa}" required="true"
 									requiredMessage="Ingrese el nombre de la empresa!">
-									<p:tooltip for="b" value="Ingrese su nombre de la empresa"
+									<p:tooltip for="b" value="Ingrese el nombre de la empresa"
 										position="bottom" />
 								</p:inputText>
 
@@ -183,11 +183,11 @@
 										position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Pais: " />
+								<p:outputLabel for="@next" value="País: " />
 								<p:inputText id="e" placeholder="Ecuador"
 									value="#{beanCompras.empresa.empPais}" required="true"
-									requiredMessage="Ingrese el pais!">
-									<p:tooltip for="e" value="Ingrese el pais" position="bottom" />
+									requiredMessage="Ingrese el país!">
+									<p:tooltip for="e" value="Ingrese el país" position="bottom" />
 								</p:inputText>
 
 								<p:outputLabel for="@next" value="Provincia: " />
@@ -202,14 +202,14 @@
 								<p:inputText id="g" placeholder="Ibarra"
 									value="#{beanCompras.empresa.empCiudad}" required="true"
 									requiredMessage="Ingrese la ciudad!">
-									<p:tooltip for="g" value="Ingrese la cliudad" position="bottom" />
+									<p:tooltip for="g" value="Ingrese la ciudad!" position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Telefono: " />
+								<p:outputLabel for="@next" value="Teléfono: " />
 								<p:inputText id="h" placeholder="0989061898"
 									value="#{beanCompras.empresa.empTelefono}" required="true"
-									requiredMessage="Ingrese el telefono!">
-									<p:tooltip for="h" value="Ingrese su numero de telefono"
+									requiredMessage="Ingrese el Teléfono!">
+									<p:tooltip for="h" value="Ingrese su numero de teléfono "
 										position="bottom" />
 								</p:inputText>
 
@@ -226,7 +226,7 @@
 							<p:panel>
 								<div align="center">
 									<p:row>
-										<p:commandButton value="Guardar Datos Personales"
+										<p:commandButton value="Guardar Provvedor"
 											styleClass="ui-button-success" style="width: auto"
 											icon="fa fa-save" />
 									</p:row>

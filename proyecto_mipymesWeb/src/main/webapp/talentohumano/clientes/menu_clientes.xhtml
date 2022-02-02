@@ -194,7 +194,7 @@
 				<p:column headerText="Email">
 					<h:outputText value="#{detalle.cliEmail}" />
 				</p:column>
-				<p:column headerText="Direccón">
+				<p:column headerText="Dirección">
 					<h:outputText value="#{detalle.cliDireccion}" />
 				</p:column>
 				<p:column headerText="Estado">
@@ -206,10 +206,7 @@
 						update=":formEditarPro"
 						styleClass="rounded-button ui-button-success">
 					</p:commandButton>
-					<p:commandButton update=":formtable" icon="pi pi-pencil"
-						value="Estado"
-						actionListener="#{beanUsuarios.actionListenerActualizarEstadoEmpleado(detalle)}"
-						styleClass="rounded-button ui-button-success" />
+					
 				</p:column>
 			</p:dataTable>
 		</p:panel>

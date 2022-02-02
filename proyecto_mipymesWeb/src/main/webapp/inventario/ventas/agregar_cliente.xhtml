@@ -98,15 +98,15 @@
 
 			<div align="center">
 
-				<p:panel header="Datos Personales">
+				<p:panel header="Datos del Proveedors">
 
 					<p:panelGrid columns="4"
 						columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
 						layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
 						style="border:0px none; background-color:transparent;">
 
-						<p:outputLabel for="@next" value="CEDULA: " />
-						<p:inputText id="a" placeholder="cedula"
+						<p:outputLabel for="@next" value="EUC " />
+						<p:inputText id="a" placeholder="1001590650001"
 							value="#{beanCompras.empresa.empRuc}" required="true"
 							requiredMessage="Ingrese el ruc de la empresa!">
 							<p:tooltip for="a" value="Ingrese el ruc de la empresa!"
@@ -143,11 +143,11 @@
 							<p:tooltip for="d" value="Ingrese la Sucursal" position="bottom" />
 						</p:inputText>
 
-						<p:outputLabel for="@next" value="Pais: " />
+						<p:outputLabel for="@next" value="País: " />
 						<p:inputText id="e" placeholder="Ecuador"
 							value="#{beanCompras.empresa.empPais}" required="true"
-							requiredMessage="Ingrese el pais!">
-							<p:tooltip for="e" value="Ingrese el pais" position="bottom" />
+							requiredMessage="Ingrese el País ">
+							<p:tooltip for="e" value="Ingrese el País" position="bottom" />
 						</p:inputText>
 
 						<p:outputLabel for="@next" value="Provincia: " />
@@ -164,11 +164,11 @@
 							<p:tooltip for="g" value="Ingrese la cliudad" position="bottom" />
 						</p:inputText>
 
-						<p:outputLabel for="@next" value="Telefono: " />
+						<p:outputLabel for="@next" value="Teléfono: " />
 						<p:inputText id="h" placeholder="0989061898"
 							value="#{beanCompras.empresa.empTelefono}" required="true"
-							requiredMessage="Ingrese el telefono!">
-							<p:tooltip for="h" value="Ingrese su numero de telefono"
+							requiredMessage="Ingrese el Teléfono!">
+							<p:tooltip for="h" value="Ingrese su numero de Teléfono!"
 								position="bottom" />
 						</p:inputText>
 
@@ -185,7 +185,7 @@
 					<p:panel>
 						<div align="center">
 							<p:row>
-								<p:commandButton value="Guardar Datos Personales"
+								<p:commandButton value="Guardar Datos del Proveedor"
 									action="agregar_usuariocliente" styleClass="ui-button-success"
 									style="width: auto" update="form2" icon="fa fa-save" />
 							</p:row>

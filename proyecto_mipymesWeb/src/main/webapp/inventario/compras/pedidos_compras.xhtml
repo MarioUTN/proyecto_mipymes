@@ -294,7 +294,7 @@
 								<p:panel header="">
 									<div align="center">
 										<p:staticMessage severity="warn"
-											summary="¡La forma de cobro se realiza de contado o a crédito siempre y cuando el cliente no tenga deudas con la empresa!"></p:staticMessage>
+											summary="¡El pedido se realizará siempre y cuando sea aprobado por e gerente de la empresa!"></p:staticMessage>
 									</div>
 								</p:panel>
 							</p:splitterPanel>
@@ -361,11 +361,11 @@
 										position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Pais: " />
+								<p:outputLabel for="@next" value="País: " />
 								<p:inputText id="e" placeholder="Ecuador"
 									value="#{beanCompras.empresa.empPais}" required="true"
-									requiredMessage="Ingrese el pais!">
-									<p:tooltip for="e" value="Ingrese el pais" position="bottom" />
+									requiredMessage="Ingrese el País">
+									<p:tooltip for="e" value="Ingrese el País" position="bottom" />
 								</p:inputText>
 
 								<p:outputLabel for="@next" value="Provincia: " />
@@ -383,11 +383,11 @@
 									<p:tooltip for="g" value="Ingrese la cliudad" position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Telefono: " />
+								<p:outputLabel for="@next" value="Teléfono: " />
 								<p:inputText id="h" placeholder="0989061898"
 									value="#{beanCompras.empresa.empTelefono}" required="true"
-									requiredMessage="Ingrese el telefono!">
-									<p:tooltip for="h" value="Ingrese su numero de telefono"
+									requiredMessage="Ingrese el Teléfono!">
+									<p:tooltip for="h" value="Ingrese su numero de Teléfono!"
 										position="bottom" />
 								</p:inputText>
 
@@ -428,7 +428,7 @@
 					<div align="center">
 
 						<div class="p-field">
-							<p:outputLabel for="code">Codigo del Producto</p:outputLabel>
+							<p:outputLabel for="code">Código del Producto</p:outputLabel>
 							<p:inputText id="code" value="#{beanCompras.codigo_producto}"
 								required="true" />
 						</div>
@@ -438,7 +438,7 @@
 								required="true" />
 						</div>
 						<div class="p-field">
-							<p:outputLabel for="description">Descripcion del Producto</p:outputLabel>
+							<p:outputLabel for="description">Descripción del Producto</p:outputLabel>
 							<p:inputTextarea id="description"
 								value="#{beanCompras.descripcion_producto}" />
 						</div>
