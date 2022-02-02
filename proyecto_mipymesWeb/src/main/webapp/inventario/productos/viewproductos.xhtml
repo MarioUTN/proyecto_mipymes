@@ -153,6 +153,10 @@
 								oncomplete="PF('crearnuevoProductDialog').show()">
 								<p:resetInput target=":form-crear:crearnuevo-ProductDialog" />
 							</p:menuitem>
+							<p:menuitem value="Generar Reporte" ajax="false"
+								styleClass="ui-button-help" icon="fa fa-file-pdf-o"
+								action="#{beanProductos.actionReporte()}">
+							</p:menuitem>
 							<p:divider />
 
 							<p:menuitem update="@form,:form-tablaproductos" value="Eliminar"

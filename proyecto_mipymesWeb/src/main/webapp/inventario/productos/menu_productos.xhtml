@@ -216,13 +216,16 @@
 	</h:form>
 
 	<h:form id="form-tablaproductos">
+
 		<div align="center">
 			<p:fieldset legend="Ver lista de Productos Existentes"
 				toggleable="true" collapsed="true" toggleSpeed="500"
 				style="aling: center">
+
 				<p:dataTable value="#{beanProductos.listaProductos}" var="productos"
 					stripedRows="true" paginator="true" reflow="true" rows="5"
 					style="font-size: 12px" paginatorPosition="bottom">
+
 					<p:column headerText="COD" sortBy="#{productos.prodCodigo}"
 						filterBy="#{productos.prodCodigo}">
 						<h:outputText value="#{productos.prodCodigo}" />
@@ -280,6 +283,11 @@
 								actionListener="#{beanProductos.actionListenerSeleccionarProducto(productos.prodCodigo)}"
 								oncomplete="PF('crearnuevoProductDialog').show()">
 								<p:resetInput target=":form-crear:crearnuevo-ProductDialog" />
+							</p:menuitem>
+							
+							<p:menuitem value="Generar Reporte" ajax="false"
+								styleClass="ui-button-help" icon="fa fa-file-pdf-o"
+								action="#{beanProductos.actionReporte()}">
 							</p:menuitem>
 							<p:divider />
 
