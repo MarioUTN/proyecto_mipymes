@@ -321,7 +321,7 @@
 									onclick="PF('detalleFactura').show()"
 									update=":form-detalle:detalle-Factura"
 									oncomplete="PF('detalleFactura').show()"
-									styleClass="ui-button-success">
+									styleClass="rounded-button ui-button-help ui-button-outlined">
 									<p:resetInput target=":form-detalle:detalle-Factura" />
 								</p:commandButton>
 								<p:commandButton icon="fa fa-dollar"
@@ -329,9 +329,14 @@
 									onclick="PF('abonarFactura').show()"
 									update=":form-abonar:abonar-Factura"
 									oncomplete="PF('abonarFactura').show()"
-									styleClass="ui-button-help" disabled="#{factura.factEstado}">
+									styleClass="rounded-button ui-button-success ui-button-outlined" disabled="#{factura.factEstado}">
 									<p:resetInput target=":form-abonar:abonar-Factura" />
 								</p:commandButton>
+								
+								<p:commandButton ajax="false"
+								styleClass="rounded-button ui-button-info ui-button-outlined" icon="fa fa-file-pdf-o"
+								action="#{beanFacturas.actionListenerGenerarPdf(factura.idFactura)}">
+							</p:commandButton>
 							</p:column>
 						</p:dataTable>
 					</div>

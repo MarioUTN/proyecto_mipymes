@@ -119,6 +119,37 @@ public class BeanFacturas implements Serializable {
 		}
 		return "";
 	}
+	
+	
+	public String actionListenerGenerarPdf(int id_factura) {
+		String password = "YoRn7KDvOAc=";
+		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("idFact", id_factura);
+		FacesContext context = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("inventario/facturas/reporteF.jasper");
+		System.out.println(ruta);
+		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+		response.addHeader("Content-disposition", "attachment;filename=reporteF.pdf");
+		response.setContentType("application/pdf");
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection connection = null;
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", Encriptar.descryp(usuario), Encriptar.descryp(password));
+			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
+			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
+			context.getApplication().getStateManager().saveView(context);
+
+			context.responseComplete();
+			System.out.println("reporte generado.");
+		} catch (Exception e) {
+//			JSFUtil.crearMensajeERROR(e.getMessage());
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		return "";
+	}
 
 	public String actionReporte() {
 		String password = "YoRn7KDvOAc=";
