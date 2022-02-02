@@ -53,6 +53,10 @@ public class ManagerClientes {
 		}
 		return cliente;
 	}
+	
+	public Cliente findClienteById(int id_cliente) {
+		return entityManager.find(Cliente.class, id_cliente);
+	}
 
 	public TipoUsuario findTipoUsuarioById(int id_tipousuario) {
 		return entityManager.find(TipoUsuario.class, id_tipousuario);

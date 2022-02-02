@@ -83,9 +83,6 @@
 				</p:menuButton>
 			</f:facet>
 		</p:menubar>
-		<div align="center">
-			<p:staticMessage severity="info" summary="Menu de vista de clientes"></p:staticMessage>
-		</div>
 	</h:form>
 	<div align="center">
 		<p:commandButton value="Registrar nuevo cliente" icon="fa fa-plus"
@@ -161,7 +158,7 @@
 							<p:panel>
 								<div align="center">
 									<p:row>
-										<p:commandButton value="Guardar Datos"
+										<p:commandButton value="Guardar Datos" update="formtable"
 											styleClass="ui-button-success" style="width: auto"
 											actionListener="#{beanClientes.actionListenerRegistrarCliente()}"
 											icon="fa fa-save" />
@@ -175,5 +172,123 @@
 			</p:dialog>
 		</div>
 	</h:form>
+	
+	<h:form id="formtable">
+		<p:panel header="Información">
+			<p:dataTable value="#{beanClientes.listaClientes}"
+				stripedRows="true" var="detalle" paginator="true" reflow="true"
+				rows="7" style="font-size: 12px" paginatorPosition="bottom">
+
+				<p:column headerText="Cédula" style="width:80px">
+					<h:outputText value="#{detalle.cliRucCedula}" />
+				</p:column>
+				<p:column headerText="Nombres" style="width:80px">
+					<h:outputText value="#{detalle.usuario.usNombres}" />
+				</p:column>
+				<p:column headerText="Apellidos" style="width:80px">
+					<h:outputText value="#{detalle.usuario.usApellidos}" />
+				</p:column>
+				<p:column headerText="Teléfono">
+					<h:outputText value="#{detalle.cliTelefono}" />
+				</p:column>
+				<p:column headerText="Email">
+					<h:outputText value="#{detalle.cliEmail}" />
+				</p:column>
+				<p:column headerText="Direccón">
+					<h:outputText value="#{detalle.cliDireccion}" />
+				</p:column>
+				<p:column headerText="Estado">
+					<h:outputText value="#{detalle.usuario.usActivo}" />
+				</p:column>
+				<p:column headerText="Opciones">
+					<p:commandButton icon="fa fa-edit" onclick="PF('dlg3').show()"
+						actionListener="#{beanClientes.actionListenerSeleccionarCliente(detalle.idCliente)}"
+						update=":formEditarPro"
+						styleClass="rounded-button ui-button-success">
+					</p:commandButton>
+					<p:commandButton update=":formtable" icon="pi pi-pencil"
+						value="Estado"
+						actionListener="#{beanUsuarios.actionListenerActualizarEstadoEmpleado(detalle)}"
+						styleClass="rounded-button ui-button-success" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+	<p:dialog header="Editar Vendedor" widgetVar="dlg3" minHeight="700"
+		width="900" showEffect="fade">
+		<h:form id="formEditarPro">
+			<p:panelGrid columns="4"
+				columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+				layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+				style="border:0px none; background-color:transparent;">
+
+				<p:outputLabel for="@next" value="Cédula: " />
+				<p:inputText id="a" placeholder="Cédula" required="true"
+					requiredMessage="Ingrese el número de cédula"
+					value="#{beanClientes.clienteSeleccionado.cliRucCedula}">
+					<p:tooltip for="a" value="Cédula" position="bottom" />
+				</p:inputText>
+				<p:outputLabel for="@next" value="Nombres: " />
+				<p:inputText id="b" placeholder="Nombres"
+					value="#{beanClientes.clienteSeleccionado.usuario.usNombres}" required="true"
+					requiredMessage="Ingrese sus nombres!">
+					<p:tooltip for="b" value="Ingrese sus nombres!" position="bottom" />
+				</p:inputText>
+
+				<p:outputLabel for="@next" value="Apellidos: " />
+				<p:inputText id="c" placeholder="Apellidos"
+					value="#{beanClientes.clienteSeleccionado.usuario.usApellidos}"
+					required="true" requiredMessage="Ingrese sus Apellidos!">
+					<p:tooltip for="c" value="Ingrese sus Apellidos" position="bottom" />
+				</p:inputText>
+				<p:outputLabel for="@next" value="Email " />
+				<p:inputText id="d" placeholder="Email"
+					value="#{beanClientes.clienteSeleccionado.cliEmail}" required="true"
+					requiredMessage="Ingrese su email!!">
+					<p:tooltip for="d" value="Ingrese su email!" position="bottom" />
+				</p:inputText>
+
+				<h:outputText value="Contraseña:" />
+				<p:password value="#{beanClientes.clienteSeleccionado.usuario.usPassword}"
+					required="true" requiredMessage="Ingrese la contraseña"
+					placeholder="**********" feedback="false" />
+					
+					<h:outputText value="Confirmar Contraseña:" />
+				<p:password value="#{beanClientes.clienteSeleccionado.usuario.usPassword}"
+					required="true" requiredMessage="Ingrese la contraseña"
+					placeholder="**********" feedback="false" />
+
+				<p:outputLabel for="@next" value="Teléfono: " />
+				<p:inputText id="e" placeholder="0989061898"
+					value="#{beanClientes.clienteSeleccionado.cliTelefono}" required="true"
+					requiredMessage="Ingrese el teléfono!">
+					<p:tooltip for="e" value="Ingrese su numero de teléfono"
+						position="bottom" />
+				</p:inputText>
+
+				<p:outputLabel for="@next" value="Dirección: " />
+				<p:inputText id="f" placeholder="Dirección"
+					value="#{beanClientes.clienteSeleccionado.cliDireccion}">
+					<p:tooltip for="f" value="Dirección" position="bottom" />
+				</p:inputText>
+			</p:panelGrid>
+			<div align="center">
+				<p:panel>
+					<div align="center">
+						<p:row>
+							<p:commandButton value="Editar Datos"
+								styleClass="ui-button-success" style="width: auto"
+								update=":formtable"
+								icon="fa fa-save" />
+						</p:row>
+					</div>
+				</p:panel>
+			</div>
+		</h:form>
+
+	</p:dialog>
+	
+	
+	
 </body>
 </html>

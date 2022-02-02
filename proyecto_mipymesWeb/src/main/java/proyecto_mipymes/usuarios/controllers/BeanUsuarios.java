@@ -6,8 +6,11 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
+import proyect_mipymes.model.seguridades.dtos.LoginDTO;
 import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.*;
 import proyecto_mipymes.model.usuarios.managers.ManagerUsuarios;
@@ -25,6 +28,9 @@ public class BeanUsuarios implements Serializable {
 	private Usuario usuario;
 	private List<Usuario> listaUsuarios;
 	private List<Vendedor> listaVendedores;
+	
+	private LoginDTO loginDTO;
+	private String direccionIP;
 
 	private Gerente gerente;
 	private Vendedor vendedor;
@@ -53,6 +59,13 @@ public class BeanUsuarios implements Serializable {
 	public void Inicializar() {
 		id_usuario = "ADM-1003938477";
 		password = "adminmario";
+		HttpServletRequest req=(HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		String agente=req.getHeader("user-agent");
+		String ipAddress = req.getHeader("X-FORWARDED-FOR");
+		if(ipAddress==null) {
+			ipAddress=req.getRemoteAddr();
+		}
+		direccionIP=ipAddress;
 		gerente = new Gerente();
 		vendedor = new Vendedor();
 		cliente = new Cliente();
@@ -64,24 +77,24 @@ public class BeanUsuarios implements Serializable {
 	}
 
 	public String actionLoginVendedor() {
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == 1
-				|| managerUsuarios.loginUsuarios(id_usuario, password) == 3) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 1
+				|| managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 3) {
 			JSFUtil.crearMensajeWarning("Su usuario no pertenece a la de un VendedorDTO!!");
 			return "";
 		}
 
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == 2) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 2) {
 			vendedor = managerUsuarios.findVendedorByUsuario(id_usuario);
 			usuario = managerUsuarios.findUsuarioByIdUsuario(id_usuario);
-			JSFUtil.crearMensajeWarning("Usuario: " + vendedor.getUsuario().getIdUsuario());
-			return "talentohumano/vendedores/menu_vendedores";
+			JSFUtil.crearMensajeWarning("Usuario: " + vendedor.getUsuario().getIdUsuario()+"  "+direccionIP);
+			return "talentohumano/vendedores/menu_vendedores?faces-redirect=true";
 		}
 
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == 0) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 0) {
 			JSFUtil.crearMensajeError("Debe ingresar el usuario y su contrasena \nVuelva a intentar nuevamente!");
 		}
 
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == -1) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == -1) {
 			JSFUtil.crearMensajeError("Error de las credenciales!");
 		}
 
@@ -132,24 +145,24 @@ public class BeanUsuarios implements Serializable {
 	}
 
 	public String actionLoginCliente() {
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == 1
-				|| managerUsuarios.loginUsuarios(id_usuario, password) == 2) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP)== 1
+				|| managerUsuarios.loginUsuarios(id_usuario, password, direccionIP)== 2) {
 			JSFUtil.crearMensajeWarning("Su usuario no pertenece a la de un Cliente!!");
 			return "";
 		}
 
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == 3) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP)== 3) {
 			cliente = managerUsuarios.findClienteByUsuario(id_usuario);
 			usuario = managerUsuarios.findUsuarioByIdUsuario(id_usuario);
-			JSFUtil.crearMensajeWarning("Usuario: " + cliente.getUsuario().getIdUsuario());
-			return "talentohumano/clientes/menu_clientes";
+			JSFUtil.crearMensajeWarning("Usuario: " + cliente.getUsuario().getIdUsuario()+" "+direccionIP);
+			return "talentohumano/clientes/menu_clientes?faces-redirect=true";
 		}
 
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == 0) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 0) {
 			JSFUtil.crearMensajeError("Debe ingresar el usuario y su contrasena \nVuelva a intentar nuevamente!");
 		}
 
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == -1) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == -1) {
 			JSFUtil.crearMensajeError("Error de las credenciales!");
 		}
 
@@ -157,25 +170,25 @@ public class BeanUsuarios implements Serializable {
 	}
 
 	public String actionLoginGerente() {
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == 1) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 1) {
 			gerente = managerUsuarios.findGerenteByUsuario(id_usuario);
 			usuario = managerUsuarios.findUsuarioByIdUsuario(id_usuario);
 			vendedor = managerUsuarios.findVendedorByCedula(gerente.getGerCedula());
 			JSFUtil.crearMensajeWarning("Usuario: " + gerente.getUsuario().getIdUsuario());
-			return "seguridades/administrador/menu_administrador";
+			return "seguridades/administrador/menu_administrador?faces-redirect=true";
 		}
 
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == 2
-				|| managerUsuarios.loginUsuarios(id_usuario, password) == 3) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 2
+				|| managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 3) {
 			JSFUtil.crearMensajeWarning("Su usuario no pertenece a la de un Gerente!!");
 			return "";
 		}
 
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == 0) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 0) {
 			JSFUtil.crearMensajeError("Debe ingresar el usuario y su contrasena \nVuelva a intentar nuevamente!");
 		}
 
-		if (managerUsuarios.loginUsuarios(id_usuario, password) == -1) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == -1) {
 			JSFUtil.crearMensajeError("Error de las credenciales!");
 		}
 
@@ -330,5 +343,27 @@ public class BeanUsuarios implements Serializable {
 	public void setEditarVendedorDTO(VendedorDTO editarVendedorDTO) {
 		this.editarVendedorDTO = editarVendedorDTO;
 	}
+	
+	public void setDireccionIP(String direccionIP) {
+		this.direccionIP = direccionIP;
+	}
+	
+	public String getDireccionIP() {
+		return direccionIP;
+	}
+	
+	public void setLoginDTO(LoginDTO loginDTO) {
+		this.loginDTO = loginDTO;
+	}
+	
+	public LoginDTO getLoginDTO() {
+		return loginDTO;
+	}
+	
+	public String getContrasenaV() {
+		return contrasenaV;
+	}
+	
+	
 
 }

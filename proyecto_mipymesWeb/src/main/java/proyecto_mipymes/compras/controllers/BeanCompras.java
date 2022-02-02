@@ -508,4 +508,6 @@ public class BeanCompras implements Serializable {
 	public Empresa getEmp() {
 		return emp;
 	}
+	
+	
 }

@@ -53,10 +53,16 @@ public class BeanClientes implements Serializable {
 
 	}
 
+	public void actionListenerSeleccionarCliente(int id_cliente) {
+		clienteSeleccionado = new Cliente();
+		clienteSeleccionado = managerClientes.findClienteById(id_cliente);
+	}
+
 	public void actionListenerCrearCliente() {
 		cliente = managerClientes.crearCliente(cedula_ruc, nombres, apellidos, telefono, email, direccion);
 		JSFUtil.crearMensajeError("Error no aaunnnnn!");
 		if (cliente != null) {
+			listaClientes = managerClientes.findAllClientes();
 			JSFUtil.crearMensajeInfo("Cliente creado con exito!");
 		} else {
 			JSFUtil.crearMensajeError("Error al crear el cliente!");
@@ -66,6 +72,7 @@ public class BeanClientes implements Serializable {
 	public void actionListenerRegistrarCliente() {
 		cliente = managerClientes.crearCliente(clienteDTO);
 		if (cliente != null) {
+			listaClientes = managerClientes.findAllClientes();
 			JSFUtil.crearMensajeInfo("Cliente registrado con exito!");
 		} else {
 			JSFUtil.crearMensajeError("Error al crear el cliente!");

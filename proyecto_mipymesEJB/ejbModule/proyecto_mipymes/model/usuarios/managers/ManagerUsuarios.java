@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import proyect_mipymes.model.seguridades.dtos.LoginDTO;
 import proyecto_mipymes.model.entities.*;
 import proyecto_mipymes.model.utils.Encriptar;
 
@@ -69,7 +70,7 @@ public class ManagerUsuarios {
 		return (Vendedor) query.getSingleResult();
 	}
 
-	public int loginUsuarios(String id_usuario, String password) {
+	public int loginUsuarios(String id_usuario, String password, String direccionIP) {
 		int resp = -1;
 		Usuario usuario = entityManager.find(Usuario.class, id_usuario);
 		if (usuario != null && usuario.getUsPassword().equals(Encriptar.encriptar(password)) && usuario.getUsActivo()) {
