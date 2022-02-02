@@ -102,7 +102,7 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", "postgres", "12345");
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", "postgres", "password-postgresql");
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
@@ -132,7 +132,7 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", "postgres", "12345");
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", "postgres", "password-postgresql");
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);

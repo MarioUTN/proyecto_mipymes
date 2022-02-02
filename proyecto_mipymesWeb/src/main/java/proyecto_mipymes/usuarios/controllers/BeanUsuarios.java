@@ -86,7 +86,7 @@ public class BeanUsuarios implements Serializable {
 		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 2) {
 			vendedor = managerUsuarios.findVendedorByUsuario(id_usuario);
 			usuario = managerUsuarios.findUsuarioByIdUsuario(id_usuario);
-			JSFUtil.crearMensajeWarning("Usuario: " + vendedor.getUsuario().getIdUsuario()+"  "+direccionIP);
+			//JSFUtil.crearMensajeWarning("Usuario: " + vendedor.getUsuario().getIdUsuario()+"  "+direccionIP);
 			return "talentohumano/vendedores/menu_vendedores?faces-redirect=true";
 		}
 
