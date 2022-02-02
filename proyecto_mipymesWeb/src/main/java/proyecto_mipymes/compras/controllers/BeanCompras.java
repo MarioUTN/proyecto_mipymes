@@ -183,7 +183,7 @@ public class BeanCompras implements Serializable {
 	}
 
 	public String actionListenerGenerarReportePedido() {
-		String password = "Ofrn8mXdeBbjdBwSoUTgG1HtxUzuEVuz";
+		String password = "YoRn7KDvOAc=";
 		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("idcp", compraProductoSeleccionado.getIdCompraProducto());

@@ -26,6 +26,7 @@ import proyecto_mipymes.model.entities.EstadoPedido;
 import proyecto_mipymes.model.entities.Factura;
 import proyecto_mipymes.model.entities.FormaPago;
 import proyecto_mipymes.model.entities.TipoFactura;
+import proyecto_mipymes.model.utils.Encriptar;
 
 @Named
 @SessionScoped
@@ -90,6 +91,8 @@ public class BeanFacturas implements Serializable {
 	}
 
 	public String actionListenerGenerarReporte() {
+		String password = "YoRn7KDvOAc=";
+		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("idFact", facturaSeleccionada.getIdFactura());
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -102,7 +105,7 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", "postgres", "12345");
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", Encriptar.descryp(usuario), Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
@@ -118,6 +121,8 @@ public class BeanFacturas implements Serializable {
 	}
 
 	public String actionReporte() {
+		String password = "YoRn7KDvOAc=";
+		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		/*
 		 * parametros.put("p_titulo_principal",p_titulo_principal);
@@ -132,7 +137,7 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", "postgres", "12345");
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", Encriptar.descryp(usuario), Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
