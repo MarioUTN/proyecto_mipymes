@@ -198,7 +198,9 @@
 					<h:outputText value="#{detalle.cliDireccion}" />
 				</p:column>
 				<p:column headerText="Estado">
-					<h:outputText value="#{detalle.usuario.usActivo}" />
+					<p:commandButton icon="#{beanUsuarios.iconoVendedor(detalle.usuario.usActivo)}" value="#{beanUsuarios.estado(detalle.usuario.usActivo)}"
+									actionListener="#{beanUsuarios.actionListenerActualizarEstadoCliente(detalle)}"
+									styleClass="#{beanUsuarios.style(detalle.usuario.usActivo)}" update=":formtable"/>
 				</p:column>
 				<p:column headerText="Opciones">
 					<p:commandButton icon="fa fa-edit" onclick="PF('dlg3').show()"

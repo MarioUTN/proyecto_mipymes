@@ -32,7 +32,6 @@ public class ManagerCompras {
 	public ManagerCompras() {
 		// TODO Auto-generated constructor stub
 	}
-	
 
 	public List<Vendedor> findAllVendedores() {
 		return entityManager.createNamedQuery("Vendedor.findAll", Vendedor.class).getResultList();
@@ -45,9 +44,11 @@ public class ManagerCompras {
 	public List<Producto> findAllProductos() {
 		return entityManager.createNamedQuery("Producto.findAll", Producto.class).getResultList();
 	}
-	
+
 	public List<FacturaIngreso> findAllFacturasIngresos() {
-		return entityManager.createNamedQuery("FacturaIngreso.findAll", FacturaIngreso.class).getResultList();
+		Query query = entityManager.createQuery("select fi from FacturaIngreso fi order by fi.idFacturaIngreso",
+				FacturaIngreso.class);
+		return query.getResultList();
 	}
 
 	public List<Gerente> findAllGerente() {
@@ -55,7 +56,9 @@ public class ManagerCompras {
 	}
 
 	public List<CompraProducto> findAllCompraProductos() {
-		return entityManager.createNamedQuery("CompraProducto.findAll", CompraProducto.class).getResultList();
+		Query query = entityManager.createQuery("select cp from CompraProducto cp order by cp.idCompraProducto",
+				CompraProducto.class);
+		return query.getResultList();
 	}
 
 	public List<DetalleCompra> findAllDetallesCompras() {
@@ -271,11 +274,10 @@ public class ManagerCompras {
 	}
 
 	public void EliminarEmpresa(int idEmpresa) {
-		Empresa empresa= entityManager.find(Empresa.class, idEmpresa);
+		Empresa empresa = entityManager.find(Empresa.class, idEmpresa);
 		entityManager.remove(empresa);
 
 	}
-
 
 	public boolean aprobarPedidoProductos(int id_compra_producto) {
 		CompraProducto compraProducto = findCompraProductoById(id_compra_producto);
@@ -287,21 +289,18 @@ public class ManagerCompras {
 		entityManager.merge(compraProducto);
 		return compraProducto.getComprodAprobado();
 	}
-	
-	/*
-	public Empresa agregarProveedor(Empresa empresaNueva, int idGerente) {
-		Gerente gerente = entityManager.find(Gerente.class, idGerente);
-		JSFUtil.crearMensajeInfo(" Hola " + findEmpresaByRuc(empresaNueva.getEmpRuc()).getEmpCiudad());
-		if (findEmpresaByRuc(empresaNueva.getEmpRuc()).getEmpRuc() == null) {
-			empresaNueva.setGerente(gerente);
-			empresaNueva.setEmpFechaInicio(new Date());
-			entityManager.persist(empresaNueva);
-			return empresaNueva;
-		} else {
-			return null;
-		}
 
-	}
-	*/
-	
+	/*
+	 * public Empresa agregarProveedor(Empresa empresaNueva, int idGerente) {
+	 * Gerente gerente = entityManager.find(Gerente.class, idGerente);
+	 * JSFUtil.crearMensajeInfo(" Hola " +
+	 * findEmpresaByRuc(empresaNueva.getEmpRuc()).getEmpCiudad()); if
+	 * (findEmpresaByRuc(empresaNueva.getEmpRuc()).getEmpRuc() == null) {
+	 * empresaNueva.setGerente(gerente); empresaNueva.setEmpFechaInicio(new Date());
+	 * entityManager.persist(empresaNueva); return empresaNueva; } else { return
+	 * null; }
+	 * 
+	 * }
+	 */
+
 }

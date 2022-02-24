@@ -101,7 +101,7 @@ public class ManagerIngresos {
 		Empresa proveedor = entityManager.find(Empresa.class, id_proveedor);
 		Vendedor vendedor = entityManager.find(Vendedor.class, id_vendedor);
 		CabeceraIngreso cabeceraIngreso = new CabeceraIngreso();
-		cabeceraIngreso.setEmpresa(proveedor);
+		cabeceraIngreso.setProveedor(proveedor);
 		cabeceraIngreso.setVendedor(vendedor);
 		cabeceraIngreso.setCabingAutorizacion(autorizacion);
 		cabeceraIngreso.setCabingFechaIngreso(new Date());
@@ -224,6 +224,7 @@ public class ManagerIngresos {
 
 	public FacturaIngreso insertarFacturaIngreso(CabeceraIngreso cabeceraIngreso,
 			List<DetalleIngreso> listaDetalleIngresos, int id_vendedor) {
+		cabeceraIngreso.setEmpresa(entityManager.find(Empresa.class, 1));
 		entityManager.persist(cabeceraIngreso);
 		FacturaIngreso facturaIngreso = new FacturaIngreso();
 		facturaIngreso.setCabeceraIngreso(cabeceraIngreso);

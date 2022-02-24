@@ -84,18 +84,41 @@
 			</f:facet>
 		</p:menubar>
 	</h:form>
+
+
 	<div align="center">
-		<p:panel header="Ventas y Facturación Normales ">
-			<p:splitter layout="vertical">
-				<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
-					<p:panelGrid columns="4" styleClass="ui-noborder">
-						<h:outputLabel value="Vendedor:" style="font-weight:bold" />
-						<h:outputLabel value="#{beanUsuarios.vendedor.usuario.usNombres}" />
-						<h:outputLabel value="Empresa:" style="font-weight:bold" />
-						<h:outputLabel value="#{beanVentas.empresa.empNombreEmpresa}" />
-					</p:panelGrid>
-				</p:splitterPanel>
-			</p:splitter>
+		<p:panel header="Ventas y Facturación Normales">
+			<h:form id="print">
+				<p:panel header="">
+					<f:facet name="actions" style="background-color: #5DADE2;">
+						<p:panelGrid columns="3" styleClass="ui-noborder">
+							<p:outputLabel value="Factura №: " style="font-weight:bold"></p:outputLabel>
+							<p:inputText type="buttom" value="#{beanVentas.numero_factura}"
+								style="font-weight:bold;color:red; width:75px" placeholder="1"></p:inputText>
+
+							<p:commandButton ajax="false"
+								styleClass="rounded-button ui-button-success" update="@form"
+								icon="fa fa-file-pdf-o"
+								action="#{beanFacturas.actionListenerGenerarFacturaPdf(beanVentas.numero_factura)}">
+							</p:commandButton>
+
+						</p:panelGrid>
+					</f:facet>
+					<p:splitter layout="vertical">
+						<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
+							<p:panelGrid columns="4" styleClass="ui-noborder">
+								<h:outputLabel value="Vendedor:" style="font-weight:bold" />
+								<h:outputLabel
+									value="#{beanUsuarios.vendedor.usuario.usNombres}" />
+								<h:outputLabel value="Empresa:" style="font-weight:bold" />
+								<h:outputLabel value="#{beanVentas.empresa.empNombreEmpresa}" />
+							</p:panelGrid>
+						</p:splitterPanel>
+					</p:splitter>
+				</p:panel>
+
+			</h:form>
+
 			<h:form id="form-cabecera-factura">
 				<div align="center">
 					<p:splitter>
@@ -156,14 +179,14 @@
 				<div align="center">
 					<p:splitter>
 						<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
-							<p:panelGrid columns="5" styleClass="ui-noborder">
+							<p:panelGrid columns="7" styleClass="ui-noborder">
 								<p:outputLabel for="@next" value="Selecionar Producto: "
 									style="font-weight:bold" />
-								<p:selectOneMenu value="#{beanVentas.id_producto}"
+								<p:selectOneMenu value="#{beanVentas.id_producto}" 
 									style="width:350px" panelStyle="width:180px" effect="fade"
 									filter="true" filterMatchMode="startsWith">
-									<f:selectItems value="#{beanProductos.listaProductos}"
-										var="productos" itemLabel="#{productos.prodNombre}"
+									<f:selectItems value="#{beanProductos.listaProductos}" 
+										var="productos" itemLabel="#{productos.prodCantidad} - #{productos.prodNombre}"
 										itemValue="#{productos.idProducto}">
 										<p:column style="width:10%">
 											<span class="flag flag-#{productos.prodNombre}"
@@ -185,17 +208,21 @@
 								</p:selectOneMenu>
 								<h:outputText value="Cantidad de Productos:"
 									style="font-weight:bold" />
-								<p:spinner id="g" placeholder="3" buttons="horizontal-after"
+								<p:spinner id="g" placeholder="3" buttons="horizontal-after" style="width:100px"
 									stepFactor="1" min="1" value="#{beanVentas.cantidad}"
 									required="true"
 									requiredMessage="Ingrese la cantidad de productos!">
 									<p:tooltip for="g" value="Ingrese la cantidad de productos!"
 										position="bottom" />
 								</p:spinner>
-								<p:commandButton value="Agregar Producto"
+								<p:commandButton value="Add Product"
 									actionListener="#{beanVentas.actionListenerAgregarProductos()}"
-									update="form-detalle-factura"
+									update="form-detalle-factura,:form-productos"
 									styleClass="rounded-button ui-button-success" icon="fa fa-plus" />
+								<p:outputLabel value="Stock: "
+									style="font-weight:bold" />
+									<p:inputText value="#{beanVentas.stock}" style="width:50px" id="stock" disabled="true"
+													placeholder="SalazarAnrango"></p:inputText>
 							</p:panelGrid>
 						</p:splitterPanel>
 					</p:splitter>
@@ -342,7 +369,7 @@
 									</p:panelGrid>
 									<p:panelGrid columns="2" styleClass="ui-noborder">
 										<p:commandButton value="Guardar"
-											update="@form,:form-detalle-factura,:form-cabecera-factura"
+											update="@form,:form-detalle-factura,:form-cabecera-factura,:print,:form-productos"
 											actionListener="#{beanVentas.actionInsertarFactura(beanUsuarios.vendedor.idVendedor, beanVentas.empresa.idEmpresa)}"
 											styleClass="ui-button-raised ui-button-success"
 											icon="fa fa-check" />
@@ -365,10 +392,9 @@
 					</div>
 				</p:panel>
 			</h:form>
+
+
 		</p:panel>
-
-
-
 	</div>
 </body>
 </html>

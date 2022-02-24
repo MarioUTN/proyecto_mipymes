@@ -217,7 +217,7 @@ public class ManagerDAO {
 
 	public EntityManager getEntityManager() {
 		return em;
-	}
+	} 
 	
 	/**
 	 * Metodo generico que permite ejecutar sentencias JPQL.

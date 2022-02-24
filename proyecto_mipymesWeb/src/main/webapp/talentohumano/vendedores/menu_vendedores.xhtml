@@ -202,7 +202,9 @@
 					<h:outputText value="#{detalle.venDireccion}" />
 				</p:column>
 				<p:column headerText="Estado">
-					<h:outputText value="#{detalle.usuario.usActivo}" />
+					<p:commandButton icon="#{beanUsuarios.iconoVendedor(detalle.usuario.usActivo)}" value="#{beanUsuarios.estado(detalle.usuario.usActivo)}"
+									actionListener="#{beanUsuarios.actionListenerActualizarEstadoEmpleado(detalle)}"
+									styleClass="#{beanUsuarios.style(detalle.usuario.usActivo)}" update=":formtable"/>
 				</p:column>
 				<p:column headerText="Opciones">
 					<p:commandButton icon="fa fa-edit" onclick="PF('dlg3').show()"
@@ -210,10 +212,6 @@
 						update=":formEditarPro"
 						styleClass="rounded-button ui-button-success">
 					</p:commandButton>
-					<p:commandButton update=":formtable" icon="pi pi-pencil"
-						value="Estado"
-						actionListener="#{beanUsuarios.actionListenerActualizarEstadoEmpleado(detalle)}"
-						styleClass="rounded-button ui-button-success" />
 				</p:column>
 			</p:dataTable>
 		</p:panel>
@@ -253,7 +251,11 @@
 				</p:inputText>
 
 				<h:outputText value="Contraseña:" />
-				<p:password value="#{beanUsuarios.editarVendedorDTO.contrasenaV}"
+				<p:password value="#{beanUsuarios.password}"
+					required="true" requiredMessage="Ingrese la contraseña"
+					placeholder="**********" feedback="false" />
+				<h:outputText value="Confirmar Contraseña:" />
+				<p:password value="#{beanUsuarios.confpassword}"
 					required="true" requiredMessage="Ingrese la contraseña"
 					placeholder="**********" feedback="false" />
 

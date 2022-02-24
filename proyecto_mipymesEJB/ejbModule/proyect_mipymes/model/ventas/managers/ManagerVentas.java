@@ -135,6 +135,7 @@ public class ManagerVentas {
 			usuario.setUsApellidos(apellidos);
 			usuario.setUsFechaRegistro(new Date());
 			usuario.setTipoUsuario(tipoUsuario);
+			JSFUtil.crearMensajeError("CLI-"+ (findAllClientes().size() + 1));
 			entityManager.persist(usuario);
 
 			cliente.setUsuario(usuario);

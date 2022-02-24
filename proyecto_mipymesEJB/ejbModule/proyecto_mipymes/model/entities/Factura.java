@@ -232,6 +232,8 @@ public class Factura implements Serializable {
 	public TipoFactura getTipoFactura() {
 		return this.tipoFactura;
 	}
+	
+	
 
 	public void setTipoFactura(TipoFactura tipoFactura) {
 		this.tipoFactura = tipoFactura;

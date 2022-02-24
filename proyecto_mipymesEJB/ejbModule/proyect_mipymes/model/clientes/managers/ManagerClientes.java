@@ -34,7 +34,9 @@ public class ManagerClientes {
 	}
 
 	public List<Cliente> findAllClientes() {
-		return entityManager.createNamedQuery("Cliente.findAll", Cliente.class).getResultList();
+		Query query = entityManager.createQuery(
+				"select c from Cliente c order by c.idCliente", Cliente.class);
+		return query.getResultList();
 	}
 
 	public Cliente findAllClienteByCedulaRuc(String cli_ruc_cedula) {

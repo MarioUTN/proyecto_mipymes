@@ -69,6 +69,10 @@ public class BeanProductos implements Serializable {
 
 	}
 
+	public void actualizarListaProductos() {
+		listaProductos = managerProductos.findAllProductos();
+	}
+	
 	public void actionListenerInsertarProducto() {
 		if (managerProductos.ingresarNuevoProducto(productoNuevo, id_proveedor, id_talla_producto,
 				id_tipo_producto) != null) {

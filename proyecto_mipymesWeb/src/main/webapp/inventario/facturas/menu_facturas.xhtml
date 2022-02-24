@@ -87,7 +87,7 @@
 
 	<div align="center">
 
-		<p:panel header="Facturas">
+		<p:panel>
 			<h:form id="form-opciones">
 				<div align="center">
 					<p:panel header="Clasificar Facturas por:">
@@ -284,10 +284,11 @@
 							stripedRows="true" var="factura" paginator="true" reflow="true"
 							rows="6" style="font-size: 12px" paginatorPosition="bottom"
 							rowIndexVar="index">
-							<p:column headerText="NUM FACT" style="width:80px">
+							<p:column headerText="NUM FACT" style="width:80px"
+							filterBy="#{factura.idFactura}">
 								<h:outputText value="#{factura.factNumeroFactura}" />
 							</p:column>
-							<p:column headerText="FECHA EMISIÓN">
+							<p:column headerText="FECHA EMISIÓN" style="width:70px">
 								<h:outputText value="#{factura.factFechaEmision}" />
 							</p:column>
 
@@ -300,28 +301,28 @@
 
 							<p:column headerText="CLIENTE">
 								<h:outputText
-									value="#{factura.cabeceraFactura.cliente.usuario.usNombres}" />
+									value="#{factura.cabeceraFactura.cliente.usuario.usNombres} #{factura.cabeceraFactura.cliente.usuario.usApellidos}" />
 							</p:column>
 
-							<p:column headerText="SUB TOTAL">
+							<p:column headerText="SUB TOTAL" style="width:70px">
 								<h:outputText value="#{factura.factSubtotal}" />
 							</p:column>
 
-							<p:column headerText="IVA 12%" style="width:80px">
+							<p:column headerText="IVA 12%" style="width:70px">
 								<h:outputText value="#{factura.factIva}" />
 							</p:column>
 
-							<p:column headerText="TOTAL">
+							<p:column headerText="TOTAL" style="width:70px">
 								<h:outputText value="#{factura.factTotal}" />
 							</p:column>
 
-							<p:column headerText="Opciones">
+							<p:column headerText="OPTIONS">
 								<p:commandButton icon="fa fa-list-alt"
 									actionListener="#{beanFacturas.actionListenerSeleccionarFactura(factura.idFactura)}"
 									onclick="PF('detalleFactura').show()"
 									update=":form-detalle:detalle-Factura"
 									oncomplete="PF('detalleFactura').show()"
-									styleClass="rounded-button ui-button-help ui-button-outlined">
+									styleClass="rounded-button ui-button-help">
 									<p:resetInput target=":form-detalle:detalle-Factura" />
 								</p:commandButton>
 								<p:commandButton icon="fa fa-dollar"
@@ -329,14 +330,22 @@
 									onclick="PF('abonarFactura').show()"
 									update=":form-abonar:abonar-Factura"
 									oncomplete="PF('abonarFactura').show()"
-									styleClass="rounded-button ui-button-success ui-button-outlined" disabled="#{factura.factEstado}">
+									styleClass="rounded-button ui-button-success"
+									disabled="#{factura.factEstado}">
 									<p:resetInput target=":form-abonar:abonar-Factura" />
 								</p:commandButton>
+
+								<p:commandButton value="F" ajax="false"
+									styleClass="rounded-button ui-button-info"
+									icon="fa fa-file-pdf-o"
+									action="#{beanFacturas.actionListenerGenerarFacturaPdf(factura.idFactura)}">
+								</p:commandButton>
 								
-								<p:commandButton ajax="false"
-								styleClass="rounded-button ui-button-info ui-button-outlined" icon="fa fa-file-pdf-o"
-								action="#{beanFacturas.actionListenerGenerarPdf(factura.idFactura)}">
-							</p:commandButton>
+								<p:commandButton value="A" ajax="false" 
+									styleClass="rounded-button ui-button-warning"
+									icon="fa fa-file-pdf-o" disabled="#{factura.factEstado}"
+									action="#{beanFacturas.actionListenerGenerarAbonosPdf(factura.idFactura)}">
+								</p:commandButton>
 							</p:column>
 						</p:dataTable>
 					</div>
@@ -354,11 +363,22 @@
 					<p:outputPanel id="detalle-Factura" class="ui-fluid">
 
 						<p:panel header="">
-							<f:facet name="actions">
-								<p:commandButton value="Generar Reporte" ajax="false" styleClass="ui-button-help" icon="fa fa-file-pdf-o"
-									action="#{beanFacturas.actionListenerGenerarReporte()}">
-								</p:commandButton>
-							
+							<f:facet name="actions" style="background-color: #5DADE2;">
+								<p:menuButton value="Generate Report and Print" icon="fa fa-file-pdf-o">
+									
+									<p:menuitem value="Print Report Factura" ajax="false"
+										styleClass="ui-button-help" update="form-detalle"
+										icon="fa fa-file-pdf-o"
+										action="#{beanFacturas.actionListenerGenerarReporteFactura()}">
+									</p:menuitem>
+									<p:menuitem value="Print Report Abonos" ajax="false"
+										styleClass="ui-button-help" update="form-detalle"
+										icon="fa fa-file-pdf-o" disabled="#{beanFacturas.facturaSeleccionada.factEstado}"
+										action="#{beanFacturas.actionListenerGenerarReporteAbonos()}">
+									</p:menuitem>
+									
+								</p:menuButton>
+
 							</f:facet>
 
 							<p:splitter layout="vertical">

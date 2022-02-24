@@ -87,16 +87,39 @@
 	<div align="center">
 
 		<p:panel header="Ventas y Facturación por Anticipos ">
-			<p:splitter layout="vertical">
-				<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
-					<p:panelGrid columns="4" styleClass="ui-noborder">
-						<h:outputLabel value="Vendedor:" style="font-weight:bold" />
-						<h:outputLabel value="#{beanUsuarios.vendedor.usuario.usNombres}" />
-						<h:outputLabel value="Empresa:" style="font-weight:bold" />
-						<h:outputLabel value="#{beanVentas.empresa.empNombreEmpresa}" />
-					</p:panelGrid>
-				</p:splitterPanel>
-			</p:splitter>
+
+			<h:form id="print">
+				<p:panel header="">
+					<f:facet name="actions" style="background-color: #5DADE2;">
+						<p:panelGrid columns="3" styleClass="ui-noborder">
+							<p:outputLabel value="Factura №: " style="font-weight:bold"></p:outputLabel>
+							<p:inputText type="buttom" value="#{beanVentas.numero_factura}"
+								style="font-weight:bold;color:red; width:75px" placeholder="1"></p:inputText>
+
+							<p:commandButton ajax="false"
+								styleClass="rounded-button ui-button-success"
+								update="form-detalle" icon="fa fa-file-pdf-o"
+								action="#{beanFacturas.actionListenerGenerarFacturaPdf(beanVentas.numero_factura)}">
+							</p:commandButton>
+
+						</p:panelGrid>
+					</f:facet>
+					<p:splitter layout="vertical">
+						<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
+							<p:panelGrid columns="4" styleClass="ui-noborder">
+								<h:outputLabel value="Vendedor:" style="font-weight:bold" />
+								<h:outputLabel
+									value="#{beanUsuarios.vendedor.usuario.usNombres}" />
+								<h:outputLabel value="Empresa:" style="font-weight:bold" />
+								<h:outputLabel value="#{beanVentas.empresa.empNombreEmpresa}" />
+							</p:panelGrid>
+						</p:splitterPanel>
+					</p:splitter>
+				</p:panel>
+
+			</h:form>
+
+
 			<h:form id="form-cabecera-factura">
 				<div align="center">
 					<p:splitter>
@@ -297,7 +320,7 @@
 
 									<p:panelGrid columns="2" styleClass="ui-noborder">
 										<p:commandButton value="Guardar"
-											update="@form,:form-detalle-factura,:form-cabecera-factura,:form-abonar-factura:abonar-Factura"
+											update="@form,:form-detalle-factura,:form-cabecera-factura,:form-abonar-factura:abonar-Factura,:print"
 											actionListener="#{beanVentas.actionInsertarFacturaAnticipos(beanUsuarios.vendedor.idVendedor,beanVentas.empresa.idEmpresa)}"
 											styleClass="ui-button-raised ui-button-success"
 											icon="fa fa-check" onclick="PF('abonarFactura').show()"
@@ -354,7 +377,7 @@
 								<p:panelGrid columns="1" styleClass="ui-noborder">
 									<p:commandButton value="Guardar Factura" id="btn-editar"
 										icon="fa fa-save" styleClass="p-mr-2"
-										update="@form,:form-abonar-factura"
+										update="@form,:form-abonar-factura,:print"
 										process="abonar-Factura @this"
 										actionListener="#{beanVentas.actionListenerAgregarDetalleAbono(beanUsuarios.vendedor.idVendedor)}"
 										onclick="PF('abonarFactura').hide()" />

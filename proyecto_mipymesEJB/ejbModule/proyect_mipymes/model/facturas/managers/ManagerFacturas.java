@@ -58,6 +58,14 @@ public class ManagerFacturas {
 		return query.getResultList();
 	}
 
+	public boolean buscarFacturaAnticipos(int tipo_factura) {
+		boolean resp = false;
+		if (tipo_factura == 4) {
+			resp = true;
+		}
+		return resp;
+	}
+
 	public List<Factura> findAllFacturaByTipo(int id_tipo_factura) {
 		Query query = entityManager.createQuery(
 				"select f from Factura f where f.tipoFactura.idTipoFactura=:id_tipo_factura", Factura.class);

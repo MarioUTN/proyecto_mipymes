@@ -107,11 +107,18 @@
 						<h:outputText
 							value="#{fi.cabeceraIngreso.vendedor.usuario.usNombres}" />
 					</p:column>
-					<p:column headerText="Proveedor"
+					<p:column headerText="Empresa"
 						sortBy="#{fi.cabeceraIngreso.empresa.empNombreEmpresa}"
 						filterBy="#{fi.cabeceraIngreso.empresa.empNombreEmpresa}">
 						<h:outputText
 							value="#{fi.cabeceraIngreso.empresa.empNombreEmpresa}" />
+					</p:column>
+
+					<p:column headerText="Proveedor"
+						sortBy="#{fi.cabeceraIngreso.proveedor.empNombreEmpresa}"
+						filterBy="#{fi.cabeceraIngreso.proveedor.empNombreEmpresa}">
+						<h:outputText
+							value="#{fi.cabeceraIngreso.proveedor.empNombreEmpresa}" />
 					</p:column>
 
 

@@ -28,7 +28,7 @@
 			<p:toolbar>
 				<p:toolbarGroup>
 					<div align="center">
-						<p:panelGrid columns="4" style="width: 1280px">
+						<p:panelGrid columns="4" style="width: 1280px" styleClass="ui-noborder">
 							<p:commandButton value="Iniciar Sesión como Administrador"
 								icon="fa fa-user" update=":form1:manage-product-content1"
 								oncomplete="PF('manageProductDialog1').show()"
@@ -42,7 +42,7 @@
 								<p:resetInput target=":form2:manage-product-content2" />
 							</p:commandButton>
 
-							<p:commandButton value="Iniciar Sesión como Cliente" disabled="true"
+							<p:commandButton value="Iniciar Sesión como Cliente" disabled="false"
 								icon="fa fa-user" update=":form3:manage-product-content3"
 								oncomplete="PF('manageProductDialog3').show()"
 								styleClass="ui-button-success" style="width: 340px">
@@ -74,12 +74,12 @@
 							<img src="Imagenes/user_login.ico" alt="alt" />
 						</div>
 						<div>
-							<p:panelGrid columns="2">
-								<h:outputText value="Usuario:" />
-								<p:inputText value="#{beanUsuarios.id_usuario}"
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<i class="fa fa-user" style="font-weight:bold"> User Name:</i>
+								<p:inputText value="#{beanUsuarios.id_usuario}" style="font-weight:bold"
 									placeholder="user-name" />
-								<h:outputText value="Clave:" />
-								<p:password value="#{beanUsuarios.password}"
+								<i class="fa fa-key" style="font-weight:bold"> Password:</i>
+								<p:password value="#{beanUsuarios.password}" style="font-weight:bold"
 									placeholder="**********" feedback="false" />
 							</p:panelGrid>
 						</div>
@@ -88,7 +88,7 @@
 						<div align="center">
 							<p:row>
 
-								<p:panelGrid columns="2">
+								<p:panelGrid columns="2" styleClass="ui-noborder">
 									<p:commandButton value="Iniciar Sesión"
 										icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
 										action="#{beanUsuarios.actionLoginGerente()}"
@@ -132,12 +132,12 @@
 							<img src="Imagenes/user_login.ico" alt="alt" />
 						</div>
 						<div>
-							<p:panelGrid columns="2">
-								<h:outputText value="Usuario:" />
-								<p:inputText value="#{beanUsuarios.id_usuario}"
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<i class="fa fa-user" style="font-weight:bold"> User Name:</i>
+								<p:inputText value="#{beanUsuarios.id_usuario}" style="font-weight:bold"
 									placeholder="user-name" />
-								<h:outputText value="Clave:" />
-								<p:password value="#{beanUsuarios.password}"
+								<i class="fa fa-key" style="font-weight:bold"> Password:</i>
+								<p:password value="#{beanUsuarios.password}" style="font-weight:bold"
 									placeholder="**********" feedback="false" />
 							</p:panelGrid>
 						</div>
@@ -146,7 +146,7 @@
 						<div align="center">
 							<p:row>
 
-								<p:panelGrid columns="2">
+								<p:panelGrid columns="2" styleClass="ui-noborder">
 									<p:commandButton value="Iniciar Sesión"
 										icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
 										action="#{beanUsuarios.actionLoginVendedor()}"
@@ -190,15 +190,13 @@
 							<img src="Imagenes/user_login.ico" alt="alt" />
 						</div>
 						<div>
-							<p:panelGrid columns="2">
-								<h:outputText value="Usuario:" />
-								<p:inputText value="#{beanUsuarios.id_usuario}"
-									placeholder="user-name" required="true"
-									requiredMessage="Ingrese su usuario!" />
-								<h:outputText value="Clave:" />
-								<p:password value="#{beanUsuarios.password}"
-									placeholder="**********" feedback="false" required="true"
-									requiredMessage="Ingrese su clave!" />
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<i class="fa fa-user" style="font-weight:bold"> User Name:</i>
+									<p:inputText value="#{beanUsuarios.id_usuario}" style="font-weight:bold"
+									placeholder="user-name"/>
+								<i class="fa fa-key" style="font-weight:bold"> Password:</i>
+								<p:password value="#{beanUsuarios.password}" style="font-weight:bold"
+									placeholder="**********" feedback="false" />
 							</p:panelGrid>
 						</div>
 					</p:panel>
@@ -206,7 +204,7 @@
 						<div align="center">
 							<p:row>
 
-								<p:panelGrid columns="2">
+								<p:panelGrid columns="2" styleClass="ui-noborder">
 									<p:commandButton value="Iniciar Sesión"
 										icon="fa fa-arrow-circle-right" styleClass="p-mr-2"
 										action="#{beanUsuarios.actionLoginCliente()}"

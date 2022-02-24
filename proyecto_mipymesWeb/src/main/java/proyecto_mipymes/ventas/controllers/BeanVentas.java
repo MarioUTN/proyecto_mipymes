@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import proyect_mipymes.model.ventas.managers.ManagerVentas;
@@ -20,6 +21,7 @@ import proyecto_mipymes.model.entities.Factura;
 import proyecto_mipymes.model.entities.FormaPago;
 import proyecto_mipymes.model.entities.Producto;
 import proyecto_mipymes.model.entities.TipoFactura;
+import proyecto_mipymes.productos.controllers.BeanProductos;
 
 @Named
 @SessionScoped
@@ -66,16 +68,22 @@ public class BeanVentas implements Serializable {
 	private double saldo_anterior;
 	private double saldo_actual;
 	private int index;
+	private int stock;
 
 	private int id_tipo_factura;
 	private int id_forma_pago;
+	private int numero_factura;
 
+	@Inject
+	private BeanProductos p;
+	
 	public BeanVentas() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@PostConstruct
 	public void Inicializar() {
+		id_producto=1;
 		empresa = managerVentas.findAllEmpresaByRuc("1003938477001");
 		listaEmpresas = managerVentas.findAllEmpresas();
 		listaClientes = managerVentas.findAllClientes();
@@ -89,6 +97,10 @@ public class BeanVentas implements Serializable {
 	public void actionListenerCrearCliente() {
 		clienteSeleccionado = new Cliente();
 		clienteSeleccionado = managerVentas.crearCliente(cedula_ruc, nombres, apellidos, telefono, email, direccion);
+		if(managerVentas.findAllClienteByCedulaRuc(cedula_ruc)!=null) {
+			JSFUtil.crearMensajeError("Cliente con cedula o RUC: "+cedula_ruc+" ya existe!");
+			actionListenerSeleccionarCliente(cedula_ruc);
+		}
 		if (clienteSeleccionado != null) {
 			JSFUtil.crearMensajeInfo("Cliente creado con Éxito!");
 		} else {
@@ -112,8 +124,20 @@ public class BeanVentas implements Serializable {
 			this.direccion = clienteSeleccionado.getCliDireccion();
 			//JSFUtil.crearMensajeInfo("Cliente encontrado: " + clienteSeleccionado.getCliRucCedula());
 		} else {
+			clienteSeleccionado=new Cliente();
+			this.cedula_ruc = "";
+			this.nombres = "";
+			this.apellidos = "";
+			this.telefono = "";
+			this.email = "";
+			this.direccion = "";
 			JSFUtil.crearMensajeError("No existe el ciente con C.I. o RUC: " + cedula_ruc);
 		}
+	}
+	
+	public void stockProduct() {
+		this.stock=managerVentas.findProductoById(id_producto).getProdCantidad();
+		JSFUtil.crearMensajeWarning("Stock: "+stock);
 	}
 
 	public void actionListenerAgregarProductos() {
@@ -122,7 +146,7 @@ public class BeanVentas implements Serializable {
 			valorTotal = managerVentas.valorTotalPagar(listaDetalleFacturas);
 			iva = managerVentas.valorIva(listaDetalleFacturas);
 			subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
-			JSFUtil.crearMensajeInfo("Producto: " + listaDetalleFacturas.get(0).getProducto().getProdNombre());
+			stockProduct();
 			this.cantidad = 1;
 		} else {
 			JSFUtil.crearMensajeError(
@@ -165,6 +189,8 @@ public class BeanVentas implements Serializable {
 		factura = managerVentas.insertarFactura(clienteSeleccionado, id_vendedor, id_empresa, listaDetalleFacturas,
 				id_forma_pago, id_tipo_factura);
 		if (factura != null) {
+			this.numero_factura=factura.getIdFactura();
+			p.actualizarListaProductos();
 			JSFUtil.crearMensajeInfo("Factura creada con Éxito!");
 			actionListenerLimpiarCampos();
 		} else {
@@ -190,8 +216,10 @@ public class BeanVentas implements Serializable {
 	public void actionInsertarFacturaAnticipos(int id_vendedor, int id_empresa) {
 		facturaAnticipo = managerVentas.insertarFacturaAnticipos(clienteSeleccionado, id_vendedor, id_empresa,
 				listaDetalleFacturas, 5, 4);
+		
 		if (facturaAnticipo != null) {
-			JSFUtil.crearMensajeInfo("Factura creada con Éxito!");
+			this.numero_factura=facturaAnticipo.getIdFactura();
+			//JSFUtil.crearMensajeInfo("Factura creada con Éxito!");
 			actionListenerLimpiarCampos();
 		} else {
 			JSFUtil.crearMensajeError("Error de facturación!");
@@ -482,4 +510,20 @@ public class BeanVentas implements Serializable {
 		this.saldo_actual = saldo_actual;
 	}
 
+	public void setNumero_factura(int numero_factura) {
+		this.numero_factura = numero_factura;
+	}
+	
+	public int getNumero_factura() {
+		return numero_factura;
+	}
+	
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+	
+	public int getStock() {
+		return stock;
+	}
+	
 }

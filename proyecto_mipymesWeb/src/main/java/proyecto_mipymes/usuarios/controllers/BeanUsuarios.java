@@ -7,10 +7,12 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 import proyect_mipymes.model.seguridades.dtos.LoginDTO;
+import proyecto_mipymes.clientes.controllers.BeanClientes;
 import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.*;
 import proyecto_mipymes.model.usuarios.managers.ManagerUsuarios;
@@ -25,10 +27,11 @@ public class BeanUsuarios implements Serializable {
 
 	private String id_usuario;
 	private String password;
+	private String confpassword;
 	private Usuario usuario;
 	private List<Usuario> listaUsuarios;
 	private List<Vendedor> listaVendedores;
-	
+
 	private LoginDTO loginDTO;
 	private String direccionIP;
 
@@ -51,21 +54,23 @@ public class BeanUsuarios implements Serializable {
 	private VendedorDTO vendedorDTO;
 	private VendedorDTO editarVendedorDTO;
 
+	@Inject
+	private BeanClientes beanClientes;
+	
 	public BeanUsuarios() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@PostConstruct
 	public void Inicializar() {
-		id_usuario = "ADM-1003938477";
-		password = "adminmario";
-		HttpServletRequest req=(HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		String agente=req.getHeader("user-agent");
+		HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+		String agente = req.getHeader("user-agent");
 		String ipAddress = req.getHeader("X-FORWARDED-FOR");
-		if(ipAddress==null) {
-			ipAddress=req.getRemoteAddr();
+		if (ipAddress == null) {
+			ipAddress = req.getRemoteAddr();
 		}
-		direccionIP=ipAddress;
+		direccionIP = ipAddress;
 		gerente = new Gerente();
 		vendedor = new Vendedor();
 		cliente = new Cliente();
@@ -86,7 +91,8 @@ public class BeanUsuarios implements Serializable {
 		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 2) {
 			vendedor = managerUsuarios.findVendedorByUsuario(id_usuario);
 			usuario = managerUsuarios.findUsuarioByIdUsuario(id_usuario);
-			//JSFUtil.crearMensajeWarning("Usuario: " + vendedor.getUsuario().getIdUsuario()+"  "+direccionIP);
+			// JSFUtil.crearMensajeWarning("Usuario: " +
+			// vendedor.getUsuario().getIdUsuario()+" "+direccionIP);
 			return "talentohumano/vendedores/menu_vendedores?faces-redirect=true";
 		}
 
@@ -129,32 +135,68 @@ public class BeanUsuarios implements Serializable {
 			JSFUtil.crearMensajeError("Error: " + e);
 		}
 	}
+	
+	public String iconoVendedor(boolean vendedor) {
+		if (vendedor != false) {
+			return "fa fa-close";
 
+		} else {
+			return "fa fa-check";
+		}
+		
+	}
+	
+	public String style(boolean vendedor) {
+		if (vendedor != false) {
+			return "rounded-button ui-button-danger";
+
+		} else {
+			return "rounded-button ui-button-success";
+		}
+	}
+	
+	public String estado(boolean vendedor) {
+		if (vendedor != false) {
+			return "Inactive";
+
+		} else {
+			return "Active";
+		}
+	}
+	
 	public void actionListenerActualizarEmpleado() throws Exception {
-		managerVendedor.actualizaVendedor(editarVendedorDTO);
-		listaUsuarios = managerUsuarios.findAllUsuarios();
-		listaVendedores = managerUsuarios.findAllVendedores();
-		JSFUtil.crearMensajeInfo("Actualizado");
+		if (managerVendedor.actualizaVendedor(editarVendedorDTO, password, confpassword) == null) {
+			JSFUtil.crearMensajeError("Error confirmar la contraseña!");
+		} else {
+			listaUsuarios = managerUsuarios.findAllUsuarios();
+			listaVendedores = managerUsuarios.findAllVendedores();
+			JSFUtil.crearMensajeInfo("Vendedor Actualizado correctamente!");
+		}
 	}
 
 	public void actionListenerActualizarEstadoEmpleado(Vendedor ven) {
-		managerVendedor.actualizarEstadoEmpleado(ven);
-		JSFUtil.crearMensajeInfo("Correcto");
+		managerVendedor.actualizarEstadoVendedor(ven);
 		listaUsuarios = managerUsuarios.findAllUsuarios();
 		listaVendedores = managerUsuarios.findAllVendedores();
 	}
+	
+	public void actionListenerActualizarEstadoCliente(Cliente ven) {
+		managerVendedor.actualizarEstadoCliente(ven);
+		listaUsuarios = managerUsuarios.findAllUsuarios();
+		beanClientes.actualizarListaClientes();
+	}
 
 	public String actionLoginCliente() {
-		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP)== 1
-				|| managerUsuarios.loginUsuarios(id_usuario, password, direccionIP)== 2) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 1
+				|| managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 2) {
 			JSFUtil.crearMensajeWarning("Su usuario no pertenece a la de un Cliente!!");
 			return "";
 		}
 
-		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP)== 3) {
+		if (managerUsuarios.loginUsuarios(id_usuario, password, direccionIP) == 3) {
 			cliente = managerUsuarios.findClienteByUsuario(id_usuario);
 			usuario = managerUsuarios.findUsuarioByIdUsuario(id_usuario);
-			JSFUtil.crearMensajeWarning("Usuario: " + cliente.getUsuario().getIdUsuario()+" "+direccionIP);
+			JSFUtil.crearMensajeWarning("Usuario: " + cliente.getUsuario().getIdUsuario() + " " + direccionIP);
 			return "talentohumano/clientes/menu_clientes?faces-redirect=true";
 		}
 
@@ -196,6 +238,9 @@ public class BeanUsuarios implements Serializable {
 	}
 
 	public void actionListenerCancelarLogin() {
+		this.password="";
+		this.confpassword="";
+		this.id_usuario="";
 		JSFUtil.crearMensajeInfo("Proceso de login cancelada!");
 	}
 
@@ -343,27 +388,31 @@ public class BeanUsuarios implements Serializable {
 	public void setEditarVendedorDTO(VendedorDTO editarVendedorDTO) {
 		this.editarVendedorDTO = editarVendedorDTO;
 	}
-	
+
 	public void setDireccionIP(String direccionIP) {
 		this.direccionIP = direccionIP;
 	}
-	
+
 	public String getDireccionIP() {
 		return direccionIP;
 	}
-	
+
 	public void setLoginDTO(LoginDTO loginDTO) {
 		this.loginDTO = loginDTO;
 	}
-	
+
 	public LoginDTO getLoginDTO() {
 		return loginDTO;
 	}
-	
+
 	public String getContrasenaV() {
 		return contrasenaV;
 	}
-	
-	
 
+	public String getConfpassword() {
+		return confpassword;
+	}
+	public void setConfpassword(String confpassword) {
+		this.confpassword = confpassword;
+	}
 }

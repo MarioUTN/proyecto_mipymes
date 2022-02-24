@@ -5,72 +5,75 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the empresa database table.
  * 
  */
 @Entity
-@Table(name="empresa")
-@NamedQuery(name="Empresa.findAll", query="SELECT e FROM Empresa e")
+@Table(name = "empresa")
+@NamedQuery(name = "Empresa.findAll", query = "SELECT e FROM Empresa e")
 public class Empresa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_empresa", unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_empresa", unique = true, nullable = false)
 	private Integer idEmpresa;
 
-	@Column(name="emp_ciudad", nullable=false, length=50)
+	@Column(name = "emp_ciudad", nullable = false, length = 50)
 	private String empCiudad;
 
-	@Column(name="emp_email", nullable=false, length=60)
+	@Column(name = "emp_email", nullable = false, length = 60)
 	private String empEmail;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="emp_fecha_inicio", nullable=false)
+	@Column(name = "emp_fecha_inicio", nullable = false)
 	private Date empFechaInicio;
 
-	@Column(name="emp_matriz", nullable=false, length=100)
+	@Column(name = "emp_matriz", nullable = false, length = 100)
 	private String empMatriz;
 
-	@Column(name="emp_nombre_empresa", nullable=false, length=100)
+	@Column(name = "emp_nombre_empresa", nullable = false, length = 100)
 	private String empNombreEmpresa;
 
-	@Column(name="emp_pais", nullable=false, length=50)
+	@Column(name = "emp_pais", nullable = false, length = 50)
 	private String empPais;
 
-	@Column(name="emp_provincia", nullable=false, length=50)
+	@Column(name = "emp_provincia", nullable = false, length = 50)
 	private String empProvincia;
 
-	@Column(name="emp_ruc", nullable=false, length=13)
+	@Column(name = "emp_ruc", nullable = false, length = 13)
 	private String empRuc;
 
-	@Column(name="emp_sucursal", length=100)
+	@Column(name = "emp_sucursal", length = 100)
 	private String empSucursal;
 
-	@Column(name="emp_telefono", nullable=false, length=15)
+	@Column(name = "emp_telefono", nullable = false, length = 15)
 	private String empTelefono;
 
-	//bi-directional many-to-one association to CabeceraCompra
-	@OneToMany(mappedBy="empresa")
+	// bi-directional many-to-one association to CabeceraCompra
+	@OneToMany(mappedBy = "empresa")
 	private List<CabeceraCompra> cabeceraCompras;
 
-	//bi-directional many-to-one association to CabeceraFactura
-	@OneToMany(mappedBy="empresa")
+	// bi-directional many-to-one association to CabeceraFactura
+	@OneToMany(mappedBy = "empresa")
 	private List<CabeceraFactura> cabeceraFacturas;
 
-	//bi-directional many-to-one association to CabeceraIngreso
-	@OneToMany(mappedBy="empresa")
-	private List<CabeceraIngreso> cabeceraIngresos;
+	// bi-directional many-to-one association to CabeceraIngreso
+	@OneToMany(mappedBy = "proveedor")
+	private List<CabeceraIngreso> cabeceraIngresosProveedors;
 
-	//bi-directional many-to-one association to Gerente
+	// bi-directional many-to-one association to CabeceraIngreso
+	@OneToMany(mappedBy = "empresa")
+	private List<CabeceraIngreso> cabeceraIngresosEmpresas;
+
+	// bi-directional many-to-one association to Gerente
 	@ManyToOne
-	@JoinColumn(name="emp_gerente", nullable=false)
+	@JoinColumn(name = "emp_gerente", nullable = false)
 	private Gerente gerente;
 
-	//bi-directional many-to-one association to Producto
-	@OneToMany(mappedBy="empresa")
+	// bi-directional many-to-one association to Producto
+	@OneToMany(mappedBy = "empresa")
 	private List<Producto> productos;
 
 	public Empresa() {
@@ -208,26 +211,48 @@ public class Empresa implements Serializable {
 		return cabeceraFactura;
 	}
 
-	public List<CabeceraIngreso> getCabeceraIngresos() {
-		return this.cabeceraIngresos;
+	public List<CabeceraIngreso> getCabeceraIngresosProveedors() {
+		return this.cabeceraIngresosProveedors;
 	}
 
-	public void setCabeceraIngresos(List<CabeceraIngreso> cabeceraIngresos) {
-		this.cabeceraIngresos = cabeceraIngresos;
+	public void setCabeceraIngresosProveedors(List<CabeceraIngreso> cabeceraIngresosProveedors) {
+		this.cabeceraIngresosProveedors = cabeceraIngresosProveedors;
 	}
 
-	public CabeceraIngreso addCabeceraIngreso(CabeceraIngreso cabeceraIngreso) {
-		getCabeceraIngresos().add(cabeceraIngreso);
-		cabeceraIngreso.setEmpresa(this);
+	public CabeceraIngreso addCabeceraIngresosProveedors(CabeceraIngreso cabeceraIngresosProveedors) {
+		getCabeceraIngresosProveedors().add(cabeceraIngresosProveedors);
+		cabeceraIngresosProveedors.setProveedor(this);
 
-		return cabeceraIngreso;
+		return cabeceraIngresosProveedors;
 	}
 
-	public CabeceraIngreso removeCabeceraIngreso(CabeceraIngreso cabeceraIngreso) {
-		getCabeceraIngresos().remove(cabeceraIngreso);
-		cabeceraIngreso.setEmpresa(null);
+	public CabeceraIngreso removeCabeceraIngresosProveedors(CabeceraIngreso cabeceraIngresosProveedors) {
+		getCabeceraIngresosProveedors().remove(cabeceraIngresosProveedors);
+		cabeceraIngresosProveedors.setProveedor(null);
 
-		return cabeceraIngreso;
+		return cabeceraIngresosProveedors;
+	}
+
+	public List<CabeceraIngreso> getCabeceraIngresosEmpresas() {
+		return this.cabeceraIngresosEmpresas;
+	}
+
+	public void setCabeceraIngresosEmpresas(List<CabeceraIngreso> cabeceraIngresosEmpresas) {
+		this.cabeceraIngresosEmpresas = cabeceraIngresosEmpresas;
+	}
+
+	public CabeceraIngreso addCabeceraIngresosEmpresas(CabeceraIngreso cabeceraIngresosEmpresas) {
+		getCabeceraIngresosEmpresas().add(cabeceraIngresosEmpresas);
+		cabeceraIngresosEmpresas.setProveedor(this);
+
+		return cabeceraIngresosEmpresas;
+	}
+
+	public CabeceraIngreso removeCabeceraIngresosEmpresas(CabeceraIngreso cabeceraIngresosEmpresas) {
+		getCabeceraIngresosEmpresas().remove(cabeceraIngresosEmpresas);
+		cabeceraIngresosEmpresas.setProveedor(null);
+
+		return cabeceraIngresosEmpresas;
 	}
 
 	public Gerente getGerente() {

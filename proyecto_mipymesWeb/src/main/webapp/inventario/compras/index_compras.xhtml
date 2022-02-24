@@ -86,7 +86,7 @@
 	</h:form>
 	<h:form id="form1">
 		<div align="center">
-			<p:panelGrid columns="4">
+			<p:panelGrid columns="4" styleClass="ui-noborder">
 				<p:commandButton value="Realizar un Pedido de Productos"
 					icon="fa fa-cart-plus" styleClass="ui-button-success"
 					style="width: 340px" action="pedidos_compras">
@@ -97,13 +97,13 @@
 					style="width: 340px" action="agregar_empresa">
 				</p:commandButton>
 
-				<p:commandButton value="Ir a Productos"
+				<p:commandButton value="Ver Ingresos"
 					icon="fa fa-cart-plus" styleClass="ui-button-success"
-					style="width: 340px" action="/inventario/productos/menu_productos">
+					style="width: 340px" action="/inventario/compras/ingresos">
 				</p:commandButton>
 				
 				<p:commandButton value="Actualizar"
-					icon="fa fa-update" styleClass="ui-button-success" update="@form,:form2"
+					icon="fa fa-refresh" styleClass="ui-button-success" update="@form,:form2"
 					style="width: 340px" actionListener="#{beanCompras.actionActualizar()}">
 				</p:commandButton>
 				
@@ -123,12 +123,21 @@
 							<h:outputText
 								value="#{cp.cabeceraCompra.empresa.empNombreEmpresa}" />
 						</p:column>
+						
+						<p:column headerText="REALIZADO POR"
+							filterBy="#{cp.cabeceraCompra.vendedor.usuario.usNombres} #{cp.cabeceraCompra.vendedor.usuario.usApellidos}">
+							<h:outputText
+								value="#{cp.cabeceraCompra.vendedor.usuario.usNombres} #{cp.cabeceraCompra.vendedor.usuario.usApellidos}" />
+						</p:column>
+						
 						<p:column headerText="FECHA EMISIÓN">
 							<h:outputText value="#{cp.comprodFecha}" />
 						</p:column>
 
-						<p:column headerText="APROBADO" style="width:60px">
-							<h:outputText value="#{cp.comprodAprobado}" />
+						<p:column headerText="APROBADO" style="width:100px">
+							<p:commandButton icon="#{beanCompras.icono(cp.idCompraProducto)}" value="#{beanCompras.estado(cp.idCompraProducto)}"
+									actionListener="#{beanCompras.actionListenerAprovarPedido(cp.idCompraProducto)}"
+									styleClass="#{beanCompras.style(cp.idCompraProducto)}" update="form2"/>
 						</p:column>
 						<p:column headerText="SUBTOTAL" style="width:60px">
 							<h:outputText value="#{cp.comprodSubtotal}" />
@@ -141,8 +150,7 @@
 						<p:column headerText="TOTAL" style="width:60px">
 							<h:outputText value="#{cp.comprodTotal}" />
 						</p:column>
-						<p:column headerText="Opciones">
-							<p:panelGrid columns="5" styleClass="ui-noborder">
+						<p:column headerText="OPCIONES">
 								<p:commandButton icon="fa fa-list-alt"
 									actionListener="#{beanCompras.actionListenerSeleccionarPedido(cp.idCompraProducto)}"
 									onclick="PF('detallePedido').show()"
@@ -151,20 +159,6 @@
 									styleClass="rounded-button ui-button-success">
 									<p:resetInput target=":form-detalle:detalle-Pedido" />
 								</p:commandButton>
-								<p:commandButton icon="fa fa-trash"
-									styleClass="rounded-button ui-button-danger">
-								</p:commandButton>
-								<p:commandButton icon="fa fa-file-pdf-o"
-									styleClass="rounded-button ui-button-help" actionListener="#{beanCompras.actionListenerInsertarPedido(cp.idCompraProducto)}">
-								</p:commandButton>
-								<p:commandButton icon="fa fa-send"
-									styleClass="rounded-button ui-button-warning">
-								</p:commandButton>
-								<p:commandButton icon="fa fa-check"
-									actionListener="#{beanCompras.actionListenerAprovarPedido(cp.idCompraProducto)}"
-									styleClass="rounded-button ui-button-success" update="form2">
-								</p:commandButton>
-							</p:panelGrid>
 						</p:column>
 					</p:dataTable>
 				</div>

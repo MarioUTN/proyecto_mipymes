@@ -42,9 +42,14 @@ public class CabeceraIngreso implements Serializable {
 	//bi-directional many-to-one association to Empresa
 	@ManyToOne
 	@JoinColumn(name="cabing_proveedor", nullable=false)
+	private Empresa proveedor;
+
+	//bi-directional many-to-one association to Empresa
+	@ManyToOne
+	@JoinColumn(name="cabing_empresa")
 	private Empresa empresa;
 
-	//bi-directional many-to-one association to VendedorDTO
+	//bi-directional many-to-one association to Vendedor
 	@ManyToOne
 	@JoinColumn(name="cabing_vendedor", nullable=false)
 	private Vendedor vendedor;
@@ -102,6 +107,14 @@ public class CabeceraIngreso implements Serializable {
 
 	public void setCabingNumeroFactura(String cabingNumeroFactura) {
 		this.cabingNumeroFactura = cabingNumeroFactura;
+	}
+
+	public Empresa getProveedor() {
+		return this.proveedor;
+	}
+
+	public void setProveedor(Empresa proveedor) {
+		this.proveedor = proveedor;
 	}
 
 	public Empresa getEmpresa() {

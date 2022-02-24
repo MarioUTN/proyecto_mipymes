@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import proyecto_mipymes.controller.util.JSFUtil;
+import proyecto_mipymes.model.entities.Cliente;
 import proyecto_mipymes.model.entities.Empresa;
 import proyecto_mipymes.model.entities.Gerente;
 import proyecto_mipymes.model.entities.TipoUsuario;
@@ -31,7 +32,7 @@ public class ManagerVendedor {
 	}
 
 	public Vendedor findAllVendedorByCedulaRuc(String cli_ruc_cedula) {
-		Query query = entityManager.createQuery("select c from VendedorDTO c where c.venCedula='" + cli_ruc_cedula + "'",
+		Query query = entityManager.createQuery("select c from Vendedor c where c.venCedula='" + cli_ruc_cedula + "'",
 				Vendedor.class);
 		Vendedor vendedor = new Vendedor();
 		try {
@@ -45,6 +46,10 @@ public class ManagerVendedor {
 			// TODO: handle exception
 		}
 		return vendedor;
+	}
+
+	public Vendedor findVendedorByIdVendedor(int id_vendedor) {
+		return entityManager.find(Vendedor.class, id_vendedor);
 	}
 
 	public TipoUsuario findTipoUsuarioById(int id_tipousuario) {
@@ -84,46 +89,53 @@ public class ManagerVendedor {
 		}
 	}
 
-	public void actualizaVendedor(VendedorDTO edicionVendedor) throws Exception {
+	public Vendedor actualizaVendedor(VendedorDTO edicionVendedor, String passw, String confpassw) throws Exception {
 
 		Vendedor vendedor = entityManager.find(Vendedor.class, edicionVendedor.getIdVendedor());
 		Usuario usuario = entityManager.find(Usuario.class, edicionVendedor.getIdUsuario());
-
-//		proveedor.setEmpRuc(edicionProveedor.getEmpRuc());
-//		proveedor.setEmpCiudad(edicionProveedor.getEmpCiudad());
-//		proveedor.setEmpEmail(edicionProveedor.getEmpEmail());
-//		proveedor.setEmpMatriz(edicionProveedor.getEmpMatriz());
-		usuario.setUsNombres(edicionVendedor.getNombresV());
-		usuario.setUsApellidos(edicionVendedor.getApellidosV());
-		usuario.setUsEmail(edicionVendedor.getEmailV());
-		entityManager.merge(usuario);
-		vendedor.setVenCedula(edicionVendedor.getCedulaV());
-		vendedor.setVenEmail(edicionVendedor.getEmailV());
-		vendedor.setVenDireccion(edicionVendedor.getDireccionV());
-		vendedor.setVenTelefono(edicionVendedor.getTelefonoV());
-//		proveedor.setEmpPais(edicionProveedor.getEmpPais());
-//		proveedor.setEmpNombreEmpresa(edicionProveedor.getEmpNombreEmpresa());
-//		proveedor.setEmpProvincia(edicionProveedor.getEmpProvincia());
-//		proveedor.setEmpSucursal(edicionProveedor.getEmpSucursal());
-//		proveedor.setEmpTelefono(edicionProveedor.getEmpTelefono());
-//		proveedor.setGerente(gerente);
-//
-		entityManager.merge(vendedor);
+		if (passw.equals(confpassw)) {
+			usuario.setUsNombres(edicionVendedor.getNombresV());
+			usuario.setUsApellidos(edicionVendedor.getApellidosV());
+			usuario.setUsEmail(edicionVendedor.getEmailV());
+			usuario.setUsPassword(Encriptar.encriptar(confpassw));
+			entityManager.merge(usuario);
+			vendedor.setVenCedula(edicionVendedor.getCedulaV());
+			vendedor.setVenEmail(edicionVendedor.getEmailV());
+			vendedor.setVenDireccion(edicionVendedor.getDireccionV());
+			vendedor.setVenTelefono(edicionVendedor.getTelefonoV());
+			entityManager.merge(vendedor);
+			return vendedor;
+		} else {
+			return null;
+		}
 
 	}
 
-	public void actualizarEstadoEmpleado(Vendedor v) {
+	public void actualizarEstadoVendedor(Vendedor v) {
 		Vendedor vendedor = entityManager.find(Vendedor.class, v.getIdVendedor());
 		Usuario usuario = entityManager.find(Usuario.class, vendedor.getUsuario().getIdUsuario());
 		if (usuario.getUsActivo() == true) {
 			usuario.setUsActivo(false);
-			JSFUtil.crearMensajeInfo("VendedorDTO Desabilitado");
+			JSFUtil.crearMensajeInfo("Usuario Vendedor Desabilitado");
 		} else {
 			usuario.setUsActivo(true);
-			JSFUtil.crearMensajeInfo("VendedorDTO Activo");
+			JSFUtil.crearMensajeInfo("Usuario Vendedor Activo");
 		}
 		entityManager.merge(usuario);
 
+	}
+
+	public void actualizarEstadoCliente(Cliente v) {
+		Cliente cliente = entityManager.find(Cliente.class, v.getIdCliente());
+		Usuario usuario = entityManager.find(Usuario.class, cliente.getUsuario().getIdUsuario());
+		if (usuario.getUsActivo() == true) {
+			usuario.setUsActivo(false);
+			JSFUtil.crearMensajeInfo("Usuario Cliente Desabilitado");
+		} else {
+			usuario.setUsActivo(true);
+			JSFUtil.crearMensajeInfo("Usuario Cliente Activo");
+		}
+		entityManager.merge(usuario);
 	}
 
 }

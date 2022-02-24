@@ -53,6 +53,10 @@ public class BeanClientes implements Serializable {
 
 	}
 
+	public void actualizarListaClientes() {
+		listaClientes = managerClientes.findAllClientes();
+	}
+	
 	public void actionListenerSeleccionarCliente(int id_cliente) {
 		clienteSeleccionado = new Cliente();
 		clienteSeleccionado = managerClientes.findClienteById(id_cliente);

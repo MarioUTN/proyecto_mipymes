@@ -90,28 +90,30 @@ public class BeanFacturas implements Serializable {
 		}
 	}
 
-	public String actionListenerGenerarReporte() {
+	public String actionListenerGenerarReporteFactura() {
 		String password = "YoRn7KDvOAc=";
 		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
+		String filename = "factura_" + facturaSeleccionada.getFactNumeroFactura();
 		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("idFact", facturaSeleccionada.getIdFactura());
+		parametros.put("id_factura", facturaSeleccionada.getIdFactura());
 		FacesContext context = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
-		String ruta = servletContext.getRealPath("inventario/facturas/reporteF.jasper");
+		String ruta = servletContext.getRealPath("reportes/factura.jasper");
 		System.out.println(ruta);
 		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-		response.addHeader("Content-disposition", "attachment;filename=reporteF.pdf");
+		response.addHeader("Content-disposition", "attachment;filename=" + filename + ".pdf");
 		response.setContentType("application/pdf");
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", Encriptar.descryp(usuario), Encriptar.descryp(password));
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+					Encriptar.descryp(usuario), Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
 
 			context.responseComplete();
-			System.out.println("reporte generado.");
+			JSFUtil.crearMensajeInfo("Factura generada correctamenet en formato PDF");
 		} catch (Exception e) {
 //			JSFUtil.crearMensajeERROR(e.getMessage());
 			System.out.println(e);
@@ -119,30 +121,100 @@ public class BeanFacturas implements Serializable {
 		}
 		return "";
 	}
-	
-	
-	public String actionListenerGenerarPdf(int id_factura) {
+
+	public String actionListenerGenerarReporteAbonos() {
 		String password = "YoRn7KDvOAc=";
 		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
+		String filename = "abonos_factura_" + facturaSeleccionada.getFactNumeroFactura();
 		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("idFact", id_factura);
+		parametros.put("id_factura", facturaSeleccionada.getIdFactura());
 		FacesContext context = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
-		String ruta = servletContext.getRealPath("inventario/facturas/reporteF.jasper");
+		String ruta = servletContext.getRealPath("reportes/abonos.jasper");
 		System.out.println(ruta);
 		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-		response.addHeader("Content-disposition", "attachment;filename=reporteF.pdf");
+		response.addHeader("Content-disposition", "attachment;filename=" + filename + ".pdf");
 		response.setContentType("application/pdf");
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", Encriptar.descryp(usuario), Encriptar.descryp(password));
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+					Encriptar.descryp(usuario), Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
 
 			context.responseComplete();
-			System.out.println("reporte generado.");
+			JSFUtil.crearMensajeInfo("Abonos a Factura generada correctamenet en formato PDF");
+		} catch (Exception e) {
+//			JSFUtil.crearMensajeERROR(e.getMessage());
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public String actionListenerGenerarFacturaPdf(int id_factura) {
+		if (managerFacturas.findFacturaById(id_factura) == null) {
+			JSFUtil.crearMensajeError("No existe la factura para generar el reporte!");
+		} else {
+			String password = "YoRn7KDvOAc=";
+			String usuario = "+C907bUeVrzYFLXb/mdoMg==";
+			String filename = "factura_00" + id_factura;
+			Map<String, Object> parametros = new HashMap<String, Object>();
+			parametros.put("id_factura", id_factura);
+			FacesContext context = FacesContext.getCurrentInstance();
+			ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+			String ruta = servletContext.getRealPath("reportes/factura.jasper");
+			System.out.println(ruta);
+			HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+			response.addHeader("Content-disposition", "attachment;filename=" + filename + ".pdf");
+			response.setContentType("application/pdf");
+			try {
+				Class.forName("org.postgresql.Driver");
+				Connection connection = null;
+				connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+						Encriptar.descryp(usuario), Encriptar.descryp(password));
+				JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
+				JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
+				context.getApplication().getStateManager().saveView(context);
+
+				context.responseComplete();
+				JSFUtil.crearMensajeInfo("Factura generada correctamenet en formto PDF");
+			} catch (Exception e) {
+//				JSFUtil.crearMensajeERROR(e.getMessage());
+				System.out.println(e);
+				e.printStackTrace();
+			}
+			JSFUtil.crearMensajeInfo("Factura generada correctamenet en formto PDF");
+		}
+		return "";
+	}
+
+	public String actionListenerGenerarAbonosPdf(int id_factura) {
+		String password = "YoRn7KDvOAc=";
+		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
+		String filename = "abonos_factura_00" + id_factura;
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("id_factura", id_factura);
+		FacesContext context = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("reportes/abonos.jasper");
+		System.out.println(ruta);
+		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+		response.addHeader("Content-disposition", "attachment;filename=" + filename + ".pdf");
+		response.setContentType("application/pdf");
+		try {
+			Class.forName("org.postgresql.Driver");
+			Connection connection = null;
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+					Encriptar.descryp(usuario), Encriptar.descryp(password));
+			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
+			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
+			context.getApplication().getStateManager().saveView(context);
+
+			context.responseComplete();
+			JSFUtil.crearMensajeInfo("Factura generada correctamenet en formto PDF");
 		} catch (Exception e) {
 //			JSFUtil.crearMensajeERROR(e.getMessage());
 			System.out.println(e);
@@ -168,14 +240,15 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", Encriptar.descryp(usuario), Encriptar.descryp(password));
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+					Encriptar.descryp(usuario), Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
 			System.out.println("reporte generado.");
 			context.responseComplete();
 		} catch (Exception e) {
-			JSFUtil.crearMensajeError(""+e);
+			JSFUtil.crearMensajeError("" + e);
 			e.printStackTrace();
 		}
 		return "";
@@ -219,7 +292,6 @@ public class BeanFacturas implements Serializable {
 
 	public void actionListenerSeleccionarFactura(int id_facura) {
 		facturaSeleccionada = managerFacturas.findFacturaById(id_facura);
-		JSFUtil.crearMensajeWarning("Factura seleccionada: " + facturaSeleccionada.getIdFactura());
 	}
 
 	public String estado_EntregadoProductos() {
@@ -238,7 +310,8 @@ public class BeanFacturas implements Serializable {
 		facturaSeleccionada = managerFacturas.findFacturaById(id_factura);
 		listaDetalleAbonos = managerFacturas.findAllDetalleAbonosByIdFactura(id_factura);
 		if (listaDetalleAbonos.size() > 0) {
-			//JSFUtil.crearMensajeInfo("Lista encontrada " + listaDetalleAbonos.size() + " id factura: " + id_factura);
+			// JSFUtil.crearMensajeInfo("Lista encontrada " + listaDetalleAbonos.size() + "
+			// id factura: " + id_factura);
 		} else {
 			JSFUtil.crearMensajeError("Error! no se encontraron resultados!");
 		}
@@ -255,6 +328,10 @@ public class BeanFacturas implements Serializable {
 		estadoPedido = managerFacturas.actualizarEstadoPedido(auxiliar);
 		JSFUtil.crearMensajeInfo("Cambios guardados con exito!");
 		auxiliar = new ArrayList<DetalleAbono>();
+	}
+
+	public boolean verAbonosFactura(int id_factura) {
+		return managerFacturas.buscarFacturaAnticipos(id_factura);
 	}
 
 	public DetalleAbono getDetalleAbono() {

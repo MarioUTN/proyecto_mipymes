@@ -40,8 +40,14 @@ public class ManagerProductos {
 		return entityManager.createNamedQuery("TipoProducto.findAll", TipoProducto.class).getResultList();
 	}
 
-	public List<Producto> findAllProductos() {
+	public List<Producto> findAllProductosTodos() {
 		return entityManager.createNamedQuery("Producto.findAll", Producto.class).getResultList();
+	}
+
+	public List<Producto> findAllProductos() {
+		Query query = entityManager.createQuery(
+				"select p from Producto p where p.prodCantidad>0 order by p.idProducto", Producto.class);
+		return query.getResultList();
 	}
 
 	public List<Empresa> findAllEmpresas() {
@@ -67,19 +73,19 @@ public class ManagerProductos {
 	public Producto findAllProductosByCodigoProducto(String codigo_producto) {
 		Query query = entityManager.createQuery("select p from Producto p where p.prodCodigo='" + codigo_producto + "'",
 				Producto.class);
-		Producto producto=new Producto();
+		Producto producto = new Producto();
 		try {
 			producto = (Producto) query.getSingleResult();
 			if (producto != null) {
 				return producto;
 			} else {
-				producto=null;
+				producto = null;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-		} 
+		}
 		return producto;
-		
+
 	}
 
 	public BigDecimal calcularPercioVentaPublico(double iva, BigDecimal precio) {
@@ -99,8 +105,8 @@ public class ManagerProductos {
 	public int editarProducto(Producto producto, Producto productoEditar, int id_talla_producto, int id_tipo_producto,
 			int id_proveedor) throws Exception {
 		int resp = -1;
-		if(producto.getProdCodigo().equals(productoEditar.getProdCodigo())) {
-			resp=1;
+		if (producto.getProdCodigo().equals(productoEditar.getProdCodigo())) {
+			resp = 1;
 		}
 		if (!producto.getProdCodigo().equals(productoEditar.getProdCodigo())) {
 			Empresa proveedor = entityManager.find(Empresa.class, id_proveedor);
@@ -119,15 +125,14 @@ public class ManagerProductos {
 					productoEditar.getProdPvproveedor()));
 			entityManager.merge(producto);
 			resp = 0;
-		
+
 		}
-		
-		if(findAllProductosByCodigoProducto(productoEditar.getProdCodigo())!=null){
-			resp=2;
+
+		if (findAllProductosByCodigoProducto(productoEditar.getProdCodigo()) != null) {
+			resp = 2;
 		}
-		
-		else
-		{
+
+		else {
 			throw new Exception("Error al actualizar, debe llenar todos los campos!!");
 		}
 		return resp;

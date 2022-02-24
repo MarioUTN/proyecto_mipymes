@@ -95,11 +95,11 @@
 				<p:dataTable value="#{beanProductos.listaProductos}" var="productos"
 					stripedRows="true" paginator="true" reflow="true" rows="7"
 					style="font-size: 12px" paginatorPosition="bottom">
-					<p:column headerText="COD" sortBy="#{productos.prodCodigo}"
+					<p:column headerText="COD" style="width:80px" sortBy="#{productos.prodCodigo}"
 						filterBy="#{productos.prodCodigo}">
 						<h:outputText value="#{productos.prodCodigo}" />
 					</p:column>
-					<p:column headerText="CANT" sortBy="#{productos.prodCantidad}"
+					<p:column headerText="CANT" style="width:80px" sortBy="#{productos.prodCantidad}"
 						filterBy="#{productos.prodCantidad}">
 						<h:outputText value="#{productos.prodCantidad}" />
 					</p:column>
@@ -118,12 +118,12 @@
 						filterBy="#{productos.empresa.empNombreEmpresa}">
 						<h:outputText value="#{productos.empresa.empNombreEmpresa}" />
 					</p:column>
-					<p:column headerText="PRECIO" sortBy="#{productos.prodPvpublico}"
+					<p:column headerText="PRECIO" style="width:80px" sortBy="#{productos.prodPvpublico}"
 						filterBy="#{productos.prodPvpublico}">
 						<h:outputText value="#{productos.prodPvpublico}" />
 					</p:column>
 
-					<p:column headerText="TALLA"
+					<p:column headerText="TALLA" style="width:80px"
 						sortBy="#{productos.tallaProducto.tallaNombre}"
 						filterBy="#{productos.tallaProducto.tallaNombre}">
 						<h:outputText value="#{productos.tallaProducto.tallaNombre}" />
@@ -171,10 +171,6 @@
 			<br />
 		</div>
 	</h:form>
-
-
-
-
 
 	<h:form id="form-editar">
 		<p:growl>

@@ -52,7 +52,7 @@ public class Usuario implements Serializable {
 	@JoinColumn(name="us_tipousuario", nullable=false)
 	private TipoUsuario tipoUsuario;
 
-	//bi-directional many-to-one association to VendedorDTO
+	//bi-directional many-to-one association to Vendedor
 	@OneToMany(mappedBy="usuario")
 	private List<Vendedor> vendedors;
 
