@@ -43,6 +43,8 @@ public class BeanFacturas implements Serializable {
 	private List<DetalleAbono> auxiliar;
 
 	private String cedula_ruc;
+	private String password;
+	private String usuario;
 	private int id_tipo_factura;
 	private int id_forma_pago;
 
@@ -57,6 +59,8 @@ public class BeanFacturas implements Serializable {
 
 	@PostConstruct
 	public void Inicializar() {
+		password = "Ofrn8mXdeBbjdBwSoUTgG1HtxUzuEVuz";
+		usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		listaFacturas = managerFacturas.findAllFacturas();
 		listaTipoFacturas = managerFacturas.findAllTipoFacturas();
 		listaFormaPagos = managerFacturas.findAllFormaPagoFacturas();
@@ -91,8 +95,6 @@ public class BeanFacturas implements Serializable {
 	}
 
 	public String actionListenerGenerarReporteFactura() {
-		String password = "YoRn7KDvOAc=";
-		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		String filename = "factura_" + facturaSeleccionada.getFactNumeroFactura();
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("id_factura", facturaSeleccionada.getIdFactura());
@@ -123,8 +125,6 @@ public class BeanFacturas implements Serializable {
 	}
 
 	public String actionListenerGenerarReporteAbonos() {
-		String password = "YoRn7KDvOAc=";
-		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		String filename = "abonos_factura_" + facturaSeleccionada.getFactNumeroFactura();
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("id_factura", facturaSeleccionada.getIdFactura());
@@ -158,8 +158,7 @@ public class BeanFacturas implements Serializable {
 		if (managerFacturas.findFacturaById(id_factura) == null) {
 			JSFUtil.crearMensajeError("No existe la factura para generar el reporte!");
 		} else {
-			String password = "YoRn7KDvOAc=";
-			String usuario = "+C907bUeVrzYFLXb/mdoMg==";
+			
 			String filename = "factura_00" + id_factura;
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("id_factura", id_factura);
@@ -192,8 +191,6 @@ public class BeanFacturas implements Serializable {
 	}
 
 	public String actionListenerGenerarAbonosPdf(int id_factura) {
-		String password = "YoRn7KDvOAc=";
-		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		String filename = "abonos_factura_00" + id_factura;
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("id_factura", id_factura);
@@ -224,8 +221,6 @@ public class BeanFacturas implements Serializable {
 	}
 
 	public String actionReporte() {
-		String password = "YoRn7KDvOAc=";
-		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		/*
 		 * parametros.put("p_titulo_principal",p_titulo_principal);

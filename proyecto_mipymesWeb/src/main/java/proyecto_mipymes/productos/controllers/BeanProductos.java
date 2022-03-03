@@ -108,7 +108,7 @@ public class BeanProductos implements Serializable {
 	}
 	
 	public String actionReporte() {
-		String password = "YoRn7KDvOAc=";
+		String password = "Ofrn8mXdeBbjdBwSoUTgG1HtxUzuEVuz";
 		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		/*

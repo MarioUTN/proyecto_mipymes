@@ -69,12 +69,17 @@ public class BeanCompras implements Serializable {
 	private List<CompraProducto> listaCompraProductos;
 	private List<FacturaIngreso> listaFacturaIngresos;
 
+	private String password;
+	private String usuario;
+	
 	public BeanCompras() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@PostConstruct
 	public void Inicializar() {
+		password = "Ofrn8mXdeBbjdBwSoUTgG1HtxUzuEVuz";
+		usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		empresa = new Empresa();
 		listaFacturaIngresos = managerCompras.findAllFacturasIngresos();
 		listaProductos = managerCompras.findAllProductos();
@@ -187,8 +192,6 @@ public class BeanCompras implements Serializable {
 	}
 
 	public String actionListenerGenerarReportePedido() {
-		String password = "YoRn7KDvOAc=";
-		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("idcp", compraProductoSeleccionado.getIdCompraProducto());
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -218,8 +221,6 @@ public class BeanCompras implements Serializable {
 	}
 
 	public String actionListenerGenerarReportePedido(int id_compra) {
-		String password = "YoRn7KDvOAc=";
-		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		String filename="pedido_00"+id_compra;
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("idcp", id_compra);
@@ -251,8 +252,6 @@ public class BeanCompras implements Serializable {
 
 	
 	public String actionListenerGenerarReporteIngresos(int id_facting) {
-		String password = "YoRn7KDvOAc=";
-		String usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		String filename="reporte_ingresos_00"+id_facting;
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("id_factura_ingreso", id_facting);
