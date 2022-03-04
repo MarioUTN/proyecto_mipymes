@@ -45,6 +45,7 @@ public class BeanFacturas implements Serializable {
 	private String cedula_ruc;
 	private String password;
 	private String usuario;
+	private String connection_url;
 	private int id_tipo_factura;
 	private int id_forma_pago;
 
@@ -59,6 +60,7 @@ public class BeanFacturas implements Serializable {
 
 	@PostConstruct
 	public void Inicializar() {
+		connection_url = "jdbc:postgresql://10.0.4.106:5432/proyecto";
 		password = "Ofrn8mXdeBbjdBwSoUTgG1HtxUzuEVuz";
 		usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		listaFacturas = managerFacturas.findAllFacturas();
@@ -108,7 +110,7 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+			connection = DriverManager.getConnection(connection_url,
 					Encriptar.descryp(usuario), Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
@@ -138,7 +140,7 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+			connection = DriverManager.getConnection(connection_url,
 					Encriptar.descryp(usuario), Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
@@ -172,7 +174,7 @@ public class BeanFacturas implements Serializable {
 			try {
 				Class.forName("org.postgresql.Driver");
 				Connection connection = null;
-				connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+				connection = DriverManager.getConnection(connection_url,
 						Encriptar.descryp(usuario), Encriptar.descryp(password));
 				JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 				JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
@@ -204,7 +206,7 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+			connection = DriverManager.getConnection(connection_url,
 					Encriptar.descryp(usuario), Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
@@ -235,7 +237,7 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto",
+			connection = DriverManager.getConnection(connection_url,
 					Encriptar.descryp(usuario), Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());

@@ -52,13 +52,15 @@ public class BeanProductos implements Serializable {
 	private int id_talla_producto;
 	private int id_tipo_producto;
 	private String codigo_producto;
-
+	private String connection_url;
+	
 	public BeanProductos() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@PostConstruct
 	public void Inicializar() {
+		connection_url = "jdbc:postgresql://10.0.4.106:5432/proyecto";
 		productoSeleccionado = new Producto();
 		productoEditar = new Producto();
 		productoNuevo = new Producto();
@@ -124,7 +126,7 @@ public class BeanProductos implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/proyecto", Encriptar.descryp(usuario), Encriptar.descryp(password));
+			connection = DriverManager.getConnection(connection_url, Encriptar.descryp(usuario), Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);

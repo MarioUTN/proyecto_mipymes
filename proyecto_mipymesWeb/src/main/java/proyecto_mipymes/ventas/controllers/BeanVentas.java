@@ -69,7 +69,6 @@ public class BeanVentas implements Serializable {
 	private double saldo_actual;
 	private int index;
 	private int stock;
-
 	private int id_tipo_factura;
 	private int id_forma_pago;
 	private int numero_factura;
