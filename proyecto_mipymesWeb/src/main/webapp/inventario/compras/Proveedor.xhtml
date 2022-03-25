@@ -168,7 +168,7 @@
 				<p:outputLabel for="@next" value="Seleccionar el Gerente:" />
 				<p:selectOneMenu value="#{beanCompras.idEditarGerente}">
 					<f:selectItem itemValue="#{beanCompras.idEditarGerente}"
-						noSelectionOption="true" />
+						noSelectionOption="false" />
 					<f:selectItems value="#{beanCompras.listaGerentes}" var="g"
 						itemLabel="#{g.usuario.usNombres}" itemValue="#{g.idGerente}"></f:selectItems>
 				</p:selectOneMenu>

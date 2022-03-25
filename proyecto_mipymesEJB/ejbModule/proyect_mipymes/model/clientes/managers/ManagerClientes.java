@@ -128,5 +128,28 @@ public class ManagerClientes {
 			return null;
 		}
 	}
+	
+	public Cliente updateClient(Cliente cliente, String password, String conf_password) {
+		Cliente clienteUpdate = findAllClienteByCedulaRuc(cliente.getCliRucCedula());
+		if (cliente.getCliCodigo() != null) {
+
+			Usuario usuario = entityManager.find(Usuario.class, cliente.getUsuario().getIdUsuario());
+			usuario.setUsEmail(cliente.getCliEmail());
+			usuario.setUsNombres(cliente.getUsuario().getUsNombres());
+			usuario.setUsApellidos(cliente.getUsuario().getUsApellidos());
+			usuario.setUsPassword(Encriptar.encriptar(password));
+			entityManager.merge(usuario);
+
+			clienteUpdate.setUsuario(usuario);
+			clienteUpdate.setCliTelefono(cliente.getCliTelefono());
+			clienteUpdate.setCliRucCedula(cliente.getCliRucCedula());
+			clienteUpdate.setCliEmail(cliente.getCliEmail());
+			clienteUpdate.setCliDireccion(cliente.getCliDireccion());
+			entityManager.merge(clienteUpdate);
+			return clienteUpdate;
+		} else {
+			return null;
+		}
+	}
 
 }

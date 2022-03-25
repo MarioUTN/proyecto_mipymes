@@ -46,6 +46,12 @@ public class ManagerProductos {
 
 	public List<Producto> findAllProductos() {
 		Query query = entityManager.createQuery(
+				"select p from Producto p order by p.idProducto", Producto.class);
+		return query.getResultList();
+	}
+	
+	public List<Producto> findAllProductosInStock() {
+		Query query = entityManager.createQuery(
 				"select p from Producto p where p.prodCantidad>0 order by p.idProducto", Producto.class);
 		return query.getResultList();
 	}

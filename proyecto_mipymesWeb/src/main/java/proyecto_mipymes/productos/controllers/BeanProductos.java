@@ -39,6 +39,7 @@ public class BeanProductos implements Serializable {
 	private ManagerProductos managerProductos;
 
 	private List<Producto> listaProductos;
+	private List<Producto> listaProductosInStock;
 	private List<TallaProducto> listaTallaProductos;
 	private List<TipoProducto> listaTipoProductos;
 	private List<Empresa> listaEmpresas;
@@ -65,6 +66,7 @@ public class BeanProductos implements Serializable {
 		productoEditar = new Producto();
 		productoNuevo = new Producto();
 		listaProductos = managerProductos.findAllProductos();
+		listaProductosInStock=managerProductos.findAllProductosInStock();
 		listaTallaProductos = managerProductos.findAllTallaProductos();
 		listaTipoProductos = managerProductos.findAllTipoProductos();
 		listaEmpresas = managerProductos.findAllEmpresas();
@@ -269,6 +271,13 @@ public class BeanProductos implements Serializable {
 	
 	public void setTallaProducto(TallaProducto tallaProducto) {
 		this.tallaProducto = tallaProducto;
+	}
+	
+	public void setListaProductosInStock(List<Producto> listaProductosInStock) {
+		this.listaProductosInStock = listaProductosInStock;
+	}
+	public List<Producto> getListaProductosInStock() {
+		return listaProductosInStock;
 	}
 	
 }

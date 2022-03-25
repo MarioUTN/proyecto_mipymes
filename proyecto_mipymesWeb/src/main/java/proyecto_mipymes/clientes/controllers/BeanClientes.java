@@ -40,6 +40,9 @@ public class BeanClientes implements Serializable {
 	private String email;
 	private String direccion;
 
+	private String password;
+	private String conf_password;
+	
 	private int id_producto;
 
 	public BeanClientes() {
@@ -98,6 +101,22 @@ public class BeanClientes implements Serializable {
 		}
 	}
 
+	public void actionListenerUpdateClient() {
+		if(password.equals(conf_password)) {
+			clienteSeleccionado=managerClientes.updateClient(clienteSeleccionado, password, conf_password);
+			if(clienteSeleccionado.getUsuario().getUsPassword()!=null) {
+				listaClientes=managerClientes.findAllClientes();
+				JSFUtil.crearMensajeInfo("Update Client Successfull!");
+			}
+			else {
+				JSFUtil.crearMensajeError("Error to update client!");
+			}
+		}
+		else {
+			JSFUtil.crearMensajeError("Error to confirmation password!");
+		}
+	}
+	
 	public int getId_producto() {
 		return id_producto;
 	}
@@ -198,4 +217,21 @@ public class BeanClientes implements Serializable {
 		this.clienteDTO = clienteDTO;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConf_password() {
+		return conf_password;
+	}
+
+	public void setConf_password(String conf_password) {
+		this.conf_password = conf_password;
+	}
+
+	
 }

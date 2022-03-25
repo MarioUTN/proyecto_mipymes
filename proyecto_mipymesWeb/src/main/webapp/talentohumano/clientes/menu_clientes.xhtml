@@ -248,12 +248,12 @@
 				</p:inputText>
 
 				<h:outputText value="Contraseña:" />
-				<p:password value="#{beanClientes.clienteSeleccionado.usuario.usPassword}"
+				<p:password value="#{beanClientes.password}"
 					required="true" requiredMessage="Ingrese la contraseña"
 					placeholder="**********" feedback="false" />
 					
 					<h:outputText value="Confirmar Contraseña:" />
-				<p:password value="#{beanClientes.clienteSeleccionado.usuario.usPassword}"
+				<p:password value="#{beanClientes.conf_password}"
 					required="true" requiredMessage="Ingrese la contraseña"
 					placeholder="**********" feedback="false" />
 
@@ -276,8 +276,8 @@
 					<div align="center">
 						<p:row>
 							<p:commandButton value="Editar Datos"
-								styleClass="ui-button-success" style="width: auto"
-								update=":formtable"
+								styleClass="ui-button-success" style="width: auto" actionListener="#{beanClientes.actionListenerUpdateClient()}"
+								update=":formtable" onclick="PF('dlg3').hide()"
 								icon="fa fa-save" />
 						</p:row>
 					</div>

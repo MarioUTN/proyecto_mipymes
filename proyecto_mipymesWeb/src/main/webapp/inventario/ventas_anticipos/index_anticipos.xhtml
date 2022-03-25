@@ -186,7 +186,7 @@
 								<p:selectOneMenu value="#{beanVentas.id_producto}"
 									style="width:350px" panelStyle="width:180px" effect="fade"
 									filter="true" filterMatchMode="startsWith">
-									<f:selectItems value="#{beanProductos.listaProductos}"
+									<f:selectItems value="#{beanProductos.listaProductosInStock}"
 										var="productos" itemLabel="#{productos.prodNombre}"
 										itemValue="#{productos.idProducto}">
 										<p:column style="width:10%">
@@ -203,7 +203,7 @@
 									</f:selectItems>
 									<f:facet name="footer">
 										<h:outputText
-											value="#{beanProductos.listaProductos.size()} Productos Encontrados"
+											value="#{beanProductos.listaProductosInStock.size()} Productos Encontrados"
 											style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
 									</f:facet>
 								</p:selectOneMenu>
