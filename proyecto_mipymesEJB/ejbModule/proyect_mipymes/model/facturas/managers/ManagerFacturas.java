@@ -39,7 +39,7 @@ public class ManagerFacturas {
 
 	public List<Factura> findAllFacturas() {
 		List<Factura> listaFacturas;
-		listaFacturas = entityManager.createNamedQuery("Factura.findAll", Factura.class).getResultList();
+		listaFacturas = entityManager.createQuery("select f from Factura f order by f.idFactura", Factura.class).getResultList();
 		return listaFacturas;
 	}
 
@@ -47,14 +47,25 @@ public class ManagerFacturas {
 		return entityManager.createNamedQuery("TipoFactura.findAll", TipoFactura.class).getResultList();
 	}
 
+	public List<Vendedor> findAllVendedors() {
+		return entityManager.createNamedQuery("Vendedor.findAll", Vendedor.class).getResultList();
+	}
+
 	public List<FormaPago> findAllFormaPagoFacturas() {
 		return entityManager.createNamedQuery("FormaPago.findAll", FormaPago.class).getResultList();
 	}
 
 	public List<Factura> findAllFacturaByFormaPago(int id_forma_pago) {
-		Query query = entityManager.createQuery("select f from Factura f where f.formaPago.idFormaPago=:id_forma_pago",
+		Query query = entityManager.createQuery("select f from Factura f where f.formaPago.idFormaPago=:id_forma_pago order by f.idFactura",
 				Factura.class);
 		query.setParameter("id_forma_pago", id_forma_pago);
+		return query.getResultList();
+	}
+
+	public List<Factura> findAllFacturaByVendedors(int id_vendedor) {
+		Query query = entityManager.createQuery(
+				"select f from Factura f where f.cabeceraFactura.vendedor.idVendedor=:id_vendedor order by f.idFactura", Factura.class);
+		query.setParameter("id_vendedor", id_vendedor);
 		return query.getResultList();
 	}
 
@@ -68,14 +79,14 @@ public class ManagerFacturas {
 
 	public List<Factura> findAllFacturaByTipo(int id_tipo_factura) {
 		Query query = entityManager.createQuery(
-				"select f from Factura f where f.tipoFactura.idTipoFactura=:id_tipo_factura", Factura.class);
+				"select f from Factura f where f.tipoFactura.idTipoFactura=:id_tipo_factura order by f.idFactura", Factura.class);
 		query.setParameter("id_tipo_factura", id_tipo_factura);
 		return query.getResultList();
 	}
 
 	public List<Factura> findAllFacturaByCliente(String cedula_ruc) {
 		Query query = entityManager.createQuery(
-				"select f from Factura f where f.cabeceraFactura.cliente.cliRucCedula=:cedula_ruc", Factura.class);
+				"select f from Factura f where f.cabeceraFactura.cliente.cliRucCedula=:cedula_ruc order by f.idFactura", Factura.class);
 		query.setParameter("cedula_ruc", cedula_ruc);
 		return query.getResultList();
 	}
@@ -144,6 +155,16 @@ public class ManagerFacturas {
 			auxiliar.add(detalleAbono);
 		}
 		return auxiliar;
+	}
+
+	public boolean DeliverProduct(int id_factura) {
+		Factura factura = findFacturaById(id_factura);
+		EstadoPedido estadoPedido=findEstdoPedido(id_factura);
+		if (estadoPedido.getEstSaldo().doubleValue()==0) {
+			factura.setFactEntregado(true);
+		}
+		entityManager.merge(factura);
+		return factura.getFactEntregado();
 	}
 
 	public EstadoPedido actualizarEstadoPedido(List<DetalleAbono> listDetalleAbonos) {

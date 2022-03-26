@@ -26,6 +26,7 @@ import proyecto_mipymes.model.entities.EstadoPedido;
 import proyecto_mipymes.model.entities.Factura;
 import proyecto_mipymes.model.entities.FormaPago;
 import proyecto_mipymes.model.entities.TipoFactura;
+import proyecto_mipymes.model.entities.Vendedor;
 import proyecto_mipymes.model.utils.Encriptar;
 
 @Named
@@ -41,6 +42,7 @@ public class BeanFacturas implements Serializable {
 	private List<FormaPago> listaFormaPagos;
 	private List<DetalleAbono> listaDetalleAbonos;
 	private List<DetalleAbono> auxiliar;
+	private List<Vendedor> listVendedors;
 
 	private String cedula_ruc;
 	private String password;
@@ -48,6 +50,7 @@ public class BeanFacturas implements Serializable {
 	private String connection_url;
 	private int id_tipo_factura;
 	private int id_forma_pago;
+	private int id_vendedor;
 
 	private Factura facturaSeleccionada;
 	private DetalleAbono detalleAbono;
@@ -66,10 +69,11 @@ public class BeanFacturas implements Serializable {
 		listaFacturas = managerFacturas.findAllFacturas();
 		listaTipoFacturas = managerFacturas.findAllTipoFacturas();
 		listaFormaPagos = managerFacturas.findAllFormaPagoFacturas();
+		listVendedors = managerFacturas.findAllVendedors();
 		auxiliar = new ArrayList<DetalleAbono>();
 	}
 
-	public void actionListenerNuscarFacturaByTipo() {
+	public void actionListenerBuscarFacturaByTipo() {
 		listaFacturas = managerFacturas.findAllFacturaByTipo(id_tipo_factura);
 		if (listaFacturas == null) {
 			JSFUtil.crearMensajeError("No se encontraron registros de facturas!");
@@ -78,7 +82,7 @@ public class BeanFacturas implements Serializable {
 		}
 	}
 
-	public void actionListenerNuscarFacturaByFormaPago() {
+	public void actionListenerBuscarFacturaByFormaPago() {
 		listaFacturas = managerFacturas.findAllFacturaByFormaPago(id_forma_pago);
 		if (listaFacturas == null) {
 			JSFUtil.crearMensajeError("No se encontraron registros de facturas!");
@@ -87,7 +91,7 @@ public class BeanFacturas implements Serializable {
 		}
 	}
 
-	public void actionListenerNuscarFacturaByCliente() {
+	public void actionListenerBuscarFacturaByCliente() {
 		listaFacturas = managerFacturas.findAllFacturaByCliente(cedula_ruc);
 		if (listaFacturas == null) {
 			JSFUtil.crearMensajeError("No se encontraron registros de facturas!");
@@ -110,8 +114,8 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection(connection_url,
-					Encriptar.descryp(usuario), Encriptar.descryp(password));
+			connection = DriverManager.getConnection(connection_url, Encriptar.descryp(usuario),
+					Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
@@ -140,8 +144,8 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection(connection_url,
-					Encriptar.descryp(usuario), Encriptar.descryp(password));
+			connection = DriverManager.getConnection(connection_url, Encriptar.descryp(usuario),
+					Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
@@ -160,7 +164,7 @@ public class BeanFacturas implements Serializable {
 		if (managerFacturas.findFacturaById(id_factura) == null) {
 			JSFUtil.crearMensajeError("No existe la factura para generar el reporte!");
 		} else {
-			
+
 			String filename = "factura_00" + id_factura;
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("id_factura", id_factura);
@@ -174,8 +178,8 @@ public class BeanFacturas implements Serializable {
 			try {
 				Class.forName("org.postgresql.Driver");
 				Connection connection = null;
-				connection = DriverManager.getConnection(connection_url,
-						Encriptar.descryp(usuario), Encriptar.descryp(password));
+				connection = DriverManager.getConnection(connection_url, Encriptar.descryp(usuario),
+						Encriptar.descryp(password));
 				JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 				JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 				context.getApplication().getStateManager().saveView(context);
@@ -206,8 +210,8 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection(connection_url,
-					Encriptar.descryp(usuario), Encriptar.descryp(password));
+			connection = DriverManager.getConnection(connection_url, Encriptar.descryp(usuario),
+					Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
@@ -237,8 +241,8 @@ public class BeanFacturas implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection(connection_url,
-					Encriptar.descryp(usuario), Encriptar.descryp(password));
+			connection = DriverManager.getConnection(connection_url, Encriptar.descryp(usuario),
+					Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
@@ -254,6 +258,9 @@ public class BeanFacturas implements Serializable {
 	public void actionListenerVerFacturasByCliente() {
 		listaFacturas = managerFacturas.findAllFacturaByCliente(cedula_ruc);
 		if (listaFacturas != null) {
+			id_forma_pago = 0;
+			id_tipo_factura = 0;
+			id_vendedor = 0;
 			JSFUtil.crearMensajeInfo("Se encontro " + listaFacturas.size() + " resultados!");
 		} else {
 			JSFUtil.crearMensajeError("No se encontraron resultados!");
@@ -263,6 +270,9 @@ public class BeanFacturas implements Serializable {
 	public void actionListenerVerFacturasByTipoFactura() {
 		listaFacturas = managerFacturas.findAllFacturaByTipo(id_tipo_factura);
 		if (listaFacturas != null) {
+			id_forma_pago = 0;
+			id_vendedor = 0;
+			cedula_ruc = null;
 			JSFUtil.crearMensajeInfo("Se encontro " + listaFacturas.size() + " resultados!");
 		} else {
 			JSFUtil.crearMensajeError("No se encontraron resultados!");
@@ -272,6 +282,10 @@ public class BeanFacturas implements Serializable {
 	public void actionListenerVerFacturas() {
 		listaFacturas = managerFacturas.findAllFacturas();
 		if (listaFacturas != null) {
+			id_forma_pago = 0;
+			id_tipo_factura = 0;
+			id_vendedor = 0;
+			cedula_ruc = null;
 			JSFUtil.crearMensajeInfo("Se encontro " + listaFacturas.size() + " resultados!");
 		} else {
 			JSFUtil.crearMensajeError("No se encontraron resultados!");
@@ -281,6 +295,21 @@ public class BeanFacturas implements Serializable {
 	public void actionListenerVerFacturasByFormaPago() {
 		listaFacturas = managerFacturas.findAllFacturaByFormaPago(id_forma_pago);
 		if (listaFacturas != null) {
+			id_vendedor = 0;
+			id_tipo_factura = 0;
+			cedula_ruc = null;
+			JSFUtil.crearMensajeInfo("Se encontro " + listaFacturas.size() + " resultados!");
+		} else {
+			JSFUtil.crearMensajeError("No se encontraron resultados!");
+		}
+	}
+
+	public void actionListenerVerFacturasByVendedors() {
+		listaFacturas = managerFacturas.findAllFacturaByVendedors(id_vendedor);
+		if (listaFacturas != null) {
+			id_forma_pago = 0;
+			id_tipo_factura = 0;
+			cedula_ruc = null;
 			JSFUtil.crearMensajeInfo("Se encontro " + listaFacturas.size() + " resultados!");
 		} else {
 			JSFUtil.crearMensajeError("No se encontraron resultados!");
@@ -306,6 +335,7 @@ public class BeanFacturas implements Serializable {
 	public void actionListenerSeleccionarDetalleAbono(int id_factura) {
 		facturaSeleccionada = managerFacturas.findFacturaById(id_factura);
 		listaDetalleAbonos = managerFacturas.findAllDetalleAbonosByIdFactura(id_factura);
+		valor_abono = managerFacturas.findEstdoPedido(facturaSeleccionada.getIdFactura()).getEstSaldo().doubleValue();
 		if (listaDetalleAbonos.size() > 0) {
 			// JSFUtil.crearMensajeInfo("Lista encontrada " + listaDetalleAbonos.size() + "
 			// id factura: " + id_factura);
@@ -321,6 +351,10 @@ public class BeanFacturas implements Serializable {
 
 	}
 
+	public void actionListenerCancel() {
+		JSFUtil.crearMensajeWarning("Procees Cancel!");
+	}
+
 	public void actionListenerGuardarAbonosFacturas() {
 		estadoPedido = managerFacturas.actualizarEstadoPedido(auxiliar);
 		JSFUtil.crearMensajeInfo("Cambios guardados con exito!");
@@ -329,6 +363,50 @@ public class BeanFacturas implements Serializable {
 
 	public boolean verAbonosFactura(int id_factura) {
 		return managerFacturas.buscarFacturaAnticipos(id_factura);
+	}
+
+	public String iconoDeliver(boolean vendedor) {
+		if (vendedor != false) {
+			return "fa fa-close";
+
+		} else {
+			return "fa fa-check";
+		}
+
+	}
+
+	public String styleDeliver(boolean vendedor) {
+		if (vendedor != false) {
+			return "rounded-button ui-button-danger";
+
+		} else {
+			return "rounded-button ui-button-success";
+		}
+	}
+
+	public void actionListenerDeliverProduct(int id_factura) {
+		EstadoPedido estadoPedido = managerFacturas.findEstdoPedido(id_factura);
+		Factura factura = managerFacturas.findFacturaById(id_factura);
+		if (estadoPedido.getEstSaldo().doubleValue() == 0) {
+			boolean deliverProduct = managerFacturas.DeliverProduct(id_factura);
+			if (id_tipo_factura != 0 && !factura.getFactEntregado()) {
+				listaFacturas = managerFacturas.findAllFacturaByTipo(id_tipo_factura);
+				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
+			} else if (id_forma_pago != 0 && !factura.getFactEntregado()) {
+				listaFacturas = managerFacturas.findAllFacturaByFormaPago(id_forma_pago);
+				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
+			} else if (id_vendedor != 0 && !factura.getFactEntregado()) {
+				listaFacturas = managerFacturas.findAllFacturaByVendedors(id_vendedor);
+				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
+			} else if (cedula_ruc != null && !factura.getFactEntregado()) {
+				listaFacturas = managerFacturas.findAllFacturaByCliente(cedula_ruc);
+				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
+			} else if (factura.getFactEntregado()) {
+				JSFUtil.crearMensajeWarning("The product was previously delivered!");
+			}
+		} else {
+			JSFUtil.crearMensajeError("Do not can deliver the product to a invoice that not canceled!");
+		}
 	}
 
 	public DetalleAbono getDetalleAbono() {
@@ -425,5 +503,21 @@ public class BeanFacturas implements Serializable {
 
 	public void setEstadoPedido(EstadoPedido estadoPedido) {
 		this.estadoPedido = estadoPedido;
+	}
+
+	public int getId_vendedor() {
+		return id_vendedor;
+	}
+
+	public void setId_vendedor(int id_vendedor) {
+		this.id_vendedor = id_vendedor;
+	}
+
+	public List<Vendedor> getListVendedors() {
+		return listVendedors;
+	}
+
+	public void setListVendedors(List<Vendedor> listVendedors) {
+		this.listVendedors = listVendedors;
 	}
 }
