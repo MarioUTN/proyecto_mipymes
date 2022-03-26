@@ -58,7 +58,7 @@ public class BeanCompras implements Serializable {
 	private int idGerente;
 	private int idproducto;
 	private int idproveedor;
-
+	private int indice;
 	private double valorTotal;
 	private double iva;
 	private double subTotal;
@@ -72,7 +72,7 @@ public class BeanCompras implements Serializable {
 
 	private String password;
 	private String usuario;
-	
+
 	public BeanCompras() {
 		// TODO Auto-generated constructor stub
 	}
@@ -144,13 +144,23 @@ public class BeanCompras implements Serializable {
 		// JSFUtil.crearMensajeInfo("Valio Nuevo producto inexitente");
 	}
 
-	public void actionListenerEditarCantidad(int index) {
-		listaDetalleCompras = managerCompras.editarCantidadProductoListaDetalle(listaDetalleCompras, cantidad, index);
-		valorTotal = managerCompras.valorTotalPagar(listaDetalleCompras);
-		iva = managerCompras.valorIva(valorTotal);
-		subTotal = managerCompras.valorSubTotal(valorTotal);
-		this.cantidad = 1;
-		// JSFUtil.crearMensajeWarning("Cantidad: " + index);
+	public int actionListenerSelectIndex(int index) {
+		this.indice=index;
+		return indice;
+	}
+
+	public void actionListenerEditarCantidad() {
+		if (indice >= 0) {
+			listaDetalleCompras = managerCompras.editarCantidadProductoListaDetalle(listaDetalleCompras, cantidad,
+					indice);
+			valorTotal = managerCompras.valorTotalPagar(listaDetalleCompras);
+			iva = managerCompras.valorIva(valorTotal);
+			subTotal = managerCompras.valorSubTotal(valorTotal);
+			this.cantidad = 1;
+			JSFUtil.crearMensajeWarning("Index: " + indice);
+		} else {
+			JSFUtil.crearMensajeError("Error de index!");
+		}
 
 	}
 
@@ -206,8 +216,8 @@ public class BeanCompras implements Serializable {
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection(connection_url,
-					Encriptar.descryp(usuario), Encriptar.descryp(password));
+			connection = DriverManager.getConnection(connection_url, Encriptar.descryp(usuario),
+					Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
@@ -223,7 +233,7 @@ public class BeanCompras implements Serializable {
 	}
 
 	public String actionListenerGenerarReportePedido(int id_compra) {
-		String filename="pedido_00"+id_compra;
+		String filename = "pedido_00" + id_compra;
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("idcp", id_compra);
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -231,13 +241,13 @@ public class BeanCompras implements Serializable {
 		String ruta = servletContext.getRealPath("reportes/reportepedidos.jasper");
 		System.out.println(ruta);
 		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-		response.addHeader("Content-disposition", "attachment;filename="+filename+".pdf");
+		response.addHeader("Content-disposition", "attachment;filename=" + filename + ".pdf");
 		response.setContentType("application/pdf");
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection(connection_url,
-					Encriptar.descryp(usuario), Encriptar.descryp(password));
+			connection = DriverManager.getConnection(connection_url, Encriptar.descryp(usuario),
+					Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
@@ -252,9 +262,8 @@ public class BeanCompras implements Serializable {
 		return "";
 	}
 
-	
 	public String actionListenerGenerarReporteIngresos(int id_facting) {
-		String filename="reporte_ingresos_00"+id_facting;
+		String filename = "reporte_ingresos_00" + id_facting;
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("id_factura_ingreso", id_facting);
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -262,13 +271,13 @@ public class BeanCompras implements Serializable {
 		String ruta = servletContext.getRealPath("reportes/ingresosmario.jasper");
 		System.out.println(ruta);
 		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-		response.addHeader("Content-disposition", "attachment;filename="+filename+".pdf");
+		response.addHeader("Content-disposition", "attachment;filename=" + filename + ".pdf");
 		response.setContentType("application/pdf");
 		try {
 			Class.forName("org.postgresql.Driver");
 			Connection connection = null;
-			connection = DriverManager.getConnection(connection_url,
-					Encriptar.descryp(usuario), Encriptar.descryp(password));
+			connection = DriverManager.getConnection(connection_url, Encriptar.descryp(usuario),
+					Encriptar.descryp(password));
 			JasperPrint impresion = JasperFillManager.fillReport(ruta, parametros, connection);
 			JasperExportManager.exportReportToPdfStream(impresion, response.getOutputStream());
 			context.getApplication().getStateManager().saveView(context);
@@ -283,20 +292,19 @@ public class BeanCompras implements Serializable {
 		return "";
 	}
 
-	
 	public void actionListenerAprovarPedido(int id_compra_producto) {
 		if (managerCompras.aprobarPedidoProductos(id_compra_producto)) {
-			//listaDetalleCompras = managerCompras.findAllDetallesCompras();
+			// listaDetalleCompras = managerCompras.findAllDetallesCompras();
 			listaCompraProductos = managerCompras.findAllCompraProductos();
 			listaFacturaIngresos = managerCompras.findAllFacturasIngresos();
 			this.stilo_aprobado = style(id_compra_producto);
-			this.ico_aprovado=icono(id_compra_producto);
+			this.ico_aprovado = icono(id_compra_producto);
 			JSFUtil.crearMensajeInfo("Pedido aprovado con Éxito!");
 		} else {
-			//listaDetalleCompras = managerCompras.findAllDetallesCompras();
+			// listaDetalleCompras = managerCompras.findAllDetallesCompras();
 			listaCompraProductos = managerCompras.findAllCompraProductos();
 			this.stilo_aprobado = style(id_compra_producto);
-			this.ico_aprovado=icono(id_compra_producto);
+			this.ico_aprovado = icono(id_compra_producto);
 			JSFUtil.crearMensajeInfo("Pedido no aprovado con Éxito!");
 		}
 
@@ -309,9 +317,8 @@ public class BeanCompras implements Serializable {
 		} else {
 			return "fa fa-check";
 		}
-		
+
 	}
-	
 
 	public String style(int idcompra) {
 		if (managerCompras.findCompraProductoById(idcompra).getComprodAprobado() != false) {
@@ -321,7 +328,7 @@ public class BeanCompras implements Serializable {
 			return "rounded-button ui-button-success";
 		}
 	}
-	
+
 	public String estado(int idcompra) {
 		if (managerCompras.findCompraProductoById(idcompra).getComprodAprobado() != false) {
 			return "Inactive";
@@ -621,6 +628,14 @@ public class BeanCompras implements Serializable {
 
 	public void setListaFacturaIngresos(List<FacturaIngreso> listaFacturaIngresos) {
 		this.listaFacturaIngresos = listaFacturaIngresos;
+	}
+	
+	public void setIndice(int indice) {
+		this.indice = indice;
+	}
+	
+	public int getIndice() {
+		return indice;
 	}
 
 }

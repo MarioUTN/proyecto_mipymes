@@ -228,7 +228,7 @@
 
 										<p:column headerText="Opciones">
 											<p:commandButton icon="fa fa-edit"
-												onclick="PF('dlg3').show()"
+												onclick="PF('dlg3').show()" actionListener="#{beanCompras.actionListenerSelectIndex(index)}"
 												styleClass="rounded-button ui-button-success">
 											</p:commandButton>
 											<p:commandButton icon="fa fa-trash"
@@ -250,7 +250,7 @@
 														styleClass="rounded-button ui-button-danger" />
 													<p:commandButton value="Editar"
 														update="form-detalle-compra" icon="fa fa-check-square"
-														actionListener="#{beanCompras.actionListenerEditarCantidad(index)}"
+														actionListener="#{beanCompras.actionListenerEditarCantidad()}"
 														style="width: 8rem" onclick="PF('dlg3').hide()"
 														styleClass="rounded-button ui-button-success" />
 												</f:facet>

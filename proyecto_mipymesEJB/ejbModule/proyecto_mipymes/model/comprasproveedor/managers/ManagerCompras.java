@@ -177,7 +177,7 @@ public class ManagerCompras {
 
 	public List<DetalleCompra> editarCantidadProductoListaDetalle(List<DetalleCompra> listaDetallecompras, int cantidad,
 			int index) {
-
+		JSFUtil.crearMensajeError("Index: "+index);
 		listaDetallecompras.get(index).setDetcompCantidad(cantidad);
 		listaDetallecompras.get(index).setDetcompPrecioTotal(
 				calcularPrecioTotal(cantidad, listaDetallecompras.get(index).getDetcompPrecioUnit().doubleValue()));
