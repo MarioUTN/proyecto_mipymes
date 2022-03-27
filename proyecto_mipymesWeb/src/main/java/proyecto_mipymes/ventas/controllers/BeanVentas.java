@@ -145,6 +145,7 @@ public class BeanVentas implements Serializable {
 			valorTotal = managerVentas.valorTotalPagar(listaDetalleFacturas);
 			iva = managerVentas.valorIva(listaDetalleFacturas);
 			subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
+			p.actualizarListaProductos();
 			stockProduct();
 			this.cantidad = 1;
 		} else {
@@ -217,6 +218,7 @@ public class BeanVentas implements Serializable {
 				listaDetalleFacturas, 5, 4);
 		
 		if (facturaAnticipo != null) {
+			p.actualizarListaProductos();
 			this.numero_factura=facturaAnticipo.getIdFactura();
 			//JSFUtil.crearMensajeInfo("Factura creada con Éxito!");
 			actionListenerLimpiarCampos();

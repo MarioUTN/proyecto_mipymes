@@ -103,9 +103,9 @@ public class ManagerFacturas {
 		return query.getResultList();
 	}
 
-	public boolean verificarValorAbonar(double valor_total, double valor_abono) {
+	public boolean verificarValorAbonar(double saldo_actual, double valor_abono) {
 		double var = valor_abono - valor_abono;
-		return (valor_abono >= 0 && valor_abono <= valor_total && var >= 0);
+		return (valor_abono >= 0 && valor_abono <= saldo_actual && var >= 0);
 	}
 
 	public BigDecimal calcularSaldoActual(BigDecimal valor_total, double valor_abono) {
@@ -137,10 +137,9 @@ public class ManagerFacturas {
 
 	public List<DetalleAbono> agregarAbonoFactura(List<DetalleAbono> listaDetalleAbonos, List<DetalleAbono> auxiliar,
 			Factura factura, Cliente cliente, int id_vendedor, double valor_abono) {
-
-		if (verificarValorAbonar(factura.getFactSubtotal().doubleValue(), valor_abono)) {
+		EstadoPedido estadoPedido=findEstdoPedido(factura.getIdFactura());
+		if (verificarValorAbonar(estadoPedido.getEstSaldo().doubleValue(), valor_abono)) {
 			Vendedor vendedor = entityManager.find(Vendedor.class, id_vendedor);
-			EstadoPedido estadoPedido = findEstdoPedido(factura.getIdFactura());
 			DetalleAbono detalleAbono = new DetalleAbono();
 			detalleAbono.setEstadoPedido(estadoPedido);
 			detalleAbono.setDetabAbono(new BigDecimal(valor_abono));

@@ -71,6 +71,10 @@ public class BeanFacturas implements Serializable {
 		listaFormaPagos = managerFacturas.findAllFormaPagoFacturas();
 		listVendedors = managerFacturas.findAllVendedors();
 		auxiliar = new ArrayList<DetalleAbono>();
+		id_forma_pago = 0;
+		id_tipo_factura = 0;
+		cedula_ruc = null;
+		id_vendedor = 0;
 	}
 
 	public void actionListenerBuscarFacturaByTipo() {
@@ -387,8 +391,8 @@ public class BeanFacturas implements Serializable {
 	public void actionListenerDeliverProduct(int id_factura) {
 		EstadoPedido estadoPedido = managerFacturas.findEstdoPedido(id_factura);
 		Factura factura = managerFacturas.findFacturaById(id_factura);
+		boolean deliverProduct = managerFacturas.DeliverProduct(id_factura);
 		if (estadoPedido.getEstSaldo().doubleValue() == 0) {
-			boolean deliverProduct = managerFacturas.DeliverProduct(id_factura);
 			if (id_tipo_factura != 0 && !factura.getFactEntregado()) {
 				listaFacturas = managerFacturas.findAllFacturaByTipo(id_tipo_factura);
 				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
@@ -403,6 +407,9 @@ public class BeanFacturas implements Serializable {
 				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
 			} else if (factura.getFactEntregado()) {
 				JSFUtil.crearMensajeWarning("The product was previously delivered!");
+			} else if (id_factura == 0 && cedula_ruc == null && id_vendedor == 0 && id_forma_pago == 0
+					&& id_tipo_factura == 0) {
+				JSFUtil.crearMensajeError("Deliver Product Successfull! er");
 			}
 		} else {
 			JSFUtil.crearMensajeError("Do not can deliver the product to a invoice that not canceled!");
