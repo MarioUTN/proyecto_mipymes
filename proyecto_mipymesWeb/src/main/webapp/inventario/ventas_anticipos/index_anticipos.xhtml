@@ -134,7 +134,7 @@
 												<p:inputText type="buttom" value="#{beanVentas.cedula_ruc}"
 													placeholder="1001562812001"></p:inputText>
 												<p:commandButton value="Buscar" icon="fa fa-search"
-													update="form-cabecera-factura"
+													update="@form,:form-detalle-factura,:form-cabecera-factura"
 													styleClass="rounded-button ui-button-help"
 													actionListener="#{beanVentas.actionListenerSeleccionarCliente(beanVentas.cedula_ruc)}" />
 												<p:outputLabel value="Nombres: " style="font-weight:bold"></p:outputLabel>
@@ -218,7 +218,7 @@
 								</p:spinner>
 								<p:commandButton value="Agregar Producto"
 									actionListener="#{beanVentas.actionListenerAgregarProductos()}"
-									update="form-detalle-factura"
+									update="@form,:form-detalle-factura"
 									styleClass="rounded-button ui-button-success" icon="fa fa-plus" />
 							</p:panelGrid>
 						</p:splitterPanel>
@@ -318,13 +318,12 @@
 									</p:panelGrid>
 
 
-									<p:panelGrid columns="2" styleClass="ui-noborder">
-										<p:commandButton value="Guardar"
-											update="@form,:form-detalle-factura,:form-cabecera-factura,:form-abonar-factura:abonar-Factura,:print"
-											actionListener="#{beanVentas.actionInsertarFacturaAnticipos(beanUsuarios.vendedor.idVendedor,beanVentas.empresa.idEmpresa)}"
+									<p:panelGrid columns="2" styleClass="ui-noborder" id="option">
+										<p:commandButton value="Guardar" id="but"
+											update="@form,:form-detalle-factura,:form-cabecera-factura,:form-abonar-factura:abonar-Factura,:print,option,but"
+											actionListener="#{beanVentas.actionAgregarValorAnticipo(beanUsuarios.vendedor.idVendedor,beanVentas.empresa.idEmpresa)}"
 											styleClass="ui-button-raised ui-button-success"
-											icon="fa fa-check" onclick="PF('abonarFactura').show()"
-											oncomplete="PF('abonarFactura').show()">
+											icon="fa fa-check" oncomplete="#{beanVentas.onclick}">
 											<p:resetInput target=":form-abonar-factura:abonar-Factura" />
 										</p:commandButton>
 										<p:commandButton value="Cancelar"
@@ -377,9 +376,9 @@
 								<p:panelGrid columns="1" styleClass="ui-noborder">
 									<p:commandButton value="Guardar Factura" id="btn-editar"
 										icon="fa fa-save" styleClass="p-mr-2"
-										update="@form,:form-abonar-factura,:print"
+										update="@form,:form-detalle-factura,:form-cabecera-factura,:form-abonar-factura:abonar-Factura,:print"
 										process="abonar-Factura @this"
-										actionListener="#{beanVentas.actionListenerAgregarDetalleAbono(beanUsuarios.vendedor.idVendedor)}"
+										actionListener="#{beanVentas.actionListenerAgregarDetalleAbono(beanUsuarios.vendedor.idVendedor,beanVentas.empresa.idEmpresa)}"
 										onclick="PF('abonarFactura').hide()" />
 								</p:panelGrid>
 

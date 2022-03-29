@@ -58,6 +58,7 @@ public class BeanVentas implements Serializable {
 	private String telefono;
 	private String email;
 	private String direccion;
+	private String onclick;
 
 	private int id_producto;
 	private int cantidad;
@@ -75,14 +76,14 @@ public class BeanVentas implements Serializable {
 
 	@Inject
 	private BeanProductos p;
-	
+
 	public BeanVentas() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@PostConstruct
 	public void Inicializar() {
-		id_producto=1;
+		id_producto = 1;
 		empresa = managerVentas.findAllEmpresaByRuc("1003938477001");
 		listaEmpresas = managerVentas.findAllEmpresas();
 		listaClientes = managerVentas.findAllClientes();
@@ -96,20 +97,23 @@ public class BeanVentas implements Serializable {
 	public void actionListenerCrearCliente() {
 		clienteSeleccionado = new Cliente();
 		clienteSeleccionado = managerVentas.crearCliente(cedula_ruc, nombres, apellidos, telefono, email, direccion);
-		if(managerVentas.findAllClienteByCedulaRuc(cedula_ruc)!=null) {
-			JSFUtil.crearMensajeError("Cliente con cedula o RUC: "+cedula_ruc+" ya existe!");
+		if (managerVentas.findAllClienteByCedulaRuc(cedula_ruc) != null) {
+			JSFUtil.crearMensajeError("Cliente con cedula o RUC: " + cedula_ruc + " ya existe!");
 			actionListenerSeleccionarCliente(cedula_ruc);
 		}
 		if (clienteSeleccionado != null) {
+			this.onclick = "PF('abonarFactura').show()";
 			JSFUtil.crearMensajeInfo("Cliente creado con Éxito!");
 		} else {
-			JSFUtil.crearMensajeError("Error al crear el cliente!"+clienteSeleccionado.getCliCodigo());
+			this.onclick = "PF('abonarFactura').hide()";
+			JSFUtil.crearMensajeError("Error al crear el cliente!" + clienteSeleccionado.getCliCodigo());
 		}
 	}
 
 	public void actionListenerSeleccionarProducto(int id_producto) {
 		productoSeleccionado = managerVentas.findProductoById(id_producto);
-		JSFUtil.crearMensajeInfo("Producto seleccionado: " + productoSeleccionado.getProdCodigo());
+		// JSFUtil.crearMensajeInfo("Producto seleccionado: " +
+		// productoSeleccionado.getProdCodigo());
 	}
 
 	public void actionListenerSeleccionarCliente(String cedula_ruc) {
@@ -121,22 +125,30 @@ public class BeanVentas implements Serializable {
 			this.telefono = clienteSeleccionado.getCliTelefono();
 			this.email = clienteSeleccionado.getCliEmail();
 			this.direccion = clienteSeleccionado.getCliDireccion();
-			//JSFUtil.crearMensajeInfo("Cliente encontrado: " + clienteSeleccionado.getCliRucCedula());
+			this.onclick = "PF('abonarFactura').show()";
+			if (listaDetalleFacturas.size() > 0) {
+				this.onclick = "PF('abonarFactura').show()";
+			} else {
+				this.onclick = "PF('abonarFactura').hide()";
+			}
+			JSFUtil.crearMensajeInfo("Customer successfully found");
 		} else {
-			clienteSeleccionado=new Cliente();
+			clienteSeleccionado = null;
 			this.cedula_ruc = "";
 			this.nombres = "";
 			this.apellidos = "";
 			this.telefono = "";
 			this.email = "";
 			this.direccion = "";
-			JSFUtil.crearMensajeError("No existe el ciente con C.I. o RUC: " + cedula_ruc);
+			this.onclick = "PF('abonarFactura').hide()";
+			JSFUtil.crearMensajeError("The custumer does not exist with C.I O RUC: " + cedula_ruc);
 		}
+
 	}
-	
+
 	public void stockProduct() {
-		this.stock=managerVentas.findProductoById(id_producto).getProdCantidad();
-		JSFUtil.crearMensajeWarning("Stock: "+stock);
+		this.stock = managerVentas.findProductoById(id_producto).getProdCantidad();
+		JSFUtil.crearMensajeWarning("Stock: " + stock);
 	}
 
 	public void actionListenerAgregarProductos() {
@@ -148,6 +160,11 @@ public class BeanVentas implements Serializable {
 			p.actualizarListaProductos();
 			stockProduct();
 			this.cantidad = 1;
+			if (clienteSeleccionado != null) {
+				this.onclick = "PF('abonarFactura').show()";
+			} else {
+				this.onclick = "PF('abonarFactura').hide()";
+			}
 		} else {
 			JSFUtil.crearMensajeError(
 					"Produto ya existe en el detalle factura, tiene la opción de eliminar o editar la cantidad!");
@@ -157,8 +174,9 @@ public class BeanVentas implements Serializable {
 
 	public void actionListenerSeleccionarDetalleFactura(int index) {
 		detalleFacturaSeleccionado = listaDetalleFacturas.get(index);
-		JSFUtil.crearMensajeWarning("Detalle seleccionado: " + detalleFacturaSeleccionado.getIdDetalleFactura() + " "
-				+ index + " " + listaDetalleFacturas.size());
+		// JSFUtil.crearMensajeWarning("Detalle seleccionado: " +
+		// detalleFacturaSeleccionado.getIdDetalleFactura() + " "
+		// + index + " " + listaDetalleFacturas.size());
 	}
 
 	public void actionListenerEditarCantidad(int index) {
@@ -167,7 +185,7 @@ public class BeanVentas implements Serializable {
 		iva = managerVentas.valorIva(listaDetalleFacturas);
 		subTotal = managerVentas.valorSubTotal(listaDetalleFacturas);
 		this.cantidad = 1;
-		JSFUtil.crearMensajeWarning("Cantidad: " + index);
+		// JSFUtil.crearMensajeWarning("Cantidad: " + index);
 
 	}
 
@@ -183,28 +201,43 @@ public class BeanVentas implements Serializable {
 		} else {
 			JSFUtil.crearMensajeError("Error de index: " + index);
 		}
-	}
-
-	public void actionInsertarFactura(int id_vendedor, int id_empresa) {
-		factura = managerVentas.insertarFactura(clienteSeleccionado, id_vendedor, id_empresa, listaDetalleFacturas,
-				id_forma_pago, id_tipo_factura);
-		if (factura != null) {
-			this.numero_factura=factura.getIdFactura();
-			p.actualizarListaProductos();
-			JSFUtil.crearMensajeInfo("Factura creada con Éxito!");
-			actionListenerLimpiarCampos();
+		if (listaDetalleFacturas.size() > 0 && clienteSeleccionado != null) {
+			this.onclick = "PF('abonarFactura').show()";
 		} else {
-			JSFUtil.crearMensajeError("Error de facturacion!");
+			this.onclick = "PF('abonarFactura').hide()";
 		}
 	}
 
-	public void actionListenerAgregarDetalleAbono(int id_vendedor) {
+	public void actionInsertarFactura(int id_vendedor, int id_empresa) {
+		if (id_vendedor == 0 || id_empresa == 0) {
+			JSFUtil.crearMensajeError("Error, no se encontraron los datos de la cabecera de factura!");
+		} else if (clienteSeleccionado == null) {
+			JSFUtil.crearMensajeError("Error, debe ingresar un cliente para generar su factura!");
+		} else if (listaDetalleFacturas.size() < 1) {
+			JSFUtil.crearMensajeError("Error de facturacion, no se han agregado aun ningun producto!");
+		} else {
+			factura = managerVentas.insertarFactura(clienteSeleccionado, id_vendedor, id_empresa, listaDetalleFacturas,
+					id_forma_pago, id_tipo_factura);
+			if (factura != null) {
+				this.numero_factura = factura.getIdFactura();
+				p.actualizarListaProductos();
+				JSFUtil.crearMensajeInfo("Factura creada con Éxito!");
+				actionListenerLimpiarCampos();
+			} else {
+				JSFUtil.crearMensajeError("Error de facturacion!");
+			}
+		}
+	}
+
+	public void actionListenerAgregarDetalleAbono(int id_vendedor, int id_empresa) {
+		actionInsertarFacturaAnticipos(id_vendedor, id_empresa);
 		estadoPedido = managerVentas.insertarEstadoPedidoAnticipo(facturaAnticipo, valor_abono);
 		if (estadoPedido != null) {
 			// JSFUtil.crearMensajeInfo("Facturacion por anticipos creada con
 			// exito!"+estadoPedido.getEstSaldo());
 			detalleAbono = managerVentas.agregarAbonoFacturaAnticipo(estadoPedido, clienteSeleccionado, id_vendedor,
 					valor_abono);
+			actionListenerLimpiarCampos();
 			JSFUtil.crearMensajeInfo("Facturacion por anticipos creada con Éxito!" + estadoPedido.getEstSaldo());
 			clienteSeleccionado = new Cliente();
 		} else {
@@ -213,17 +246,29 @@ public class BeanVentas implements Serializable {
 
 	}
 
+	public String actionAgregarValorAnticipo(int id_vendedor, int id_empresa) {
+		if (id_vendedor == 0 || id_empresa == 0) {
+			this.onclick = "PF('abonarFactura').hide()";
+			JSFUtil.crearMensajeError("Error, no se encontraron los datos de la cabecera de factura!");
+		} else if (clienteSeleccionado == null) {
+			this.onclick = "PF('abonarFactura').hide()";
+			JSFUtil.crearMensajeError("Error, debe ingresar un cliente para generar su factura!");
+		} else if (listaDetalleFacturas.size() < 1) {
+			this.onclick = "PF('abonarFactura').hide()";
+			JSFUtil.crearMensajeError("Error de facturacion, no se han agregado aun ningun producto!");
+		} else {
+			this.onclick = "PF('abonarFactura').show()";
+		}
+		return this.onclick;
+	}
+
 	public void actionInsertarFacturaAnticipos(int id_vendedor, int id_empresa) {
 		facturaAnticipo = managerVentas.insertarFacturaAnticipos(clienteSeleccionado, id_vendedor, id_empresa,
 				listaDetalleFacturas, 5, 4);
-		
 		if (facturaAnticipo != null) {
+			this.numero_factura = facturaAnticipo.getIdFactura();
 			p.actualizarListaProductos();
-			this.numero_factura=facturaAnticipo.getIdFactura();
-			//JSFUtil.crearMensajeInfo("Factura creada con Éxito!");
-			actionListenerLimpiarCampos();
-		} else {
-			JSFUtil.crearMensajeError("Error de facturación!");
+			this.onclick = "PF('abonarFactura').hide()";
 		}
 	}
 
@@ -239,16 +284,17 @@ public class BeanVentas implements Serializable {
 
 	public void actionListenerLimpiarCampos() {
 		listaDetalleFacturas = new ArrayList<DetalleFactura>();
-		// clienteSeleccionado = new Cliente();
+		clienteSeleccionado = null;
 		this.cedula_ruc = "";
 		this.nombres = "";
 		this.apellidos = "";
 		this.telefono = "";
 		this.email = "";
 		this.direccion = "";
-		valorTotal = 0;
-		subTotal = 0;
-		iva = 0;
+		this.valorTotal = 0;
+		this.subTotal = 0;
+		this.iva = 0;
+		this.onclick = "PF('abonarFactura').hide()";
 	}
 
 	public void setIndex(int index) {
@@ -514,17 +560,25 @@ public class BeanVentas implements Serializable {
 	public void setNumero_factura(int numero_factura) {
 		this.numero_factura = numero_factura;
 	}
-	
+
 	public int getNumero_factura() {
 		return numero_factura;
 	}
-	
+
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-	
+
 	public int getStock() {
 		return stock;
 	}
-	
+
+	public void setOnclick(String onclick) {
+		this.onclick = onclick;
+	}
+
+	public String getOnclick() {
+		return onclick;
+	}
+
 }

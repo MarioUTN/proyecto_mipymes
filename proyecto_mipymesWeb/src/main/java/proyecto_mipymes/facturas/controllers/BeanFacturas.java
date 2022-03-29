@@ -358,7 +358,8 @@ public class BeanFacturas implements Serializable {
 	public void actionListenerAgregarAbonoFactura(int id_vendedor) {
 		estadoPedido = managerFacturas.findEstdoPedido(facturaSeleccionada.getIdFactura());
 		if (valor_abono > saldo_actual) {
-			JSFUtil.crearMensajeError("Error, unable to add a value greater than the current invoice balance! "+listaDetalleAbonos.get(listaDetalleAbonos.size() - 1).getDetabSaldoActual().doubleValue() );
+			JSFUtil.crearMensajeError("Error, unable to add a value greater than the current invoice balance! "
+					+ listaDetalleAbonos.get(listaDetalleAbonos.size() - 1).getDetabSaldoActual().doubleValue());
 		} else {
 			JSFUtil.crearMensajeInfo("A value of " + valor_abono + " was successfully added to the invoice!");
 			auxiliar = managerFacturas.agregarAbonoFactura(listaDetalleAbonos, auxiliar, facturaSeleccionada,
@@ -383,6 +384,22 @@ public class BeanFacturas implements Serializable {
 			JSFUtil.crearMensajeError("Failed to changes saved!");
 		} else {
 			estadoPedido = managerFacturas.actualizarEstadoPedido(auxiliar);
+			if (id_tipo_factura != 0 ) {
+				listaFacturas = managerFacturas.findAllFacturaByTipo(id_tipo_factura);
+				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
+			} else if (id_forma_pago != 0) {
+				listaFacturas = managerFacturas.findAllFacturaByFormaPago(id_forma_pago);
+				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
+			} else if (id_vendedor != 0 ) {
+				listaFacturas = managerFacturas.findAllFacturaByVendedors(id_vendedor);
+				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
+			} else if (cedula_ruc != null) {
+				listaFacturas = managerFacturas.findAllFacturaByCliente(cedula_ruc);
+				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
+			} else{
+				listaFacturas=managerFacturas.findAllFacturas();
+				JSFUtil.crearMensajeWarning("The product was previously delivered!");
+			}
 			JSFUtil.crearMensajeInfo("Changes saved successfull!");
 			auxiliar = new ArrayList<DetalleAbono>();
 		}
@@ -430,9 +447,9 @@ public class BeanFacturas implements Serializable {
 				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
 			} else if (factura.getFactEntregado()) {
 				JSFUtil.crearMensajeWarning("The product was previously delivered!");
-			} else if (id_factura == 0 && cedula_ruc == null && id_vendedor == 0 && id_forma_pago == 0
-					&& id_tipo_factura == 0) {
-				JSFUtil.crearMensajeError("Deliver Product Successfull! er");
+			} else  {
+				listaFacturas=managerFacturas.findAllFacturas();
+				JSFUtil.crearMensajeError("Deliver Product Successfull!");
 			}
 		} else {
 			JSFUtil.crearMensajeError("Do not can deliver the product to a invoice that not canceled!");

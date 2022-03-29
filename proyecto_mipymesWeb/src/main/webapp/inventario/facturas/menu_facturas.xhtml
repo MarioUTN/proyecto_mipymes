@@ -381,7 +381,7 @@
 							rows="6" style="font-size: 12px" paginatorPosition="bottom"
 							rowIndexVar="index">
 							<p:column headerText="NUM FACT" style="width:80px"
-								filterBy="#{factura.idFactura}">
+								filterBy="#{factura.idFactura}" filterValue="index">
 								<h:outputText value="#{factura.factNumeroFactura}" />
 							</p:column>
 							<p:column headerText="FECHA EMISIÓN" style="width:70px">
@@ -651,14 +651,10 @@
 							</div>
 						</p:panel>
 
-						<p:panelGrid columns="2" styleClass="ui-noborder">
-							<p:commandButton value="Abonar"
-								disabled="#{factura.tipoFactura.idTipoFactura!=4}"
-								styleClass="rounded-button ui-button-help" style="width: auto"
-								oncomplete="PF('detalleFactura').show()" icon="fa fa-money"
-								update="form-facturas" />
+						<p:panelGrid columns="1" styleClass="ui-noborder">
+							
 
-							<p:commandButton value="Salir"
+							<p:commandButton value="Close"
 								styleClass="rounded-button ui-button-danger" style="width: auto"
 								oncomplete="PF('detalleFactura').hide()" icon="fa fa-close"
 								update="form-facturas" />
