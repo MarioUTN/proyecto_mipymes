@@ -56,6 +56,7 @@ public class BeanFacturas implements Serializable {
 	private DetalleAbono detalleAbono;
 	private EstadoPedido estadoPedido;
 	private double valor_abono;
+	private double saldo_actual;
 
 	public BeanFacturas() {
 		// TODO Auto-generated constructor stub
@@ -320,8 +321,14 @@ public class BeanFacturas implements Serializable {
 		}
 	}
 
-	public void actionListenerSeleccionarFactura(int id_facura) {
-		facturaSeleccionada = managerFacturas.findFacturaById(id_facura);
+	public void actionListenerSeleccionarFactura(int id_factura) {
+		facturaSeleccionada = managerFacturas.findFacturaById(id_factura);
+		estadoPedido = managerFacturas.findEstdoPedido(facturaSeleccionada.getIdFactura());
+		if (estadoPedido.getEstSaldo() == null) {
+			saldo_actual = 0;
+		} else {
+			saldo_actual = estadoPedido.getEstSaldo().doubleValue();
+		}
 	}
 
 	public String estado_EntregadoProductos() {
@@ -340,18 +347,30 @@ public class BeanFacturas implements Serializable {
 		facturaSeleccionada = managerFacturas.findFacturaById(id_factura);
 		listaDetalleAbonos = managerFacturas.findAllDetalleAbonosByIdFactura(id_factura);
 		valor_abono = managerFacturas.findEstdoPedido(facturaSeleccionada.getIdFactura()).getEstSaldo().doubleValue();
-		if (listaDetalleAbonos.size() > 0) {
-			// JSFUtil.crearMensajeInfo("Lista encontrada " + listaDetalleAbonos.size() + "
-			// id factura: " + id_factura);
+		saldo_actual = listaDetalleAbonos.get(listaDetalleAbonos.size() - 1).getDetabSaldoActual().doubleValue();
+		if (saldo_actual == 0) {
+			JSFUtil.crearMensajeInfo("The Invoice was canceled!");
 		} else {
-			JSFUtil.crearMensajeError("Error! no se encontraron resultados!");
+			JSFUtil.crearMensajeWarning("The invoice has a currently balance of: " + saldo_actual);
 		}
 	}
 
 	public void actionListenerAgregarAbonoFactura(int id_vendedor) {
-		auxiliar = managerFacturas.agregarAbonoFactura(listaDetalleAbonos, auxiliar, facturaSeleccionada,
-				facturaSeleccionada.getCabeceraFactura().getCliente(), id_vendedor, valor_abono);
-		JSFUtil.crearMensajeInfo("Lista encontrada " + listaDetalleAbonos.size() + " id factura: ");
+		estadoPedido = managerFacturas.findEstdoPedido(facturaSeleccionada.getIdFactura());
+		if (valor_abono > saldo_actual) {
+			JSFUtil.crearMensajeError("Error, unable to add a value greater than the current invoice balance! "+listaDetalleAbonos.get(listaDetalleAbonos.size() - 1).getDetabSaldoActual().doubleValue() );
+		} else {
+			JSFUtil.crearMensajeInfo("A value of " + valor_abono + " was successfully added to the invoice!");
+			auxiliar = managerFacturas.agregarAbonoFactura(listaDetalleAbonos, auxiliar, facturaSeleccionada,
+					facturaSeleccionada.getCabeceraFactura().getCliente(), id_vendedor, valor_abono);
+			listaFacturas = managerFacturas.findAllFacturas();
+		}
+		if (estadoPedido == null) {
+			saldo_actual = 0;
+		} else {
+			saldo_actual = listaDetalleAbonos.get(listaDetalleAbonos.size() - 1).getDetabSaldoActual().doubleValue();
+			valor_abono = saldo_actual;
+		}
 
 	}
 
@@ -360,9 +379,13 @@ public class BeanFacturas implements Serializable {
 	}
 
 	public void actionListenerGuardarAbonosFacturas() {
-		estadoPedido = managerFacturas.actualizarEstadoPedido(auxiliar);
-		JSFUtil.crearMensajeInfo("Cambios guardados con exito!");
-		auxiliar = new ArrayList<DetalleAbono>();
+		if (auxiliar.get(auxiliar.size() - 1).getVendedor() == null) {
+			JSFUtil.crearMensajeError("Failed to changes saved!");
+		} else {
+			estadoPedido = managerFacturas.actualizarEstadoPedido(auxiliar);
+			JSFUtil.crearMensajeInfo("Changes saved successfull!");
+			auxiliar = new ArrayList<DetalleAbono>();
+		}
 	}
 
 	public boolean verAbonosFactura(int id_factura) {
@@ -527,4 +550,37 @@ public class BeanFacturas implements Serializable {
 	public void setListVendedors(List<Vendedor> listVendedors) {
 		this.listVendedors = listVendedors;
 	}
+
+	public ManagerFacturas getManagerFacturas() {
+		return managerFacturas;
+	}
+
+	public void setManagerFacturas(ManagerFacturas managerFacturas) {
+		this.managerFacturas = managerFacturas;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public double getSaldo_actual() {
+		return saldo_actual;
+	}
+
+	public void setSaldo_actual(double saldo_actual) {
+		this.saldo_actual = saldo_actual;
+	}
+
 }

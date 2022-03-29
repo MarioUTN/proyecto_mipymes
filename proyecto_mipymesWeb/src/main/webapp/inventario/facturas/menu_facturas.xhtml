@@ -401,9 +401,11 @@
 							</p:column>
 
 							<p:column headerText="DELIVER" style="width:50px">
-								<p:commandButton icon="#{beanFacturas.iconoDeliver(factura.factEntregado)}"
+								<p:commandButton
+									icon="#{beanFacturas.iconoDeliver(factura.factEntregado)}"
 									actionListener="#{beanFacturas.actionListenerDeliverProduct(factura.idFactura)}"
-									update=":form-facturas" disabled="#{factura.tipoFactura.idTipoFactura!=4}"
+									update=":form-facturas"
+									disabled="#{factura.tipoFactura.idTipoFactura!=4}"
 									styleClass="#{beanFacturas.styleDeliver(factura.factEntregado)}">
 								</p:commandButton>
 							</p:column>
@@ -574,7 +576,7 @@
 											<p:dataTable
 												value="#{beanFacturas.facturaSeleccionada.detalleFacturas}"
 												stripedRows="true" var="detalle" paginator="true"
-												reflow="true" rows="4" style="font-size: 12px"
+												reflow="true" rows="6" style="font-size: 12px"
 												paginatorPosition="bottom" rowIndexVar="index">
 												<p:column headerText="COD" style="width:80px">
 													<h:outputText value="#{detalle.producto.prodCodigo}" />
@@ -584,10 +586,10 @@
 												</p:column>
 
 												<p:column headerText="NOMBRE">
-													<h:outputText value="#{detalle.producto.prodNombre}" />
+													<h:outputText value="#{detalle.producto.prodNombre}" style="font-size: 10px"/>
 												</p:column>
 												<p:column headerText="DESCR">
-													<h:outputText value="#{detalle.producto.prodDescripcion}" />
+													<h:outputText value="#{detalle.producto.prodDescripcion}" style="font-size: 10px"/>
 												</p:column>
 
 												<p:column headerText="PRECIO UNIT">
@@ -633,8 +635,13 @@
 										</p:panel>
 										<p:panel header="">
 											<div align="center">
-												<p:staticMessage severity="warn"
-													summary="#{beanFacturas.estado_EntregadoProductos()}"></p:staticMessage>
+												<p:panelGrid columns="2" styleClass="ui-noborder">
+													<p:outputLabel value="SALDO: "
+														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
+													<p:outputLabel
+														value="$ #{beanFacturas.saldo_actual}"
+														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
+												</p:panelGrid>
 											</div>
 										</p:panel>
 
@@ -722,7 +729,7 @@
 													</p:splitterPanel>
 													<p:splitterPanel size="30"
 														styleClass="p-d-flex p-ai-center p-jc-center">
-														<p:panelGrid columns="4" styleClass="ui-noborder">
+														<p:panelGrid columns="4" styleClass="ui-noborder" id="price">
 
 															<p:outputLabel value="Valor: " style="font-weight:bold" />
 															<p:spinner id="e" placeholder="15.25" stepFactor="0.01"
@@ -740,13 +747,13 @@
 
 														<div align="center">
 
-															<p:panelGrid columns="1" styleClass="ui-noborder">
+															<p:panelGrid columns="1" styleClass="ui-noborder" id="price-1">
 																<p:commandButton value="Abonar Factura"
 																	icon="fa fa-save"
-																	disabled="#{beanFacturas.facturaSeleccionada.factEstado}"
+																	disabled="#{beanFacturas.saldo_actual==0}"
 																	styleClass="rounded-button ui-button-success"
 																	oncomplete="PF('abonarFactura').show()"
-																	update="tabla-abono"
+																	update="tabla-abono,saldo,price-1,price"
 																	actionListener="#{beanFacturas.actionListenerAgregarAbonoFactura(beanUsuarios.vendedor.idVendedor)}" />
 															</p:panelGrid>
 
@@ -786,7 +793,7 @@
 										<div align="center">
 											<p:dataTable value="#{beanFacturas.listaDetalleAbonos}"
 												id="tabla-abono" stripedRows="true" var="detalleabono"
-												paginator="true" reflow="true" rows="4"
+												paginator="true" reflow="true" rows="6"
 												style="font-size: 12px" paginatorPosition="bottom"
 												rowIndexVar="index">
 												<p:column headerText="CLIENTE" style="width:80px">
@@ -844,8 +851,13 @@
 										</p:panel>
 										<p:panel header="">
 											<div align="center">
-												<p:staticMessage severity="warn"
-													summary="#{beanFacturas.estado_EntregadoProductos()}"></p:staticMessage>
+												<p:panelGrid id="saldo" columns="2" styleClass="ui-noborder">
+													<p:outputLabel value="SALDO: "
+														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
+													<p:outputLabel
+														value="$ #{beanFacturas.saldo_actual}"
+														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
+												</p:panelGrid>
 											</div>
 										</p:panel>
 
@@ -859,13 +871,13 @@
 							<p:commandButton value="Abonar"
 								disabled="#{beanFacturas.facturaSeleccionada.factEstado}"
 								styleClass="rounded-button ui-button-help" style="width: auto"
-								oncomplete="PF('abonarFactura').show()" icon="fa fa-money"
+								oncomplete="PF('abonarFactura').hide()" icon="fa fa-money"
 								actionListener="#{beanFacturas.actionListenerGuardarAbonosFacturas()}"
-								update="form-facturas,:form-detalle" />
+								update="form-facturas,:form-detalle,:form-abonar" />
 
-							<p:commandButton value="Salir"
+							<p:commandButton value="Cancel"
 								styleClass="rounded-button ui-button-danger" style="width: auto"
-								oncomplete="PF('abonarFactura').hide()" icon="fa fa-close"
+								oncomplete="PF('abonarFactura').hide()" icon="fa fa-close" actionListener="#{beanFacturas.actionListenerCancel()}"
 								update="form-facturas,:form-detalle" />
 						</p:panelGrid>
 					</p:outputPanel>
