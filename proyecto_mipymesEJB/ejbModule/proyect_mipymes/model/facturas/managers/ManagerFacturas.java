@@ -2,6 +2,7 @@ package proyect_mipymes.model.facturas.managers;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.Cliente;
 import proyecto_mipymes.model.entities.DetalleAbono;
 import proyecto_mipymes.model.entities.EstadoPedido;
@@ -66,6 +68,15 @@ public class ManagerFacturas {
 		Query query = entityManager.createQuery(
 				"select f from Factura f where f.cabeceraFactura.vendedor.idVendedor=:id_vendedor order by f.idFactura", Factura.class);
 		query.setParameter("id_vendedor", id_vendedor);
+		return query.getResultList();
+	}
+	
+	public List<Factura> findAllFacturaByDate(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		String fecha=sdf.format(date);
+		Query query = entityManager.createQuery(
+				"select f from Factura f where f.factFechaEmision=:fecha order by f.idFactura", Factura.class);
+		query.setParameter("fecha", date);
 		return query.getResultList();
 	}
 

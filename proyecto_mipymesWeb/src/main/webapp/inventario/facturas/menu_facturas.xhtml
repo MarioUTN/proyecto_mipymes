@@ -91,14 +91,14 @@
 			<h:form id="form-opciones">
 				<div align="center">
 					<p:panel header="Show invoice by:">
-						<p:panelGrid columns="5" styleClass="ui-noborder">
-							<p:commandButton value="Invoice Type" icon="fa fa-cart-plus"
+						<p:panelGrid columns="6" styleClass="ui-noborder">
+							<p:commandButton value="Invoice Type" icon="fa fa-file-text"
 								update=":form-ver-tipo:tipo-FacturaDialog"
 								oncomplete="PF('tipoFacturaDialog').show()"
 								styleClass="ui-button-success">
 								<p:resetInput target=":form-ver-tipo:tipo-FacturaDialog" />
 							</p:commandButton>
-							<p:commandButton value="Way to Pay" icon="fa fa-cart-plus"
+							<p:commandButton value="Way to Pay" icon="fa fa-money"
 								update=":form-ver-forma-pago:formapago-FacturaDialog"
 								oncomplete="PF('formapagoFacturaDialog').show()"
 								styleClass="ui-button-success">
@@ -106,19 +106,26 @@
 									target=":form-ver-forma-pago:formapago-FacturaDialog" />
 							</p:commandButton>
 
-							<p:commandButton value="Invoice by Client" icon="fa fa-cart-plus"
+							<p:commandButton value="Invoice by Client"
+								icon="fa fa-street-view"
 								update=":form-ver-cliente:cliente-FacturaDialog"
 								oncomplete="PF('clienteFacturaDialog').show()"
 								styleClass="ui-button-success">
 								<p:resetInput target=":form-ver-cliente:cliente-FacturaDialog" />
 							</p:commandButton>
 
-							<p:commandButton value="Invouce by Salesman"
-								icon="fa fa-cart-plus"
+							<p:commandButton value="Invouce by Salesman" icon="fa fa-user"
 								update=":form-ver-vendedor:vendedor-FacturaDialog"
 								oncomplete="PF('vendedorFacturaDialog').show()"
 								styleClass="ui-button-success">
 								<p:resetInput target=":form-ver-vendedor:vendedor-FacturaDialog" />
+							</p:commandButton>
+
+							<p:commandButton value="Invoice by Date" icon="fa fa-calendar"
+								update=":form-ver-date:date-FacturaDialog"
+								oncomplete="PF('dateFacturaDialog').show()"
+								styleClass="ui-button-success">
+								<p:resetInput target=":form-ver-date:date-FacturaDialog" />
 							</p:commandButton>
 
 							<p:commandButton value="View all Invoices" icon="fa fa-list"
@@ -138,6 +145,10 @@
 					<p:dialog header="Seleccionar el Tipo de Factura" showEffect="fade"
 						modal="true" widgetVar="tipoFacturaDialog" responsive="true">
 						<p:outputPanel id="tipo-FacturaDialog" class="ui-fluid">
+							<div align="center">
+								<img src="../../Imagenes/receipt_bill_invoice_price_payment.ico"
+									alt="" />
+							</div>
 							<p:panelGrid columns="2" styleClass="ui-noborder">
 								<h:outputText value="Tipo de factura:" style="font-weight:bold" />
 								<p:selectOneMenu value="#{beanFacturas.id_tipo_factura}"
@@ -202,6 +213,9 @@
 						showEffect="fade" modal="true" widgetVar="formapagoFacturaDialog"
 						responsive="true">
 						<p:outputPanel id="formapago-FacturaDialog" class="ui-fluid">
+							<div align="center">
+								<img src="../../Imagenes/pay_per_click_16331.ico" alt="" />
+							</div>
 							<p:panelGrid columns="2" styleClass="ui-noborder">
 								<h:outputText value="Forma de Pago:" style="font-weight:bold" />
 								<p:selectOneMenu value="#{beanFacturas.id_forma_pago}"
@@ -260,6 +274,10 @@
 					<p:dialog header="Seleccionar el cliente" showEffect="fade"
 						modal="true" widgetVar="clienteFacturaDialog" responsive="true">
 						<p:outputPanel id="cliente-FacturaDialog" class="ui-fluid">
+							<div align="center">
+								<img src="../../Imagenes/communitysupport_users_people_6236.ico"
+									alt="" />
+							</div>
 							<p:panelGrid columns="2" styleClass="ui-noborder">
 								<h:outputText value="Cliente:" style="font-weight:bold" />
 								<p:selectOneMenu value="#{beanFacturas.cedula_ruc}"
@@ -318,7 +336,12 @@
 				<div align="center">
 					<p:dialog header="Select Salesman" showEffect="fade" modal="true"
 						widgetVar="vendedorFacturaDialog" responsive="true">
+						<div align="center">
+							<img src="../../Imagenes/kdmconfigdanger_users_alerts_5921.ico"
+								alt="" />
+						</div>
 						<p:outputPanel id="vendedor-FacturaDialog" class="ui-fluid">
+
 							<p:panelGrid columns="2" styleClass="ui-noborder">
 								<h:outputText value="Salesman:" style="font-weight:bold" />
 								<p:selectOneMenu value="#{beanFacturas.id_vendedor}"
@@ -373,6 +396,48 @@
 				</div>
 			</h:form>
 
+
+			<h:form id="form-ver-date">
+			<p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+				<div align="center">
+					<p:dialog header="Select Salesman" showEffect="fade" modal="true"
+						widgetVar="dateFacturaDialog" responsive="true">
+						<div align="center">
+							<img src="../../Imagenes/calendar-clock-icon_34472.ico" alt="" />
+						</div>
+						<p:outputPanel id="date-FacturaDialog" class="ui-fluid">
+
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<h:outputText value="Date:" style="font-weight:bold" />
+								<p:datePicker value="#{beanFacturas.date}"
+									showDate="true" pattern="dd-MM-yyyy" />
+									 
+							</p:panelGrid>
+							<br />
+							<div align="center">
+								<p:panelGrid columns="2" styleClass="ui-noborder">
+									<p:commandButton value="Show"
+										styleClass="rounded-button ui-button-success"
+										style="width: auto"
+										actionListener="#{beanFacturas.actionListenerVerFacturasByDate()}"
+										oncomplete="PF('dateFacturaDialog').hide()" icon="fa fa-table"
+										update="form-facturas" />
+									<p:commandButton value="Cancel"
+										styleClass="rounded-button ui-button-danger"
+										style="width: auto"
+										actionListener="#{beanFacturas.actionListenerCancel()}"
+										oncomplete="PF('dateFacturaDialog').hide()" icon="fa fa-close"
+										update="form-facturas" />
+								</p:panelGrid>
+							</div>
+						</p:outputPanel>
+
+					</p:dialog>
+				</div>
+			</h:form>
+
+
+
 			<h:form id="form-facturas">
 				<p:panel header="">
 					<div align="center">
@@ -381,7 +446,7 @@
 							rows="6" style="font-size: 12px" paginatorPosition="bottom"
 							rowIndexVar="index">
 							<p:column headerText="NUM FACT" style="width:80px"
-								filterBy="#{factura.idFactura}" filterValue="index">
+								filterBy="#{factura.idFactura}">
 								<h:outputText value="#{factura.factNumeroFactura}" />
 							</p:column>
 							<p:column headerText="FECHA EMISIÓN" style="width:70px">
@@ -586,10 +651,12 @@
 												</p:column>
 
 												<p:column headerText="NOMBRE">
-													<h:outputText value="#{detalle.producto.prodNombre}" style="font-size: 10px"/>
+													<h:outputText value="#{detalle.producto.prodNombre}"
+														style="font-size: 10px" />
 												</p:column>
 												<p:column headerText="DESCR">
-													<h:outputText value="#{detalle.producto.prodDescripcion}" style="font-size: 10px"/>
+													<h:outputText value="#{detalle.producto.prodDescripcion}"
+														style="font-size: 10px" />
 												</p:column>
 
 												<p:column headerText="PRECIO UNIT">
@@ -638,8 +705,7 @@
 												<p:panelGrid columns="2" styleClass="ui-noborder">
 													<p:outputLabel value="SALDO: "
 														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
-													<p:outputLabel
-														value="$ #{beanFacturas.saldo_actual}"
+													<p:outputLabel value="$ #{beanFacturas.saldo_actual}"
 														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
 												</p:panelGrid>
 											</div>
@@ -652,7 +718,7 @@
 						</p:panel>
 
 						<p:panelGrid columns="1" styleClass="ui-noborder">
-							
+
 
 							<p:commandButton value="Close"
 								styleClass="rounded-button ui-button-danger" style="width: auto"
@@ -725,7 +791,8 @@
 													</p:splitterPanel>
 													<p:splitterPanel size="30"
 														styleClass="p-d-flex p-ai-center p-jc-center">
-														<p:panelGrid columns="4" styleClass="ui-noborder" id="price">
+														<p:panelGrid columns="4" styleClass="ui-noborder"
+															id="price">
 
 															<p:outputLabel value="Valor: " style="font-weight:bold" />
 															<p:spinner id="e" placeholder="15.25" stepFactor="0.01"
@@ -743,7 +810,8 @@
 
 														<div align="center">
 
-															<p:panelGrid columns="1" styleClass="ui-noborder" id="price-1">
+															<p:panelGrid columns="1" styleClass="ui-noborder"
+																id="price-1">
 																<p:commandButton value="Abonar Factura"
 																	icon="fa fa-save"
 																	disabled="#{beanFacturas.saldo_actual==0}"
@@ -850,8 +918,7 @@
 												<p:panelGrid id="saldo" columns="2" styleClass="ui-noborder">
 													<p:outputLabel value="SALDO: "
 														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
-													<p:outputLabel
-														value="$ #{beanFacturas.saldo_actual}"
+													<p:outputLabel value="$ #{beanFacturas.saldo_actual}"
 														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
 												</p:panelGrid>
 											</div>
@@ -873,7 +940,8 @@
 
 							<p:commandButton value="Cancel"
 								styleClass="rounded-button ui-button-danger" style="width: auto"
-								oncomplete="PF('abonarFactura').hide()" icon="fa fa-close" actionListener="#{beanFacturas.actionListenerCancel()}"
+								oncomplete="PF('abonarFactura').hide()" icon="fa fa-close"
+								actionListener="#{beanFacturas.actionListenerCancel()}"
 								update="form-facturas,:form-detalle" />
 						</p:panelGrid>
 					</p:outputPanel>
