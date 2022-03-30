@@ -11,6 +11,25 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Clientes</title>
 	</f:facet>
+	<style type="text/css">
+.par {
+	background-color: #b3b7cc !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.inpar {
+	background-color: #d0d2e0 !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.state {
+	background-color: #FB943C !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+</style>
 </h:head>
 <body>
 	<p:growl>
@@ -73,7 +92,7 @@
 				outcome="/inventario/compras/Proveedor">
 				<f:param name="i" value="9" />
 			</p:menuitem>
-			
+
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="fa fa-user">
@@ -172,12 +191,12 @@
 			</p:dialog>
 		</div>
 	</h:form>
-	
+
 	<h:form id="formtable">
 		<p:panel header="Información">
-			<p:dataTable value="#{beanClientes.listaClientes}"
-				stripedRows="true" var="detalle" paginator="true" reflow="true"
-				rows="7" style="font-size: 12px" paginatorPosition="bottom">
+			<p:dataTable value="#{beanClientes.listaClientes}" stripedRows="true" rowIndexVar="index" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
+				var="detalle" paginator="true" reflow="true" rows="7"
+				style="font-size: 12px" paginatorPosition="bottom">
 
 				<p:column headerText="Cédula" style="width:80px">
 					<h:outputText value="#{detalle.cliRucCedula}" />
@@ -198,9 +217,12 @@
 					<h:outputText value="#{detalle.cliDireccion}" />
 				</p:column>
 				<p:column headerText="Estado">
-					<p:commandButton icon="#{beanUsuarios.iconoVendedor(detalle.usuario.usActivo)}" value="#{beanUsuarios.estado(detalle.usuario.usActivo)}"
-									actionListener="#{beanUsuarios.actionListenerActualizarEstadoCliente(detalle)}"
-									styleClass="#{beanUsuarios.style(detalle.usuario.usActivo)}" update=":formtable"/>
+					<p:commandButton
+						icon="#{beanUsuarios.iconoVendedor(detalle.usuario.usActivo)}"
+						value="#{beanUsuarios.estado(detalle.usuario.usActivo)}"
+						actionListener="#{beanUsuarios.actionListenerActualizarEstadoCliente(detalle)}"
+						styleClass="#{beanUsuarios.style(detalle.usuario.usActivo)}"
+						update=":formtable" />
 				</p:column>
 				<p:column headerText="Opciones">
 					<p:commandButton icon="fa fa-edit" onclick="PF('dlg3').show()"
@@ -208,7 +230,7 @@
 						update=":formEditarPro"
 						styleClass="rounded-button ui-button-success">
 					</p:commandButton>
-					
+
 				</p:column>
 			</p:dataTable>
 		</p:panel>
@@ -229,8 +251,8 @@
 				</p:inputText>
 				<p:outputLabel for="@next" value="Nombres: " />
 				<p:inputText id="b" placeholder="Nombres"
-					value="#{beanClientes.clienteSeleccionado.usuario.usNombres}" required="true"
-					requiredMessage="Ingrese sus nombres!">
+					value="#{beanClientes.clienteSeleccionado.usuario.usNombres}"
+					required="true" requiredMessage="Ingrese sus nombres!">
 					<p:tooltip for="b" value="Ingrese sus nombres!" position="bottom" />
 				</p:inputText>
 
@@ -242,25 +264,25 @@
 				</p:inputText>
 				<p:outputLabel for="@next" value="Email " />
 				<p:inputText id="d" placeholder="Email"
-					value="#{beanClientes.clienteSeleccionado.cliEmail}" required="true"
-					requiredMessage="Ingrese su email!!">
+					value="#{beanClientes.clienteSeleccionado.cliEmail}"
+					required="true" requiredMessage="Ingrese su email!!">
 					<p:tooltip for="d" value="Ingrese su email!" position="bottom" />
 				</p:inputText>
 
 				<h:outputText value="Contraseña:" />
-				<p:password value="#{beanClientes.password}"
-					required="true" requiredMessage="Ingrese la contraseña"
-					placeholder="**********" feedback="false" />
-					
-					<h:outputText value="Confirmar Contraseña:" />
-				<p:password value="#{beanClientes.conf_password}"
-					required="true" requiredMessage="Ingrese la contraseña"
-					placeholder="**********" feedback="false" />
+				<p:password value="#{beanClientes.password}" required="true"
+					requiredMessage="Ingrese la contraseña" placeholder="**********"
+					feedback="false" />
+
+				<h:outputText value="Confirmar Contraseña:" />
+				<p:password value="#{beanClientes.conf_password}" required="true"
+					requiredMessage="Ingrese la contraseña" placeholder="**********"
+					feedback="false" />
 
 				<p:outputLabel for="@next" value="Teléfono: " />
 				<p:inputText id="e" placeholder="0989061898"
-					value="#{beanClientes.clienteSeleccionado.cliTelefono}" required="true"
-					requiredMessage="Ingrese el teléfono!">
+					value="#{beanClientes.clienteSeleccionado.cliTelefono}"
+					required="true" requiredMessage="Ingrese el teléfono!">
 					<p:tooltip for="e" value="Ingrese su numero de teléfono"
 						position="bottom" />
 				</p:inputText>
@@ -276,7 +298,8 @@
 					<div align="center">
 						<p:row>
 							<p:commandButton value="Editar Datos"
-								styleClass="ui-button-success" style="width: auto" actionListener="#{beanClientes.actionListenerUpdateClient()}"
+								styleClass="ui-button-success" style="width: auto"
+								actionListener="#{beanClientes.actionListenerUpdateClient()}"
 								update=":formtable" onclick="PF('dlg3').hide()"
 								icon="fa fa-save" />
 						</p:row>
@@ -286,8 +309,8 @@
 		</h:form>
 
 	</p:dialog>
-	
-	
-	
+
+
+
 </body>
 </html>

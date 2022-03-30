@@ -11,6 +11,25 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Facturas</title>
 	</f:facet>
+	<style type="text/css">
+.par {
+	background-color: #b3b7cc !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.inpar {
+	background-color: #d0d2e0 !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.state {
+	background-color: #FB943C !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+</style>
 </h:head>
 <body>
 	<p:growl>
@@ -398,7 +417,8 @@
 
 
 			<h:form id="form-ver-date">
-			<p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
 				<div align="center">
 					<p:dialog header="Select Salesman" showEffect="fade" modal="true"
 						widgetVar="dateFacturaDialog" responsive="true">
@@ -409,9 +429,9 @@
 
 							<p:panelGrid columns="2" styleClass="ui-noborder">
 								<h:outputText value="Date:" style="font-weight:bold" />
-								<p:datePicker value="#{beanFacturas.date}"
-									showDate="true" pattern="dd-MM-yyyy" />
-									 
+								<p:datePicker value="#{beanFacturas.date}" showDate="true"
+									pattern="dd-MM-yyyy" />
+
 							</p:panelGrid>
 							<br />
 							<div align="center">
@@ -444,7 +464,8 @@
 						<p:dataTable value="#{beanFacturas.listaFacturas}"
 							stripedRows="true" var="factura" paginator="true" reflow="true"
 							rows="6" style="font-size: 12px" paginatorPosition="bottom"
-							rowIndexVar="index">
+							rowIndexVar="index"
+							rowStyleClass="#{!factura.factEstado ? 'state':null}">
 							<p:column headerText="NUM FACT" style="width:80px"
 								filterBy="#{factura.idFactura}">
 								<h:outputText value="#{factura.factNumeroFactura}" />
@@ -640,7 +661,7 @@
 										<div align="center">
 											<p:dataTable
 												value="#{beanFacturas.facturaSeleccionada.detalleFacturas}"
-												stripedRows="true" var="detalle" paginator="true"
+												stripedRows="true" var="detalle" paginator="true" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
 												reflow="true" rows="6" style="font-size: 12px"
 												paginatorPosition="bottom" rowIndexVar="index">
 												<p:column headerText="COD" style="width:80px">
@@ -859,32 +880,36 @@
 												id="tabla-abono" stripedRows="true" var="detalleabono"
 												paginator="true" reflow="true" rows="6"
 												style="font-size: 12px" paginatorPosition="bottom"
-												rowIndexVar="index">
-												<p:column headerText="CLIENTE" style="width:80px">
+												rowIndexVar="index" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
+												<p:column headerText="CLIENTE" style="width:200px">
 													<h:outputText
 														value="#{detalleabono.cliente.usuario.usNombres}" />
 												</p:column>
-												<p:column headerText="VENDEDOR">
+												<p:column headerText="VENDEDOR" style="width:200px">
 													<h:outputText
 														value="#{detalleabono.vendedor.usuario.usNombres}" />
 												</p:column>
 
-												<p:column headerText="VALOR ABONO">
-													<h:outputText value="#{detalleabono.detabAbono}" />
+												<p:column headerText="VALOR ABONO" style="width:80px">
+													<h:outputText value="#{detalleabono.detabAbono}">
+														<f:convertNumber minFractionDigits="2" />
+													</h:outputText>
 												</p:column>
-												<p:column headerText="FECHA ABONO">
-													<h:outputText value="#{detalleabono.detabFechaAbono}" />
+												<p:column headerText="FECHA ABONO" style="width:80px">
+													<h:outputText value="#{detalleabono.detabFechaAbono}">
+														<f:convertDateTime pattern="dd-MM-yyyy" />
+													</h:outputText>
 												</p:column>
 
-												<p:column headerText="SALDO ANTERIOR">
+												<p:column headerText="SALDO ANT" style="width:80px">
 													<h:outputText value="#{detalleabono.detabSaldoAnterior}" />
 												</p:column>
 
-												<p:column headerText="SALDO ACTUAL" style="width:60px">
+												<p:column headerText="SALDO ACT" style="width:80px">
 													<h:outputText value="#{detalleabono.detabSaldoActual}" />
 												</p:column>
 
-												<p:column headerText="VALOR TOTAL FACTURA">
+												<p:column headerText="TOTAL FACT" style="width:100px">
 													<h:outputText
 														value="#{detalleabono.estadoPedido.estValorTotal}" />
 												</p:column>
@@ -906,10 +931,10 @@
 												<p:outputLabel value="IVA 00 %: " style="font-weight:bold"></p:outputLabel>
 												<p:outputLabel value="0.00" style="font-weight:bold"></p:outputLabel>
 												<p:outputLabel value="TOTAL: "
-													style="font-weight:bold; font-size:22px; color: blue"></p:outputLabel>
+													style="font-weight:bold; font-size:18px; color: blue"></p:outputLabel>
 												<p:outputLabel
 													value="#{beanFacturas.facturaSeleccionada.factTotal}"
-													style="font-weight:bold; font-size:22px; color: blue"></p:outputLabel>
+													style="font-weight:bold; font-size:18px; color: blue"></p:outputLabel>
 											</p:panelGrid>
 
 										</p:panel>
@@ -917,9 +942,9 @@
 											<div align="center">
 												<p:panelGrid id="saldo" columns="2" styleClass="ui-noborder">
 													<p:outputLabel value="SALDO: "
-														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
+														style="font-weight:bold; font-size:18px; color: #EB3E1B"></p:outputLabel>
 													<p:outputLabel value="$ #{beanFacturas.saldo_actual}"
-														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
+														style="font-weight:bold; font-size:18px; color: #EB3E1B"></p:outputLabel>
 												</p:panelGrid>
 											</div>
 										</p:panel>

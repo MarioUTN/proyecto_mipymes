@@ -10,7 +10,27 @@
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Ver Compras</title>
+		<link href="../../css/style.css" rel="stylesheet"/>
 	</f:facet>
+	<style type="text/css">
+.par {
+	background-color: #b3b7cc !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.inpar {
+	background-color: #d0d2e0 !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.state {
+	background-color: #FB943C !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+</style>
 </h:head>
 <body>
 	<p:growl>
@@ -100,6 +120,8 @@
 				styleClass="ui-button-success"></p:commandButton>
 			<p:panel header="Lista de Pedidos Generados">
 				<p:dataTable value="#{beanCompras.listaFacturaIngresos}" var="fi"
+					rowIndexVar="index"
+					rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
 					paginator="true" reflow="true" rows="5">
 					<p:column headerText="Vendedor"
 						sortBy="#{fi.cabeceraIngreso.vendedor.usuario.usNombres}"

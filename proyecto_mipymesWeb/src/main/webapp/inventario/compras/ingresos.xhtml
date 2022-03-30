@@ -11,6 +11,25 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Ver Compras</title>
 	</f:facet>
+	<style type="text/css">
+.par {
+	background-color: #b3b7cc !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.inpar {
+	background-color: #d0d2e0 !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.state {
+	background-color: #FB943C !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+</style>
 </h:head>
 <body>
 	<p:growl>
@@ -94,7 +113,8 @@
 				<p:dataTable value="#{beanCompras.listaFacturaIngresos}" var="fi"
 					stripedRows="true" paginator="true" reflow="true" rows="6"
 					style="font-size: 12px" paginatorPosition="bottom"
-					rowIndexVar="index">
+					rowIndexVar="index"
+					rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
 					<p:column headerText="Vendedor"
 						sortBy="#{fi.cabeceraIngreso.vendedor.usuario.usNombres}"
 						filterBy="#{fi.cabeceraIngreso.vendedor.usuario.usNombres}">

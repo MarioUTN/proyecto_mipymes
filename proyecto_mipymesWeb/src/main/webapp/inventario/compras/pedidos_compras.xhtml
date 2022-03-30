@@ -11,6 +11,25 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Compras</title>
 	</f:facet>
+	<style type="text/css">
+.par {
+	background-color: #b3b7cc !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.inpar {
+	background-color: #d0d2e0 !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.state {
+	background-color: #FB943C !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+</style>
 </h:head>
 <body>
 	<p:growl>
@@ -201,7 +220,8 @@
 									<p:dataTable value="#{beanCompras.listaDetalleCompras}"
 										stripedRows="true" var="detalle" paginator="true"
 										reflow="true" rows="7" style="font-size: 12px"
-										paginatorPosition="bottom" rowIndexVar="index">
+										paginatorPosition="bottom" rowIndexVar="index"
+										rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
 										<p:column headerText="COD" style="width:80px">
 											<h:outputText value="#{detalle.detcompCodigoProducto}" />
 										</p:column>
@@ -228,7 +248,8 @@
 
 										<p:column headerText="Opciones">
 											<p:commandButton icon="fa fa-edit"
-												onclick="PF('dlg3').show()" actionListener="#{beanCompras.actionListenerSelectIndex(index)}"
+												onclick="PF('dlg3').show()"
+												actionListener="#{beanCompras.actionListenerSelectIndex(index)}"
 												styleClass="rounded-button ui-button-success">
 											</p:commandButton>
 											<p:commandButton icon="fa fa-trash"

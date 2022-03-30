@@ -12,6 +12,25 @@
 		<title>Productos</title>
 	</f:facet>
 	<script type="text/javaScript" src="../../js/funcion.js" />
+		<style type="text/css">
+.par {
+	background-color: #b3b7cc !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.inpar {
+	background-color: #d0d2e0 !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.state {
+	background-color: #FB943C !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+</style>
 </h:head>
 <body>
 
@@ -92,7 +111,7 @@
 	<h:form id="form-tablaproductos">
 		<div align="center">
 			<p:panel header="">
-				<p:dataTable value="#{beanProductos.listaProductos}" var="productos"
+				<p:dataTable value="#{beanProductos.listaProductos}" var="productos" rowIndexVar="index" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
 					stripedRows="true" paginator="true" reflow="true" rows="7"
 					style="font-size: 12px" paginatorPosition="bottom">
 					<p:column headerText="COD" style="width:80px" sortBy="#{productos.prodCodigo}"

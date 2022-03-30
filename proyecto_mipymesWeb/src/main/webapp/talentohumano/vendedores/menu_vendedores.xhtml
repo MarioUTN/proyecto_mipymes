@@ -11,6 +11,25 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Vendedor</title>
 	</f:facet>
+	<style type="text/css">
+.par {
+	background-color: #b3b7cc !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.inpar {
+	background-color: #d0d2e0 !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.state {
+	background-color: #FB943C !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+</style>
 </h:head>
 <body>
 	<p:growl>
@@ -179,7 +198,7 @@
 	</h:form>
 	<h:form id="formtable">
 		<p:panel header="Información">
-			<p:dataTable value="#{beanUsuarios.listaVendedores}"
+			<p:dataTable value="#{beanUsuarios.listaVendedores}" rowIndexVar="index" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
 				stripedRows="true" var="detalle" paginator="true" reflow="true"
 				rows="7" style="font-size: 12px" paginatorPosition="bottom">
 
@@ -202,9 +221,12 @@
 					<h:outputText value="#{detalle.venDireccion}" />
 				</p:column>
 				<p:column headerText="Estado">
-					<p:commandButton icon="#{beanUsuarios.iconoVendedor(detalle.usuario.usActivo)}" value="#{beanUsuarios.estado(detalle.usuario.usActivo)}"
-									actionListener="#{beanUsuarios.actionListenerActualizarEstadoEmpleado(detalle)}"
-									styleClass="#{beanUsuarios.style(detalle.usuario.usActivo)}" update=":formtable"/>
+					<p:commandButton
+						icon="#{beanUsuarios.iconoVendedor(detalle.usuario.usActivo)}"
+						value="#{beanUsuarios.estado(detalle.usuario.usActivo)}"
+						actionListener="#{beanUsuarios.actionListenerActualizarEstadoEmpleado(detalle)}"
+						styleClass="#{beanUsuarios.style(detalle.usuario.usActivo)}"
+						update=":formtable" />
 				</p:column>
 				<p:column headerText="Opciones">
 					<p:commandButton icon="fa fa-edit" onclick="PF('dlg3').show()"
@@ -251,13 +273,13 @@
 				</p:inputText>
 
 				<h:outputText value="Contraseña:" />
-				<p:password value="#{beanUsuarios.password}"
-					required="true" requiredMessage="Ingrese la contraseña"
-					placeholder="**********" feedback="false" />
+				<p:password value="#{beanUsuarios.password}" required="true"
+					requiredMessage="Ingrese la contraseña" placeholder="**********"
+					feedback="false" />
 				<h:outputText value="Confirmar Contraseña:" />
-				<p:password value="#{beanUsuarios.confpassword}"
-					required="true" requiredMessage="Ingrese la contraseña"
-					placeholder="**********" feedback="false" />
+				<p:password value="#{beanUsuarios.confpassword}" required="true"
+					requiredMessage="Ingrese la contraseña" placeholder="**********"
+					feedback="false" />
 
 				<p:outputLabel for="@next" value="Teléfono: " />
 				<p:inputText id="e" placeholder="0989061898"

@@ -11,13 +11,35 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Ventas Normales</title>
 	</f:facet>
+	
+	<style type="text/css">
+.par {
+	background-color: #b3b7cc !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.inpar {
+	background-color: #d0d2e0 !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.state {
+	background-color: #FB943C !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+
+</style>
 </h:head>
 <body>
 	<p:growl>
 		<p:autoUpdate />
 	</p:growl>
 	<h:form id="form-menu">
-		<p:menubar style="background-color: #5DADE2;">
+		<p:menubar style="background-color: #5DADE2;" styleClass="header">
 			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
@@ -84,7 +106,6 @@
 			</f:facet>
 		</p:menubar>
 	</h:form>
-
 
 	<div align="center">
 		<p:panel header="Ventas y Facturación Normales">
@@ -182,11 +203,12 @@
 							<p:panelGrid columns="7" styleClass="ui-noborder">
 								<p:outputLabel for="@next" value="Selecionar Producto: "
 									style="font-weight:bold" />
-								<p:selectOneMenu value="#{beanVentas.id_producto}" 
+								<p:selectOneMenu value="#{beanVentas.id_producto}"
 									style="width:350px" panelStyle="width:180px" effect="fade"
 									filter="true" filterMatchMode="startsWith">
-									<f:selectItems value="#{beanProductos.listaProductosInStock}" 
-										var="productos" itemLabel="#{productos.prodCantidad} - #{productos.prodNombre}"
+									<f:selectItems value="#{beanProductos.listaProductosInStock}"
+										var="productos"
+										itemLabel="#{productos.prodCantidad} - #{productos.prodNombre}"
 										itemValue="#{productos.idProducto}">
 										<p:column style="width:10%">
 											<span class="flag flag-#{productos.prodNombre}"
@@ -208,9 +230,9 @@
 								</p:selectOneMenu>
 								<h:outputText value="Cantidad de Productos:"
 									style="font-weight:bold" />
-								<p:spinner id="g" placeholder="3" buttons="horizontal-after" style="width:100px"
-									stepFactor="1" min="1" value="#{beanVentas.cantidad}"
-									required="true"
+								<p:spinner id="g" placeholder="3" buttons="horizontal-after"
+									style="width:100px" stepFactor="1" min="1"
+									value="#{beanVentas.cantidad}" required="true"
 									requiredMessage="Ingrese la cantidad de productos!">
 									<p:tooltip for="g" value="Ingrese la cantidad de productos!"
 										position="bottom" />
@@ -219,10 +241,9 @@
 									actionListener="#{beanVentas.actionListenerAgregarProductos()}"
 									update="form-detalle-factura,:form-productos"
 									styleClass="rounded-button ui-button-success" icon="fa fa-plus" />
-								<p:outputLabel value="Stock: "
-									style="font-weight:bold" />
-									<p:inputText value="#{beanVentas.stock}" style="width:50px" id="stock" disabled="true"
-													placeholder="SalazarAnrango"></p:inputText>
+								<p:outputLabel value="Stock: " style="font-weight:bold" />
+								<p:inputText value="#{beanVentas.stock}" style="width:50px"
+									id="stock" disabled="true" placeholder="SalazarAnrango"></p:inputText>
 							</p:panelGrid>
 						</p:splitterPanel>
 					</p:splitter>
@@ -236,7 +257,7 @@
 								size="180">
 								<div align="center">
 									<p:dataTable value="#{beanVentas.listaDetalleFacturas}"
-										stripedRows="true" var="detalle" paginator="true"
+										stripedRows="true" var="detalle" paginator="true" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
 										reflow="true" rows="7" style="font-size: 12px"
 										paginatorPosition="bottom" rowIndexVar="index">
 										<p:column headerText="COD" style="width:80px">

@@ -411,22 +411,16 @@ public class BeanFacturas implements Serializable {
 			estadoPedido = managerFacturas.actualizarEstadoPedido(auxiliar);
 			if (id_tipo_factura != 0) {
 				listaFacturas = managerFacturas.findAllFacturaByTipo(id_tipo_factura);
-				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
 			} else if (id_forma_pago != 0) {
 				listaFacturas = managerFacturas.findAllFacturaByFormaPago(id_forma_pago);
-				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
 			} else if (id_vendedor != 0) {
 				listaFacturas = managerFacturas.findAllFacturaByVendedors(id_vendedor);
-				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
 			} else if (cedula_ruc != null) {
 				listaFacturas = managerFacturas.findAllFacturaByCliente(cedula_ruc);
-				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
 			} else if (date != null) {
 				listaFacturas = managerFacturas.findAllFacturaByDate(date);
-				JSFUtil.crearMensajeInfo("Deliver Product Successfull! " + listaFacturas.size());
 			} else {
 				listaFacturas = managerFacturas.findAllFacturas();
-				JSFUtil.crearMensajeWarning("The product was previously delivered!");
 			}
 			JSFUtil.crearMensajeInfo("Changes saved successfull!");
 			auxiliar = new ArrayList<DetalleAbono>();

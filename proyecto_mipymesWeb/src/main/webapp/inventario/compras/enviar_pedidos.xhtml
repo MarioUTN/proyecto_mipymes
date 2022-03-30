@@ -11,6 +11,25 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Enviar Compras - Pedidos</title>
 	</f:facet>
+	<style type="text/css">
+.par {
+	background-color: #b3b7cc !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.inpar {
+	background-color: #d0d2e0 !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+
+.state {
+	background-color: #FB943C !important;
+	background-image: none !important;
+	color: #091833 !important;
+}
+</style>
 </h:head>
 <body>
 	<p:growl>
@@ -96,6 +115,8 @@
 		<div align="center">
 			<p:panel header="Lista de Pedidos Generados">
 				<p:dataTable value="#{beanCompras.listaCompraProductos}"
+					rowIndexVar="index"
+					rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
 					var="compraProductos" paginator="true" reflow="true" rows="5">
 					<p:column headerText="Vendedor"
 						sortBy="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}"
