@@ -11,7 +11,7 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Ventas Normales</title>
 	</f:facet>
-	
+	<link href="../../css/style.css" rel="stylesheet"/>
 	<style type="text/css">
 .par {
 	background-color: #b3b7cc !important;
@@ -34,7 +34,7 @@
 
 </style>
 </h:head>
-<body>
+<body id="body">
 	<p:growl>
 		<p:autoUpdate />
 	</p:growl>
@@ -253,7 +253,7 @@
 				<p:panel header="">
 					<div align="center">
 						<p:splitter>
-							<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
+							<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center" 
 								size="180">
 								<div align="center">
 									<p:dataTable value="#{beanVentas.listaDetalleFacturas}"

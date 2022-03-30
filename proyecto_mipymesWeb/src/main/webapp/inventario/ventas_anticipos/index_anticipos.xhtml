@@ -11,7 +11,8 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Ventas Anticipos</title>
 	</f:facet>
-		<style type="text/css">
+	<link href="../../css/style.css" rel="stylesheet" />
+	<style type="text/css">
 .par {
 	background-color: #b3b7cc !important;
 	background-image: none !important;
@@ -31,7 +32,7 @@
 }
 </style>
 </h:head>
-<body>
+<body id="body">
 	<p:growl>
 		<p:autoUpdate />
 	</p:growl>
@@ -254,7 +255,8 @@
 									<p:dataTable value="#{beanVentas.listaDetalleFacturas}"
 										stripedRows="true" var="detalle" paginator="true"
 										reflow="true" rows="7" style="font-size: 12px"
-										paginatorPosition="bottom" rowIndexVar="index" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
+										paginatorPosition="bottom" rowIndexVar="index"
+										rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
 										<p:column headerText="COD" style="width:80px">
 											<h:outputText value="#{detalle.producto.prodCodigo}" />
 										</p:column>

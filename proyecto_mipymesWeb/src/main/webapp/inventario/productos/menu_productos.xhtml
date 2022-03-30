@@ -11,7 +11,8 @@
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
 		<title>Productos</title>
 	</f:facet>
-		<style type="text/css">
+	<link href="../../css/style.css" rel="stylesheet" />
+	<style type="text/css">
 .par {
 	background-color: #b3b7cc !important;
 	background-image: none !important;
@@ -31,7 +32,7 @@
 }
 </style>
 </h:head>
-<body>
+<body id="body">
 	<p:growl>
 		<p:autoUpdate />
 	</p:growl>
@@ -105,7 +106,8 @@
 
 	<h:form id="form0">
 		<div align="center">
-			<p:panelGrid columns="4" style="width: 1280px" styleClass="ui-noborder">
+			<p:panelGrid columns="4" style="width: 1280px"
+				styleClass="ui-noborder">
 				<p:commandButton value="Ingresar Nuevos Productos"
 					icon="fa fa-cart-plus"
 					update=":form-crear:crearnuevo-ProductDialog"
@@ -242,8 +244,10 @@
 				style="aling: center">
 
 				<p:dataTable value="#{beanProductos.listaProductos}" var="productos"
-					stripedRows="true" paginator="true" reflow="true" rows="5" rowIndexVar="index"
-					style="font-size: 12px" paginatorPosition="bottom" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
+					stripedRows="true" paginator="true" reflow="true" rows="5"
+					rowIndexVar="index" style="font-size: 12px"
+					paginatorPosition="bottom"
+					rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
 
 					<p:column headerText="COD" sortBy="#{productos.prodCodigo}"
 						filterBy="#{productos.prodCodigo}">
@@ -303,7 +307,7 @@
 								oncomplete="PF('crearnuevoProductDialog').show()">
 								<p:resetInput target=":form-crear:crearnuevo-ProductDialog" />
 							</p:menuitem>
-							
+
 							<p:menuitem value="Generar Reporte" ajax="false"
 								styleClass="ui-button-help" icon="fa fa-file-pdf-o"
 								action="#{beanProductos.actionReporte()}">
@@ -678,7 +682,9 @@
 					<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 
 						<p:panel header="Tallas de Productos">
-							<p:dataTable value="#{beanProductos.listaTallaProductos}" rowIndexVar="index" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
+							<p:dataTable value="#{beanProductos.listaTallaProductos}"
+								rowIndexVar="index"
+								rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
 								var="tallas" stripedRows="true" paginator="true" reflow="true"
 								rows="5" style="font-size: 12px" paginatorPosition="bottom">
 								<p:column headerText="COD" sortBy="#{tallas.idTallaProducto}"
@@ -721,7 +727,9 @@
 					</p:splitterPanel>
 					<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 						<p:panel header="Tipo de Productos">
-							<p:dataTable value="#{beanProductos.listaTipoProductos}" rowIndexVar="index" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
+							<p:dataTable value="#{beanProductos.listaTipoProductos}"
+								rowIndexVar="index"
+								rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
 								var="tipos" stripedRows="true" paginator="true" reflow="true"
 								rows="5" style="font-size: 12px" paginatorPosition="bottom">
 								<p:column headerText="COD" sortBy="#{tipos.idTipoProducto}"
