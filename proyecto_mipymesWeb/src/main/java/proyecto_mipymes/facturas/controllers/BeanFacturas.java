@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +71,7 @@ public class BeanFacturas implements Serializable {
 
 	@PostConstruct
 	public void Inicializar() {
-		connection_url = "jdbc:postgresql://10.0.4.106:5432/proyecto";
+		connection_url = "jdbc:postgresql://172.20.142.79:5432/proyecto";
 		password = "Ofrn8mXdeBbjdBwSoUTgG1HtxUzuEVuz";
 		usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		listaFacturas = managerFacturas.findAllFacturas();
@@ -85,6 +86,10 @@ public class BeanFacturas implements Serializable {
 		date = null;
 	}
 
+	public void actionListenerDate() {
+		this.date=new Date();
+	}
+	
 	public void actionListenerBuscarFacturaByTipo() {
 		listaFacturas = managerFacturas.findAllFacturaByTipo(id_tipo_factura);
 		if (listaFacturas == null) {
@@ -173,6 +178,7 @@ public class BeanFacturas implements Serializable {
 	}
 
 	public String actionListenerGenerarFacturaPdf(int id_factura) {
+		
 		if (managerFacturas.findFacturaById(id_factura) == null) {
 			JSFUtil.crearMensajeError("No existe la factura para generar el reporte!");
 		} else {
@@ -206,6 +212,7 @@ public class BeanFacturas implements Serializable {
 			JSFUtil.crearMensajeInfo("Factura generada correctamenet en formto PDF");
 		}
 		return "";
+		
 	}
 
 	public String actionListenerGenerarAbonosPdf(int id_factura) {
@@ -229,7 +236,7 @@ public class BeanFacturas implements Serializable {
 			context.getApplication().getStateManager().saveView(context);
 
 			context.responseComplete();
-			JSFUtil.crearMensajeInfo("Factura generada correctamenet en formto PDF");
+			JSFUtil.crearMensajeInfo("Reporte de abonos generada correctamenet en formto PDF");
 		} catch (Exception e) {
 //			JSFUtil.crearMensajeERROR(e.getMessage());
 			System.out.println(e);

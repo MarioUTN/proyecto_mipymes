@@ -142,7 +142,7 @@
 							</p:commandButton>
 
 							<p:commandButton value="Invoice by Date" icon="fa fa-calendar"
-								update=":form-ver-date:date-FacturaDialog"
+								update=":form-ver-date:date-FacturaDialog" actionListener="#{beanFacturas.actionListenerDate()}"
 								oncomplete="PF('dateFacturaDialog').show()"
 								styleClass="ui-button-success">
 								<p:resetInput target=":form-ver-date:date-FacturaDialog" />
@@ -884,11 +884,11 @@
 												rowIndexVar="index" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
 												<p:column headerText="CLIENTE" style="width:200px">
 													<h:outputText
-														value="#{detalleabono.cliente.usuario.usNombres}" />
+														value="#{detalleabono.cliente.usuario.usNombres} #{detalleabono.cliente.usuario.usApellidos}" />
 												</p:column>
 												<p:column headerText="VENDEDOR" style="width:200px">
 													<h:outputText
-														value="#{detalleabono.vendedor.usuario.usNombres}" />
+														value="#{detalleabono.vendedor.usuario.usNombres} #{detalleabono.vendedor.usuario.usApellidos}" />
 												</p:column>
 
 												<p:column headerText="VALOR ABONO" style="width:80px">

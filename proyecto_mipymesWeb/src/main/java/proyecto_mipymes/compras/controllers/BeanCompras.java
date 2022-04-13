@@ -81,7 +81,7 @@ public class BeanCompras implements Serializable {
 	public void Inicializar() {
 		password = "Ofrn8mXdeBbjdBwSoUTgG1HtxUzuEVuz";
 		usuario = "+C907bUeVrzYFLXb/mdoMg==";
-		connection_url = "jdbc:postgresql://10.0.4.106:5432/proyecto";
+		connection_url = "jdbc:postgresql://172.20.142.79:5432/proyecto";
 		empresa = new Empresa();
 		listaFacturaIngresos = managerCompras.findAllFacturasIngresos();
 		listaProductos = managerCompras.findAllProductos();

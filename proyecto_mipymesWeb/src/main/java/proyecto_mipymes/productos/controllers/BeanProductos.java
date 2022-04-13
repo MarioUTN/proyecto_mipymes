@@ -61,7 +61,7 @@ public class BeanProductos implements Serializable {
 
 	@PostConstruct
 	public void Inicializar() {
-		connection_url = "jdbc:postgresql://10.0.4.106:5432/proyecto";
+		connection_url = "jdbc:postgresql://172.20.142.79:5432/proyecto";
 		productoSeleccionado = new Producto();
 		productoEditar = new Producto();
 		productoNuevo = new Producto();
