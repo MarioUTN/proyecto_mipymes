@@ -9,9 +9,9 @@
 	<f:facet name="first">
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
-		<title>Ver Compras</title>
+		<title>View Buys</title>
 	</f:facet>
-	<link href="../../css/style.css" rel="stylesheet"/>
+	<link href="../../css/style.css" rel="stylesheet" />
 	<style type="text/css">
 .par {
 	background-color: #b3b7cc !important;
@@ -38,56 +38,55 @@
 	</p:growl>
 	<h:form id="form0">
 		<p:menubar style="background-color: #5DADE2;">
-			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
+			<p:menuitem value="Back" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
 			</p:menuitem>
-			<p:menuitem value="Inicio"
+			<p:menuitem value="Home"
 				outcome="/seguridades/administrador/menu_administrador"
 				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:submenu label="Ventas" icon="fa fa-calendar-plus-o">
-				<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+			<p:submenu label="Sales" icon="fa fa-calendar-plus-o">
+				<p:menuitem value="Normal Sales " icon="fa fa-shopping-cart"
 					outcome="/inventario/ventas/index_ventas">
 					<f:param name="i" value="2" />
 				</p:menuitem>
-				<p:menuitem value="Ventas por Anticipos"
-					icon="fa fa-cart-arrow-down"
+				<p:menuitem value="Advanced Sales" icon="fa fa-cart-arrow-down"
 					outcome="/inventario/ventas_anticipos/index_anticipos">
 					<f:param name="i" value="3" />
 				</p:menuitem>
 			</p:submenu>
 
-			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
+			<p:menuitem value="Buy Products" icon="fa fa-cart-plus"
 				outcome="/inventario/compras/index_compras">
 				<f:param name="i" value="4" />
 			</p:menuitem>
 
-			<p:menuitem value="Clientes" icon="fa fa-users"
+			<p:menuitem value="Customers" icon="fa fa-users"
 				outcome="/talentohumano/clientes/menu_clientes">
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group"
+			<p:menuitem value="Sellers" icon="fa fa-group"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
 
-			<p:menuitem value="Facturas" icon="fa fa-file-text"
+			<p:menuitem value="Invoices" icon="fa fa-file-text"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/facturas/menu_facturas">
 				<f:param name="i" value="7" />
 			</p:menuitem>
 
-			<p:menuitem value="Productos" icon="fa fa-cubes"
+			<p:menuitem value="Products" icon="fa fa-cubes"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/productos/menu_productos">
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
-			<p:menuitem value="Proveedores" icon="fa fa-address-card"
+			<p:menuitem value="Suppliers" icon="fa fa-address-card"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/compras/Proveedor">
 				<f:param name="i" value="9" />
@@ -96,9 +95,8 @@
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="pi pi-user">
-					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
-					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
-						outcome="/login"></p:menuitem>
+					<p:menuitem value="Profile" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Sign Out" icon="pi pi-sign-out" outcome="/login"></p:menuitem>
 				</p:menuButton>
 			</f:facet>
 		</p:menubar>
@@ -106,30 +104,30 @@
 
 	<h:form id="form2">
 		<div align="center">
-			<p:commandButton value="Actualizar"
+			<p:commandButton value="Update"
 				actionListener="#{beanCompras.actionActualizar()}"
 				icon="fa fa-refresh" update="@form,:form2"
 				styleClass="ui-button-success"></p:commandButton>
-			<p:panel header="Lista de Pedidos Generados">
+			<p:panel header="List of orders generated">
 				<p:dataTable value="#{beanCompras.listaFacturaIngresos}" var="fi"
 					stripedRows="true" paginator="true" reflow="true" rows="6"
 					style="font-size: 12px" paginatorPosition="bottom"
 					rowIndexVar="index"
 					rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
-					<p:column headerText="Vendedor"
+					<p:column headerText="Salesman"
 						sortBy="#{fi.cabeceraIngreso.vendedor.usuario.usNombres}"
 						filterBy="#{fi.cabeceraIngreso.vendedor.usuario.usNombres}">
 						<h:outputText
 							value="#{fi.cabeceraIngreso.vendedor.usuario.usNombres}" />
 					</p:column>
-					<p:column headerText="Empresa"
+					<p:column headerText="Enterprise"
 						sortBy="#{fi.cabeceraIngreso.empresa.empNombreEmpresa}"
 						filterBy="#{fi.cabeceraIngreso.empresa.empNombreEmpresa}">
 						<h:outputText
 							value="#{fi.cabeceraIngreso.empresa.empNombreEmpresa}" />
 					</p:column>
 
-					<p:column headerText="Proveedor"
+					<p:column headerText="Supplier"
 						sortBy="#{fi.cabeceraIngreso.proveedor.empNombreEmpresa}"
 						filterBy="#{fi.cabeceraIngreso.proveedor.empNombreEmpresa}">
 						<h:outputText
@@ -137,21 +135,21 @@
 					</p:column>
 
 
-					<p:column headerText="Valor Sub Total"
+					<p:column headerText="Value Sub Total"
 						sortBy="#{fi.factingSubtotal}" filterBy="#{fi.factingSubtotal}">
 						<h:outputText value="#{fi.factingSubtotal}" />
 					</p:column>
 
-					<p:column headerText="Valor Iva" sortBy="#{fi.factingIva}"
+					<p:column headerText="Value IVA" sortBy="#{fi.factingIva}"
 						filterBy="#{fi.factingIva}">
 						<h:outputText value="#{fi.factingIva}" />
 					</p:column>
-					<p:column headerText="Valor Total" sortBy="#{fi.factingTotal}"
+					<p:column headerText="Value Total" sortBy="#{fi.factingTotal}"
 						filterBy="#{fi.factingTotal}">
 						<h:outputText value="#{fi.factingTotal}" />
 					</p:column>
 
-					<p:column headerText="Reporte">
+					<p:column headerText="Report">
 
 						<p:commandButton ajax="false"
 							styleClass="rounded-button ui-button-info ui-button-outlined"
@@ -165,9 +163,14 @@
 			</p:panel>
 			<br />
 			<div align="center">
-				<p:commandButton value="Siguiente" action="enviar_pedidos"
+				<p:panelGrid columns="2" styleClass="ui-noborder">
+					<p:commandButton value="Back"
+					styleClass="ui-button-secondary" style="width: auto"
+					icon="fa fa-arrow-circle-o-right" />
+				<p:commandButton value="Next" action="enviar_pedidos"
 					styleClass="ui-button-success" style="width: auto"
 					icon="fa fa-arrow-circle-o-right" />
+				</p:panelGrid>
 			</div>
 		</div>
 	</h:form>

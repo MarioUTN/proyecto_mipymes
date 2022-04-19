@@ -9,9 +9,9 @@
 	<f:facet name="first">
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
-		<title>Compras</title>
+		<title>Sales</title>
 	</f:facet>
-	<link href="../../css/style.css" rel="stylesheet"/>
+	<link href="../../css/style.css" rel="stylesheet" />
 	<style type="text/css">
 .par {
 	background-color: #b3b7cc !important;
@@ -38,57 +38,56 @@
 	</p:growl>
 	<h:form>
 		<p:menubar style="background-color: #5DADE2;">
-			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
+			<p:menuitem value="Back" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
 			</p:menuitem>
-			<p:menuitem value="Inicio"
+			<p:menuitem value="Home"
 				outcome="/seguridades/administrador/menu_administrador"
 				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:submenu label="Ventas" icon="fa fa-calendar-plus-o">
-				<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+			<p:submenu label="Sales" icon="fa fa-calendar-plus-o">
+				<p:menuitem value="Normal Sales" icon="fa fa-shopping-cart"
 					outcome="/inventario/ventas/index_ventas">
 					<f:param name="i" value="2" />
 				</p:menuitem>
-				<p:menuitem value="Ventas por Anticipos"
-					icon="fa fa-cart-arrow-down"
+				<p:menuitem value="Advanced Sales" icon="fa fa-cart-arrow-down"
 					outcome="/inventario/ventas_anticipos/index_anticipos">
 					<f:param name="i" value="3" />
 				</p:menuitem>
 			</p:submenu>
 
-			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
+			<p:menuitem value="Buy Products" icon="fa fa-cart-plus"
 				outcome="/inventario/compras/index_compras">
 				<f:param name="i" value="4" />
 			</p:menuitem>
 
-			<p:menuitem value="Clientes" icon="fa fa-users"
+			<p:menuitem value="Customers" icon="fa fa-users"
 				outcome="/talentohumano/clientes/menu_clientes">
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group"
+			<p:menuitem value="Sellers" icon="fa fa-group"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
 
-			<p:menuitem value="Facturas" icon="fa fa-file-text"
+			<p:menuitem value="Invoices" icon="fa fa-file-text"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/facturas/menu_facturas">
 				<f:param name="i" value="7" />
 			</p:menuitem>
 
-			<p:menuitem value="Productos" icon="fa fa-cubes"
+			<p:menuitem value="Products" icon="fa fa-cubes"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/productos/menu_productos">
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
 
-			<p:menuitem value="Proveedores" icon="fa fa-address-card"
+			<p:menuitem value="Suppliers" icon="fa fa-address-card"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/compras/Proveedor">
 				<f:param name="i" value="9" />
@@ -97,9 +96,8 @@
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="fa fa-user">
-					<p:menuitem value="Perfil" icon="fa fa-cog"></p:menuitem>
-					<p:menuitem value="Cerrar sesión" icon="fa fa-sign-out"
-						outcome="/login"></p:menuitem>
+					<p:menuitem value="Profile" icon="fa fa-cog"></p:menuitem>
+					<p:menuitem value="Sign Out" icon="fa fa-sign-out" outcome="/login"></p:menuitem>
 				</p:menuButton>
 			</f:facet>
 		</p:menubar>
@@ -107,22 +105,22 @@
 	<h:form id="form1">
 		<div align="center" id="body">
 			<p:panelGrid columns="4" styleClass="ui-noborder" id="body">
-				<p:commandButton value="Realizar un Pedido de Productos"
-					icon="fa fa-cart-plus" styleClass="ui-button-success"
-					style="width: 340px" action="pedidos_compras">
+				<p:commandButton value="Make a order product" icon="fa fa-cart-plus"
+					styleClass="ui-button-success" style="width: 340px"
+					action="pedidos_compras">
 				</p:commandButton>
 
-				<p:commandButton value="Realizar un Ingreso de Productos"
+				<p:commandButton value="Make a income products"
 					icon="fa fa-cart-plus" styleClass="ui-button-success"
 					style="width: 340px" action="agregar_empresa">
 				</p:commandButton>
 
-				<p:commandButton value="Ver Ingresos" icon="fa fa-cart-plus"
+				<p:commandButton value="View Incomes" icon="fa fa-cart-plus"
 					styleClass="ui-button-success" style="width: 340px"
 					action="/inventario/compras/ingresos">
 				</p:commandButton>
 
-				<p:commandButton value="Actualizar" icon="fa fa-refresh"
+				<p:commandButton value="Update" icon="fa fa-refresh"
 					styleClass="ui-button-success" update="@form,:form2"
 					style="width: 340px"
 					actionListener="#{beanCompras.actionActualizar()}">
@@ -133,30 +131,30 @@
 	</h:form>
 	<h:form id="form2">
 		<div align="center">
-			<p:panel header="Lista de Pedidos Generados">
+			<p:panel header="List of orders generated">
 				<div align="center">
 					<p:dataTable value="#{beanCompras.listaCompraProductos}"
 						stripedRows="true" var="cp" paginator="true" reflow="true"
 						rows="6" style="font-size: 12px" paginatorPosition="bottom"
 						rowIndexVar="index"
 						rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
-						<p:column headerText="EMPRESA"
+						<p:column headerText="SUPPLIER"
 							filterBy="#{cp.cabeceraCompra.empresa.empNombreEmpresa}">
 							<h:outputText
 								value="#{cp.cabeceraCompra.empresa.empNombreEmpresa}" />
 						</p:column>
 
-						<p:column headerText="REALIZADO POR"
+						<p:column headerText="PRODUCED BY"
 							filterBy="#{cp.cabeceraCompra.vendedor.usuario.usNombres} #{cp.cabeceraCompra.vendedor.usuario.usApellidos}">
 							<h:outputText
 								value="#{cp.cabeceraCompra.vendedor.usuario.usNombres} #{cp.cabeceraCompra.vendedor.usuario.usApellidos}" />
 						</p:column>
 
-						<p:column headerText="FECHA EMISIÓN">
+						<p:column headerText="DATE ISSUE">
 							<h:outputText value="#{cp.comprodFecha}" />
 						</p:column>
 
-						<p:column headerText="APROBADO" style="width:100px">
+						<p:column headerText="APROVED" style="width:100px">
 							<p:commandButton icon="#{beanCompras.icono(cp.idCompraProducto)}"
 								value="#{beanCompras.estado(cp.idCompraProducto)}"
 								actionListener="#{beanCompras.actionListenerAprovarPedido(cp.idCompraProducto)}"
@@ -174,7 +172,7 @@
 						<p:column headerText="TOTAL" style="width:60px">
 							<h:outputText value="#{cp.comprodTotal}" />
 						</p:column>
-						<p:column headerText="OPCIONES">
+						<p:column headerText="OPTIONS">
 							<p:commandButton icon="fa fa-list-alt"
 								actionListener="#{beanCompras.actionListenerSeleccionarPedido(cp.idCompraProducto)}"
 								onclick="PF('detallePedido').show()"
@@ -189,7 +187,7 @@
 			</p:panel>
 			<br />
 			<div align="center">
-				<p:commandButton value="Ir a Pedidos" action="enviar_pedidos"
+				<p:commandButton value="Go to Orders" action="enviar_pedidos"
 					styleClass="ui-button-success" style="width: auto" disabled="true"
 					icon="fa fa-arrow-circle-o-right" />
 			</div>
@@ -198,14 +196,14 @@
 
 	<h:form id="form-detalle">
 		<div align="center">
-			<p:dialog header="Vista del detalle de la Pedido seleccionda"
+			<p:dialog header="Detail view of the selected Order"
 				showEffect="fade" modal="true" widgetVar="detallePedido"
 				responsive="true">
 				<p:outputPanel id="detalle-Pedido" class="ui-fluid">
 
 					<p:panel header="">
 						<f:facet name="actions">
-							<p:commandButton value="Generar Reporte" ajax="false"
+							<p:commandButton value="Generate Report" ajax="false"
 								styleClass="rounded-button ui-button-help"
 								icon="fa fa-file-pdf-o" update="@form"
 								action="#{beanCompras.actionListenerGenerarReportePedido()}">
@@ -214,12 +212,12 @@
 						<p:splitter layout="vertical">
 							<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 								<p:panelGrid columns="6" styleClass="ui-noborder">
-									<h:outputLabel value="Fecha Emision:" style="font-weight:bold" />
+									<h:outputLabel value="Date issue:" style="font-weight:bold" />
 									<h:outputLabel
 										value="#{beanCompras.compraProductoSeleccionado.comprodFecha}" />
 									<h:outputLabel value="Vendedor: " style="font-weight:bold" />
 									<h:outputLabel
-										value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.vendedor.usuario.usNombres}" />
+										value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.vendedor.usuario.usNombres} #{beanCompras.compraProductoSeleccionado.cabeceraCompra.vendedor.usuario.usApellidos}" />
 									<h:outputLabel value="Pedido Numero: " style="font-weight:bold" />
 									<h:outputLabel
 										value="000-00#{beanCompras.compraProductoSeleccionado.idCompraProducto}"
@@ -240,29 +238,29 @@
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.empRuc}" />
 
-														<p:outputLabel value="Nombre Empresa: "
+														<p:outputLabel value="Supplier Name: "
 															style="font-weight:bold"></p:outputLabel>
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.empNombreEmpresa}" />
 														<p:outputLabel value="Matriz: " style="font-weight:bold"></p:outputLabel>
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.empMatriz}" />
-														<p:outputLabel value="Email: " style="font-weight:bold"></p:outputLabel>
+														<p:outputLabel value="Mail: " style="font-weight:bold"></p:outputLabel>
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.empEmail}" />
-														<p:outputLabel value="Teléfono: " style="font-weight:bold"></p:outputLabel>
+														<p:outputLabel value="Phone: " style="font-weight:bold"></p:outputLabel>
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.empTelefono}" />
-														<p:outputLabel value="Gerente: " style="font-weight:bold"></p:outputLabel>
+														<p:outputLabel value="Manager: " style="font-weight:bold"></p:outputLabel>
 
 														<p:outputLabel
-															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.gerente.usuario.usNombres}" />
+															value="#{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.gerente.usuario.usNombres} #{beanCompras.compraProductoSeleccionado.cabeceraCompra.empresa.gerente.usuario.usApellidos}" />
 													</p:panelGrid>
 												</p:splitterPanel>
 												<p:splitterPanel size="30"
 													styleClass="p-d-flex p-ai-center p-jc-center">
 													<p:panelGrid columns="2" styleClass="ui-noborder">
-														<p:outputLabel value="Pedido Aprobado: "
+														<p:outputLabel value="Aproved order: "
 															style="font-weight:bold"></p:outputLabel>
 														<p:outputLabel
 															value="#{beanCompras.compraProductoSeleccionado.comprodAprobado}" />
@@ -292,21 +290,21 @@
 											reflow="true" rows="6" style="font-size: 12px"
 											paginatorPosition="bottom" rowIndexVar="index"
 											rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
-											<p:column headerText="COD" style="width:80px">
+											<p:column headerText="CODE" style="width:80px">
 												<h:outputText value="#{detalle.detcompCodigoProducto}" />
 											</p:column>
-											<p:column headerText="CANT" style="width:40px">
+											<p:column headerText="QUAL" style="width:40px">
 												<h:outputText value="#{detalle.detcompCantidad}" />
 											</p:column>
 
-											<p:column headerText="NOMBRE">
+											<p:column headerText="NAME">
 												<h:outputText value="#{detalle.detcompNombreProducto}" />
 											</p:column>
 											<p:column headerText="DESCR">
 												<h:outputText value="#{detalle.detcompDescripcion}" />
 											</p:column>
 
-											<p:column headerText="PRECIO UNIT">
+											<p:column headerText="UNIT PRICE">
 												<h:outputText value="#{detalle.detcompPrecioUnit}" />
 											</p:column>
 
@@ -343,7 +341,7 @@
 									<p:panel header="">
 										<div align="center">
 											<p:staticMessage severity="warn"
-												summary="Factura aprobada: #{beanCompras.compraProductoSeleccionado.comprodAprobado}"></p:staticMessage>
+												summary="Invoice aproved: #{beanCompras.compraProductoSeleccionado.comprodAprobado}"></p:staticMessage>
 										</div>
 									</p:panel>
 
@@ -354,11 +352,11 @@
 					</p:panel>
 
 					<p:panelGrid columns="2" styleClass="ui-noborder">
-						<p:commandButton value="Abonar" disabled="true"
+						<p:commandButton value="Pay" disabled="true"
 							styleClass="rounded-button ui-button-help" style="width: auto"
 							oncomplete="PF('detallePedido').show()" icon="fa fa-money" />
 
-						<p:commandButton value="Salir"
+						<p:commandButton value="Exit"
 							styleClass="rounded-button ui-button-danger" style="width: auto"
 							oncomplete="PF('detallePedido').hide()" icon="fa fa-close" />
 					</p:panelGrid>

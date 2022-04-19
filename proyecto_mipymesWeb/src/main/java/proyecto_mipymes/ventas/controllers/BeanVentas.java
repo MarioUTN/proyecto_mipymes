@@ -96,18 +96,22 @@ public class BeanVentas implements Serializable {
 
 	public void actionListenerCrearCliente() {
 		clienteSeleccionado = new Cliente();
-		clienteSeleccionado = managerVentas.crearCliente(cedula_ruc, nombres, apellidos, telefono, email, direccion);
-		if (managerVentas.findAllClienteByCedulaRuc(cedula_ruc) != null) {
-			JSFUtil.crearMensajeError("Cliente con cedula o RUC: " + cedula_ruc + " ya existe!");
-			actionListenerSeleccionarCliente(cedula_ruc);
-		}
-		if (clienteSeleccionado != null) {
-			this.onclick = "PF('abonarFactura').show()";
-			JSFUtil.crearMensajeInfo("Cliente creado con Éxito!");
+		if (!cedula_ruc.equals("") && !nombres.equals("") && !apellidos.equals("") && !telefono.equals("")
+				&& !email.equals("") && !direccion.equals("")) {
+			clienteSeleccionado = managerVentas.crearCliente(cedula_ruc, nombres, apellidos, telefono, email,
+					direccion);
+			if (managerVentas.findAllClienteByCedulaRuc(cedula_ruc).getCliRucCedula() != null) {
+				JSFUtil.crearMensajeError("Cliente con cedula o RUC: " + cedula_ruc + " ya existe!");
+				actionListenerSeleccionarCliente(cedula_ruc);
+				this.onclick = "PF('abonarFactura').show()";
+			} else {
+				this.onclick = "PF('abonarFactura').hide()";
+				JSFUtil.crearMensajeError("Error al crear el cliente!" + clienteSeleccionado.getCliCodigo());
+			}
 		} else {
-			this.onclick = "PF('abonarFactura').hide()";
-			JSFUtil.crearMensajeError("Error al crear el cliente!" + clienteSeleccionado.getCliCodigo());
+			JSFUtil.crearMensajeError("Enter the information for Customer!");
 		}
+
 	}
 
 	public void actionListenerSeleccionarProducto(int id_producto) {
@@ -118,21 +122,7 @@ public class BeanVentas implements Serializable {
 
 	public void actionListenerSeleccionarCliente(String cedula_ruc) {
 		clienteSeleccionado = managerVentas.findAllClienteByCedulaRuc(cedula_ruc);
-		if (clienteSeleccionado.getCliRucCedula() != null) {
-			this.cedula_ruc = clienteSeleccionado.getCliRucCedula();
-			this.nombres = clienteSeleccionado.getUsuario().getUsNombres();
-			this.apellidos = clienteSeleccionado.getUsuario().getUsApellidos();
-			this.telefono = clienteSeleccionado.getCliTelefono();
-			this.email = clienteSeleccionado.getCliEmail();
-			this.direccion = clienteSeleccionado.getCliDireccion();
-			this.onclick = "PF('abonarFactura').show()";
-			if (listaDetalleFacturas.size() > 0) {
-				this.onclick = "PF('abonarFactura').show()";
-			} else {
-				this.onclick = "PF('abonarFactura').hide()";
-			}
-			JSFUtil.crearMensajeInfo("Customer successfully found");
-		} else {
+		if (cedula_ruc.equals("")) {
 			clienteSeleccionado = null;
 			this.cedula_ruc = "";
 			this.nombres = "";
@@ -141,7 +131,33 @@ public class BeanVentas implements Serializable {
 			this.email = "";
 			this.direccion = "";
 			this.onclick = "PF('abonarFactura').hide()";
-			JSFUtil.crearMensajeError("The custumer does not exist with C.I O RUC: " + cedula_ruc);
+			JSFUtil.crearMensajeError("Enter your C.I.!");
+		} else {
+			if (clienteSeleccionado.getCliRucCedula() != null) {
+				this.cedula_ruc = clienteSeleccionado.getCliRucCedula();
+				this.nombres = clienteSeleccionado.getUsuario().getUsNombres();
+				this.apellidos = clienteSeleccionado.getUsuario().getUsApellidos();
+				this.telefono = clienteSeleccionado.getCliTelefono();
+				this.email = clienteSeleccionado.getCliEmail();
+				this.direccion = clienteSeleccionado.getCliDireccion();
+				this.onclick = "PF('abonarFactura').show()";
+				if (listaDetalleFacturas.size() > 0) {
+					this.onclick = "PF('abonarFactura').show()";
+				} else {
+					this.onclick = "PF('abonarFactura').hide()";
+				}
+				JSFUtil.crearMensajeInfo("Customer successfully found");
+			} else {
+				clienteSeleccionado = null;
+				this.cedula_ruc = "";
+				this.nombres = "";
+				this.apellidos = "";
+				this.telefono = "";
+				this.email = "";
+				this.direccion = "";
+				this.onclick = "PF('abonarFactura').hide()";
+				JSFUtil.crearMensajeError("The custumer does not exist with C.I O RUC: " + cedula_ruc);
+			}
 		}
 
 	}

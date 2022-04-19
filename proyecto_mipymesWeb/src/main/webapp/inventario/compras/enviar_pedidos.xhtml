@@ -9,9 +9,9 @@
 	<f:facet name="first">
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
-		<title>Enviar Compras - Pedidos</title>
+		<title>Send Buys - Orders</title>
 	</f:facet>
-	<link href="../../css/style.css" rel="stylesheet"/>
+	<link href="../../css/style.css" rel="stylesheet" />
 	<style type="text/css">
 .par {
 	background-color: #b3b7cc !important;
@@ -38,56 +38,55 @@
 	</p:growl>
 	<h:form id="form0">
 		<p:menubar style="background-color: #5DADE2;">
-			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
+			<p:menuitem value="Back" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
 			</p:menuitem>
-			<p:menuitem value="Inicio"
+			<p:menuitem value="Home"
 				outcome="/seguridades/administrador/menu_administrador"
 				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:submenu label="Ventas" icon="fa fa-calendar-plus-o">
-				<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+			<p:submenu label="Sales" icon="fa fa-calendar-plus-o">
+				<p:menuitem value="Normal Sales" icon="fa fa-shopping-cart"
 					outcome="/inventario/ventas/index_ventas">
 					<f:param name="i" value="2" />
 				</p:menuitem>
-				<p:menuitem value="Ventas por Anticipos"
-					icon="fa fa-cart-arrow-down"
+				<p:menuitem value="Advanced Sales" icon="fa fa-cart-arrow-down"
 					outcome="/inventario/ventas_anticipos/index_anticipos">
 					<f:param name="i" value="3" />
 				</p:menuitem>
 			</p:submenu>
 
-			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
+			<p:menuitem value="Buy Products" icon="fa fa-cart-plus"
 				outcome="/inventario/compras/index_compras">
 				<f:param name="i" value="4" />
 			</p:menuitem>
 
-			<p:menuitem value="Clientes" icon="fa fa-users"
+			<p:menuitem value="Customers" icon="fa fa-users"
 				outcome="/talentohumano/clientes/menu_clientes">
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group"
+			<p:menuitem value="Sellers" icon="fa fa-group"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
 
-			<p:menuitem value="Facturas" icon="fa fa-file-text"
+			<p:menuitem value="Invoices" icon="fa fa-file-text"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/facturas/menu_facturas">
 				<f:param name="i" value="7" />
 			</p:menuitem>
 
-			<p:menuitem value="Productos" icon="fa fa-cubes"
+			<p:menuitem value="Products" icon="fa fa-cubes"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/productos/menu_productos">
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
-			<p:menuitem value="Proveedores" icon="fa fa-address-card"
+			<p:menuitem value="Suppliers" icon="fa fa-address-card"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/compras/Proveedor">
 				<f:param name="i" value="9" />
@@ -96,65 +95,64 @@
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="fa fa-user">
-					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
-					<p:menuitem value="Cerrar sesión" icon="fa fa-sign-out"
-						outcome="/login"></p:menuitem>
+					<p:menuitem value="Profile" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Sign Out" icon="fa fa-sign-out" outcome="/login"></p:menuitem>
 				</p:menuButton>
 			</f:facet>
 		</p:menubar>
 	</h:form>
 	<div align="center">
 		<p:steps activeIndex="3">
-			<p:menuitem value="Agregar Proveedor" />
-			<p:menuitem value="Agregar Productos para Compras" />
-			<p:menuitem value="Ver compras de Productos" />
-			<p:menuitem value="Enviar Pedido de Productos" />
+			<p:menuitem value="Add Product Entry Header" />
+			<p:menuitem value="Add Productos to Buy" />
+			<p:menuitem value="View Buys of Products" />
+			<p:menuitem value="Submit Product Order" />
 		</p:steps>
 	</div>
 
 	<h:form id="form2">
 		<div align="center">
-			<p:panel header="Lista de Pedidos Generados">
+			<p:panel header="List of order generated">
 				<p:dataTable value="#{beanCompras.listaCompraProductos}"
 					rowIndexVar="index"
 					rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
 					var="compraProductos" paginator="true" reflow="true" rows="5">
-					<p:column headerText="Vendedor"
+					<p:column headerText="Salesman"
 						sortBy="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}"
 						filterBy="#{compraProductos.cabeceraCompra.vendedor.usuario.persona.perNombres}">
 						<h:outputText
-							value="#{compraProductos.cabeceraCompra.vendedor.usuario.usNombres}" />
+							value="#{compraProductos.cabeceraCompra.vendedor.usuario.usNombres} #{compraProductos.cabeceraCompra.vendedor.usuario.usApellidos}" />
 					</p:column>
-					<p:column headerText="Proveedor"
+					<p:column headerText="Supplier"
 						sortBy="#{compraProductos.cabeceraCompra.empresa.empNombreEmpresa}"
 						filterBy="#{compraProductos.cabeceraCompra.empresa.empNombreEmpresa}">
 						<h:outputText
 							value="#{compraProductos.cabeceraCompra.empresa.empNombreEmpresa}" />
 					</p:column>
 
-					<p:column headerText="Aprobado"
+					<p:column headerText="Approved"
 						sortBy="#{compraProductos.comprodAprobado}"
 						filterBy="#{compraProductos.comprodAprobado}">
 						<h:outputText value="#{compraProductos.comprodAprobado}" />
 					</p:column>
-					<p:column headerText="Valor Sub Total"
+					<p:column headerText="Value Sub Total"
 						sortBy="#{compraProductos.comprodSubtotal}"
 						filterBy="#{compraProductos.comprodSubtotal}">
 						<h:outputText value="#{compraProductos.comprodSubtotal}" />
 					</p:column>
 
-					<p:column headerText="Valor Iva"
+					<p:column headerText="Value Iva"
 						sortBy="#{compraProductos.comprodIva}"
 						filterBy="#{compraProductos.comprodIva}">
 						<h:outputText value="#{compraProductos.comprodIva}" />
 					</p:column>
-					<p:column headerText="Valor Total"
+					<p:column headerText="Value Total"
 						sortBy="#{compraProductos.comprodTotal}"
 						filterBy="#{compraProductos.comprodTotal}">
 						<h:outputText value="#{compraProductos.comprodTotal}" />
 					</p:column>
-					<p:column headerText="Opciones">
-						<p:commandButton value="Enviar Pedido al proveedor"
+					<p:column headerText="Options">
+						<p:commandButton value="Send order to supplier"
 							icon="fa fa-share" styleClass="ui-button-success">
 						</p:commandButton>
 
@@ -163,7 +161,7 @@
 			</p:panel>
 			<br />
 			<div align="center">
-				<p:commandButton value="Cancelar" action="enviar_pedidos"
+				<p:commandButton value="Cancel" action="enviar_pedidos"
 					styleClass="ui-button-danger" style="width: auto"
 					icon="fa fa-close" />
 			</div>

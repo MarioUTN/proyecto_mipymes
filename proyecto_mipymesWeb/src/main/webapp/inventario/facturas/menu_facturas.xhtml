@@ -9,7 +9,7 @@
 	<f:facet name="first">
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
-		<title>Facturas</title>
+		<title>Invoices</title>
 	</f:facet>
 	<link href="../../css/style.css" rel="stylesheet"/>
 	<style type="text/css">
@@ -38,57 +38,57 @@
 	</p:growl>
 	<h:form id="form-menu">
 		<p:menubar style="background-color: #5DADE2;">
-			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
+			<p:menuitem value="Back" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
 			</p:menuitem>
-			<p:menuitem value="Inicio"
+			<p:menuitem value="Home"
 				outcome="/seguridades/administrador/menu_administrador"
 				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
 
-			<p:submenu label="Ventas" icon="fa fa-calendar-plus-o">
-				<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+			<p:submenu label="Sales" icon="fa fa-calendar-plus-o">
+				<p:menuitem value="Normal Sales" icon="fa fa-shopping-cart"
 					outcome="/inventario/ventas/index_ventas">
 					<f:param name="i" value="2" />
 				</p:menuitem>
-				<p:menuitem value="Ventas por Anticipos"
+				<p:menuitem value="Advanced Sales"
 					icon="fa fa-cart-arrow-down"
 					outcome="/inventario/ventas_anticipos/index_anticipos">
 					<f:param name="i" value="3" />
 				</p:menuitem>
 			</p:submenu>
 
-			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
+			<p:menuitem value="Buy Products" icon="fa fa-cart-plus"
 				outcome="/inventario/compras/index_compras">
 				<f:param name="i" value="4" />
 			</p:menuitem>
 
-			<p:menuitem value="Clientes" icon="fa fa-users"
+			<p:menuitem value="Customers" icon="fa fa-users"
 				outcome="/talentohumano/clientes/menu_clientes">
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group"
+			<p:menuitem value="Sellers" icon="fa fa-group"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
 
-			<p:menuitem value="Facturas" icon="fa fa-file-text"
+			<p:menuitem value="Invoices" icon="fa fa-file-text"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/facturas/menu_facturas">
 				<f:param name="i" value="7" />
 			</p:menuitem>
 
-			<p:menuitem value="Productos" icon="fa fa-cubes"
+			<p:menuitem value="Products" icon="fa fa-cubes"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/productos/menu_productos">
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
-			<p:menuitem value="Proveedores" icon="fa fa-address-card"
+			<p:menuitem value="Suppliers" icon="fa fa-address-card"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/compras/Proveedor">
 				<f:param name="i" value="9" />
@@ -97,8 +97,8 @@
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="fa fa-user">
-					<p:menuitem value="Perfil" icon="fa fa-cog"></p:menuitem>
-					<p:menuitem value="Cerrar sesión" icon="fa fa-sign-out"
+					<p:menuitem value="Profile" icon="fa fa-cog"></p:menuitem>
+					<p:menuitem value="Sign Out" icon="fa fa-sign-out"
 						outcome="/login"></p:menuitem>
 				</p:menuButton>
 			</f:facet>
@@ -134,7 +134,7 @@
 								<p:resetInput target=":form-ver-cliente:cliente-FacturaDialog" />
 							</p:commandButton>
 
-							<p:commandButton value="Invouce by Salesman" icon="fa fa-user"
+							<p:commandButton value="Invoice by Salesman" icon="fa fa-user"
 								update=":form-ver-vendedor:vendedor-FacturaDialog"
 								oncomplete="PF('vendedorFacturaDialog').show()"
 								styleClass="ui-button-success">
@@ -162,7 +162,7 @@
 
 			<h:form id="form-ver-tipo">
 				<div align="center">
-					<p:dialog header="Seleccionar el Tipo de Factura" showEffect="fade"
+					<p:dialog header="Select the Invoice Type" showEffect="fade"
 						modal="true" widgetVar="tipoFacturaDialog" responsive="true">
 						<p:outputPanel id="tipo-FacturaDialog" class="ui-fluid">
 							<div align="center">
@@ -170,7 +170,7 @@
 									alt="" />
 							</div>
 							<p:panelGrid columns="2" styleClass="ui-noborder">
-								<h:outputText value="Tipo de factura:" style="font-weight:bold" />
+								<h:outputText value="Invoice Type:" style="font-weight:bold" />
 								<p:selectOneMenu value="#{beanFacturas.id_tipo_factura}"
 									style="width:350px" panelStyle="width:180px" effect="fade"
 									filter="true" filterMatchMode="startsWith">
@@ -195,7 +195,7 @@
 									</f:selectItems>
 									<f:facet name="footer">
 										<h:outputText
-											value="#{beanFacturas.listaTipoFacturas.size()} Tipo de facturas Encontrados"
+											value="#{beanFacturas.listaTipoFacturas.size()} invoices types founds "
 											style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
 									</f:facet>
 								</p:selectOneMenu>
@@ -229,7 +229,7 @@
 
 			<h:form id="form-ver-forma-pago">
 				<div align="center">
-					<p:dialog header="Seleccionar la Forma de Pago de Factura"
+					<p:dialog header="Select the payment method"
 						showEffect="fade" modal="true" widgetVar="formapagoFacturaDialog"
 						responsive="true">
 						<p:outputPanel id="formapago-FacturaDialog" class="ui-fluid">
@@ -237,7 +237,7 @@
 								<img src="../../Imagenes/pay_per_click_16331.ico" alt="" />
 							</div>
 							<p:panelGrid columns="2" styleClass="ui-noborder">
-								<h:outputText value="Forma de Pago:" style="font-weight:bold" />
+								<h:outputText value="Payment Method:" style="font-weight:bold" />
 								<p:selectOneMenu value="#{beanFacturas.id_forma_pago}"
 									style="width:350px" panelStyle="width:180px" effect="fade"
 									filter="true" filterMatchMode="startsWith">
@@ -261,7 +261,7 @@
 									</f:selectItems>
 									<f:facet name="footer">
 										<h:outputText
-											value="#{beanFacturas.listaFormaPagos.size()} Tipo de facturas Encontrados"
+											value="#{beanFacturas.listaFormaPagos.size()} payment methods found"
 											style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
 									</f:facet>
 								</p:selectOneMenu>
@@ -291,7 +291,7 @@
 
 			<h:form id="form-ver-cliente">
 				<div align="center">
-					<p:dialog header="Seleccionar el cliente" showEffect="fade"
+					<p:dialog header="Select Customer" showEffect="fade"
 						modal="true" widgetVar="clienteFacturaDialog" responsive="true">
 						<p:outputPanel id="cliente-FacturaDialog" class="ui-fluid">
 							<div align="center">
@@ -299,14 +299,14 @@
 									alt="" />
 							</div>
 							<p:panelGrid columns="2" styleClass="ui-noborder">
-								<h:outputText value="Cliente:" style="font-weight:bold" />
+								<h:outputText value="Customer:" style="font-weight:bold" />
 								<p:selectOneMenu value="#{beanFacturas.cedula_ruc}"
 									style="width:350px" panelStyle="width:180px" effect="fade"
 									filter="true" filterMatchMode="startsWith">
 									<f:selectItems value="#{beanClientes.listaClientes}"
-										var="cliente" itemLabel="#{cliente.usuario.usNombres}"
+										var="cliente" itemLabel="#{cliente.usuario.usNombres} #{cliente.usuario.usApellidos}"
 										itemValue="#{cliente.cliRucCedula}">
-										<p:column style="width:10%" headerText="NOMBRE">
+										<p:column style="width:10%" headerText="NAME">
 											<span class="flag flag-#{cliente.usuario.usNombres}"
 												style="width: 30px; height: 20px" />
 										</p:column>
@@ -324,7 +324,7 @@
 									</f:selectItems>
 									<f:facet name="footer">
 										<h:outputText
-											value="#{beanClientes.listaClientes.size()} Tipo de facturas Encontrados"
+											value="#{beanClientes.listaClientes.size()} customers found"
 											style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
 									</f:facet>
 								</p:selectOneMenu>
@@ -368,7 +368,7 @@
 									style="width:350px" panelStyle="width:180px" effect="fade"
 									filter="true" filterMatchMode="startsWith">
 									<f:selectItems value="#{beanFacturas.listVendedors}"
-										var="vendedor" itemLabel="#{vendedor.usuario.usNombres}"
+										var="vendedor" itemLabel="#{vendedor.usuario.usNombres} #{vendedor.usuario.usApellidos}"
 										itemValue="#{vendedor.idVendedor}">
 										<p:column style="width:10%" headerText="NOMBRE">
 											<span class="flag flag-#{vendedor.usuario.usNombres}"
@@ -388,7 +388,7 @@
 									</f:selectItems>
 									<f:facet name="footer">
 										<h:outputText
-											value="#{beanFacturas.listVendedors.size()} Tipo de facturas Encontrados"
+											value="#{beanFacturas.listVendedors.size()} sellers found"
 											style="font-weight:bold;" styleClass="p-py-1 p-d-block" />
 									</f:facet>
 								</p:selectOneMenu>
@@ -421,7 +421,7 @@
 				<p:growl id="msgs" showDetail="true"
 					skipDetailIfEqualsSummary="true" />
 				<div align="center">
-					<p:dialog header="Select Salesman" showEffect="fade" modal="true"
+					<p:dialog header="Select Date" showEffect="fade" modal="true"
 						widgetVar="dateFacturaDialog" responsive="true">
 						<div align="center">
 							<img src="../../Imagenes/calendar-clock-icon_34472.ico" alt="" />
@@ -467,22 +467,22 @@
 							rows="6" style="font-size: 12px" paginatorPosition="bottom"
 							rowIndexVar="index"
 							rowStyleClass="#{!factura.factEstado ? 'state':null}">
-							<p:column headerText="NUM FACT" style="width:80px"
+							<p:column headerText="NUMBER" style="width:80px"
 								filterBy="#{factura.idFactura}">
 								<h:outputText value="#{factura.factNumeroFactura}" />
 							</p:column>
-							<p:column headerText="FECHA EMISIÓN" style="width:70px">
+							<p:column headerText="DATE ISSUE" style="width:70px">
 								<h:outputText value="#{factura.factFechaEmision}" />
 							</p:column>
 
-							<p:column headerText="FORMA PAGO">
+							<p:column headerText="PAY METHOD">
 								<h:outputText value="#{factura.formaPago.fpNombre}" />
 							</p:column>
-							<p:column headerText="TIPO DE FACTURA">
+							<p:column headerText="INVOICE TYPE">
 								<h:outputText value="#{factura.tipoFactura.tfNombre}" />
 							</p:column>
 
-							<p:column headerText="CLIENTE">
+							<p:column headerText="CUSTOMER">
 								<h:outputText
 									value="#{factura.cabeceraFactura.cliente.usuario.usNombres} #{factura.cabeceraFactura.cliente.usuario.usApellidos}" />
 							</p:column>
@@ -551,7 +551,7 @@
 
 		<h:form id="form-detalle">
 			<div align="center">
-				<p:dialog header="Vista del detalle de la factura seleccionda"
+				<p:dialog header="Detail view of the select invoice"
 					showEffect="fade" modal="true" widgetVar="detalleFactura"
 					responsive="true">
 					<p:outputPanel id="detalle-Factura" class="ui-fluid">
@@ -561,12 +561,12 @@
 								<p:menuButton value="Generate Report and Print"
 									icon="fa fa-file-pdf-o">
 
-									<p:menuitem value="Print Report Factura" ajax="false"
+									<p:menuitem value="Print Report of Invoice" ajax="false"
 										styleClass="ui-button-help" update="form-detalle"
 										icon="fa fa-file-pdf-o"
 										action="#{beanFacturas.actionListenerGenerarReporteFactura()}">
 									</p:menuitem>
-									<p:menuitem value="Print Report Abonos" ajax="false"
+									<p:menuitem value="Print Report of Abonos" ajax="false"
 										styleClass="ui-button-help" update="form-detalle"
 										icon="fa fa-file-pdf-o"
 										disabled="#{beanFacturas.facturaSeleccionada.tipoFactura.idTipoFactura!=4}"
@@ -580,13 +580,13 @@
 							<p:splitter layout="vertical">
 								<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 									<p:panelGrid columns="6" styleClass="ui-noborder">
-										<h:outputLabel value="Fecha Emision:" style="font-weight:bold" />
+										<h:outputLabel value="Date Issue:" style="font-weight:bold" />
 										<h:outputLabel
 											value="#{beanFacturas.facturaSeleccionada.factFechaEmision}" />
-										<h:outputLabel value="Vendedor: " style="font-weight:bold" />
+										<h:outputLabel value="Salesman: " style="font-weight:bold" />
 										<h:outputLabel
-											value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.vendedor.usuario.usNombres}" />
-										<h:outputLabel value="Fact. Número: " style="font-weight:bold" />
+											value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.vendedor.usuario.usNombres} #{beanFacturas.facturaSeleccionada.cabeceraFactura.vendedor.usuario.usApellidos}" />
+										<h:outputLabel value="Invoice Number: " style="font-weight:bold" />
 										<h:outputLabel
 											value="#{beanFacturas.facturaSeleccionada.factNumeroFactura}"
 											style="font-weight:bold; color: red" />
@@ -607,22 +607,22 @@
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliRucCedula}" />
 
-															<p:outputLabel value="Nombres: " style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel value="First Name: " style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.usuario.usNombres}" />
-															<p:outputLabel value="Apellidos: "
+															<p:outputLabel value="Last Name: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.usuario.usApellidos}" />
-															<p:outputLabel value="Dirección: "
+															<p:outputLabel value="Address; "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliDireccion}" />
-															<p:outputLabel value="Teléfono: "
+															<p:outputLabel value="Phone: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliTelefono}" />
-															<p:outputLabel value="Email: " style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel value="Mail: " style="font-weight:bold"></p:outputLabel>
 
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliEmail}" />
@@ -631,12 +631,12 @@
 													<p:splitterPanel size="30"
 														styleClass="p-d-flex p-ai-center p-jc-center">
 														<p:panelGrid columns="2" styleClass="ui-noborder">
-															<p:outputLabel value="Factura Cancelada: "
+															<p:outputLabel value="Invoice pay: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.factEstado}" />
 
-															<p:outputLabel value="Productos entregados: "
+															<p:outputLabel value="Products Delivered: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.factEntregado}" />
@@ -665,14 +665,14 @@
 												stripedRows="true" var="detalle" paginator="true" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
 												reflow="true" rows="6" style="font-size: 12px"
 												paginatorPosition="bottom" rowIndexVar="index">
-												<p:column headerText="COD" style="width:80px">
+												<p:column headerText="CODE" style="width:80px">
 													<h:outputText value="#{detalle.producto.prodCodigo}" />
 												</p:column>
-												<p:column headerText="CANT" style="width:40px">
+												<p:column headerText="QUAL" style="width:40px">
 													<h:outputText value="#{detalle.detCantidad}" />
 												</p:column>
 
-												<p:column headerText="NOMBRE">
+												<p:column headerText="NAME">
 													<h:outputText value="#{detalle.producto.prodNombre}"
 														style="font-size: 10px" />
 												</p:column>
@@ -681,7 +681,7 @@
 														style="font-size: 10px" />
 												</p:column>
 
-												<p:column headerText="PRECIO UNIT">
+												<p:column headerText="UNIT PRICE">
 													<h:outputText value="#{detalle.producto.prodPvpublico}" />
 												</p:column>
 
@@ -702,7 +702,7 @@
 									</p:splitterPanel>
 									<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
 										size="30">
-										<p:panel header="Valor Total de la Factura">
+										<p:panel header="Total Value of the Invoice">
 											<p:panelGrid columns="2" styleClass="ui-noborder">
 												<p:outputLabel value="Sub Total: " style="font-weight:bold"></p:outputLabel>
 												<p:outputLabel
@@ -725,7 +725,7 @@
 										<p:panel header="">
 											<div align="center">
 												<p:panelGrid columns="2" styleClass="ui-noborder">
-													<p:outputLabel value="SALDO: "
+													<p:outputLabel value="Balance: "
 														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
 													<p:outputLabel value="$ #{beanFacturas.saldo_actual}"
 														style="font-weight:bold; font-size:22px; color: #EB3E1B"></p:outputLabel>
@@ -755,7 +755,7 @@
 
 		<h:form id="form-abonar">
 			<div align="center">
-				<p:dialog header="Abonar Factura" showEffect="fade" modal="true"
+				<p:dialog header="Pay Invoice" showEffect="fade" modal="true"
 					widgetVar="abonarFactura" responsive="true">
 					<p:outputPanel id="abonar-Factura" class="ui-fluid">
 
@@ -763,13 +763,13 @@
 							<p:splitter layout="vertical">
 								<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center">
 									<p:panelGrid columns="6" styleClass="ui-noborder">
-										<h:outputLabel value="Fecha Emision:" style="font-weight:bold" />
+										<h:outputLabel value="Date Issue:" style="font-weight:bold" />
 										<h:outputLabel
 											value="#{beanFacturas.facturaSeleccionada.factFechaEmision}" />
-										<h:outputLabel value="Vendedor: " style="font-weight:bold" />
+										<h:outputLabel value="Salesman: " style="font-weight:bold" />
 										<h:outputLabel
-											value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.vendedor.usuario.usNombres}" />
-										<h:outputLabel value="Fact. Número: " style="font-weight:bold" />
+											value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.vendedor.usuario.usNombres} #{beanFacturas.facturaSeleccionada.cabeceraFactura.vendedor.usuario.usApellidos}" />
+										<h:outputLabel value="Invoice Num: " style="font-weight:bold" />
 										<h:outputLabel
 											value="#{beanFacturas.facturaSeleccionada.factNumeroFactura}"
 											style="font-weight:bold; color: red" />
@@ -785,27 +785,27 @@
 													<p:splitterPanel
 														styleClass="p-d-flex p-ai-center p-jc-center" size="100">
 														<p:panelGrid columns="6" styleClass="ui-noborder">
-															<p:outputLabel value="Cedula o RUC: "
+															<p:outputLabel value="Card o RUC: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliRucCedula}" />
 
-															<p:outputLabel value="Nombres: " style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel value="First Names: " style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.usuario.usNombres}" />
-															<p:outputLabel value="Apellidos: "
+															<p:outputLabel value="Last Names: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.usuario.usApellidos}" />
-															<p:outputLabel value="Dirección: "
+															<p:outputLabel value="Address: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliDireccion}" />
-															<p:outputLabel value="Teléfono: "
+															<p:outputLabel value="Phone: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliTelefono}" />
-															<p:outputLabel value="Email: " style="font-weight:bold"></p:outputLabel>
+															<p:outputLabel value="Mail: " style="font-weight:bold"></p:outputLabel>
 
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.cabeceraFactura.cliente.cliEmail}" />
@@ -816,13 +816,13 @@
 														<p:panelGrid columns="4" styleClass="ui-noborder"
 															id="price">
 
-															<p:outputLabel value="Valor: " style="font-weight:bold" />
+															<p:outputLabel value="Value: " style="font-weight:bold" />
 															<p:spinner id="e" placeholder="15.25" stepFactor="0.01"
 																style="width:125px" min="0.00"
 																disabled="#{beanFacturas.facturaSeleccionada.factEstado}"
 																value="#{beanFacturas.valor_abono}" required="true"
-																requiredMessage="Ingrese el valor del abono!">
-																<p:tooltip for="e" value="Ingrese el valor del abono!"
+																requiredMessage="Enter the Pay value!">
+																<p:tooltip for="e" value="Enter the pay value!"
 																	position="bottom" />
 															</p:spinner>
 
@@ -834,7 +834,7 @@
 
 															<p:panelGrid columns="1" styleClass="ui-noborder"
 																id="price-1">
-																<p:commandButton value="Abonar Factura"
+																<p:commandButton value="Pay Invoice"
 																	icon="fa fa-save"
 																	disabled="#{beanFacturas.saldo_actual==0}"
 																	styleClass="rounded-button ui-button-success"
@@ -848,12 +848,12 @@
 													<p:splitterPanel size="30"
 														styleClass="p-d-flex p-ai-center p-jc-center">
 														<p:panelGrid columns="2" styleClass="ui-noborder">
-															<p:outputLabel value="Factura Cancelada: "
+															<p:outputLabel value="Canceled Invoice: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.factEstado}" />
 
-															<p:outputLabel value="Productos entregados: "
+															<p:outputLabel value="Delivered Products: "
 																style="font-weight:bold"></p:outputLabel>
 															<p:outputLabel
 																value="#{beanFacturas.facturaSeleccionada.factEntregado}" />
@@ -871,7 +871,7 @@
 							</div>
 						</p:panel>
 
-						<p:panel header="Detalle de abonos realizados">
+						<p:panel header="Detail of payments made">
 							<div align="center">
 								<p:splitter>
 									<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
@@ -882,35 +882,35 @@
 												paginator="true" reflow="true" rows="6"
 												style="font-size: 12px" paginatorPosition="bottom"
 												rowIndexVar="index" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}">
-												<p:column headerText="CLIENTE" style="width:200px">
+												<p:column headerText="CUSTOMER" style="width:200px">
 													<h:outputText
 														value="#{detalleabono.cliente.usuario.usNombres} #{detalleabono.cliente.usuario.usApellidos}" />
 												</p:column>
-												<p:column headerText="VENDEDOR" style="width:200px">
+												<p:column headerText="SALESMAN" style="width:200px">
 													<h:outputText
 														value="#{detalleabono.vendedor.usuario.usNombres} #{detalleabono.vendedor.usuario.usApellidos}" />
 												</p:column>
 
-												<p:column headerText="VALOR ABONO" style="width:80px">
+												<p:column headerText="PAY VALUE" style="width:80px">
 													<h:outputText value="#{detalleabono.detabAbono}">
 														<f:convertNumber minFractionDigits="2" />
 													</h:outputText>
 												</p:column>
-												<p:column headerText="FECHA ABONO" style="width:80px">
+												<p:column headerText="DATE PAY" style="width:80px">
 													<h:outputText value="#{detalleabono.detabFechaAbono}">
 														<f:convertDateTime pattern="dd-MM-yyyy" />
 													</h:outputText>
 												</p:column>
 
-												<p:column headerText="SALDO ANT" style="width:80px">
+												<p:column headerText="PRE. BAL" style="width:80px">
 													<h:outputText value="#{detalleabono.detabSaldoAnterior}" />
 												</p:column>
 
-												<p:column headerText="SALDO ACT" style="width:80px">
+												<p:column headerText="CUR. BAL" style="width:80px">
 													<h:outputText value="#{detalleabono.detabSaldoActual}" />
 												</p:column>
 
-												<p:column headerText="TOTAL FACT" style="width:100px">
+												<p:column headerText="TOTAL INV" style="width:100px">
 													<h:outputText
 														value="#{detalleabono.estadoPedido.estValorTotal}" />
 												</p:column>
@@ -919,7 +919,7 @@
 									</p:splitterPanel>
 									<p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center"
 										size="30">
-										<p:panel header="Valor Total de la Factura">
+										<p:panel header="Total value of the invoice">
 											<p:panelGrid columns="2" styleClass="ui-noborder">
 												<p:outputLabel value="Sub Total: " style="font-weight:bold"></p:outputLabel>
 												<p:outputLabel
@@ -942,7 +942,7 @@
 										<p:panel header="">
 											<div align="center">
 												<p:panelGrid id="saldo" columns="2" styleClass="ui-noborder">
-													<p:outputLabel value="SALDO: "
+													<p:outputLabel value="BALANCE: "
 														style="font-weight:bold; font-size:18px; color: #EB3E1B"></p:outputLabel>
 													<p:outputLabel value="$ #{beanFacturas.saldo_actual}"
 														style="font-weight:bold; font-size:18px; color: #EB3E1B"></p:outputLabel>
@@ -957,7 +957,7 @@
 						</p:panel>
 
 						<p:panelGrid columns="2" styleClass="ui-noborder">
-							<p:commandButton value="Abonar"
+							<p:commandButton value="Pay Invoice"
 								disabled="#{beanFacturas.facturaSeleccionada.factEstado}"
 								styleClass="rounded-button ui-button-help" style="width: auto"
 								oncomplete="PF('abonarFactura').hide()" icon="fa fa-money"

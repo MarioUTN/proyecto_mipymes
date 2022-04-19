@@ -9,7 +9,7 @@
 	<f:facet name="first">
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
-		<title>Productos</title>
+		<title>Products</title>
 	</f:facet>
 	<link href="../../css/style.css" rel="stylesheet"/>
 	<script type="text/javaScript" src="../../js/funcion.js" />
@@ -40,57 +40,57 @@
 	</p:growl>
 	<h:form id="form-menu">
 		<p:menubar style="background-color: #5DADE2;">
-			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
+			<p:menuitem value="Back" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
 			</p:menuitem>
-			<p:menuitem value="Inicio"
+			<p:menuitem value="Home"
 				outcome="/seguridades/administrador/menu_administrador"
 				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:submenu label="Ventas" icon="fa fa-calendar-plus-o">
-				<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+			<p:submenu label="Sales" icon="fa fa-calendar-plus-o">
+				<p:menuitem value="Normal Sales" icon="fa fa-shopping-cart"
 					outcome="/inventario/ventas/index_ventas">
 					<f:param name="i" value="2" />
 				</p:menuitem>
-				<p:menuitem value="Ventas por Anticipos"
+				<p:menuitem value="Advanced Sales"
 					icon="fa fa-cart-arrow-down"
 					outcome="/inventario/ventas_anticipos/index_anticipos">
 					<f:param name="i" value="3" />
 				</p:menuitem>
 			</p:submenu>
 
-			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
+			<p:menuitem value="Buy Products" icon="fa fa-cart-plus"
 				outcome="/inventario/compras/index_compras">
 				<f:param name="i" value="4" />
 			</p:menuitem>
 
-			<p:menuitem value="Clientes" icon="fa fa-users"
+			<p:menuitem value="Customers" icon="fa fa-users"
 				outcome="/talentohumano/clientes/menu_clientes">
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group"
+			<p:menuitem value="Sellers" icon="fa fa-group"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
 
-			<p:menuitem value="Facturas" icon="fa fa-file-text"
+			<p:menuitem value="Invoices" icon="fa fa-file-text"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/facturas/menu_facturas">
 				<f:param name="i" value="7" />
 			</p:menuitem>
 
-			<p:menuitem value="Productos" icon="fa fa-cubes"
+			<p:menuitem value="Products" icon="fa fa-cubes"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/productos/menu_productos">
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
 
-			<p:menuitem value="Proveedores" icon="fa fa-address-card"
+			<p:menuitem value="Supliers" icon="fa fa-address-card"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/compras/Proveedor">
 				<f:param name="i" value="9" />
@@ -99,8 +99,8 @@
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="fa fa-user">
-					<p:menuitem value="Perfil" icon="fa fa-cog"></p:menuitem>
-					<p:menuitem value="Cerrar sesión" icon="fa fa-sign-out"
+					<p:menuitem value="Profile" icon="fa fa-cog"></p:menuitem>
+					<p:menuitem value="Sign Out" icon="fa fa-sign-out"
 						outcome="/login"></p:menuitem>
 				</p:menuButton>
 			</f:facet>
@@ -115,16 +115,16 @@
 				<p:dataTable value="#{beanProductos.listaProductos}" var="productos" rowIndexVar="index" rowStyleClass="#{index mod 2 eq 0 ? 'par' : 'inpar'}"
 					stripedRows="true" paginator="true" reflow="true" rows="7"
 					style="font-size: 12px" paginatorPosition="bottom">
-					<p:column headerText="COD" style="width:80px" sortBy="#{productos.prodCodigo}"
+					<p:column headerText="CODE" style="width:80px" sortBy="#{productos.prodCodigo}"
 						filterBy="#{productos.prodCodigo}">
 						<h:outputText value="#{productos.prodCodigo}" />
 					</p:column>
-					<p:column headerText="CANT" style="width:80px" sortBy="#{productos.prodCantidad}"
+					<p:column headerText="QUANT" style="width:80px" sortBy="#{productos.prodCantidad}"
 						filterBy="#{productos.prodCantidad}">
 						<h:outputText value="#{productos.prodCantidad}" />
 					</p:column>
 
-					<p:column headerText="NOMBRE" sortBy="#{productos.prodNombre}"
+					<p:column headerText="NAME" sortBy="#{productos.prodNombre}"
 						filterBy="#{productos.prodNombre}">
 						<h:outputText value="#{productos.prodNombre}" />
 					</p:column>
@@ -133,53 +133,53 @@
 						<h:outputText value="#{productos.prodDescripcion}" />
 					</p:column>
 
-					<p:column headerText="PROVEEDOR"
+					<p:column headerText="SUPPLIER"
 						sortBy="#{productos.empresa.empNombreEmpresa}"
 						filterBy="#{productos.empresa.empNombreEmpresa}">
 						<h:outputText value="#{productos.empresa.empNombreEmpresa}" />
 					</p:column>
-					<p:column headerText="PRECIO" style="width:80px" sortBy="#{productos.prodPvpublico}"
+					<p:column headerText="PRICE" style="width:80px" sortBy="#{productos.prodPvpublico}"
 						filterBy="#{productos.prodPvpublico}">
 						<h:outputText value="#{productos.prodPvpublico}" />
 					</p:column>
 
-					<p:column headerText="TALLA" style="width:80px"
+					<p:column headerText="CLOTH. SIZE" style="width:80px"
 						sortBy="#{productos.tallaProducto.tallaNombre}"
 						filterBy="#{productos.tallaProducto.tallaNombre}">
 						<h:outputText value="#{productos.tallaProducto.tallaNombre}" />
 					</p:column>
 
-					<p:column headerText="TIPO"
+					<p:column headerText="TYPE"
 						sortBy="#{productos.tipoProducto.tpNombre}"
 						filterBy="#{productos.tipoProducto.tpNombre}">
 						<h:outputText value="#{productos.tipoProducto.tpNombre}" />
 					</p:column>
 
-					<p:column headerText="Opciones">
-						<p:menuButton value="Opciones"
+					<p:column headerText="OPTIONS">
+						<p:menuButton value="OPTIONS"
 							buttonStyleClass="ui-button-outlined"
 							buttonStyle="box-shadow: 0 0 10px">
 							<p:divider />
-							<p:menuitem value="Editar" icon="fa fa-edit"
+							<p:menuitem value="Edit" icon="fa fa-edit"
 								update=":form-editar:editar-ProductDialog"
 								actionListener="#{beanProductos.actionListenerSeleccionarProducto(productos.prodCodigo)}"
 								oncomplete="PF('editarProductDialog').show()">
 								<p:resetInput target=":form-editar:editar-ProductDialog" />
 							</p:menuitem>
 							<p:divider />
-							<p:menuitem value="Crear" icon="fa fa-plus"
+							<p:menuitem value="Create" icon="fa fa-plus"
 								update=":form-crear:crearnuevo-ProductDialog"
 								actionListener="#{beanProductos.actionListenerSeleccionarProducto(productos.prodCodigo)}"
 								oncomplete="PF('crearnuevoProductDialog').show()">
 								<p:resetInput target=":form-crear:crearnuevo-ProductDialog" />
 							</p:menuitem>
-							<p:menuitem value="Generar Reporte" ajax="false"
+							<p:menuitem value="Generate Report" ajax="false"
 								styleClass="ui-button-help" icon="fa fa-file-pdf-o"
 								action="#{beanProductos.actionReporte()}">
 							</p:menuitem>
 							<p:divider />
 
-							<p:menuitem update="@form,:form-tablaproductos" value="Eliminar"
+							<p:menuitem update="@form,:form-tablaproductos" value="Delete"
 								icon="fa fa-trash"
 								actionListener="#{beanProductos.actionListenerEliminarProducto(productos.prodCodigo)}">
 							</p:menuitem>

@@ -9,7 +9,7 @@
 	<f:facet name="first">
 		<meta name="viewport"
 			content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
-		<title>Agregar Proveedor</title>
+		<title>Add Supplier</title>
 	</f:facet>
 	<link href="../../css/style.css" rel="stylesheet"/>
 </h:head>
@@ -19,56 +19,56 @@
 	</p:growl>
 	<h:form id="form0">
 		<p:menubar style="background-color: #5DADE2;">
-			<p:menuitem value="Regresar" icon="fa fa-arrow-circle-left"
+			<p:menuitem value="Back" icon="fa fa-arrow-circle-left"
 				outcome="/login?faces-redirect=true">
 				<f:param name="i" value="0" />
 			</p:menuitem>
-			<p:menuitem value="Inicio"
+			<p:menuitem value="Home"
 				outcome="/seguridades/administrador/menu_administrador"
 				icon="fa fa-home">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:submenu label="Ventas" icon="fa fa-calendar-plus-o">
-				<p:menuitem value="Ventas Normales" icon="fa fa-shopping-cart"
+			<p:submenu label="Sales" icon="fa fa-calendar-plus-o">
+				<p:menuitem value="Normal Sales" icon="fa fa-shopping-cart"
 					outcome="/inventario/ventas/index_ventas">
 					<f:param name="i" value="2" />
 				</p:menuitem>
-				<p:menuitem value="Ventas por Anticipos"
+				<p:menuitem value="Advanced Sales"
 					icon="fa fa-cart-arrow-down"
 					outcome="/inventario/ventas_anticipos/index_anticipos">
 					<f:param name="i" value="3" />
 				</p:menuitem>
 			</p:submenu>
 
-			<p:menuitem value="Compras de Productos" icon="fa fa-cart-plus"
+			<p:menuitem value="Buy Products" icon="fa fa-cart-plus"
 				outcome="/inventario/compras/index_compras">
 				<f:param name="i" value="4" />
 			</p:menuitem>
 
-			<p:menuitem value="Clientes" icon="fa fa-users"
+			<p:menuitem value="Customers" icon="fa fa-users"
 				outcome="/talentohumano/clientes/menu_clientes">
 				<f:param name="i" value="5" />
 			</p:menuitem>
 
-			<p:menuitem value="Vendedores" icon="fa fa-group"
+			<p:menuitem value="Sellers" icon="fa fa-group"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/talentohumano/vendedores/menu_vendedores">
 				<f:param name="i" value="6" />
 			</p:menuitem>
 
-			<p:menuitem value="Facturas" icon="fa fa-file-text"
+			<p:menuitem value="Invoices" icon="fa fa-file-text"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/facturas/menu_facturas">
 				<f:param name="i" value="7" />
 			</p:menuitem>
 
-			<p:menuitem value="Productos" icon="fa fa-cubes"
+			<p:menuitem value="Products" icon="fa fa-cubes"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/productos/menu_productos">
 				<f:param name="i" value="8" />
 			</p:menuitem>
 
-			<p:menuitem value="Proveedores" icon="fa fa-address-card"
+			<p:menuitem value="Suppliers" icon="fa fa-address-card"
 				disabled="#{beanUsuarios.usuario.tipoUsuario.idTipoUsuario!=1}"
 				outcome="/inventario/compras/Proveedor">
 				<f:param name="i" value="9" />
@@ -77,8 +77,8 @@
 			<f:facet name="options">
 				<p:menuButton value="#{beanUsuarios.usuario.idUsuario}"
 					icon="fa fa-user">
-					<p:menuitem value="Perfil" icon="fa fa-cog"></p:menuitem>
-					<p:menuitem value="Cerrar sesión" icon="fa fa-sign-out"
+					<p:menuitem value="Profile" icon="fa fa-cog"></p:menuitem>
+					<p:menuitem value="Sign Out" icon="fa fa-sign-out"
 						outcome="/login"></p:menuitem>
 				</p:menuButton>
 			</f:facet>
@@ -86,35 +86,35 @@
 	</h:form>
 	<div align="center">
 		<p:steps activeIndex="0">
-			<p:menuitem value="Agregar Cabecera Ingreso" />
-			<p:menuitem value="Agregar Productos para Compras" />
-			<p:menuitem value="Ver compras de Productos" />
-			<p:menuitem value="Enviar Pedido de Productos" />
+			<p:menuitem value="Add Product Entry Header" />
+			<p:menuitem value="Add Productos to Buy" />
+			<p:menuitem value="View Buys of Products" />
+			<p:menuitem value="Submit Product Order" />
 		</p:steps>
 	</div>
 	<h:form id="form-cabecera">
 		<div align="center">
-			<p:panel header="Agregar un Datos para el Pedido">
+			<p:panel header="Add Information for Order">
 
 				<p:panelGrid columns="4" styleClass="ui-noborder">
-					<h:outputText value="Numero de Factura:" />
+					<h:outputText value="Invoce number:" />
 					<p:inputText value="#{beanIngresos.numero_factura}" />
-					<h:outputText value="Autorización:" />
+					<h:outputText value="Autorization:" />
 					<p:inputText value="#{beanIngresos.autorizacion}" />
-					<h:outputText value="Fecha de emisivn: " />
+					<h:outputText value="Date of issue: " />
 					<p:datePicker value="#{beanIngresos.fecha_emision}" />
-					<h:outputText value="Fecha de Caducación:" />
+					<h:outputText value="Date of expiration:" />
 					<p:datePicker value="#{beanIngresos.fecha_caducacion}" />
 				</p:panelGrid>
 				<p:panelGrid columns="3" styleClass="ui-noborder">
-					<h:outputText value="Elija un proveedor:" />
+					<h:outputText value="Choose a Supplier:" />
 					<p:selectOneMenu value="#{beanIngresos.id_proveedor}">
-						<f:selectItem itemLabel="Seleccione un proveedor..." itemValue="0"
+						<f:selectItem itemLabel="Choose a Supplier..." itemValue="0"
 							noSelectionOption="true" />
 						<f:selectItems value="#{beanCompras.listaEmpresas}" var="c"
 							itemLabel="#{c.empNombreEmpresa}" itemValue="#{c.idEmpresa}"></f:selectItems>
 					</p:selectOneMenu>
-					<p:commandButton value="Registrar Nuevo Proveedor"
+					<p:commandButton value="Register new supplier"
 						icon="fa fa-plus" update=":form2:manage-product-content2"
 						oncomplete="PF('manageProductDialog2').show()"
 						styleClass="ui-button-success">
@@ -133,7 +133,7 @@
 	</h:form>
 	<h:form id="form2">
 		<div align="center">
-			<p:dialog header="Ingresar Datos de la Empresa - Proveedorr"
+			<p:dialog header="Enter Information of the Enterprise or Supplier"
 				showEffect="fade" modal="true" widgetVar="manageProductDialog2"
 				responsive="true">
 				<p:outputPanel id="manage-product-content2" class="ui-fluid">
@@ -148,22 +148,22 @@
 								<p:outputLabel for="@next" value="RUC: " />
 								<p:inputText id="a" placeholder="RUC"
 									value="#{beanCompras.empresa.empRuc}" required="true"
-									requiredMessage="Ingrese el ruc de la empresa!">
-									<p:tooltip for="a" value="Ingrese el ruc de la empresa!"
+									requiredMessage="Enter company RUC!">
+									<p:tooltip for="a" value="Enter company RUC!"
 										position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Nombre de la empresa:: " />
+								<p:outputLabel for="@next" value="Supplier name: " />
 								<p:inputText id="b" placeholder="Empresa S.A."
 									value="#{beanCompras.empresa.empNombreEmpresa}" required="true"
-									requiredMessage="Ingrese el nombre de la empresa!">
-									<p:tooltip for="b" value="Ingrese el nombre de la empresa"
+									requiredMessage="Enter supplier name!">
+									<p:tooltip for="b" value="Enter supplier name!"
 										position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Seleccionar el Gerente:" />
+								<p:outputLabel for="@next" value="Choose the manager:" />
 								<p:selectOneMenu value="1">
-									<f:selectItem itemLabel="Seleccione un gerente..."
+									<f:selectItem itemLabel="Choose the manager..."
 										itemValue="0" noSelectionOption="true" />
 									<f:selectItems value="#{beanCompras.listaGerentes}" var="g"
 										itemLabel="#{g.usuario.usNombres}" itemValue="#{g.idGerente}"></f:selectItems>
@@ -172,53 +172,53 @@
 								<p:outputLabel for="@next" value="Matriz " />
 								<p:inputText id="c" placeholder="Matriz"
 									value="#{beanCompras.empresa.empMatriz}" required="true"
-									requiredMessage="Ingrese la matriz de la empresa!!">
-									<p:tooltip for="c" value="Ingrese la matriz de la empresa!"
+									requiredMessage="Enter address of supplier!">
+									<p:tooltip for="c" value="Enter address of supplier!"
 										position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Sucursal de la empresa: " />
-								<p:inputText id="d" placeholder="Sucursal opcional"
+								<p:outputLabel for="@next" value="Supplier branch: " />
+								<p:inputText id="d" placeholder="Optional branch"
 									value="#{beanCompras.empresa.empSucursal}">
-									<p:tooltip for="d" value="Ingrese la Sucursal"
+									<p:tooltip for="d" value="Enter branch"
 										position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="País: " />
+								<p:outputLabel for="@next" value="Country: " />
 								<p:inputText id="e" placeholder="Ecuador"
 									value="#{beanCompras.empresa.empPais}" required="true"
-									requiredMessage="Ingrese el país!">
-									<p:tooltip for="e" value="Ingrese el país" position="bottom" />
+									requiredMessage="Enter the country!">
+									<p:tooltip for="e" value="Enter the country" position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Provincia: " />
+								<p:outputLabel for="@next" value="Province: " />
 								<p:inputText id="f" placeholder="Imbabura"
 									value="#{beanCompras.empresa.empProvincia}" required="true"
-									requiredMessage="Ingrese la provincia!">
-									<p:tooltip for="f" value="Ingrese la provincia"
+									requiredMessage="Enter the province!">
+									<p:tooltip for="f" value="Enter the province"
 										position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Ciudad: " />
+								<p:outputLabel for="@next" value="City: " />
 								<p:inputText id="g" placeholder="Ibarra"
 									value="#{beanCompras.empresa.empCiudad}" required="true"
-									requiredMessage="Ingrese la ciudad!">
-									<p:tooltip for="g" value="Ingrese la ciudad!" position="bottom" />
+									requiredMessage="Enter the city!">
+									<p:tooltip for="g" value="Enter the city!" position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Teléfono: " />
+								<p:outputLabel for="@next" value="Phone Number: " />
 								<p:inputText id="h" placeholder="0989061898"
 									value="#{beanCompras.empresa.empTelefono}" required="true"
-									requiredMessage="Ingrese el Teléfono!">
-									<p:tooltip for="h" value="Ingrese su numero de teléfono "
+									requiredMessage="Enter the phone number!">
+									<p:tooltip for="h" value="Enter the phone number!"
 										position="bottom" />
 								</p:inputText>
 
-								<p:outputLabel for="@next" value="Email" />
+								<p:outputLabel for="@next" value="Mail" />
 								<p:inputText id="i" placeholder="mariosalazar@gmail.com"
 									value="#{beanCompras.empresa.empEmail}" required="true"
-									requiredMessage="Ingrese el email!">
-									<p:tooltip for="i" value="Ingrese un email" position="bottom" />
+									requiredMessage="Enter the mail!">
+									<p:tooltip for="i" value="Enter the mail" position="bottom" />
 								</p:inputText>
 
 							</p:panelGrid>
@@ -227,7 +227,7 @@
 							<p:panel>
 								<div align="center">
 									<p:row>
-										<p:commandButton value="Guardar Provvedor"
+										<p:commandButton value="Save Supplier"
 											styleClass="ui-button-success" style="width: auto"
 											icon="fa fa-save" />
 									</p:row>
