@@ -109,6 +109,7 @@ public class BeanVentas implements Serializable {
 				JSFUtil.crearMensajeError("Error al crear el cliente!" + clienteSeleccionado.getCliCodigo());
 			}
 		} else {
+			clienteSeleccionado=null;
 			JSFUtil.crearMensajeError("Enter the information for Customer!");
 		}
 

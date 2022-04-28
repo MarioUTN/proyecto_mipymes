@@ -26,6 +26,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import proyect_mipymes.model.facturas.managers.ManagerFacturas;
+import proyecto_mipymes.conexion_postgres.Connection_Postgres;
 import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.DetalleAbono;
 import proyecto_mipymes.model.entities.EstadoPedido;
@@ -71,7 +72,7 @@ public class BeanFacturas implements Serializable {
 
 	@PostConstruct
 	public void Inicializar() {
-		connection_url = "jdbc:postgresql://172.20.142.79:5432/proyecto";
+		connection_url = "jdbc:postgresql://"+Connection_Postgres.getMiDireccion_IP()+":5432/proyecto";
 		password = "Ofrn8mXdeBbjdBwSoUTgG1HtxUzuEVuz";
 		usuario = "+C907bUeVrzYFLXb/mdoMg==";
 		listaFacturas = managerFacturas.findAllFacturas();

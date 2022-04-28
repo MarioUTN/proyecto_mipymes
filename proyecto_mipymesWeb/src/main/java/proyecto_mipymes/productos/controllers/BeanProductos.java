@@ -19,6 +19,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import proyect_mipymes.model.productos.managers.ManagerProductos;
+import proyecto_mipymes.conexion_postgres.Connection_Postgres;
 import proyecto_mipymes.controller.util.JSFUtil;
 import proyecto_mipymes.model.entities.Empresa;
 import proyecto_mipymes.model.entities.Producto;
@@ -61,7 +62,7 @@ public class BeanProductos implements Serializable {
 
 	@PostConstruct
 	public void Inicializar() {
-		connection_url = "jdbc:postgresql://172.20.142.79:5432/proyecto";
+		connection_url = "jdbc:postgresql://"+Connection_Postgres.getMiDireccion_IP()+":5432/proyecto";
 		productoSeleccionado = new Producto();
 		productoEditar = new Producto();
 		productoNuevo = new Producto();
