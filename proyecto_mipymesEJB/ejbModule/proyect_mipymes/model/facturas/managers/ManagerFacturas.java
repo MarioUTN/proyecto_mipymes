@@ -108,7 +108,7 @@ public class ManagerFacturas {
 
 	public List<DetalleAbono> findAllDetalleAbonosByIdFactura(int id_factura) {
 		Query query = entityManager.createQuery(
-				"select da from DetalleAbono da where da.estadoPedido.factura.idFactura=:id_factura",
+				"select da from DetalleAbono da where da.estadoPedido.factura.idFactura=:id_factura order by da.idDetalleAbono",
 				DetalleAbono.class);
 		query.setParameter("id_factura", id_factura);
 		return query.getResultList();

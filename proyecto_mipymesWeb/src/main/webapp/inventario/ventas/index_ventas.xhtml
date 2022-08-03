@@ -231,7 +231,7 @@
 								<h:outputText value="Cantidad de Productos:"
 									style="font-weight:bold" />
 								<p:spinner id="g" placeholder="3" buttons="horizontal-after"
-									style="width:100px" stepFactor="1" min="1"
+									style="width:100px" stepFactor="1" min="1" max="#{productos.prodCantidad}"
 									value="#{beanVentas.cantidad}" required="true"
 									requiredMessage="Ingrese la cantidad de productos!">
 									<p:tooltip for="g" value="Ingrese la cantidad de productos!"
@@ -239,7 +239,7 @@
 								</p:spinner>
 								<p:commandButton value="Add Product"
 									actionListener="#{beanVentas.actionListenerAgregarProductos()}"
-									update="form-detalle-factura,:form-productos"
+									update="form-detalle-factura,form-productos, @form"
 									styleClass="rounded-button ui-button-success" icon="fa fa-plus" />
 								<p:outputLabel value="Stock: " style="font-weight:bold" />
 								<p:inputText value="#{beanVentas.stock}" style="width:50px"

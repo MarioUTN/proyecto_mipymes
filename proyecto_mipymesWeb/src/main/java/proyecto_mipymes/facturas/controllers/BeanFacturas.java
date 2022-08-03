@@ -409,6 +409,7 @@ public class BeanFacturas implements Serializable {
 	}
 
 	public void actionListenerCancel() {
+		listaDetalleAbonos=new ArrayList<DetalleAbono>();
 		JSFUtil.crearMensajeWarning("Procees Cancel!");
 	}
 
