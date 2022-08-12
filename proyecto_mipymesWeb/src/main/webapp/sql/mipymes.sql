@@ -968,3 +968,54 @@ and v.ven_usuario = uv.id_usuario and f.fact_cabecera_factura = cf.id_cabecera_f
 and p.prod_tipo_producto = tip.id_tipo_producto and p.prod_talla_producto = tp.id_talla_producto 
 and c.cli_ruc_cedula = '1003938477';
 
+
+-- Views
+
+CREATE VIEW view_invoices_enter  
+AS  
+select fi.id_factura_ingreso, fi.facting_subtotal, fi.facting_iva, fi.facting_total, di.deting_cantidad,
+ci.cabing_fecha_ingreso, ci.cabing_fecha_emision, ci.cabing_fecha_caducacion, ci.cabing_autorizacion, ci.cabing_numero_factura,
+pr.prod_codigo, pr.prod_nombre, pr.prod_descripcion, di.deting_precio_unitario, di.deting_subtotal, di.deting_iva, di.deting_precio_total,
+e.id_empresa as id_empresa, e.emp_ruc as ruc_empresa, e.emp_telefono as telf_empresa, 
+e.emp_email as email_empresa, e.emp_nombre_empresa as nombre_empresa, e.emp_matriz as matriz_empresa, 
+e.emp_pais ||' - '|| e.emp_provincia ||' - '|| e.emp_ciudad as ubicacion_empresa,
+p.id_empresa as id_proveedor, p.emp_ruc as ruc_proveedor, p.emp_telefono as telf_proveedor, p.emp_email as email_proveedor, 
+p.emp_nombre_empresa as nombre_proveedor, p.emp_matriz as matriz_proveedor, 
+p.emp_pais ||' - '|| p.emp_provincia ||' - '|| p.emp_ciudad as ubicacion_proveedor,
+v.ven_cedula as cedula_vendedor, v.ven_email as email_vendedor, 
+uv.us_nombres ||' '|| uv.us_apellidos as nombres_vendedor, uv.us_email as correo_vendedor,
+ge.ger_cedula as ge_cedula, ge.ger_email as ge_email, ue.us_nombres ||' '|| ue.us_apellidos as ge_nombres, ue.us_email as ge_correo,
+gp.ger_cedula as gp_cedula, gp.ger_email as gp_email, up.us_nombres ||' '|| up.us_apellidos as gp_nombres, up.us_email as gp_correo
+from factura_ingreso fi, detalle_ingreso di, producto pr, cabecera_ingreso ci, empresa e, 
+empresa p, vendedor v, usuario uv, gerente ge, usuario ue, gerente gp, usuario up
+where fi.id_factura_ingreso=di.deting_factura_ingreso
+and ci.id_cabecera_ingreso = fi.facting_cabecera_ingreso and pr.id_producto = di.deting_producto 
+and di.deting_factura_ingreso = fi.id_factura_ingreso and ge.id_gerente = e.emp_gerente and gp.id_gerente = p.emp_gerente 
+and ci.cabing_proveedor = p.id_empresa and uv.id_usuario = v.ven_usuario and ue.id_usuario = ge.ger_usuario 
+and up.id_usuario = gp.ger_usuario
+and ci.cabing_vendedor = v.id_vendedor
+group by fi.id_factura_ingreso , di.deting_cantidad ,ci.cabing_fecha_ingreso ,ci.cabing_fecha_emision ,
+ci.cabing_fecha_caducacion , ci.cabing_autorizacion ,ci.cabing_numero_factura ,pr.prod_codigo ,pr.prod_nombre ,pr.prod_descripcion ,di.deting_precio_unitario ,
+di.deting_subtotal , di.deting_iva , di.deting_precio_total ,e.id_empresa ,p.id_empresa ,v.ven_cedula ,v.ven_email ,uv.us_nombres , uv.us_apellidos ,uv.us_email ,
+ge.ger_cedula, ge.ger_email, ue.us_nombres, ue.us_apellidos, ue.us_email, p.emp_ruc, e.emp_ruc, e.emp_telefono,
+gp.ger_cedula, gp.ger_email, up.us_nombres, up.us_apellidos, up.us_email, fi.facting_subtotal, fi.facting_iva, fi.facting_total,
+e.emp_email, p.emp_email, e.emp_nombre_empresa, p.emp_nombre_empresa, e.emp_matriz, e.emp_pais, e.emp_provincia,
+e.emp_ciudad,p.emp_telefono, p.emp_matriz, p.emp_pais, p.emp_provincia, p.emp_ciudad ;
+
+
+CREATE VIEW view_invoice_byidcustomers
+AS 
+select f.id_factura, f.fact_numero_factura ,f.fact_fecha_emision ,f.fact_tipo_factura ,
+tf.id_tipo_factura ,tf.tf_nombre ,p.id_producto ,p.prod_codigo ,p.prod_nombre ,p.prod_talla_producto ,
+tp.id_talla_producto ,tp.talla_nombre ,tip.id_tipo_producto ,tip.tp_nombre ,
+df.id_detalle_factura ,df.det_cantidad ,df.det_precio_unitario ,df.det_iva ,df.det_subtotal ,df.det_precio_total ,
+cf.id_cabecera_factura ,
+c.id_cliente ,c.cli_telefono ,c.cli_email ,c.cli_ruc_cedula , uc.id_usuario as id_us_cliente ,uc.us_nombres ||' '|| uc.us_apellidos as nombre_cliente,
+v.id_vendedor ,v.ven_telefono ,v.ven_email ,v.ven_cedula ,uv.id_usuario as id_us_vendedor ,uv.us_nombres ||' '|| uv.us_apellidos as nombre_vendedor
+from factura f ,tipo_factura tf , producto p ,detalle_factura df ,cliente c , vendedor v , 
+usuario uc, usuario uv, cabecera_factura cf , talla_producto tp , tipo_producto tip
+where f.id_factura = df.det_factura and tf.id_tipo_factura = f.fact_tipo_factura and p.id_producto = df.det_producto 
+and c.id_cliente = cf.cab_cliente and c.cli_usuario = uc.id_usuario and v.id_vendedor = cf.cab_vendedor 
+and v.ven_usuario = uv.id_usuario and f.fact_cabecera_factura = cf.id_cabecera_factura 
+and p.prod_tipo_producto = tip.id_tipo_producto and p.prod_talla_producto = tp.id_talla_producto; 
+
